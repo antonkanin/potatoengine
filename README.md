@@ -4,14 +4,15 @@ git clone https://gitlab.com/antonkanin/gamedev_specialforces <br/>
 mkdir build <br/>
 cd build <br/>
 cmake . .. <br/>
-cmake --build . <br/>
+cmake --build . <br/><br/>
 
 
 
 
 **How to build on Windows**
 
-Please stand up and leave the room. Take you laptop with you.
+Please stand up and leave the room. Take you laptop with you. <br/><br/>
+
 
 
 
