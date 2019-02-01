@@ -2,4 +2,8 @@ cmake_minimum_required(VERSION 3.9)
 
 project(01-03-hello-lib-dynamic-library)
 
-add_library(01-03-hello-lib-dynamic-library SHARED hellolib.cxx)
+add_library(${PROJECT_NAME} SHARED hellolib.cxx)
+
+# TODO we referencing this library as hellolib.dll (hellolib.so in linux) in the code
+# perhaps we should turn it into a global parameter
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "hellolib")
