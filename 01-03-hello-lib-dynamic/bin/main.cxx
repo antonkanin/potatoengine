@@ -1,7 +1,7 @@
 #ifdef _WIN32
     #include <windows.h> // we need this for LoadLibrary and GetProcAddress in Windows
 #else
-    #include <dlfcn.h>
+    #include <dlfcn.h>  // and this one is for dlopen and dlsym in Linux
 #endif
 
 #include <iostream>
@@ -14,14 +14,14 @@ int main(int argc, char* argv[])
     using namespace std;
     
 #ifdef _WIN32
-    HINSTANCE helloDll = LoadLibrary("hellolib.dll");
+    HINSTANCE helloDll = LoadLibrary("hello.dll");
 #else
-    void* helloDll = dlopen("hellolib.so", RTLD_LAZY);
+    void* helloDll = dlopen("libhello.so", RTLD_LAZY);
 #endif
 
     if (helloDll == nullptr)
     {
-        cout << "Could not load hellolib.dll" << endl;
+        cout << "Could not load hello library" << endl;
     }
     else
     {
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
         }
         else
         {
-            cout << "Could not find hello function in the hellolib library" << endl;
+            cout << "Could not find hello function in the hello library" << endl;
         }
     }
 
