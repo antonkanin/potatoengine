@@ -6,25 +6,28 @@ typedef bool (*f_hello)(const std::string&);
 
 int main(int argc, char* argv[])
 {
+    using namespace std;
+    
     HINSTANCE helloDll = LoadLibrary("hellolib.dll");
     if (helloDll == nullptr)
     {
-        std::cout << "Cannot locate hellolib.dll" << std::endl;
-        return EXIT_FAILURE;
+        cout << "Could not load hellolib.dll" << endl;
     }
     else
     {
         f_hello hello = (f_hello)GetProcAddress(helloDll, "hello");
-        if (!hello)
+        if (hello)
         {
             if (hello("Anton"))
             {
                 return EXIT_SUCCESS;
             }
+            
+            cout << "There was an error in the hello function" << endl;
         }
         else
         {
-            // TODO add error handling if we did not find a function in the dll
+            cout << "Could not find hello function in the hellolib.dll" << endl;
         }
     }
 
