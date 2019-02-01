@@ -1,4 +1,9 @@
-#include <windows.h>
+#ifdef _WIN32
+    #include <windows.h> // we need this for LoadLibrary and GetProcAddress in Windows
+#else
+    #include <dlfcn.h>
+#endif
+
 #include <iostream>
 #include <string>
 
@@ -8,14 +13,24 @@ int main(int argc, char* argv[])
 {
     using namespace std;
     
+#ifdef _WIN32
     HINSTANCE helloDll = LoadLibrary("hellolib.dll");
+#else
+    void* helloDll = dlopen("hellolib.so", RTLD_LAZY);
+#endif
+
     if (helloDll == nullptr)
     {
         cout << "Could not load hellolib.dll" << endl;
     }
     else
     {
+#ifdef _WIN32
         f_hello hello = (f_hello)GetProcAddress(helloDll, "hello");
+#else
+        f_hello hello = (f_hello)dlsym(helloDll, "hello");
+#endif
+
         if (hello)
         {
             if (hello("Anton"))
@@ -27,7 +42,7 @@ int main(int argc, char* argv[])
         }
         else
         {
-            cout << "Could not find hello function in the hellolib.dll" << endl;
+            cout << "Could not find hello function in the hellolib library" << endl;
         }
     }
 
