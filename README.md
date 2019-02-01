@@ -1,10 +1,10 @@
 **How to build on Linux**
 
-git clone https://gitlab.com/antonkanin/gamedev_specialforces 
-mkdir build 
-cd build 
-cmake . .. 
-cmake --build . 
+git clone https://gitlab.com/antonkanin/gamedev_specialforces <br/>
+mkdir build <br/>
+cd build <br/>
+cmake . .. <br/>
+cmake --build . <br/>
 
 
 
