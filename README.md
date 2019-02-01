@@ -1,19 +1,17 @@
 **How to build on Linux**
 
 git clone https://gitlab.com/antonkanin/gamedev_specialforces
-
 mkdir build
-
 cd build
-
 cmake . ..
-
 cmake --build .
+
 
 
 **How to build on Windows**
 
 Please stand up and leave the room. Take you laptop with you.
+
 
 
 **Why am I doing this**
