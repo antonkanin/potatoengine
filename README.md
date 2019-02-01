@@ -11,7 +11,8 @@ cmake --build . <br/><br/>
 
 **How to build on Windows**
 
-Please stand up and leave the room. Take you laptop with you. <br/><br/>
+Please stand up and leave the room. Take you laptop with you. <br/>
+(if you still there just use cmake on Windows, has been tested with VS2017)<br/><br/>
 
 
 
