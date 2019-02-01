@@ -1,14 +1,17 @@
 **How to build on Linux**
 
-git clone https://gitlab.com/antonkanin/gamedev_specialforces <br/>
-mkdir build <br/>
-cd build <br/>
-cmake . .. <br/>
-cmake --build . <br/><br/>
+```
+git clone https://gitlab.com/antonkanin/gamedev_specialforces
+mkdir build
+cd build
+cmake . ..
+cmake --build .
+```
 
-Special not for the dynamic library task 01-03-hello-lib-dynamic, Linux doest not see *.so library files in the same folder as the application by defult, you need to tell manually tell it to look in the current folder by running this command
+Special not for the dynamic library task 01-03-hello-lib-dynamic, Linux doest not see *.so library files in the same folder as the application by defult, you need to tell manually tell it to look in the current folder by running this command:
+```
 export LD_LIBRARY_PATH=.
-
+```
 
 **How to build on Windows**
 
