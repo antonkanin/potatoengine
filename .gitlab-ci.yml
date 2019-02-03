@@ -5,5 +5,5 @@ before_script:
 
 build:
   script:
-    - ./runner.sh
-    - ./bin/hello
+    - cmake .
+    - cmake --build .
