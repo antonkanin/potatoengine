@@ -1,7 +1,7 @@
-image: gcc
+image: fedora
 before_script:
- - apt-get update --yes
- - apt-get install --yes cmake clang-format
+ - dnf update -y
+ - dnf install gcc clang cmake -y
 
 build:
   script:
