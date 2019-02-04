@@ -1,7 +1,9 @@
 #ifdef _WIN32
-    #include <windows.h> // we need this for LoadLibrary and GetProcAddress in Windows
+#include <windows.h> // we need this for LoadLibrary and GetProcAddress in Windows
 #else
-    #include <dlfcn.h>  // and this one is for dlopen and dlsym in Linux
+
+#include <dlfcn.h> // and this one is for dlopen and dlsym in Linux
+
 #endif
 
 #include <iostream>
@@ -12,7 +14,7 @@ typedef bool (*f_hello)(const std::string&);
 int main(int argc, char* argv[])
 {
     using namespace std;
-    
+
 #ifdef _WIN32
     HINSTANCE helloDll = LoadLibrary("hello.dll");
 #else
@@ -37,12 +39,13 @@ int main(int argc, char* argv[])
             {
                 return EXIT_SUCCESS;
             }
-            
+
             cout << "There was an error in the hello function" << endl;
         }
         else
         {
-            cout << "Could not find hello function in the hello library" << endl;
+            cout << "Could not find hello function in the hello library"
+                 << endl;
         }
     }
 
