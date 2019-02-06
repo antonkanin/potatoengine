@@ -4,4 +4,4 @@ project(02-02-sdl-static)
 
 add_executable(${PROJECT_NAME} main.cxx)
 
-target_link_libraries(${PROJECT_NAME} libSDL2.a)
+target_link_libraries(${PROJECT_NAME} -ldl -pthread libSDL2.a)
