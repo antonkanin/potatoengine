@@ -1,7 +1,7 @@
 image: fedora
 before_script:
  - dnf update -y
- - dnf install findutils gcc clang make cmake -y
+ - dnf install findutils gcc clang make cmake SDL2-devel -y
 
 build:
   script:
