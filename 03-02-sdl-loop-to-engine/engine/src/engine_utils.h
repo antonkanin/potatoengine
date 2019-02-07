@@ -1,10 +1,11 @@
 #pragma once
 
 #include "engine.h"
+#include "event.h"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 
-pt::Key get_key(const SDL_Keycode& keycode)
+pt::KeyCode get_key(const SDL_Keycode& keycode)
 {
     using namespace pt;
 
@@ -12,47 +13,47 @@ pt::Key get_key(const SDL_Keycode& keycode)
     {
         case SDLK_UP:
         {
-            return Key::up;
+            return KeyCode::up;
         }
 
         case SDLK_RIGHT:
         {
-            return Key::right;
+            return KeyCode::right;
         }
 
         case SDLK_DOWN:
         {
-            return Key::down;
+            return KeyCode::down;
         }
 
         case SDLK_LEFT:
         {
-            return Key::left;
+            return KeyCode::left;
         }
 
         case SDLK_q:
         {
-            return Key::button_a;
+            return KeyCode::button_a;
         }
 
         case SDLK_w:
         {
-            return Key::button_b;
+            return KeyCode::button_b;
         }
 
         case SDLK_a:
         {
-            return Key::start;
+            return KeyCode::start;
         }
 
         case SDLK_s:
         {
-            return Key::select;
+            return KeyCode::select;
         }
 
         default:
         {
-            return Key::unsupported;
+            return KeyCode::unsupported;
         }
     }
 }

@@ -4,35 +4,12 @@
 
 namespace pt
 {
-
-enum class Key
-{
-    unsupported,
-    up,
-    right,
-    down,
-    left,
-    button_a,
-    button_b,
-    select,
-    start
-};
-
-enum class KeyState
-{
-    pressed,
-    released
-};
-
-struct Event
-{
-    Key   key;
-    KeyState key_state;
-};
-
 class engine
 {
 public:
+    void run();
+
+protected:
     virtual bool init() = 0;
 
     virtual bool poll_events(Event& ev) = 0;

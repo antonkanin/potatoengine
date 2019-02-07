@@ -1,13 +1,8 @@
-#include "include/engine.h"
-#include "include/engine_utils.h"
-#include <SDL2/SDL.h>
-#include <cstdlib>
-#include <memory>
+#pragma once
 
-namespace pt
-{
+#include <SDL2/SDL_events.h>
 
-class Engine_SDL : public engine
+class engine_sdl : public pt::engine
 {
 public:
     bool init() override
@@ -56,10 +51,3 @@ public:
 private:
     SDL_Window* window_;
 };
-
-std::unique_ptr<engine> make_engine()
-{
-    return std::make_unique<Engine_SDL>();
-}
-
-} // namespace pt

@@ -1,4 +1,5 @@
 #include "../engine/include/engine.h"
+#include "input_printer.h"
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <memory>
@@ -16,42 +17,11 @@ int main(int argc, char* argv[])
 
     engine->init();
 
-    bool game_running = true;
+    auto input_printer_obj = std::make_unique<input_printer>(engine);
 
-    while (game_running)
-    {
-        // main game loop
-        pt::Event event;
-        while (engine->poll_events(&event))
-        {
-            switch (event.type)
-            {
-                case SDL_KEYDOWN:
-                {
-                    process_input(event, "pressed");
-                    break;
-                }
+    engine - run
 
-                case SDL_KEYUP:
-                {
-                    process_input(event, "lifted");
-                    break;
-                }
-
-                case SDL_QUIT:
-                {
-                    game_running = false;
-                }
-
-                default:
-                {
-                    break;
-                }
-            }
-        }
-    }
-
-    SDL_DestroyWindow(window);
+                 SDL_DestroyWindow(window);
 
     SDL_Quit();
 
