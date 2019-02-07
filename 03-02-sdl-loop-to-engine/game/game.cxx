@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "../engine/include/engine.h"
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <memory>
@@ -12,31 +12,17 @@ void print_event(const std::string_view& key_name,
 
 int main(int argc, char* argv[])
 {
-    std::unique_ptr<pt::engine> engine = std::make_unique<pt::engine>();
+    auto engine = pt::make_engine();
 
     engine->init();
-
-
-    // TODO fix the warning "Warning:(47, 43) Clang-Tidy: Use of a signed
-    // integer operand with a binary bitwise operator"
-    SDL_Window* window =
-        SDL_CreateWindow("SDL Game Loop", SDL_WINDOWPOS_CENTERED,
-                         SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
-
-    if (window == nullptr)
-    {
-        SDL_Log("Error: failed to SDL window %s", SDL_GetError());
-        SDL_Quit();
-        return EXIT_FAILURE;
-    }
 
     bool game_running = true;
 
     while (game_running)
     {
         // main game loop
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
+        pt::Event event;
+        while (engine->poll_events(&event))
         {
             switch (event.type)
             {
