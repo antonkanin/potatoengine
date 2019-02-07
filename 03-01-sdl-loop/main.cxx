@@ -1,7 +1,14 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <sstream>
 
-void process_input(const SDL_Event& event)
+void print_event(const std::string_view& key_name,
+                 const std::string_view& event_type)
+{
+    std::cout << key_name << ' ' << event_type << '\n';
+}
+
+void process_input(const SDL_Event& event, const std::string_view event_type)
 {
     using namespace std;
 
@@ -9,19 +16,42 @@ void process_input(const SDL_Event& event)
     {
         case SDLK_UP:
         {
-            if (event.key.type == SDL_KEYUP)
-            {
-                cout << "UP lifted" << '\n';
-            }
-            else
-            {
-                cout << "UP pressed" << '\n';
-            }
+            print_event("up", event_type);
+            break;
+        }
+        case SDLK_RIGHT:
+        {
+            print_event("right", event_type);
             break;
         }
         case SDLK_DOWN:
         {
-            cout << "DOWN" << '\n';
+            print_event("down", event_type);
+            break;
+        }
+        case SDLK_LEFT:
+        {
+            print_event("left", event_type);
+            break;
+        }
+        case SDLK_q:
+        {
+            print_event("button_one", event_type);
+            break;
+        }
+        case SDLK_w:
+        {
+            print_event("button_two", event_type);
+            break;
+        }
+        case SDLK_1:
+        {
+            print_event("select", event_type);
+            break;
+        }
+        case SDLK_2:
+        {
+            print_event("start", event_type);
             break;
         }
 
@@ -68,13 +98,13 @@ int main(int argc, char* argv[])
             {
                 case SDL_KEYDOWN:
                 {
-                    process_input(event);
+                    process_input(event, "pressed");
                     break;
                 }
 
                 case SDL_KEYUP:
                 {
-                    process_input(event);
+                    process_input(event, "lifted");
                     break;
                 }
 
