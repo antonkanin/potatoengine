@@ -1,5 +1,4 @@
 #include "input_manager.h"
-#include <input_manager.h>
 #include <iostream>
 
 namespace pt
@@ -21,7 +20,8 @@ bool input_manager::get_key_up(const key_code& key_code) const
     return keys_.at(key_code).at(key_state::released);
 }
 
-bool& input_manager::key_code_state(const key_code& code, const key_state& state)
+bool& input_manager::key_code_state(const key_code&  code,
+                                    const key_state& state)
 {
     return keys_.at(code).at(state);
 }
