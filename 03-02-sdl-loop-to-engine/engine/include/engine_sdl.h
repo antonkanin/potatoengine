@@ -21,7 +21,7 @@ public:
 private:
     void process_event(const SDL_KeyboardEvent& event);
 
-    SDL_Window* window_;
+    SDL_Window* window_ = nullptr;
 };
 
 } // namespace pt

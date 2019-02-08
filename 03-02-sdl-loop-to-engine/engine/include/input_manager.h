@@ -17,7 +17,7 @@ public:
 
     bool get_key_up(const key_code& key_code) const;
 
-    bool& key_code_state(const key_code& code, const key_state state);
+    bool& key_code_state(const key_code& code, const key_state& state);
 
     void reset_states();
 

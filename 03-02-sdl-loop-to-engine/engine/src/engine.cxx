@@ -29,7 +29,7 @@ void engine::update_objects()
 
 input_manager& engine::get_input_manager()
 {
-    return *input_manager_.get();
+    return *input_manager_;
 }
 
 } // namespace pt

@@ -13,7 +13,7 @@ public:
     {
     }
 
-    virtual ~game_object(){};
+    virtual ~game_object() = default;
 
     virtual void update() = 0;
 
