@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 
-project(engine)
+project(03-02-engine)
 
 add_library(${PROJECT_NAME} SHARED
         src/engine.cxx

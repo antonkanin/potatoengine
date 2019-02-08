@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 
-project(game)
+project(03-02-game)
 
 add_executable(${PROJECT_NAME}
         game.cxx
@@ -8,4 +8,4 @@ add_executable(${PROJECT_NAME}
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
-target_link_libraries(${PROJECT_NAME} engine)
+target_link_libraries(${PROJECT_NAME} 03-02-engine)
