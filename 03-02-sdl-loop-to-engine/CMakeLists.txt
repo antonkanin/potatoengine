@@ -10,10 +10,13 @@ add_executable(${PROJECT_NAME}
         engine/include/game_object.h
 
         engine/src/engine.cxx
-        engine/src/game_object.cpp
-        engine/src/input_manager.h
-        engine/src/event.h
-        engine/src/engine_utils.h)
+        engine/src/game_object.cxx
+        engine/src/input_manager.cxx
+        engine/src/engine_sdl.cxx
+
+        engine/include/input_manager.h
+        engine/include/key_code.h
+        engine/include/engine_utils.h)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

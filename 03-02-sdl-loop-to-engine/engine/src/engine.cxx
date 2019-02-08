@@ -1,7 +1,6 @@
 #include "engine.h"
 #include "engine_sdl.h"
-#include "engine_utils.h"
-#include <SDL2/SDL.h>
+#include "game_object.h"
 #include <cstdlib>
 #include <engine.h>
 #include <memory>
@@ -11,44 +10,26 @@ namespace pt
 
 std::unique_ptr<engine> make_engine()
 {
-    return std::make_unique<engine_sdl>();
+    std::unique_ptr<engine> result(new engine_sdl());
+    return result;
 }
 
-void engine::run()
+void engine::add_object(game_object* object)
 {
-    bool game_running = true;
+    objects_.push_back(object);
+}
 
-    while (game_running)
+void engine::update_objects()
+{
+    for (auto& object : objects_)
     {
-        // main game loop
-        pt::event event;
-        while (engine->poll_events(&event))
-        {
-            switch (event.type)
-            {
-                case SDL_KEYDOWN:
-                {
-                    process_input(event, "pressed");
-                    break;
-                }
-
-                case SDL_KEYUP:
-                {
-                    process_input(event, "lifted");
-                    break;
-                }
-
-                case SDL_QUIT:
-                {
-                    game_running = false;
-                }
-
-                default:
-                {
-                    break;
-                }
-            }
-        }
+        object->update();
     }
 }
+
+input_manager& engine::get_input_manager()
+{
+    return *input_manager_.get();
+}
+
 } // namespace pt
