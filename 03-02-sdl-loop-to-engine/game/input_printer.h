@@ -22,3 +22,9 @@ public:
         }
     }
 };
+
+std::unique_ptr<pt::game_object> make_input_printer(pt::engine& engine)
+{
+    std::unique_ptr<pt::game_object> result(new input_printer(engine));
+    return result;
+}

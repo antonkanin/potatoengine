@@ -1,8 +1,11 @@
 #include "game_object.h"
 
-using namespace pt;
+namespace pt
+{
 
 engine& game_object::get_engine()
 {
     return engine_;
 }
+
+} // namespace pt

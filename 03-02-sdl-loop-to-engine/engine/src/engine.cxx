@@ -14,9 +14,9 @@ std::unique_ptr<engine> make_engine()
     return result;
 }
 
-void engine::add_object(game_object* object)
+void engine::add_object(std::unique_ptr<game_object> object)
 {
-    objects_.push_back(object);
+    objects_.emplace_back(std::move(object));
 }
 
 void engine::update_objects()

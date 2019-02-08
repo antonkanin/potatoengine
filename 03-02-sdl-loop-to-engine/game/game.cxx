@@ -11,9 +11,9 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    auto input_printer_obj = new input_printer(*engine);
+    auto input_printer_obj = make_input_printer(*engine);
 
-    engine->add_object(input_printer_obj);
+    engine->add_object(move(input_printer_obj));
 
     engine->run();
 

@@ -15,23 +15,24 @@ class game_object;
 class engine
 {
 public:
-    engine() { std::cout << "engine() ctor" << std::endl; }
-
     virtual bool init() = 0;
 
     virtual bool run() = 0;
 
-    void add_object(game_object* object);
+    void add_object(std::unique_ptr<game_object> object);
 
     input_manager& get_input_manager();
 
 protected:
     void update_objects();
 
-    std::vector<game_object*> objects_;
 
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();
+
+private:
+    std::vector<std::unique_ptr<game_object>> objects_;
+
 };
 
 std::unique_ptr<engine> make_engine();
