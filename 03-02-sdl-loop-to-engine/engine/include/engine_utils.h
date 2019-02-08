@@ -4,7 +4,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 
-pt::key_code get_key(const SDL_Keycode &sdl_keycode)
+pt::key_code get_key(const SDL_Keycode& sdl_keycode)
 {
     using namespace pt;
 

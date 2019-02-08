@@ -6,7 +6,8 @@
 class input_printer : public pt::game_object
 {
 public:
-    input_printer(pt::engine& engine) : pt::game_object(engine) {};
+    input_printer(pt::engine& engine)
+        : pt::game_object(engine){};
 
     void update() override
     {
@@ -20,5 +21,4 @@ public:
             std::cout << "Key up is released\n";
         }
     }
-
 };

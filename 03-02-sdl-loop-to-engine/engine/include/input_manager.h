@@ -1,7 +1,7 @@
 #pragma once
 
-#include <map>
 #include "key_code.h"
+#include <map>
 
 namespace pt
 {
@@ -20,7 +20,6 @@ public:
     bool& key_code_state(const key_code& code, const key_state state);
 
     void reset_states();
-
 
 private:
     std::map<key_code, std::map<key_state, bool>> keys_;
