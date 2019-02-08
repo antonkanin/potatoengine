@@ -4,9 +4,9 @@
 #include <memory>
 #include <vector>
 
+#include "game_object.h"
 #include "input_manager.h"
 #include "key_code.h"
-#include "game_object.h"
 
 namespace pt
 {
@@ -27,13 +27,11 @@ public:
 protected:
     void update_objects();
 
-
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();
 
 private:
     std::vector<std::unique_ptr<game_object>> objects_;
-
 };
 
 std::unique_ptr<engine> make_engine();
