@@ -6,15 +6,16 @@
 
 #include "input_manager.h"
 #include "key_code.h"
+#include "game_object.h"
 
 namespace pt
 {
 
-class game_object;
-
 class engine
 {
 public:
+    virtual ~engine() = default;
+
     virtual bool init() = 0;
 
     virtual bool run() = 0;

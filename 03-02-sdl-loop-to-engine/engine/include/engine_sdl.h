@@ -9,6 +9,7 @@ namespace pt
 class engine_sdl final : public engine
 {
 public:
+    ~engine_sdl();
 
     bool init() override;
 

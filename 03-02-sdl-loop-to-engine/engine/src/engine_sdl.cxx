@@ -85,4 +85,14 @@ void engine_sdl::process_event(const SDL_KeyboardEvent& event)
         (event.state == SDL_RELEASED);
 }
 
+engine_sdl::~engine_sdl()
+{
+    if (window_ != nullptr)
+    {
+        SDL_DestroyWindow(window_);
+    }
+
+    SDL_Quit();
+}
+
 } // namespace pt
