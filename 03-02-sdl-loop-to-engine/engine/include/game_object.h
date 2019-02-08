@@ -8,10 +8,7 @@ namespace pt
 class game_object
 {
 public:
-    game_object(engine& engine)
-        : engine_(engine)
-    {
-    }
+    game_object(engine& engine) : engine_(engine) {}
 
     virtual ~game_object() = default;
 
