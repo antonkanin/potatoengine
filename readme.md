@@ -8,7 +8,7 @@ cmake . ..
 cmake --build .
 ```
 
-Special not for the dynamic library task 01-03-hello-lib-dynamic, Linux doest not see *.so library files in the same folder as the application by defult, you need to tell manually tell it to look in the current folder by running this command:
+Special note for the dynamic library task 01-03-hello-lib-dynamic, Linux does not see *.so library files in the same folder as the application by defult, you might need to tell it to look in the current folder by running this command:
 ```
 export LD_LIBRARY_PATH=.
 ```
