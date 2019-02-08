@@ -1,10 +1,9 @@
 image: fedora
 before_script:
  - dnf update -y
- - dnf install findutils gcc clang make cmake SDL2-devel SDL2-static -y
+ - dnf install findutils gcc make cmake SDL2-devel SDL2-static -y
 
 build:
   script:
-    - ./format-code
     - cmake .
     - cmake --build .
