@@ -10,5 +10,15 @@ int main(int argc, char* argv[])
 
     auto img = std::make_unique<image>(WIDTH, HEIGHT);
 
+    for (uint16_t x = 0; x < img->width(); ++x)
+    {
+        for (uint16_t y = 0; y < img->height(); ++y)
+        {
+            img->pixel(x, y) = {0, 255, 0};
+        }
+    }
+
+    img->save("img_01.ppm");
+
     return EXIT_SUCCESS;
 }

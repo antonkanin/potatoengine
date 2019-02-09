@@ -14,9 +14,12 @@ public:
 
     image(const uint16_t width, const uint16_t height);
 
-    bool save(const std::string &file_name);
+    bool save(const std::string& file_name);
 
     color& pixel(const uint16_t x, const uint16_t y);
+
+    uint16_t width() const;
+    uint16_t height() const;
 
 private:
     uint16_t width_;
