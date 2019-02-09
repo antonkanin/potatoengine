@@ -3,6 +3,7 @@
 #include "color.h"
 #include <array>
 #include <fstream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -11,23 +12,11 @@ class image
 public:
     image() = delete;
 
-    image(const uint16_t width, const uint16_t height)
-        : width_(width)
-        , height_(height)
-    {
-    }
+    image(const uint16_t width, const uint16_t height);
 
-    bool load(const std::string& filename)
-    {
-        std::ifstream in_file(filename, std::ios::binary);
+    bool save(const std::string &file_name);
 
-        if (in_file.is_open() == false)
-        {
-            return false;
-        }
-    }
-
-    bool save(const std::string& filename) { std::ofstream out_file(filename); }
+    color& pixel(const uint16_t x, const uint16_t y);
 
 private:
     uint16_t width_;
