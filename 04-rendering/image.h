@@ -26,7 +26,7 @@ public:
 
     bool save(const std::string& file_name);
 
-    const image& fill(const color& color);
+    image & fill(const color &color);
 
     const image& draw_line(const std::vector<point> &points, const color &color_val);
 

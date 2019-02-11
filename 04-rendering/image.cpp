@@ -44,7 +44,7 @@ bool image::save(const std::string& file_name)
     return true;
 }
 
-const image& image::fill(const color& color)
+image & image::fill(const color &color)
 {
     std::fill(begin(pixels_), end(pixels_), color);
 
