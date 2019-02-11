@@ -13,9 +13,12 @@ std::vector<point> make_line_float(point p1, point p2)
         steep = true;
     }
 
+    // this is a hack to make sure the returned line is not swapped
+    bool is_reversed = false;
     if (p2.y < p1.y)
     {
         swap(p1, p2);
+        is_reversed = true;
     }
 
     const float dydx = std::abs(static_cast<float>(p2.y - p1.y) /
@@ -86,6 +89,11 @@ std::vector<point> make_line_float(point p1, point p2)
         }
     }
 
+    if (is_reversed)
+    {
+        std::reverse(begin(result), end(result));
+    }
+
     return result;
 }
 
@@ -101,9 +109,11 @@ std::vector<point> make_line_int(point p1, point p2)
         steep = true;
     }
 
+    bool is_reversed = false;
     if (p2.y < p1.y)
     {
         swap(p1, p2);
+        is_reversed = true;
     }
 
     const auto dy = std::abs(p2.y - p1.y);
@@ -174,6 +184,11 @@ std::vector<point> make_line_int(point p1, point p2)
         }
     }
 
+    if (is_reversed)
+    {
+        std::reverse(begin(result), end(result));
+    }
+
     return result;
 }
 
@@ -190,10 +205,11 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
 
     for (uint16_t ind = 0; ind < (p2.y - p1.y); ++ind)
     {
+        uint16_t y = p1.y + ind;
+
         for (uint16_t x = l1[ind].x; x <= l2[ind].x; ++x)
         {
-            uint16_t y = l2[ind].y + ind;
-            result.push_back({x, y});
+            result.push_back({ x, y });
         }
     }
 

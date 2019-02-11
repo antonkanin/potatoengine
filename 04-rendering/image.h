@@ -27,8 +27,8 @@ public:
 
     image& fill(const color& color);
 
-    const image& draw_line(const std::vector<point>& points,
-                           const color&              color_val);
+    const image& draw(const std::vector<point> &points,
+                      const color &color_val);
 
 private:
     uint16_t width_;

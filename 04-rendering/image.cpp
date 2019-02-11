@@ -51,8 +51,8 @@ image & image::fill(const color &color)
     return *this;
 }
 
-const image& image::draw_line(const std::vector<point>& points,
-                        const color&              color_val)
+const image& image::draw(const std::vector<point> &points,
+                         const color &color_val)
 {
     for (const auto& p : points)
     {

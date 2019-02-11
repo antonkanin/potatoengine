@@ -15,7 +15,7 @@ void draw_test_image(std::vector<std::pair<point, point>> lines,
 
     for (const auto& line : lines)
     {
-        img.draw_line(make_line_func(line.first, line.second), blue);
+        img.draw(make_line_func(line.first, line.second), blue);
     }
 
     img.save(image_name);
@@ -43,3 +43,17 @@ void draw_line_tests(std::vector<point> (*make_line_func)(point, point))
                       { { 9, 9 }, { 4, 0 } } },
                     "img_04.ppm", make_line_func);
 }
+
+void draw_triangle_test()
+{
+    image img(10, 10);
+
+    img.fill(green);
+
+    auto triangle = make_triangle({5, 0}, {1, 5}, {8, 8});
+
+    img.draw(triangle, blue);
+
+    img.save("triangle_01.ppm");
+}
+
