@@ -2,54 +2,44 @@
 
 #include "draw_utils.h"
 
-void draw_line_tests()
+void draw_test_image(std::vector<std::pair<point, point>> lines,
+                     std::string                          image_name,
+                     std::vector<point> (*make_line_func)(point, point))
 {
     const u_int8_t WIDTH  = 10;
     const u_int8_t HEIGHT = 10;
 
-    auto img = std::make_unique<image>(WIDTH, HEIGHT);
+    image img(WIDTH, HEIGHT);
 
-    img->fill(green);
+    img.fill(green);
 
-    img->draw_line(make_line({ 0, 0 }, { 9, 9 }), blue);
-    img->draw_line(make_line({ 0, 0 }, { 9, 4 }), blue);
-    img->draw_line(make_line({ 0, 0 }, { 4, 9 }), blue);
+    for (const auto& line : lines)
+    {
+        img.draw_line(make_line_func(line.first, line.second), blue);
+    }
 
-    img->save("img_01.ppm");
+    img.save(image_name);
+}
 
-    // second image
+void draw_line_tests(std::vector<point> (*make_line_func)(point, point))
+{
+    draw_test_image({ { { 0, 0 }, { 9, 9 } },
+                      { { 0, 0 }, { 9, 4 } },
+                      { { 0, 0 }, { 4, 9 } } },
+                    "img_01.ppm", make_line_func);
 
-    auto img2 = std::make_unique<image>(WIDTH, HEIGHT);
+    draw_test_image({ { { 0, 9 }, { 9, 0 } },
+                      { { 0, 9 }, { 9, 4 } },
+                      { { 0, 9 }, { 4, 0 } } },
+                    "img_02.ppm", make_line_func);
 
-    img2->fill(green);
+    draw_test_image({ { { 9, 0 }, { 0, 9 } },
+                      { { 9, 0 }, { 4, 9 } },
+                      { { 9, 0 }, { 0, 4 } } },
+                    "img_03s.ppm", make_line_func);
 
-    img2->draw_line(make_line({ 0, 9 }, { 9, 0 }), blue);
-    img2->draw_line(make_line({ 0, 9 }, { 9, 4 }), blue);
-    img2->draw_line(make_line({ 0, 9 }, { 4, 0 }), blue);
-
-    img2->save("img_02.ppm");
-
-    // third image
-
-    auto img3 = std::make_unique<image>(WIDTH, HEIGHT);
-
-    img3->fill(green);
-
-    img3->draw_line(make_line({ 9, 0 }, { 0, 9 }), blue);
-    img3->draw_line(make_line({ 9, 0 }, { 0, 4 }), blue);
-    img3->draw_line(make_line({ 9, 0 }, { 4, 9 }), blue);
-
-    img3->save("img_03.ppm");
-
-    // forth image
-
-    auto img4 = std::make_unique<image>(WIDTH, HEIGHT);
-
-    img4->fill(green);
-
-    img4->draw_line(make_line({ 9, 9 }, { 0, 0 }), blue);
-    img4->draw_line(make_line({ 9, 9 }, { 0, 4 }), blue);
-    img4->draw_line(make_line({ 9, 9 }, { 4, 0 }), blue);
-
-    img4->save("img_04.ppm");
+    draw_test_image({ { { 9, 9 }, { 0, 0 } },
+                      { { 9, 9 }, { 0, 4 } },
+                      { { 9, 9 }, { 4, 0 } } },
+                    "img_04.ppm", make_line_func);
 }
