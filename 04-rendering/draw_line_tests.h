@@ -36,7 +36,7 @@ void draw_line_tests(std::vector<point> (*make_line_func)(point, point))
     draw_test_image({ { { 9, 0 }, { 0, 9 } },
                       { { 9, 0 }, { 4, 9 } },
                       { { 9, 0 }, { 0, 4 } } },
-                    "img_03s.ppm", make_line_func);
+                    "img_03.ppm", make_line_func);
 
     draw_test_image({ { { 9, 9 }, { 0, 0 } },
                       { { 9, 9 }, { 0, 4 } },
