@@ -3,7 +3,7 @@
 #include "draw_utils.h"
 
 void draw_test_image(std::vector<std::pair<point, point>> lines,
-                     std::string                          image_name,
+                     const std::string&                   image_name,
                      std::vector<point> (*make_line_func)(point, point))
 {
     const u_int8_t WIDTH  = 10;

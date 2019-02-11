@@ -70,7 +70,8 @@ auto make_line_float(point p1, point p2)
                 result.push_back({ x, y });
             }
 
-            if (x == 0) // we have to this since we avoid 'overflow' for the unsigned int
+            if (x == 0) // we have to this since we avoid 'overflow' for the
+                        // unsigned int
             {
                 break;
             }
@@ -132,7 +133,7 @@ auto make_line_int(point p1, point p2)
 
             error += dy;
 
-            if (2 * error > 1)
+            if (2 * error > dx)
             {
                 ++y;
                 error -= dx;
@@ -157,7 +158,8 @@ auto make_line_int(point p1, point p2)
                 result.push_back({ x, y });
             }
 
-            if (x == 0) // we have to this since we avoid 'overflow' for the unsigned int
+            if (x == 0) // we have to this since we avoid 'overflow' for the
+                        // unsigned int
             {
                 break;
             }
@@ -166,7 +168,7 @@ auto make_line_int(point p1, point p2)
 
             error += dy;
 
-            if (2 * error > 1)
+            if (2 * error > dx)
             {
                 ++y;
                 error -= dx;
