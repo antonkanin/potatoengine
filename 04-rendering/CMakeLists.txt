@@ -4,6 +4,7 @@ project(04-rendering)
 
 add_executable(${PROJECT_NAME}
         main.cxx
+        draw_utils.cpp
         image.cpp
         point.cpp)
 
