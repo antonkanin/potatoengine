@@ -233,8 +233,10 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
             auto x1 = static_cast<uint16_t>(std::round(dxdy1 * y - c1));
             auto x2 = static_cast<uint16_t>(std::round(dxdy2 * y - c2));
 
-            result.push_back({ x1, y });
-            result.push_back({ x2, y });
+            for (auto ind = x1; ind <= x2; ++ind)
+            {
+                result.push_back({ ind, y });
+            }
 
             ++y;
         }
@@ -242,28 +244,26 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
         ///////////////////////////////////////////////////////////////////
         // upper triangle
 
-//        auto mid_x = result.back().x;
-//
-//        dxdy1 =
-//            static_cast<float>(p3.x - p2.x) / static_cast<float>(p3.y - p2.y);
-//
-//        dxdy2 = static_cast<float>(p3.x - mid_x) / static_cast<float>(p3.y - y - 1);
-//
-//        c1 = dxdy1 * p2.y - p1.x;
-//        c2 = dxdy2 * p2.y - mid_x;
-//
-//        while (y <= p3.y)
-//        {
-//            auto x1 = static_cast<uint16_t>(dxdy1 * y - c1);
-//            auto x2 = static_cast<uint16_t>(dxdy2 * y - c2);
-//
-//            std::cout << x1 << ' ' << x2 << '\n';
-//
-//            result.push_back({ x1, y });
-//            result.push_back({ x2, y });
-//
-//            ++y;
-//        }
+        auto mid_x = result.back().x;
+
+        dxdy1 =
+            static_cast<float>(p3.x - p2.x) / static_cast<float>(p3.y - p2.y);
+
+        c1 = dxdy1 * p2.y - p2.x;
+        c2 = dxdy2 * p2.y - mid_x;
+
+        while (y <= p3.y)
+        {
+            auto x1 = static_cast<uint16_t>(dxdy1 * y - c1);
+            auto x2 = static_cast<uint16_t>(dxdy2 * y - c2);
+
+            for (auto ind = x1; ind <= x2; ++ind)
+            {
+                result.push_back({ ind, y });
+            }
+
+            ++y;
+        }
     }
 
     return result;
