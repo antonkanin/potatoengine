@@ -27,7 +27,7 @@ public:
 
     image& fill(const color& color);
 
-    const image& draw(const std::vector<point> &points,
+    image& draw(const std::vector<point> &points,
                       const color &color_val);
 
 private:

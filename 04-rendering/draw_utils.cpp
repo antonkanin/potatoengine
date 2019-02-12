@@ -211,17 +211,23 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
     p2 = tr[1];
     p3 = tr[2];
 
-    if (p3.x >= p2.x)
-    {
-        ///////////////////////////////////////////////////////////////////
-        // lower triangle
+    // TRUE if P1 -> P2 -> P3 make a clockwise direction
+    bool is_clockwise = (p1.y == p2.y && p2.x < p1.x);
+    is_clockwise      = is_clockwise || (p2.y == p3.y && p2.x <= p3.x);
+    is_clockwise      = is_clockwise || (p3.x <= p2.x && p2.x <= p1.x);
+    is_clockwise      = is_clockwise || (p2.x <= p1.x && p1.x <= p3.x);
+    is_clockwise      = is_clockwise || (p1.x <= p2.x && p2.x <= p3.x);
 
+    uint16_t mid_x = 0;
+
+    ///////////////////////////////////////////////////////////////////
+    // lower triangle
+    if (p2.y != p1.y)
+    {
         float dxdy1 =
             static_cast<float>(p2.x - p1.x) / static_cast<float>(p2.y - p1.y);
         float dxdy2 =
             static_cast<float>(p3.x - p1.x) / static_cast<float>(p3.y - p1.y);
-
-        std::cout << "p1 " << p1.x << ' ' << p1.y << '\n';
 
         auto y = p1.y;
 
@@ -233,33 +239,84 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
             auto x1 = static_cast<uint16_t>(std::round(dxdy1 * y - c1));
             auto x2 = static_cast<uint16_t>(std::round(dxdy2 * y - c2));
 
-            for (auto ind = x1; ind <= x2; ++ind)
+            if (is_clockwise)
             {
-                result.push_back({ ind, y });
+                for (auto ind = x1; ind <= x2; ++ind)
+                {
+                    result.push_back({ ind, y });
+                }
+
+                mid_x = x2; // TODO need to refactor this and
+                            // initialize mid_x only once
+            }
+            else
+            {
+                for (auto ind = x2; ind <= x1; ++ind)
+                {
+                    result.push_back({ ind, y });
+                }
+
+                mid_x = x1;
             }
 
             ++y;
         }
+    }
+    else
+    {
+        if (is_clockwise)
+        {
+            for (auto ind = p2.x; ind <= p1.x; ++ind)
+            {
+                result.push_back({ ind, p1.y });
+            }
 
-        ///////////////////////////////////////////////////////////////////
-        // upper triangle
+            mid_x = p1.x;
+        }
+        else
+        {
+            for (auto ind = p1.x; ind <= p2.x; ++ind)
+            {
+                result.push_back({ ind, p1.y });
+            }
 
-        auto mid_x = result.back().x;
+            mid_x = p2.x;
+        }
+    }
 
-        dxdy1 =
+    ///////////////////////////////////////////////////////////////////
+    // upper triangle
+    if (p3.y != p2.y)
+    {
+        float dxdy1 =
             static_cast<float>(p3.x - p2.x) / static_cast<float>(p3.y - p2.y);
 
-        c1 = dxdy1 * p2.y - p2.x;
-        c2 = dxdy2 * p2.y - mid_x;
+        float dxdy2 =
+            static_cast<float>(p3.x - p1.x) / static_cast<float>(p3.y - p1.y);
+
+        auto c1 = dxdy1 * p2.y - p2.x;
+        auto c2 = dxdy2 * p2.y - mid_x;
+
+        auto y = static_cast<uint16_t>(p2.y + 1);
 
         while (y <= p3.y)
         {
-            auto x1 = static_cast<uint16_t>(dxdy1 * y - c1);
-            auto x2 = static_cast<uint16_t>(dxdy2 * y - c2);
+            auto x1 = static_cast<uint16_t>(std::abs(std::round(dxdy1 * y - c1)));
+            auto x2 = static_cast<uint16_t>(std::abs(std::round(dxdy2 * y - c2)));
 
-            for (auto ind = x1; ind <= x2; ++ind)
+            if (is_clockwise)
             {
-                result.push_back({ ind, y });
+                for (auto ind = x1; ind <= x2; ++ind)
+                {
+                    result.push_back({ ind, y });
+                }
+            }
+            else
+            {
+                for (auto ind = x2; ind <= x1; ++ind)
+                {
+                    result.push_back({ ind, y });
+                }
             }
 
             ++y;
