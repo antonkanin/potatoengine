@@ -1,6 +1,12 @@
-#include "draw_utils.h"
+#include <cmath>
+
+#include <cmath>
+
 #include "draw_line_tests.h"
+#include "draw_utils.h"
 #include <algorithm>
+#include <cmath>
+#include <iostream>
 
 std::vector<point> make_line_float(point p1, point p2)
 {
@@ -205,37 +211,59 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
     p2 = tr[1];
     p3 = tr[2];
 
-    auto l1 = make_line_int(p1, p2);
-    auto l2 = make_line_int(p1, p3);
-
-    for (uint16_t ind = 0; ind <= (p2.y - p1.y); ++ind)
+    if (p3.x >= p2.x)
     {
-        const uint16_t y = p1.y + ind;
+        ///////////////////////////////////////////////////////////////////
+        // lower triangle
 
-        for (uint16_t x = l1[ind].x; x <= l2[ind].x; ++x)
+        float dxdy1 =
+            static_cast<float>(p2.x - p1.x) / static_cast<float>(p2.y - p1.y);
+        float dxdy2 =
+            static_cast<float>(p3.x - p1.x) / static_cast<float>(p3.y - p1.y);
+
+        std::cout << "p1 " << p1.x << ' ' << p1.y << '\n';
+
+        auto y = p1.y;
+
+        float c1 = dxdy1 * p1.y - p1.x;
+        float c2 = dxdy2 * p1.y - p1.x;
+
+        while (y <= p2.y)
         {
-            result.push_back({ x, y });
+            auto x1 = static_cast<uint16_t>(std::round(dxdy1 * y - c1));
+            auto x2 = static_cast<uint16_t>(std::round(dxdy2 * y - c2));
+
+            result.push_back({ x1, y });
+            result.push_back({ x2, y });
+
+            ++y;
         }
-    }
 
-    const point mid_point = result.back();
+        ///////////////////////////////////////////////////////////////////
+        // upper triangle
 
-    l1 = make_line_int(p2, p3);
-    l2 = make_line_int(mid_point, p3);
-
-    // render_lines_list_test({{{p2, p3}}}, "l1_img.ppm", make_line_int);
-
-    render_line_test(l1, "l1_line.ppm");
-
-
-    for (uint16_t ind = 1; ind <= (p3.y - p2.y); ++ind)
-    {
-        const uint16_t y = p2.y + ind;
-
-        for (uint16_t x = l1[ind].x; x <= l2[ind].x; ++x)
-        {
-            result.push_back({ x, y });
-        }
+//        auto mid_x = result.back().x;
+//
+//        dxdy1 =
+//            static_cast<float>(p3.x - p2.x) / static_cast<float>(p3.y - p2.y);
+//
+//        dxdy2 = static_cast<float>(p3.x - mid_x) / static_cast<float>(p3.y - y - 1);
+//
+//        c1 = dxdy1 * p2.y - p1.x;
+//        c2 = dxdy2 * p2.y - mid_x;
+//
+//        while (y <= p3.y)
+//        {
+//            auto x1 = static_cast<uint16_t>(dxdy1 * y - c1);
+//            auto x2 = static_cast<uint16_t>(dxdy2 * y - c2);
+//
+//            std::cout << x1 << ' ' << x2 << '\n';
+//
+//            result.push_back({ x1, y });
+//            result.push_back({ x2, y });
+//
+//            ++y;
+//        }
     }
 
     return result;

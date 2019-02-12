@@ -55,6 +55,8 @@ void render_test_triangle()
     img.draw(triangle, blue);
 
     img.save("triangle_01.ppm");
+
+    render_line_test(make_line_int({ 5, 0 }, { 1, 5 }), "line_01.ppm");
 }
 
 void render_line_test(const std::vector<point>& line, const std::string& image_name)
