@@ -2,38 +2,9 @@
 
 #include <algorithm>
 #include <array>
+#include <iostream>
 #include <memory>
 #include <stdlib.h>
-#include <iostream>
-
-std::vector<point> move(std::vector<point>& points, const point& move_vector)
-{
-    for (auto& p : points)
-    {
-        p += move_vector;
-    }
-
-    return points;
-}
-
-// flips points array around the max Y value
-point_array flip_y(const point_array& points)
-{
-    // fix max y
-    auto max = std::max_element(
-        begin(points), end(points),
-        [](const point& p1, const point& p2) { return p1.x < p2.x; });
-
-    point_array result;
-
-    for (auto& p : points)
-    {
-        result.push_back(
-            { static_cast<uint16_t>(p.x + 2 * (max->x - p.x)), p.y });
-    }
-
-    return result;
-}
 
 int main(int argc, char* argv[])
 {
@@ -55,17 +26,17 @@ int main(int argc, char* argv[])
     auto tr8 = flip_y(tr4) + point(8, 0);
 
     img.fill(green)
-        //        .draw(make_line_int({ 0, 0 }, {50, 0}), blue)
-        //        .draw(make_line_int({ 0, 0 }, {0, 50}), blue)
-        //        .draw(make_line_int({ 50, 0 }, {0, 50}), blue)
+        //        .draw(make_line_int({ 0, 0 }, { 50, 0 }), blue)
+        //        .draw(make_line_int({ 0, 0 }, { 0, 50 }), blue)
+        //        .draw(make_line_int({ 50, 0 }, { 0, 50 }), blue)
         .draw(make_triangle(tr1), blue)
-//        .draw(make_triangle(tr2), blue)
-//        .draw(make_triangle(tr3), blue)
-//        .draw(make_triangle(tr4), blue)
+        .draw(make_triangle(tr2), blue)
+        .draw(make_triangle(tr3), blue)
+        .draw(make_triangle(tr4), blue)
         .draw(make_triangle(tr5), blue)
-//        .draw(make_triangle(tr6), blue)
-//        .draw(make_triangle(tr7), blue)
-//        .draw(make_triangle(tr8), blue)
+        .draw(make_triangle(tr6), blue)
+        .draw(make_triangle(tr7), blue)
+        .draw(make_triangle(tr8), blue)
         //        .draw(make_triangle({ 9, 1 }, { 10, 5 }, { 7, 8 }), blue)
         //        .draw(make_triangle({ 3, 0 }, { 5, 0 }, { 4, 1 }), blue)
         //        .draw(make_triangle({ 0, 0 }, { 4, 0 }, { 0, 2 }), blue)

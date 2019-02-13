@@ -1,4 +1,5 @@
 #include "point.h"
+#include <algorithm>
 
 void swap(point& p1, point& p2)
 {
@@ -46,6 +47,24 @@ point_array operator+(const point_array& lhs, const point_array& rhs)
     for (size_t index = 0; index < lhs.size(); ++index)
     {
         result.push_back(lhs[index] + rhs[index]);
+    }
+
+    return result;
+}
+
+point_array flip_y(const point_array& points)
+{
+    // fix max y
+    auto max = std::max_element(
+        begin(points), end(points),
+        [](const point& p1, const point& p2) { return p1.x < p2.x; });
+
+    point_array result;
+
+    for (auto& p : points)
+    {
+        result.push_back(
+            { static_cast<uint16_t>(p.x + 2 * (max->x - p.x)), p.y });
     }
 
     return result;
