@@ -331,6 +331,7 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
 
 std::vector<point> make_triangle(const std::vector<point>& points)
 {
-    // I deliberately do not check of any exceptions as I want to crash when something goes wrong
+    // I deliberately do not check of any exceptions as I want to crash when
+    // something goes wrong
     return make_triangle(points[0], points[1], points[2]);
 }
