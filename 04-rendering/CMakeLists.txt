@@ -7,6 +7,7 @@ add_executable(${PROJECT_NAME}
         draw_utils.cpp
         image.cpp
         point.cpp
+        point_array.cpp
         draw_line_tests.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)

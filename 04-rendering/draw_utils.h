@@ -2,6 +2,7 @@
 
 #include "image.h"
 #include "point.h"
+#include "point_array.h"
 
 std::vector<point> make_line_float(point p1, point p2);
 
