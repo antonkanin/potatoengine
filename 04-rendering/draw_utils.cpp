@@ -10,7 +10,7 @@
 #include <cmath>
 #include <iostream>
 
-std::vector<point> make_line_float(point p1, point p2)
+point_array make_line_float(point p1, point p2)
 {
     std::vector<point> result;
 
@@ -106,7 +106,7 @@ std::vector<point> make_line_float(point p1, point p2)
     return result;
 }
 
-std::vector<point> make_line_int(point p1, point p2)
+point_array make_line_int(point p1, point p2)
 {
     std::vector<point> result;
 
@@ -201,7 +201,7 @@ std::vector<point> make_line_int(point p1, point p2)
     return result;
 }
 
-std::vector<point> make_triangle(point p1, point p2, point p3)
+point_array make_solid_triangle(point p1, point p2, point p3)
 {
     std::vector<point> result;
 
@@ -327,9 +327,24 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
     return result;
 }
 
-std::vector<point> make_triangle(const std::vector<point>& points)
+point_array make_solid_triangle(const std::vector<point>& points)
 {
-    // I deliberately do not check of any exceptions as I want to crash when
-    // something goes wrong
-    return make_triangle(points[0], points[1], points[2]);
+    // I deliberately do not check of any exceptions as I want the app to crash
+    // when something goes wrong
+    return make_solid_triangle(points[0], points[1], points[2]);
+}
+
+point_array make_empty_triangle(const point p1, const point p2, const point p3)
+{
+    point_array triangle;
+
+    auto edge_1 = make_line_int(p1, p2);
+    auto edge_2 = make_line_int(p2, p3);
+    auto edge_3 = make_line_int(p3, p1);
+
+    triangle.insert(triangle.end(), edge_1.begin(), edge_1.end());
+    triangle.insert(triangle.end(), edge_2.begin(), edge_2.end());
+    triangle.insert(triangle.end(), edge_3.begin(), edge_3.end());
+
+    return triangle;
 }

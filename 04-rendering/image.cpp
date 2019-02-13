@@ -65,6 +65,9 @@ image& image::draw(const std::vector<point>& points, const color& color_val)
 
 image& image::set_size(const uint16_t width, const uint16_t height)
 {
+    width_  = width;
+    height_ = height;
+
     pixels_.resize(width * height);
 
     return *this;
