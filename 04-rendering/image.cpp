@@ -1,5 +1,5 @@
-#include "image.h"
-#include "point.h"
+#include "image.hpp"
+#include "point.hpp"
 
 image::image(const uint16_t width, const uint16_t height)
     : width_(width)
@@ -44,15 +44,14 @@ bool image::save(const std::string& file_name)
     return true;
 }
 
-image & image::fill(const color &color)
+image& image::fill(const color& color)
 {
     std::fill(begin(pixels_), end(pixels_), color);
 
     return *this;
 }
 
-image& image::draw(const std::vector<point> &points,
-                         const color &color_val)
+image& image::draw(const std::vector<point>& points, const color& color_val)
 {
     for (const auto& p : points)
     {

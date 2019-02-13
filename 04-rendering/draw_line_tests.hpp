@@ -1,6 +1,6 @@
 #pragma once
 
-#include "draw_utils.h"
+#include "draw_utils.hpp"
 
 void render_lines_list_test(std::vector<std::pair<point, point>> lines,
                             const std::string&                   image_name,

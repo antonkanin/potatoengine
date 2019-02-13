@@ -1,4 +1,4 @@
-#include "point.h"
+#include "point.hpp"
 #include <algorithm>
 
 void swap(point& p1, point& p2)

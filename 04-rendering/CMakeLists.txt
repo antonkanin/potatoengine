@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.7)
 project(04-rendering)
 
 add_executable(${PROJECT_NAME}
-        main.cxx
+        main.cpp
         draw_utils.cpp
         image.cpp
         point.cpp

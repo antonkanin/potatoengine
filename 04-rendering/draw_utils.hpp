@@ -1,8 +1,8 @@
 #pragma once
 
-#include "image.h"
-#include "point.h"
-#include "point_array.h"
+#include "image.hpp"
+#include "point.hpp"
+#include "point_array.hpp"
 
 std::vector<point> make_line_float(point p1, point p2);
 

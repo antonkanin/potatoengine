@@ -1,4 +1,4 @@
-#include "draw_line_tests.h"
+#include "draw_line_tests.hpp"
 
 void draw_line_tests(std::vector<point> (*make_line_func)(point, point))
 {

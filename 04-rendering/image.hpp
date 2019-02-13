@@ -1,6 +1,6 @@
 #pragma once
 
-#include "color.h"
+#include "color.hpp"
 #include <array>
 #include <fstream>
 #include <memory>
@@ -27,8 +27,7 @@ public:
 
     image& fill(const color& color);
 
-    image& draw(const std::vector<point> &points,
-                      const color &color_val);
+    image& draw(const std::vector<point>& points, const color& color_val);
 
 private:
     uint16_t width_;

@@ -1,4 +1,4 @@
-#include "draw_line_tests.h"
+#include "draw_line_tests.hpp"
 
 #include <algorithm>
 #include <array>

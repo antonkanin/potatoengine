@@ -2,8 +2,8 @@
 
 #include <cmath>
 
-#include "draw_line_tests.h"
-#include "draw_utils.h"
+#include "draw_line_tests.hpp"
+#include "draw_utils.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
