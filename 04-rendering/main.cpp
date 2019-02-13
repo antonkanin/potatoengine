@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 
     // render_test_triangle();
 
-    //    image img(100, 100);
+        image img(100, 100);
     //
     //    auto tr1 = point_array{ { 3, 1 }, { 1, 5 }, { 5, 8 } } + point(0, 0);
     //    auto tr2 = point_array{ { 1, 5 }, { 3, 1 }, { 5, 8 } } + point(6, 0);
@@ -52,9 +52,8 @@ int main(int argc, char* argv[])
     ///////////////////////////////////////////////////////////////////////////
     // 03 draw multiple random triangles
 
-    image img03;
 
-    img03.fill(white);
+    img.fill(white);
 
     for (uint8_t counter = 0; counter < 10; ++counter)
     {

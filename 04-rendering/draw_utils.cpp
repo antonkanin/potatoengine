@@ -133,7 +133,7 @@ std::vector<point> make_line_int(point p1, point p2)
         auto x = p1.x;
         auto y = p1.y;
 
-        uint16_t error = 0;
+        int error = 0;
 
         while (x <= p2.x)
         {
@@ -162,7 +162,7 @@ std::vector<point> make_line_int(point p1, point p2)
         auto x = p1.x;
         auto y = p1.y;
 
-        int16_t error = 0;
+        int error = 0;
 
         while (x >= p2.x)
         {
