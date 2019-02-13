@@ -284,44 +284,53 @@ std::vector<point> make_triangle(point p1, point p2, point p3)
         }
     }
 
-    ///////////////////////////////////////////////////////////////////
-    // upper triangle
-    if (p3.y != p2.y)
-    {
-        float dxdy1 =
-            static_cast<float>(p3.x - p2.x) / static_cast<float>(p3.y - p2.y);
-
-        float dxdy2 =
-            static_cast<float>(p3.x - p1.x) / static_cast<float>(p3.y - p1.y);
-
-        auto c1 = dxdy1 * p2.y - p2.x;
-        auto c2 = dxdy2 * p2.y - mid_x;
-
-        auto y = static_cast<uint16_t>(p2.y + 1);
-
-        while (y <= p3.y)
-        {
-            auto x1 = static_cast<uint16_t>(std::abs(std::round(dxdy1 * y - c1)));
-            auto x2 = static_cast<uint16_t>(std::abs(std::round(dxdy2 * y - c2)));
-
-            if (is_clockwise)
-            {
-                for (auto ind = x1; ind <= x2; ++ind)
-                {
-                    result.push_back({ ind, y });
-                }
-            }
-            else
-            {
-                for (auto ind = x2; ind <= x1; ++ind)
-                {
-                    result.push_back({ ind, y });
-                }
-            }
-
-            ++y;
-        }
-    }
+    //    ///////////////////////////////////////////////////////////////////
+    //    // upper triangle
+    //    if (p3.y != p2.y)
+    //    {
+    //        float dxdy1 =
+    //            static_cast<float>(p3.x - p2.x) / static_cast<float>(p3.y -
+    //            p2.y);
+    //
+    //        float dxdy2 =
+    //            static_cast<float>(p3.x - p1.x) / static_cast<float>(p3.y -
+    //            p1.y);
+    //
+    //        auto c1 = dxdy1 * p2.y - p2.x;
+    //        auto c2 = dxdy2 * p2.y - mid_x;
+    //
+    //        auto y = static_cast<uint16_t>(p2.y + 1);
+    //
+    //        while (y <= p3.y)
+    //        {
+    //            auto x1 = static_cast<uint16_t>(std::abs(std::round(dxdy1 * y
+    //            - c1))); auto x2 =
+    //            static_cast<uint16_t>(std::abs(std::round(dxdy2 * y - c2)));
+    //
+    //            if (is_clockwise)
+    //            {
+    //                for (auto ind = x1; ind <= x2; ++ind)
+    //                {
+    //                    result.push_back({ ind, y });
+    //                }
+    //            }
+    //            else
+    //            {
+    //                for (auto ind = x2; ind <= x1; ++ind)
+    //                {
+    //                    result.push_back({ ind, y });
+    //                }
+    //            }
+    //
+    //            ++y;
+    //        }
+    //    }
 
     return result;
+}
+
+std::vector<point> make_triangle(const std::vector<point>& points)
+{
+    // I deliberately do not check of any exceptions as I want to crash when something goes wrong
+    return make_triangle(points[0], points[1], points[2]);
 }
