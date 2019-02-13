@@ -1,8 +1,8 @@
 #pragma once
-
-#include "image.hpp"
-#include "point.hpp"
+#include <vector>
 #include "point_array.hpp"
+
+struct point;
 
 std::vector<point> make_line_float(point p1, point p2);
 

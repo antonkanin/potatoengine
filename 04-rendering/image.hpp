@@ -1,9 +1,7 @@
 #pragma once
 
 #include "color.hpp"
-#include <array>
-#include <fstream>
-#include <memory>
+#include "point_array.hpp"
 #include <string>
 #include <vector>
 
@@ -15,6 +13,8 @@ public:
     image() = delete;
 
     image(const uint16_t width, const uint16_t height);
+
+    image& set_size(const uint16_t width, const uint16_t height);
 
     // TODO come up with a better name for the method (perhaps 'get_color' ?)
     const color get_color(const point& point_val) const;

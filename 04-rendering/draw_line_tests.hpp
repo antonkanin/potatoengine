@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "draw_utils.hpp"
 
 void render_lines_list_test(std::vector<std::pair<point, point>> lines,

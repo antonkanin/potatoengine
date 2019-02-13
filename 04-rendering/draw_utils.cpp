@@ -4,6 +4,8 @@
 
 #include "draw_line_tests.hpp"
 #include "draw_utils.hpp"
+#include "point.hpp"
+#include "point_array.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>

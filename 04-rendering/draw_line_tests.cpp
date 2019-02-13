@@ -1,4 +1,6 @@
 #include "draw_line_tests.hpp"
+#include "image.hpp"
+#include <utility>
 
 void draw_line_tests(std::vector<point> (*make_line_func)(point, point))
 {

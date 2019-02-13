@@ -1,10 +1,8 @@
 #include "draw_line_tests.hpp"
 
-#include <algorithm>
-#include <array>
-#include <iostream>
-#include <memory>
-#include <stdlib.h>
+#include "image.hpp"
+#include "point.hpp"
+#include "point_array.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -26,9 +24,6 @@ int main(int argc, char* argv[])
     auto tr8 = flip_y(tr4) + point(8, 0);
 
     img.fill(green)
-        //        .draw(make_line_int({ 0, 0 }, { 50, 0 }), blue)
-        //        .draw(make_line_int({ 0, 0 }, { 0, 50 }), blue)
-        //        .draw(make_line_int({ 50, 0 }, { 0, 50 }), blue)
         .draw(make_triangle(tr1), blue)
         .draw(make_triangle(tr2), blue)
         .draw(make_triangle(tr3), blue)
@@ -37,12 +32,19 @@ int main(int argc, char* argv[])
         .draw(make_triangle(tr6), blue)
         .draw(make_triangle(tr7), blue)
         .draw(make_triangle(tr8), blue)
-        //        .draw(make_triangle({ 9, 1 }, { 10, 5 }, { 7, 8 }), blue)
-        //        .draw(make_triangle({ 3, 0 }, { 5, 0 }, { 4, 1 }), blue)
-        //        .draw(make_triangle({ 0, 0 }, { 4, 0 }, { 0, 2 }), blue)
-        //        .draw(make_triangle({ 4, 0 }, { 0, 0 }, { 2, 2 }), blue)
-        //        draw(make_triangle({ 10, 10 }, { 40, 70 }, { 70, 40 }), blue)
         .save("triangle.ppm");
+
+    // 01 draw a single line
+
+    // 02 draw a triangle with lines
+
+    // 03 draw multiple random triangles
+
+    // 04 draw multiple triangle using vertex buffer (VB) and index buffer (IB)
+
+    // 05 draw interpolated triangle with filling
+
+    // 06 draw textured triangle
 
     return EXIT_SUCCESS;
 }

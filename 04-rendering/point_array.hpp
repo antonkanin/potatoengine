@@ -2,8 +2,7 @@
 
 #include <ostream>
 #include <vector>
-
-struct point;
+#include "point.hpp"
 
 typedef std::vector<point> point_array;
 

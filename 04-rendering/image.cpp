@@ -1,11 +1,13 @@
 #include "image.hpp"
 #include "point.hpp"
+#include "point_array.hpp"
+#include <fstream>
 
 image::image(const uint16_t width, const uint16_t height)
     : width_(width)
     , height_(height)
 {
-    pixels_.resize(width * height);
+    set_size(width_, height_);
 }
 
 const color image::get_color(const point& point_val) const
@@ -57,6 +59,13 @@ image& image::draw(const std::vector<point>& points, const color& color_val)
     {
         this->set_color(p, color_val);
     }
+
+    return *this;
+}
+
+image& image::set_size(const uint16_t width, const uint16_t height)
+{
+    pixels_.resize(width * height);
 
     return *this;
 }

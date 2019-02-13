@@ -1,4 +1,5 @@
 #include "point_array.hpp"
+
 #include "point.hpp"
 #include <algorithm>
 #include <vector>
