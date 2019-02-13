@@ -3,6 +3,7 @@
 #include "image.hpp"
 #include "point.hpp"
 #include "point_array.hpp"
+#include <cstdlib>
 
 int main(int argc, char* argv[])
 {
@@ -11,7 +12,7 @@ int main(int argc, char* argv[])
 
     // render_test_triangle();
 
-    image img(30, 30);
+    image img(100, 100);
 
     auto tr1 = point_array{ { 3, 1 }, { 1, 5 }, { 5, 8 } } + point(0, 0);
     auto tr2 = point_array{ { 1, 5 }, { 3, 1 }, { 5, 8 } } + point(6, 0);
@@ -23,7 +24,7 @@ int main(int argc, char* argv[])
     auto tr7 = flip_y(tr3) + point(8, 0);
     auto tr8 = flip_y(tr4) + point(8, 0);
 
-    img.fill(green)
+    img.fill(white)
         .draw(make_triangle(tr1), blue)
         .draw(make_triangle(tr2), blue)
         .draw(make_triangle(tr3), blue)
@@ -36,9 +37,45 @@ int main(int argc, char* argv[])
 
     // 01 draw a single line
 
+    img.fill(white)
+        .draw(make_line_int({ 10, 10 }, { 90, 90 }), black)
+        .save("01_line.ppm");
+
     // 02 draw a triangle with lines
 
+    img.fill(white)
+        .draw(make_triangle({ 10, 10 }, { 90, 90 }, { 30, 60 }), black)
+        .save("02_triangle.ppm");
+
     // 03 draw multiple random triangles
+
+    img.fill(white);
+
+    for (uint8_t counter = 0; counter < 10; ++counter)
+    {
+        point_array points;
+
+        for (uint8_t v_index = 0; v_index < 3; ++v_index)
+        {
+            auto x = static_cast<uint8_t>(random() % img.width());
+            auto y = static_cast<uint8_t>(random() % img.height());
+
+            points.push_back({ x, y });
+        }
+
+        // TODO work in progress...
+
+        //        color clr = { static_cast<uint8_t>(random() % 255),
+        //                      static_cast<uint8_t>(random() % 255),
+        //                      static_cast<uint8_t>(random() % 255) };
+        //
+        //        img.draw({ make_line_int(points[0], points[1]),
+        //                     make_line_int(points[0], points[1]),
+        //                     make_line_int(points[0], points[1])},
+        //                 clr);
+    }
+
+    img.save("03_random_triangles.ppm");
 
     // 04 draw multiple triangle using vertex buffer (VB) and index buffer (IB)
 
