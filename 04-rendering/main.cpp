@@ -1,11 +1,12 @@
 #include "draw_line_tests.hpp"
 
 #include "image.hpp"
+#include "math_utils.hpp"
 #include "mesh.hpp"
 #include "point.hpp"
 #include "point_array.hpp"
+#include "vertex.hpp"
 #include <cstdlib>
-#include "math_utils.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -24,7 +25,7 @@ int main(int argc, char* argv[])
     // 02 draw a triangle with lines
 
     img.fill(white)
-        .draw(make_solid_triangle({10, 10}, {90, 90}, {30, 60}), black)
+        .draw(make_solid_triangle({ 10, 10 }, { 90, 90 }, { 30, 60 }), black)
         .save("02_triangle.ppm");
 
     //
@@ -83,7 +84,14 @@ int main(int argc, char* argv[])
     ///////////////////////////////////////////////////////////////////////////
     // 05 draw interpolated triangle with filling
 
-    draw_interpolated_triangle();
+    vertex v1 = { 3, 1, black };
+    vertex v2 = { 1, 3, black };
+    vertex v3 = { 6, 5, black };
+    auto triangle = draw_interpolated_triangle(v1, v2, v3);
+
+    render_vertex_array(triangle, img);
+
+    img.save("05_iterpolated_triangle.ppm");
 
     //
     ///////////////////////////////////////////////////////////////////////////

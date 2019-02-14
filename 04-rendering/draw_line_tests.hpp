@@ -14,3 +14,4 @@ void render_test_triangle();
 
 void render_line_test(const std::vector<point>& line,
                       const std::string&        image_name);
+

@@ -4,6 +4,7 @@
 
 #include "draw_line_tests.hpp"
 #include "draw_utils.hpp"
+#include "image.hpp"
 #include "point.hpp"
 #include "point_array.hpp"
 #include "vertex.hpp"
@@ -361,7 +362,7 @@ std::vector<vertex> interpolate_horizontal_line(const vertex& left,
     for (uint16_t pixel = 0; pixel < number_of_pixels + 1; ++pixel)
     {
         auto vertex = lerp(left, right,
-                      static_cast<float>(pixel) / (number_of_pixels + 1));
+                           static_cast<float>(pixel) / (number_of_pixels + 1));
 
         result.push_back(vertex);
     }
@@ -369,29 +370,55 @@ std::vector<vertex> interpolate_horizontal_line(const vertex& left,
     return result;
 }
 
-void draw_interpolated_triangle(const vertex& vertex1, const vertex& vertex2,
-                                const vertex& vertex3)
+std::vector<vertex> draw_interpolated_triangle(const vertex& vertex1,
+                                               const vertex& vertex2,
+                                               const vertex& vertex3)
 {
     // sort by Y
     std::array<vertex, 3> v_array = { vertex1, vertex2, vertex3 };
     std::sort(begin(v_array), end(v_array),
               [](const vertex& v1, const vertex& v2) { return v1.y < v2.y; });
 
-    auto v1 = v_array[0];
-    auto v2 = v_array[1];
-    auto v3 = v_array[2];
+    const auto v1 = v_array[0];
+    const auto v2 = v_array[1];
+    const auto v3 = v_array[2];
 
     const auto dxdy = (v3.x - v1.x) / (v3.y - v1.y);
 
-    vertex v_mid = { dxdy * v2.y - dxdy * v1.y + v1.x, v2.y };
+    const vertex v_mid = { dxdy * v2.y - dxdy * v1.y + v1.x, v2.y };
+
+    std::vector<vertex> result;
 
     // bottom triangle
 
     const auto number_of_lines = static_cast<uint8_t>(std::round(v3.y - v1.y));
 
-    for (uint8_t line = 0; line < number_of_lines; ++line)
+    if (v2.x <= v_mid.x)
     {
+        for (uint8_t line = 0; line < number_of_lines; ++line)
+        {
+            const auto left_vertex =
+                lerp(v1, v2, static_cast<float>(line) / number_of_lines);
+            const auto right_vertex =
+                lerp(v1, v_mid, static_cast<float>(line) / number_of_lines);
+            const auto horizontal_line =
+                interpolate_horizontal_line(left_vertex, right_vertex);
+
+            result.insert(end(result), begin(horizontal_line),
+                          end(horizontal_line));
+        }
     }
 
-    // top triangle
+    return result;
+}
+
+void render_vertex_array(const std::vector<vertex>& vertexes, image& img)
+{
+    for (const auto& v : vertexes)
+    {
+        auto x = static_cast<uint16_t>(std::round(v.x));
+        auto y = static_cast<uint16_t>(std::round(v.y));
+
+        img.set_color({ x, y }, v.c);
+    }
 }
