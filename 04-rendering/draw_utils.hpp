@@ -14,4 +14,6 @@ point_array make_solid_triangle(const point_array &points);
 
 point_array make_empty_triangle(const point p1, const point p2, const point p3);
 
+void draw_interpolated_triangle();
+
 

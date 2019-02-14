@@ -9,6 +9,7 @@ add_executable(${PROJECT_NAME}
         point.cpp
         point_array.cpp
         draw_line_tests.cpp
-        mesh.cpp)
+        mesh.cpp
+        color.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)

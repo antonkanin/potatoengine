@@ -5,6 +5,7 @@
 #include "point.hpp"
 #include "point_array.hpp"
 #include <cstdlib>
+#include "math_utils.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -82,7 +83,7 @@ int main(int argc, char* argv[])
     ///////////////////////////////////////////////////////////////////////////
     // 05 draw interpolated triangle with filling
 
-    // TODO ...
+    draw_interpolated_triangle();
 
     //
     ///////////////////////////////////////////////////////////////////////////

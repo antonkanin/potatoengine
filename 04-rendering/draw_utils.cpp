@@ -6,7 +6,9 @@
 #include "draw_utils.hpp"
 #include "point.hpp"
 #include "point_array.hpp"
+#include "vertex.hpp"
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <iostream>
 
@@ -347,4 +349,49 @@ point_array make_empty_triangle(const point p1, const point p2, const point p3)
     triangle.insert(triangle.end(), edge_3.begin(), edge_3.end());
 
     return triangle;
+}
+
+std::vector<vertex> interpolate_horizontal_line(const vertex& left,
+                                                const vertex& right)
+{
+    std::vector<vertex> result;
+
+    auto number_of_pixels = static_cast<uint16_t>(std::round(right.x - left.x));
+
+    for (uint16_t pixel = 0; pixel < number_of_pixels + 1; ++pixel)
+    {
+        auto vertex = lerp(left, right,
+                      static_cast<float>(pixel) / (number_of_pixels + 1));
+
+        result.push_back(vertex);
+    }
+
+    return result;
+}
+
+void draw_interpolated_triangle(const vertex& vertex1, const vertex& vertex2,
+                                const vertex& vertex3)
+{
+    // sort by Y
+    std::array<vertex, 3> v_array = { vertex1, vertex2, vertex3 };
+    std::sort(begin(v_array), end(v_array),
+              [](const vertex& v1, const vertex& v2) { return v1.y < v2.y; });
+
+    auto v1 = v_array[0];
+    auto v2 = v_array[1];
+    auto v3 = v_array[2];
+
+    const auto dxdy = (v3.x - v1.x) / (v3.y - v1.y);
+
+    vertex v_mid = { dxdy * v2.y - dxdy * v1.y + v1.x, v2.y };
+
+    // bottom triangle
+
+    const auto number_of_lines = static_cast<uint8_t>(std::round(v3.y - v1.y));
+
+    for (uint8_t line = 0; line < number_of_lines; ++line)
+    {
+    }
+
+    // top triangle
 }
