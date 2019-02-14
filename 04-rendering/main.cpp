@@ -84,10 +84,14 @@ int main(int argc, char* argv[])
     ///////////////////////////////////////////////////////////////////////////
     // 05 draw interpolated triangle with filling
 
-    vertex v1 = { 3, 1, black };
-    vertex v2 = { 1, 3, black };
-    vertex v3 = { 6, 5, black };
-    auto triangle = draw_interpolated_triangle(v1, v2, v3);
+    img.set_size(50, 50).fill(white);
+
+    //    auto triangle = draw_interpolated_triangle({ 3, 1, black }, { 1, 3,
+    //    black },
+    //                                               { 6, 5, black });
+
+    auto triangle = draw_interpolated_triangle({ 20, 0, blue }, { 0, 20, red },
+                                               { 40, 40, yellow });
 
     render_vertex_array(triangle, img);
 

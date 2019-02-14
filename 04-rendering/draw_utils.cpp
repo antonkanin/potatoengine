@@ -389,24 +389,52 @@ std::vector<vertex> draw_interpolated_triangle(const vertex& vertex1,
 
     std::vector<vertex> result;
 
-    // bottom triangle
+    ///////////////////////////////////////////////////////////////////////////
+    // lower triangle
 
-    const auto number_of_lines = static_cast<uint8_t>(std::round(v3.y - v1.y));
+    const auto bottom_height = static_cast<uint8_t>(std::round(v2.y - v1.y));
 
-    if (v2.x <= v_mid.x)
+    for (uint8_t line = 0; line <= bottom_height; ++line)
     {
-        for (uint8_t line = 0; line < number_of_lines; ++line)
-        {
-            const auto left_vertex =
-                lerp(v1, v2, static_cast<float>(line) / number_of_lines);
-            const auto right_vertex =
-                lerp(v1, v_mid, static_cast<float>(line) / number_of_lines);
-            const auto horizontal_line =
-                interpolate_horizontal_line(left_vertex, right_vertex);
+        auto left_vertex =
+            lerp(v1, v2, static_cast<float>(line) / bottom_height);
+        auto right_vertex =
+            lerp(v1, v_mid, static_cast<float>(line) / bottom_height);
 
-            result.insert(end(result), begin(horizontal_line),
-                          end(horizontal_line));
+        if (v_mid.x < v2.x)
+        {
+            swap(left_vertex, right_vertex);
         }
+
+        const auto horizontal_line =
+            interpolate_horizontal_line(left_vertex, right_vertex);
+
+        result.insert(end(result), begin(horizontal_line),
+                      end(horizontal_line));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // higher triangle
+
+    const auto top_height = static_cast<uint8_t>(std::round(v3.y - v2.y));
+
+    for (uint8_t line = 0; line <= top_height; ++line)
+    {
+        auto left_vertex =
+            lerp(v2, v3, static_cast<float>(line) / top_height);
+        auto right_vertex =
+            lerp(v_mid, v3, static_cast<float>(line) / top_height);
+
+        if (v_mid.x < v2.x)
+        {
+            swap(left_vertex, right_vertex);
+        }
+
+        const auto horizontal_line =
+            interpolate_horizontal_line(left_vertex, right_vertex);
+
+        result.insert(end(result), begin(horizontal_line),
+                      end(horizontal_line));
     }
 
     return result;
