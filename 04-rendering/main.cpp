@@ -7,8 +7,9 @@
 #include "point_array.hpp"
 #include "vertex.hpp"
 #include <cstdlib>
+#include "SDL_Loop.hpp"
 
-int main(int argc, char* argv[])
+void rendering_test()
 {
     image img(800, 600);
 
@@ -102,6 +103,13 @@ int main(int argc, char* argv[])
     // 06 draw textured triangle
 
     // TODO ...
+}
+
+int main(int argc, char* argv[])
+{
+    //rendering_test();
+
+    SDL_loop();
 
     return EXIT_SUCCESS;
 }

@@ -10,6 +10,9 @@ add_executable(${PROJECT_NAME}
         point_array.cpp
         draw_line_tests.cpp
         mesh.cpp
-        color.cpp)
+        color.cpp
+        SDL_Loop.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+target_link_libraries(${PROJECT_NAME} SDL2)
