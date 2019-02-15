@@ -1,6 +1,7 @@
 #include "SDL_Loop.hpp"
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
 // The window we'll be rendering to
 
@@ -39,8 +40,8 @@ bool init()
             success = false;
         }
         else
-        { // Get window surface gScreenSurface =
-            SDL_GetWindowSurface(gWindow);
+        { // Get window surface
+            gScreenSurface = SDL_GetWindowSurface(gWindow);
         }
     }
     return success;
@@ -54,13 +55,15 @@ bool loadMedia()
     gHelloWorld =
         SDL_LoadBMP("02_getting_an_image_on_the_screen/hello_world.bmp");
 
-    if (gHelloWorld == NULL)
+    gHelloWorld = SDL_CreateRGBSurfaceWithFormat(0, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                                 32, SDL_PIXELFORMAT_RGB24);
+
+    if (gHelloWorld == nullptr)
     {
-        printf("Unable to load image %s! SDL Error: % s\n ",
-               "02_getting_an_image_on_the_screen/hello_world.bmp",
-               SDL_GetError());
-        success = false;
+        SDL_Log("SDL_CreateRGBSurfaceWithFormat() failed: %s", SDL_GetError());
+        exit(1);
     }
+
     return success;
 }
 
@@ -94,11 +97,30 @@ void SDL_loop()
         }
         else
         { // Apply the image
-            SDL_Surface s;
-            SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
+            for (int x = 0; x < 50; ++x)
+            {
+                for (int y = 0; y < 50; ++y)
+                {
+
+                    Uint8 r = 125;
+                    Uint8 g = 0;
+                    Uint8 b = 125;
+                    //                    SDL_GetRGB(pixel, gHelloWorld->format,
+                    //                    &r, &g, &b);
+
+                    Uint32 pixel  = SDL_MapRGB(gHelloWorld->format, r, g, b);
+                    auto   pixels = static_cast<Uint32*>(gHelloWorld->pixels);
+                    pixels[y * gHelloWorld->w + x] = pixel;
+
+                    // std::cout << "r: " << r << ", g: " << g << ", b: " << b
+                    // << std::endl;
+                }
+            }
+
+            SDL_BlitSurface(gHelloWorld, nullptr, gScreenSurface, nullptr);
             SDL_UpdateWindowSurface(gWindow);
             // Wait two seconds
-            SDL_Delay(2000);
+            SDL_Delay(5000);
         }
     }
 
