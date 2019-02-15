@@ -5,17 +5,11 @@
 
 struct vertex
 {
-    float x;
-    float y;
-    color c;
+    double x;
+    double y;
+    color  c;
 
-    vertex& operator=(const vertex& v)
-    {
-        x = v.x;
-        y = v.y;
-        c = v.c;
-        return *this;
-    }
+    vertex& operator=(const vertex& v) = default;
 };
 
 typedef std::vector<vertex> vertex_array;

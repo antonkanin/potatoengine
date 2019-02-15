@@ -138,7 +138,7 @@ void rendering_test()
 
 int main(int argc, char* argv[])
 {
-    // rendering_test();
+    rendering_test();
 
     SDL_loop();
 

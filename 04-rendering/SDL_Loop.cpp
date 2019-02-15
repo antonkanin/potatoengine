@@ -6,17 +6,11 @@
 #include "vertex.hpp"
 #include <SDL2/SDL.h>
 
-// The window we'll be rendering to
+SDL_Window* gWindow = nullptr;
 
-SDL_Window* gWindow = NULL;
+SDL_Surface* screen_surface = nullptr;
 
-// The surface contained by the window
-
-SDL_Surface* gScreenSurface = NULL;
-
-// The image we will load and show on the screen
-
-SDL_Surface* screen_surface = NULL;
+SDL_Surface* image_surface = nullptr;
 
 const int SCREEN_WIDTH  = 600;
 const int SCREEN_HEIGHT = 400;
@@ -36,7 +30,7 @@ bool init()
         gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
                                    SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
                                    SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-        if (gWindow == NULL)
+        if (gWindow == nullptr)
         {
             printf("Window could not be created! SDL_Error: %s\n",
                    SDL_GetError());
@@ -44,7 +38,7 @@ bool init()
         }
         else
         { // Get window surface
-            gScreenSurface = SDL_GetWindowSurface(gWindow);
+            screen_surface = SDL_GetWindowSurface(gWindow);
         }
     }
     return success;
@@ -55,10 +49,10 @@ bool loadMedia()
     // Loading success flag
     bool success = true;
     // Load splash image
-    screen_surface = SDL_CreateRGBSurfaceWithFormat(
+    image_surface = SDL_CreateRGBSurfaceWithFormat(
         0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, SDL_PIXELFORMAT_RGBA32);
 
-    if (screen_surface == nullptr)
+    if (image_surface == nullptr)
     {
         SDL_Log("SDL_CreateRGBSurfaceWithFormat() failed: %s", SDL_GetError());
         exit(1);
@@ -70,8 +64,8 @@ bool loadMedia()
 void close()
 {
     // Deallocate surface
-    SDL_FreeSurface(screen_surface);
-    screen_surface = NULL;
+    SDL_FreeSurface(image_surface);
+    image_surface = NULL;
 
     // Destroy window
     SDL_DestroyWindow(gWindow);
@@ -112,18 +106,13 @@ void SDL_loop()
             printf("Failed to load media!\n");
         }
         else
-        { // Apply the image
-            float x_position = 20;
-
-            //            vertex_array triangle = { { 200, 0, blue },
-            //                                      { x_position, 200, red },
-            //                                      { 400, 400, yellow } };
+        {
 
             vertex_array base_triangle = { { -100, 0, blue },
-                                      { 0, -100, red },
-                                      { 100, 100, yellow } };
+                                           { 0, -100, red },
+                                           { 100, 100, yellow } };
 
-            auto triangle = base_triangle;
+            auto triangle      = base_triangle;
             auto triangle_mesh = draw_interpolated_triangle(
                 base_triangle[0], base_triangle[1], base_triangle[2]);
 
@@ -131,10 +120,9 @@ void SDL_loop()
             Uint64 last = 0;
 
             double deltaTime = 0;
+            double interval  = 0;
 
-            double interval = 0;
-
-            double alpha = 0; // 30 degree
+            double alpha = 0;
 
             bool game_running = true;
 
@@ -186,44 +174,47 @@ void SDL_loop()
 
                 if (interval > 200)
                 {
-                    alpha += 3.14 / 20;
+                    alpha += 3.14 / 15;
 
                     // cleaning the background by drawing black triangle
 
                     apply_fragment_shader(
                         triangle_mesh, [](const vertex& v) { return black; });
 
-                    apply_bitmap(screen_surface, triangle_mesh);
+                    apply_bitmap(image_surface, triangle_mesh);
 
                     // initializing new triangle
 
-                    triangle = apply_vertex_shader(base_triangle, [&alpha](vertex& v) {
-                        vertex out = v;
+                    triangle =
+                        apply_vertex_shader(base_triangle, [&alpha](vertex& v) {
+                            vertex out = v;
 
-                        // rotation
-                        out.x = v.x * std::cos(alpha) - v.y * std::sin(alpha);
-                        out.y = v.x * std::sin(alpha) + v.y * std::cos(alpha);
+                            // rotation
+                            out.x =
+                                v.x * std::cos(alpha) - v.y * std::sin(alpha);
+                            out.y =
+                                v.x * std::sin(alpha) + v.y * std::cos(alpha);
 
-                        // translation
-                        out.x += 200;
-                        out.y += 200;
+                            // translation
+                            out.x += 300;
+                            out.y += 200;
 
-                        return out;
-                        // just adding 10 to the RED color, it will loop back to
-                        // 0 once it reaches 255 since it's uint8
-                        // v.c.b = static_cast<uint8_t>(v.c.b + 10);
-                    });
+                            return out;
+                            // just adding 10 to the RED color, it will loop
+                            // back to 0 once it reaches 255 since it's uint8
+                            // v.c.b = static_cast<uint8_t>(v.c.b + 10);
+                        });
 
                     triangle_mesh = draw_interpolated_triangle(
-                            triangle[0], triangle[1], triangle[2]);
+                        triangle[0], triangle[1], triangle[2]);
 
                     interval = 0;
                 }
 
                 // drawing on the screen
-                apply_bitmap(screen_surface, triangle_mesh);
+                apply_bitmap(image_surface, triangle_mesh);
 
-                SDL_BlitSurface(screen_surface, nullptr, gScreenSurface,
+                SDL_BlitSurface(image_surface, nullptr, screen_surface,
                                 nullptr);
                 SDL_UpdateWindowSurface(gWindow);
             }
