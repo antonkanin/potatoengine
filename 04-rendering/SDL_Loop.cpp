@@ -189,6 +189,8 @@ void SDL_loop()
 
                     apply_vertex_shader(triangle, [](vertex& v)
                     {
+                        // just adding 10 to the RED color, it will loop back to 0 once
+                        // it reaches 255 since it's uint8
                         v.c.b = static_cast<uint8_t>(v.c.b + 10);
                     });
 
