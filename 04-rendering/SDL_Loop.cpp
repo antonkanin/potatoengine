@@ -100,8 +100,15 @@ void SDL_loop()
         }
         else
         { // Apply the image
+            float x_position = 20;
             auto triangle = draw_interpolated_triangle(
-                { 200, 0, blue }, { 0, 200, red }, { 400, 400, yellow });
+                    { 200, 0, blue }, { x_position, 200, red }, { 400, 400, yellow });
+
+            Uint64 now       = SDL_GetPerformanceCounter();
+            Uint64 last      = 0;
+            double deltaTime = 0;
+
+            double interval = 0;
 
             bool game_running = true;
             while (game_running)
@@ -138,6 +145,31 @@ void SDL_loop()
                             break;
                         }
                     }
+                }
+
+                // getting deltaTime
+
+                last = now;
+                now  = SDL_GetPerformanceCounter();
+
+                deltaTime = static_cast<double>(now - last) * 1000 /
+                            static_cast<double>(SDL_GetPerformanceFrequency());
+
+                //
+
+                interval += deltaTime;
+
+                //std::cout << interval << '\n';
+
+                if (interval > 500)
+                {
+                    x_position -= 1;
+                    triangle = draw_interpolated_triangle(
+                            { 200, 0, blue }, { x_position, 200, red }, { 400, 400, yellow });
+
+                    std::cout << "drawing triangle at" << x_position << '\n';
+
+                    interval = 0;
                 }
 
                 // drawing on the screen
