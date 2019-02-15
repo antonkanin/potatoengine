@@ -2,21 +2,22 @@
 
 #include "points_mesh.hpp"
 
-typedef void (*vertex_shader_func)(vertex&);
-
-typedef color (*fragment_shader_func)(const vertex&);
-
-inline void apply_vertex_shader(vertex_array&      vertexes,
-                                vertex_shader_func vertex_shader)
+template <typename Func>
+inline vertex_array apply_vertex_shader(const vertex_array& vertexes,
+                                        Func                vertex_shader)
 {
-    for (auto& v : vertexes)
+    vertex_array result = vertexes;
+
+    for (auto& v : result)
     {
-        vertex_shader(v);
+        v = vertex_shader(v);
     }
+
+    return result;
 }
 
-inline void apply_fragment_shader(vertex_array&        vertexes,
-                                  fragment_shader_func fragment_shader)
+template <typename Func>
+inline void apply_fragment_shader(vertex_array& vertexes, Func fragment_shader)
 {
     for (auto& v : vertexes)
     {

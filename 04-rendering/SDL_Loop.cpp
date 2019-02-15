@@ -5,7 +5,6 @@
 #include "shader.hpp"
 #include "vertex.hpp"
 #include <SDL2/SDL.h>
-#include <iostream>
 
 // The window we'll be rendering to
 
@@ -17,7 +16,7 @@ SDL_Surface* gScreenSurface = NULL;
 
 // The image we will load and show on the screen
 
-SDL_Surface* gHelloWorld = NULL;
+SDL_Surface* screen_surface = NULL;
 
 const int SCREEN_WIDTH  = 600;
 const int SCREEN_HEIGHT = 400;
@@ -56,10 +55,10 @@ bool loadMedia()
     // Loading success flag
     bool success = true;
     // Load splash image
-    gHelloWorld = SDL_CreateRGBSurfaceWithFormat(0, SCREEN_WIDTH, SCREEN_HEIGHT,
-                                                 32, SDL_PIXELFORMAT_RGBA32);
+    screen_surface = SDL_CreateRGBSurfaceWithFormat(
+        0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, SDL_PIXELFORMAT_RGBA32);
 
-    if (gHelloWorld == nullptr)
+    if (screen_surface == nullptr)
     {
         SDL_Log("SDL_CreateRGBSurfaceWithFormat() failed: %s", SDL_GetError());
         exit(1);
@@ -71,8 +70,8 @@ bool loadMedia()
 void close()
 {
     // Deallocate surface
-    SDL_FreeSurface(gHelloWorld);
-    gHelloWorld = NULL;
+    SDL_FreeSurface(screen_surface);
+    screen_surface = NULL;
 
     // Destroy window
     SDL_DestroyWindow(gWindow);
@@ -86,12 +85,15 @@ void apply_bitmap(SDL_Surface* surface, const vertex_array& vertexes)
 {
     for (const vertex& v : vertexes)
     {
-        auto x = static_cast<uint16_t>(std::round(v.x));
-        auto y = static_cast<uint16_t>(std::round(v.y));
+        if (v.x >= 0 && v.y >= 0)
+        {
+            auto x = static_cast<uint16_t>(std::round(v.x));
+            auto y = static_cast<uint16_t>(std::round(v.y));
 
-        Uint32 pixel  = SDL_MapRGB(surface->format, v.c.r, v.c.g, v.c.b);
-        auto   pixels = static_cast<Uint32*>(surface->pixels);
-        pixels[y * surface->w + x] = pixel;
+            Uint32 pixel  = SDL_MapRGB(surface->format, v.c.r, v.c.g, v.c.b);
+            auto   pixels = static_cast<Uint32*>(surface->pixels);
+            pixels[y * surface->w + x] = pixel;
+        }
     }
 }
 
@@ -113,12 +115,17 @@ void SDL_loop()
         { // Apply the image
             float x_position = 20;
 
-            vertex_array triangle = { { 200, 0, blue },
-                                      { x_position, 200, red },
-                                      { 400, 400, yellow } };
+            //            vertex_array triangle = { { 200, 0, blue },
+            //                                      { x_position, 200, red },
+            //                                      { 400, 400, yellow } };
 
+            vertex_array base_triangle = { { -100, 0, blue },
+                                      { 0, -100, red },
+                                      { 100, 100, yellow } };
+
+            auto triangle = base_triangle;
             auto triangle_mesh = draw_interpolated_triangle(
-                triangle[0], triangle[1], triangle[2]);
+                base_triangle[0], base_triangle[1], base_triangle[2]);
 
             Uint64 now  = SDL_GetPerformanceCounter();
             Uint64 last = 0;
@@ -127,7 +134,10 @@ void SDL_loop()
 
             double interval = 0;
 
+            double alpha = 0; // 30 degree
+
             bool game_running = true;
+
             while (game_running)
             {
                 SDL_Event event;
@@ -176,34 +186,45 @@ void SDL_loop()
 
                 if (interval > 200)
                 {
-                    x_position += 1;
+                    alpha += 3.14 / 20;
 
                     // cleaning the background by drawing black triangle
 
                     apply_fragment_shader(
                         triangle_mesh, [](const vertex& v) { return black; });
 
-                    apply_bitmap(gHelloWorld, triangle_mesh);
+                    apply_bitmap(screen_surface, triangle_mesh);
 
                     // initializing new triangle
 
-                    apply_vertex_shader(triangle, [](vertex& v)
-                    {
-                        // just adding 10 to the RED color, it will loop back to 0 once
-                        // it reaches 255 since it's uint8
-                        v.c.b = static_cast<uint8_t>(v.c.b + 10);
+                    triangle = apply_vertex_shader(base_triangle, [&alpha](vertex& v) {
+                        vertex out = v;
+
+                        // rotation
+                        out.x = v.x * std::cos(alpha) - v.y * std::sin(alpha);
+                        out.y = v.x * std::sin(alpha) + v.y * std::cos(alpha);
+
+                        // translation
+                        out.x += 200;
+                        out.y += 200;
+
+                        return out;
+                        // just adding 10 to the RED color, it will loop back to
+                        // 0 once it reaches 255 since it's uint8
+                        // v.c.b = static_cast<uint8_t>(v.c.b + 10);
                     });
 
                     triangle_mesh = draw_interpolated_triangle(
-                        triangle[0], triangle[1], triangle[2]);
+                            triangle[0], triangle[1], triangle[2]);
 
                     interval = 0;
                 }
 
                 // drawing on the screen
-                apply_bitmap(gHelloWorld, triangle_mesh);
+                apply_bitmap(screen_surface, triangle_mesh);
 
-                SDL_BlitSurface(gHelloWorld, nullptr, gScreenSurface, nullptr);
+                SDL_BlitSurface(screen_surface, nullptr, gScreenSurface,
+                                nullptr);
                 SDL_UpdateWindowSurface(gWindow);
             }
         }

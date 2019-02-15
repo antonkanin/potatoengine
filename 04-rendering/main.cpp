@@ -116,10 +116,13 @@ void rendering_test()
                                   { 0, 20, red },
                                   { 40, 40, yellow } };
 
-        apply_vertex_shader(vertexes, [](vertex& v)
-        {
-            v.x += 10;
-            v.y += 10;
+        apply_vertex_shader(vertexes, [](vertex& v) {
+            vertex out = v;
+
+            out.x += 10;
+            out.y += 10;
+
+            return out;
         });
 
         auto triangle =
@@ -135,7 +138,7 @@ void rendering_test()
 
 int main(int argc, char* argv[])
 {
-    //rendering_test();
+    // rendering_test();
 
     SDL_loop();
 

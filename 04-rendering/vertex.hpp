@@ -8,6 +8,14 @@ struct vertex
     float x;
     float y;
     color c;
+
+    vertex& operator=(const vertex& v)
+    {
+        x = v.x;
+        y = v.y;
+        c = v.c;
+        return *this;
+    }
 };
 
 typedef std::vector<vertex> vertex_array;
@@ -23,4 +31,3 @@ inline void swap(vertex& vertex1, vertex& vertex2)
     std::swap(vertex1.y, vertex2.y);
     std::swap(vertex1.c, vertex2.c);
 }
-
