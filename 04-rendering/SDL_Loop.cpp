@@ -103,21 +103,59 @@ void SDL_loop()
             auto triangle = draw_interpolated_triangle(
                 { 200, 0, blue }, { 0, 200, red }, { 400, 400, yellow });
 
-            for (const vertex& v : triangle)
+            bool game_running = true;
+            while (game_running)
             {
-                auto x = static_cast<uint16_t>(std::round(v.x));
-                auto y = static_cast<uint16_t>(std::round(v.y));
+                SDL_Event event;
 
-                Uint32 pixel =
-                    SDL_MapRGB(gHelloWorld->format, v.c.r, v.c.g, v.c.b);
-                auto pixels = static_cast<Uint32*>(gHelloWorld->pixels);
-                pixels[y * gHelloWorld->w + x] = pixel;
+                if (SDL_PollEvent(&event))
+                {
+                    /* an event was found */
+                    switch (event.type)
+                    {
+                        /* close button clicked */
+                        case SDL_QUIT:
+                        {
+                            game_running = false;
+                            break;
+                        }
+
+                        /* handle the keyboard */
+                        case SDL_KEYDOWN:
+                        {
+                            switch (event.key.keysym.sym)
+                            {
+                                case SDLK_ESCAPE:
+                                {
+                                    game_running = false;
+                                    break;
+                                }
+                                default:
+                                {
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                // drawing on the screen
+
+                for (const vertex& v : triangle)
+                {
+                    auto x = static_cast<uint16_t>(std::round(v.x));
+                    auto y = static_cast<uint16_t>(std::round(v.y));
+
+                    Uint32 pixel =
+                        SDL_MapRGB(gHelloWorld->format, v.c.r, v.c.g, v.c.b);
+                    auto pixels = static_cast<Uint32*>(gHelloWorld->pixels);
+                    pixels[y * gHelloWorld->w + x] = pixel;
+                }
+
+                SDL_BlitSurface(gHelloWorld, nullptr, gScreenSurface, nullptr);
+                SDL_UpdateWindowSurface(gWindow);
             }
-
-            SDL_BlitSurface(gHelloWorld, nullptr, gScreenSurface, nullptr);
-            SDL_UpdateWindowSurface(gWindow);
-            // Wait two seconds
-            SDL_Delay(5000);
         }
     }
 
