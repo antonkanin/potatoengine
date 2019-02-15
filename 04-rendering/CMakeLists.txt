@@ -9,7 +9,7 @@ add_executable(${PROJECT_NAME}
         point.cpp
         point_array.cpp
         draw_line_tests.cpp
-        mesh.cpp
+        points_mesh.cpp
         color.cpp
         SDL_Loop.cpp)
 

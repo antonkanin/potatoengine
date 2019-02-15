@@ -2,7 +2,7 @@
 
 #include "image.hpp"
 #include "math_utils.hpp"
-#include "mesh.hpp"
+#include "points_mesh.hpp"
 #include "point.hpp"
 #include "point_array.hpp"
 #include "vertex.hpp"
@@ -23,7 +23,7 @@ void rendering_test()
 
     //
     ///////////////////////////////////////////////////////////////////////////
-    // 02 draw a triangle with lines
+    // 02 draw an empty triangle
 
     img.fill(white)
         .draw(make_solid_triangle({ 10, 10 }, { 90, 90 }, { 30, 60 }), black)
@@ -31,7 +31,7 @@ void rendering_test()
 
     //
     ///////////////////////////////////////////////////////////////////////////
-    // 03 draw multiple random triangles
+    // 03 draw multiple empty triangles
 
     img.set_size(800, 600).fill(white);
 
@@ -64,7 +64,7 @@ void rendering_test()
 
     img.fill(white);
 
-    mesh mesh_obj;
+    points_mesh mesh_obj;
     mesh_obj.points  = { { 10, 10 }, { 10, 20 }, { 20, 10 }, { 20, 20 } };
     mesh_obj.indexes = { 1, 2, 3, 2, 3, 4 };
 
@@ -87,10 +87,6 @@ void rendering_test()
 
     img.set_size(50, 50).fill(white);
 
-    //    auto triangle = draw_interpolated_triangle({ 3, 1, black }, { 1, 3,
-    //    black },
-    //                                               { 6, 5, black });
-
     auto triangle = draw_interpolated_triangle({ 20, 0, blue }, { 0, 20, red },
                                                { 40, 40, yellow });
 
@@ -101,6 +97,8 @@ void rendering_test()
     //
     ///////////////////////////////////////////////////////////////////////////
     // 06 draw textured triangle
+
+
 
     // TODO ...
 }
