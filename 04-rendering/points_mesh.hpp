@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
 #include "point_array.hpp"
 #include "vertex.hpp"
+#include <vector>
 
 typedef std::vector<int> index_array;
 
@@ -15,8 +15,5 @@ struct points_mesh
 struct vertex_mesh
 {
     vertex_array vertexes;
-    index_array indexes;
+    index_array  indexes;
 };
-
-
-

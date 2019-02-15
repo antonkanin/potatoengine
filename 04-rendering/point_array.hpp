@@ -1,8 +1,8 @@
 #pragma once
 
+#include "point.hpp"
 #include <ostream>
 #include <vector>
-#include "point.hpp"
 
 typedef std::vector<point> point_array;
 

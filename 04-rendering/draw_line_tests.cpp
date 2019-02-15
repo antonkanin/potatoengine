@@ -53,7 +53,7 @@ void render_test_triangle()
 
     img.fill(green);
 
-    auto triangle = make_solid_triangle({5, 0}, {1, 5}, {8, 8});
+    auto triangle = make_solid_triangle({ 5, 0 }, { 1, 5 }, { 8, 8 });
 
     img.draw(triangle, blue);
 
