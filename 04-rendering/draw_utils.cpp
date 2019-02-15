@@ -370,9 +370,9 @@ std::vector<vertex> interpolate_horizontal_line(const vertex& left,
     return result;
 }
 
-std::vector<vertex> draw_interpolated_triangle(const vertex& vertex1,
-                                               const vertex& vertex2,
-                                               const vertex& vertex3)
+vertex_array draw_interpolated_triangle(const vertex& vertex1,
+                                        const vertex& vertex2,
+                                        const vertex& vertex3)
 {
     // sort by Y
     std::array<vertex, 3> v_array = { vertex1, vertex2, vertex3 };
@@ -420,8 +420,7 @@ std::vector<vertex> draw_interpolated_triangle(const vertex& vertex1,
 
     for (uint8_t line = 0; line <= top_height; ++line)
     {
-        auto left_vertex =
-            lerp(v2, v3, static_cast<float>(line) / top_height);
+        auto left_vertex = lerp(v2, v3, static_cast<float>(line) / top_height);
         auto right_vertex =
             lerp(v_mid, v3, static_cast<float>(line) / top_height);
 

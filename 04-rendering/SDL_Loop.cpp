@@ -2,6 +2,7 @@
 
 #include "color.hpp"
 #include "draw_utils.hpp"
+#include "shader.hpp"
 #include "vertex.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
@@ -55,9 +56,6 @@ bool loadMedia()
     // Loading success flag
     bool success = true;
     // Load splash image
-    gHelloWorld =
-        SDL_LoadBMP("02_getting_an_image_on_the_screen/hello_world.bmp");
-
     gHelloWorld = SDL_CreateRGBSurfaceWithFormat(0, SCREEN_WIDTH, SCREEN_HEIGHT,
                                                  32, SDL_PIXELFORMAT_RGBA32);
 
@@ -84,6 +82,19 @@ void close()
     SDL_Quit();
 }
 
+void apply_bitmap(SDL_Surface* surface, const vertex_array& vertexes)
+{
+    for (const vertex& v : vertexes)
+    {
+        auto x = static_cast<uint16_t>(std::round(v.x));
+        auto y = static_cast<uint16_t>(std::round(v.y));
+
+        Uint32 pixel  = SDL_MapRGB(surface->format, v.c.r, v.c.g, v.c.b);
+        auto   pixels = static_cast<Uint32*>(surface->pixels);
+        pixels[y * surface->w + x] = pixel;
+    }
+}
+
 void SDL_loop()
 {
     // Start up SDL and create window
@@ -101,11 +112,17 @@ void SDL_loop()
         else
         { // Apply the image
             float x_position = 20;
-            auto triangle = draw_interpolated_triangle(
-                    { 200, 0, blue }, { x_position, 200, red }, { 400, 400, yellow });
 
-            Uint64 now       = SDL_GetPerformanceCounter();
-            Uint64 last      = 0;
+            vertex_array triangle = { { 200, 0, blue },
+                                      { x_position, 200, red },
+                                      { 400, 400, yellow } };
+
+            auto triangle_mesh = draw_interpolated_triangle(
+                triangle[0], triangle[1], triangle[2]);
+
+            Uint64 now  = SDL_GetPerformanceCounter();
+            Uint64 last = 0;
+
             double deltaTime = 0;
 
             double interval = 0;
@@ -155,35 +172,34 @@ void SDL_loop()
                 deltaTime = static_cast<double>(now - last) * 1000 /
                             static_cast<double>(SDL_GetPerformanceFrequency());
 
-                //
-
                 interval += deltaTime;
 
-                //std::cout << interval << '\n';
-
-                if (interval > 500)
+                if (interval > 200)
                 {
-                    x_position -= 1;
-                    triangle = draw_interpolated_triangle(
-                            { 200, 0, blue }, { x_position, 200, red }, { 400, 400, yellow });
+                    x_position += 1;
 
-                    std::cout << "drawing triangle at" << x_position << '\n';
+                    // cleaning the background by drawing black triangle
+
+                    apply_fragment_shader(
+                        triangle_mesh, [](const vertex& v) { return black; });
+
+                    apply_bitmap(gHelloWorld, triangle_mesh);
+
+                    // initializing new triangle
+
+                    apply_vertex_shader(triangle, [](vertex& v)
+                    {
+                        v.c.b = static_cast<uint8_t>(v.c.b + 10);
+                    });
+
+                    triangle_mesh = draw_interpolated_triangle(
+                        triangle[0], triangle[1], triangle[2]);
 
                     interval = 0;
                 }
 
                 // drawing on the screen
-
-                for (const vertex& v : triangle)
-                {
-                    auto x = static_cast<uint16_t>(std::round(v.x));
-                    auto y = static_cast<uint16_t>(std::round(v.y));
-
-                    Uint32 pixel =
-                        SDL_MapRGB(gHelloWorld->format, v.c.r, v.c.g, v.c.b);
-                    auto pixels = static_cast<Uint32*>(gHelloWorld->pixels);
-                    pixels[y * gHelloWorld->w + x] = pixel;
-                }
+                apply_bitmap(gHelloWorld, triangle_mesh);
 
                 SDL_BlitSurface(gHelloWorld, nullptr, gScreenSurface, nullptr);
                 SDL_UpdateWindowSurface(gWindow);
