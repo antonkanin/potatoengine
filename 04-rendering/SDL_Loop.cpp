@@ -1,5 +1,8 @@
 #include "SDL_Loop.hpp"
 
+#include "color.hpp"
+#include "draw_utils.hpp"
+#include "vertex.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
 
@@ -97,18 +100,18 @@ void SDL_loop()
         }
         else
         { // Apply the image
-            for (int x = 0; x < 50; ++x)
-            {
-                for (int y = 0; y < 50; ++y)
-                {
+            auto triangle = draw_interpolated_triangle(
+                { 200, 0, blue }, { 0, 200, red }, { 400, 400, yellow });
 
-                    Uint8 r = 255;
-                    Uint8 g = 0;
-                    Uint8 b = 0;
-                    Uint32 pixel  = SDL_MapRGB(gHelloWorld->format, r, g, b);
-                    auto   pixels = static_cast<Uint32*>(gHelloWorld->pixels);
-                    pixels[y * gHelloWorld->w + x] = pixel;
-                }
+            for (const vertex& v : triangle)
+            {
+                auto x = static_cast<uint16_t>(std::round(v.x));
+                auto y = static_cast<uint16_t>(std::round(v.y));
+
+                Uint32 pixel =
+                    SDL_MapRGB(gHelloWorld->format, v.c.r, v.c.g, v.c.b);
+                auto pixels = static_cast<Uint32*>(gHelloWorld->pixels);
+                pixels[y * gHelloWorld->w + x] = pixel;
             }
 
             SDL_BlitSurface(gHelloWorld, nullptr, gScreenSurface, nullptr);
