@@ -56,7 +56,7 @@ bool loadMedia()
         SDL_LoadBMP("02_getting_an_image_on_the_screen/hello_world.bmp");
 
     gHelloWorld = SDL_CreateRGBSurfaceWithFormat(0, SCREEN_WIDTH, SCREEN_HEIGHT,
-                                                 32, SDL_PIXELFORMAT_RGB24);
+                                                 32, SDL_PIXELFORMAT_RGBA32);
 
     if (gHelloWorld == nullptr)
     {
@@ -102,18 +102,12 @@ void SDL_loop()
                 for (int y = 0; y < 50; ++y)
                 {
 
-                    Uint8 r = 125;
+                    Uint8 r = 255;
                     Uint8 g = 0;
-                    Uint8 b = 125;
-                    //                    SDL_GetRGB(pixel, gHelloWorld->format,
-                    //                    &r, &g, &b);
-
+                    Uint8 b = 0;
                     Uint32 pixel  = SDL_MapRGB(gHelloWorld->format, r, g, b);
                     auto   pixels = static_cast<Uint32*>(gHelloWorld->pixels);
                     pixels[y * gHelloWorld->w + x] = pixel;
-
-                    // std::cout << "r: " << r << ", g: " << g << ", b: " << b
-                    // << std::endl;
                 }
             }
 
