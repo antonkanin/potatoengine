@@ -8,8 +8,6 @@ struct vertex
     double x;
     double y;
     color  c;
-
-    vertex& operator=(const vertex& v) = default;
 };
 
 typedef std::vector<vertex> vertex_array;
