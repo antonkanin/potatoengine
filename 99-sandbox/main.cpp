@@ -1,9 +1,16 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include <iostream>
 
-SDL_Window*   sdl_window = nullptr;
-SDL_GLContext gl_context = nullptr;
-bool game_running = true;
+SDL_Window*   sdl_window   = nullptr;
+SDL_GLContext gl_context   = nullptr;
+bool          game_running = true;
+
+template <typename T>
+T load_gl_function(const std::string name)
+{
+    return reinterpret_cast<T>(SDL_GL_GetProcAddress("glCreateShader"));
+}
 
 bool init()
 {
@@ -53,9 +60,17 @@ bool init()
     SDL_assert(gl_context != nullptr);
 
     /////////////////////////////////////////////////////////////////////////////////
-    // Initialize OpenGL APO functions that we are going to use
+    // Initialize OpenGL API functions that we are going to use
 
-    // SDL_GL_GetProcAddress()
+    auto glCreateShader =
+        load_gl_function<PFNGLCREATESHADERPROC>("glCreateShader");
+
+    auto glShaderSource =
+            load_gl_function<PFNGLSHADERSOURCEPROC>("glCreateShader");
+
+    auto glCompileShader =
+            load_gl_function<PFNGLCOMPILESHADERPROC>("glCreateShader");
+
 
     //    "glCreateShader", glCreateShader);
     //    "glShaderSource", glShaderSource);
@@ -74,6 +89,34 @@ bool init()
     //    "glVertexAttribPointer", glVertexAttribPointer);
     //    "glEnableVertexAttribArray", glEnableVertexAttribArray);
     //    "glValidateProgram", glValidateProgram);
+
+    // 01 create shader with glCreateShader
+
+    GLuint vert_shader = glCreateShader(GL_VERTEX_SHADER);
+
+
+
+    // 02 load shader form the text string with glShaderSource
+
+    // 03 glCompileShader
+
+    // 04 glGetShaderiv - check for errors
+
+    //      05 glGetShaderInfoLog - get error detaill
+
+    //      06 glDeleteShader - clean up the shader
+
+    //  *** Repeat the same steps for fragment shader
+
+    // 06 glCreateProgram
+
+    // 07 glAttachShader - to attach shader to the program
+
+    // 08 glBindAttribLocation
+
+    // 09 glLinkProgram
+
+    // 10 glUseProgram
 
     return true;
 }
@@ -115,11 +158,7 @@ void process_events()
     }
 }
 
-void render()
-{
-
-
-}
+void render() {}
 
 int main(int /*argc*/, char** /*argv*/)
 {
