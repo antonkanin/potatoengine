@@ -12,3 +12,5 @@ add_subdirectory(03-01-sdl-loop)
 add_subdirectory(03-02-sdl-loop-to-engine)
 
 add_subdirectory(04-rendering)
+
+add_subdirectory(99-sandbox)
