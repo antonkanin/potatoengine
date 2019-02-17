@@ -1,15 +1,16 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
+#include <vector>
 
 SDL_Window*   sdl_window   = nullptr;
 SDL_GLContext gl_context   = nullptr;
 bool          game_running = true;
 
 template <typename T>
-T load_gl_function(const std::string name)
+T load_gl_function(const std::string_view& function_name)
 {
-    return reinterpret_cast<T>(SDL_GL_GetProcAddress("glCreateShader"));
+    return reinterpret_cast<T>(SDL_GL_GetProcAddress(function_name.data()));
 }
 
 void check_gl_errors()
@@ -119,7 +120,7 @@ bool init()
         load_gl_function<PFNGLCREATESHADERPROC>("glCreateShader");
 
     auto glShaderSource =
-        load_gl_function<PFNGLSHADERSOURCEPROC>("glCreateShader");
+        load_gl_function<PFNGLSHADERSOURCEPROC>("glShaderSource");
 
     auto glCompileShader =
         load_gl_function<PFNGLCOMPILESHADERPROC>("glCompileShader");
@@ -160,9 +161,9 @@ bool init()
 
     // 02 load shader from the source code
 
-    const char* vertex_shader_src = R"(
+    string_view vertex_shader_src = R"(
                                     attribute vec3 a_position;
-                                    varying vec4 v_position;
+                                    //varying vec4 v_position;
                                     void main()
                                     {
                                     v_position = vec4(a_position, 1.0);
@@ -170,7 +171,8 @@ bool init()
                                     }
                                     )";
 
-    glShaderSource(vert_shader_id, 1, &vertex_shader_src, nullptr);
+    const GLchar* source = vertex_shader_src.data();
+    glShaderSource(vert_shader_id, 1, &source, nullptr);
 
     check_gl_errors();
 
@@ -193,12 +195,15 @@ bool init()
     {
         GLint info_len = 0;
 
-        glGetShaderiv(vert_shader_id, GL_COMPILE_STATUS, &info_len);
+        glGetShaderiv(vert_shader_id, GL_INFO_LOG_LENGTH, &info_len);
 
         check_gl_errors();
 
-        GLchar* info_details = nullptr;
-        glGetShaderInfoLog(vert_shader_id, info_len, nullptr, info_details);
+        //vector<char> info_details(static_cast<size_t>(info_len));
+        string info_details(info_len, ' ');
+        //info_details.resize(info_len);
+
+        glGetShaderInfoLog(vert_shader_id, info_len, nullptr, info_details.data());
 
         check_gl_errors();
 
@@ -208,7 +213,8 @@ bool init()
 
         check_gl_errors();
 
-        cerr << "Error compiling vertex shader: " << vertex_shader_src << info_details << '\n';
+        cerr << "Error compiling vertex shader: " << vertex_shader_src
+             << info_details << '\n';
 
         return false;
     }
