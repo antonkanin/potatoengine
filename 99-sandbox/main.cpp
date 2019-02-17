@@ -10,6 +10,38 @@ GLuint gl_program_id = 0;
 
 bool game_running = true;
 
+PFNGLCREATESHADERPROC            glCreateShader            = nullptr;
+PFNGLSHADERSOURCEPROC            glShaderSource            = nullptr;
+PFNGLCOMPILESHADERPROC           glCompileShader           = nullptr;
+PFNGLGETSHADERIVPROC             glGetShaderiv             = nullptr;
+PFNGLGETSHADERINFOLOGPROC        glGetShaderInfoLog        = nullptr;
+PFNGLDELETESHADERPROC            glDeleteShader            = nullptr;
+PFNGLCREATEPROGRAMPROC           glCreateProgram           = nullptr;
+PFNGLATTACHSHADERPROC            glAttachShader            = nullptr;
+PFNGLBINDATTRIBLOCATIONPROC      glBindAttribLocation      = nullptr;
+PFNGLLINKPROGRAMPROC             glLinkProgram             = nullptr;
+PFNGLGETPROGRAMINFOLOGPROC       glGetProgramInfoLog       = nullptr;
+PFNGLDELETEPROGRAMPROC           glDeleteProgram           = nullptr;
+PFNGLUSEPROGRAMPROC              glUseProgram              = nullptr;
+PFNGLVERTEXATTRIBPOINTERPROC     glVertexAttribPointer     = nullptr;
+PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray = nullptr;
+PFNGLVALIDATEPROGRAMPROC         glValidateProgram         = nullptr;
+PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
+
+struct vertex
+{
+    float x = 0.f;
+    float y = 0.f;
+    float z = 0.f;
+};
+
+struct triangle
+{
+    vertex v1;
+    vertex v2;
+    vertex v3;
+};
+
 template <typename T>
 T load_gl_function(const std::string_view& function_name)
 {
@@ -119,65 +151,39 @@ bool init()
     /////////////////////////////////////////////////////////////////////////////////
     // Initialize OpenGL API functions that we are going to use
 
-    auto glCreateShader =
-        load_gl_function<PFNGLCREATESHADERPROC>("glCreateShader");
+    glCreateShader = load_gl_function<PFNGLCREATESHADERPROC>("glCreateShader");
 
-    auto glShaderSource =
-        load_gl_function<PFNGLSHADERSOURCEPROC>("glShaderSource");
+    glShaderSource = load_gl_function<PFNGLSHADERSOURCEPROC>("glShaderSource");
 
-    auto glCompileShader =
+    glCompileShader =
         load_gl_function<PFNGLCOMPILESHADERPROC>("glCompileShader");
 
-    auto glGetShaderiv =
-        load_gl_function<PFNGLGETSHADERIVPROC>("glGetShaderiv");
+    glGetShaderiv = load_gl_function<PFNGLGETSHADERIVPROC>("glGetShaderiv");
 
-    auto glGetShaderInfoLog =
+    glGetShaderInfoLog =
         load_gl_function<PFNGLGETSHADERINFOLOGPROC>("glGetShaderInfoLog");
 
-    auto glDeleteShader =
-        load_gl_function<PFNGLDELETESHADERPROC>("glDeleteShader");
+    glDeleteShader = load_gl_function<PFNGLDELETESHADERPROC>("glDeleteShader");
 
-    auto glCreateProgram =
+    glCreateProgram =
         load_gl_function<PFNGLCREATEPROGRAMPROC>("glCreateProgram");
 
-    auto glAttachShader =
-        load_gl_function<PFNGLATTACHSHADERPROC>("glAttachShader");
+    glAttachShader = load_gl_function<PFNGLATTACHSHADERPROC>("glAttachShader");
 
-    auto glBindAttribLocation =
+    glBindAttribLocation =
         load_gl_function<PFNGLBINDATTRIBLOCATIONPROC>("glBindAttribLocation");
 
-    auto glLinkProgram =
-        load_gl_function<PFNGLLINKPROGRAMPROC>("glLinkProgram");
+    glLinkProgram = load_gl_function<PFNGLLINKPROGRAMPROC>("glLinkProgram");
 
-    auto glGetProgramiv =
-        load_gl_function<PFNGLGETPROGRAMIVPROC>("glGetProgramiv");
-
-    auto glGetProgramInfoLog =
+    glGetProgramInfoLog =
         load_gl_function<PFNGLGETPROGRAMINFOLOGPROC>("glGetProgramInfoLog");
 
-    auto glDeleteProgram =
+    glDeleteProgram =
         load_gl_function<PFNGLDELETEPROGRAMPROC>("glDeleteProgram");
 
-    auto glUseProgram = load_gl_function<PFNGLUSEPROGRAMPROC>("glUseProgram");
+    glUseProgram = load_gl_function<PFNGLUSEPROGRAMPROC>("glUseProgram");
 
-    //    "glCreateShader", glCreateShader);
-    //    "glShaderSource", glShaderSource);
-    //    "glCompileShader", glCompileShader);
-    //    "glGetShaderiv", glGetShaderiv);
-    //    "glGetShaderInfoLog", glGetShaderInfoLog);
-    //    "glDeleteShader", glDeleteShader);
-    //    "glCreateProgram", glCreateProgram);
-    //    "glAttachShader", glAttachShader);
-    //    "glBindAttribLocation", glBindAttribLocation);
-    //    "glLinkProgram", glLinkProgram);
-    //    "glGetProgramiv", glGetProgramiv);
-    //    "glGetProgramInfoLog", glGetProgramInfoLog);
-    //    "glDeleteProgram", glDeleteProgram);
-    //    "glUseProgram", glUseProgram);
-
-    //    "glVertexAttribPointer", glVertexAttribPointer);
-    //    "glEnableVertexAttribArray", glEnableVertexAttribArray);
-    //    "glValidateProgram", glValidateProgram);
+    glGetProgramiv = load_gl_function<PFNGLGETPROGRAMIVPROC>("glGetProgramiv");
 
     // 01 create shader with glCreateShader
 
@@ -394,7 +400,26 @@ void process_events()
     }
 }
 
-void render() {}
+void render(const triangle& triangle)
+{
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                          &triangle.v1);
+
+    check_gl_errors();
+
+    glEnableVertexAttribArray(0);
+
+    check_gl_errors();
+
+    glValidateProgram(gl_program_id);
+
+    check_gl_errors();
+
+    GLint validate_result = 0;
+    glGetProgramiv(gl_program_id, GL_VALIDATE_STATUS, &validate_result);
+
+
+}
 
 int main(int /*argc*/, char** /*argv*/)
 {
@@ -403,11 +428,13 @@ int main(int /*argc*/, char** /*argv*/)
         return EXIT_FAILURE;
     }
 
+    triangle tr = { { 0, 0, 0 }, { 0.5, 0, 0 }, { 0, 0.5, 0 } };
+
     while (game_running)
     {
         process_events();
 
-        render();
+        render(tr);
 
         SDL_GL_SwapWindow(sdl_window);
     }
