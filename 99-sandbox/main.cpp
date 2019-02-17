@@ -3,9 +3,12 @@
 #include <iostream>
 #include <vector>
 
-SDL_Window*   sdl_window   = nullptr;
-SDL_GLContext gl_context   = nullptr;
-bool          game_running = true;
+SDL_Window*   sdl_window = nullptr;
+SDL_GLContext gl_context = nullptr;
+
+GLuint gl_program_id = 0;
+
+bool game_running = true;
 
 template <typename T>
 T load_gl_function(const std::string_view& function_name)
@@ -134,13 +137,35 @@ bool init()
     auto glDeleteShader =
         load_gl_function<PFNGLDELETESHADERPROC>("glDeleteShader");
 
+    auto glCreateProgram =
+        load_gl_function<PFNGLCREATEPROGRAMPROC>("glCreateProgram");
+
+    auto glAttachShader =
+        load_gl_function<PFNGLATTACHSHADERPROC>("glAttachShader");
+
+    auto glBindAttribLocation =
+        load_gl_function<PFNGLBINDATTRIBLOCATIONPROC>("glBindAttribLocation");
+
+    auto glLinkProgram =
+        load_gl_function<PFNGLLINKPROGRAMPROC>("glLinkProgram");
+
+    auto glGetProgramiv =
+        load_gl_function<PFNGLGETPROGRAMIVPROC>("glGetProgramiv");
+
+    auto glGetProgramInfoLog =
+        load_gl_function<PFNGLGETPROGRAMINFOLOGPROC>("glGetProgramInfoLog");
+
+    auto glDeleteProgram =
+        load_gl_function<PFNGLDELETEPROGRAMPROC>("glDeleteProgram");
+
+    auto glUseProgram = load_gl_function<PFNGLUSEPROGRAMPROC>("glUseProgram");
+
     //    "glCreateShader", glCreateShader);
     //    "glShaderSource", glShaderSource);
     //    "glCompileShader", glCompileShader);
     //    "glGetShaderiv", glGetShaderiv);
     //    "glGetShaderInfoLog", glGetShaderInfoLog);
     //    "glDeleteShader", glDeleteShader);
-
     //    "glCreateProgram", glCreateProgram);
     //    "glAttachShader", glAttachShader);
     //    "glBindAttribLocation", glBindAttribLocation);
@@ -149,6 +174,7 @@ bool init()
     //    "glGetProgramInfoLog", glGetProgramInfoLog);
     //    "glDeleteProgram", glDeleteProgram);
     //    "glUseProgram", glUseProgram);
+
     //    "glVertexAttribPointer", glVertexAttribPointer);
     //    "glEnableVertexAttribArray", glEnableVertexAttribArray);
     //    "glValidateProgram", glValidateProgram);
@@ -163,7 +189,7 @@ bool init()
 
     string_view vertex_shader_src = R"(
                                     attribute vec3 a_position;
-                                    //varying vec4 v_position;
+                                    varying vec4 v_position;
                                     void main()
                                     {
                                     v_position = vec4(a_position, 1.0);
@@ -264,13 +290,69 @@ bool init()
         return false;
     }
 
+    // 07 Create program
+    gl_program_id = glCreateProgram();
+
+    check_gl_errors();
+
+    if (gl_program_id == 0)
+    {
+        cerr << "Failed to create gl program" << '\n';
+        return false;
+    }
+
     // 07 glAttachShader - to attach shader to the program
 
-    // 08 glBindAttribLocation
+    glAttachShader(gl_program_id, vert_shader_id);
 
-    // 09 glLinkProgram
+    check_gl_errors();
 
-    // 10 glUseProgram
+    glAttachShader(gl_program_id, fragment_shader_id);
+
+    check_gl_errors();
+
+    // 08 binding attributes
+
+    glBindAttribLocation(gl_program_id, 0, "a_position");
+
+    check_gl_errors();
+
+    // 09 link shaders program
+
+    glLinkProgram(gl_program_id);
+
+    check_gl_errors();
+
+    // 10 check linking status
+
+    GLint linked_status = 0;
+    glGetProgramiv(gl_program_id, GL_LINK_STATUS, &linked_status);
+
+    if (linked_status == GL_FALSE)
+    {
+        GLint info_length = 0;
+        glGetProgramiv(gl_program_id, GL_INFO_LOG_LENGTH, &info_length);
+
+        check_gl_errors();
+
+        string info_log(static_cast<unsigned int>(info_length), ' ');
+        glGetProgramInfoLog(gl_program_id, info_length, nullptr,
+                            info_log.data());
+
+        check_gl_errors();
+
+        cerr << "Error linking the program:" << '\n' << info_log.data();
+
+        glDeleteProgram(gl_program_id);
+
+        check_gl_errors();
+
+        return false;
+    }
+
+    glUseProgram(gl_program_id);
+
+    check_gl_errors();
 
     return true;
 }
