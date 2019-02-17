@@ -191,7 +191,7 @@ bool init()
 
     // 05 look at compilation error details
 
-    if (compiled_status == 0)
+    if (compiled_status == GL_FALSE)
     {
         GLint info_len = 0;
 
@@ -199,11 +199,9 @@ bool init()
 
         check_gl_errors();
 
-        //vector<char> info_details(static_cast<size_t>(info_len));
-        string info_details(info_len, ' ');
-        //info_details.resize(info_len);
-
-        glGetShaderInfoLog(vert_shader_id, info_len, nullptr, info_details.data());
+        string info_details(static_cast<unsigned int>(info_len), ' ');
+        glGetShaderInfoLog(vert_shader_id, info_len, nullptr,
+                           info_details.data());
 
         check_gl_errors();
 
@@ -214,18 +212,57 @@ bool init()
         check_gl_errors();
 
         cerr << "Error compiling vertex shader: " << vertex_shader_src
-             << info_details << '\n';
+             << info_details.data() << '\n';
 
         return false;
     }
 
-    //      05 glGetShaderInfoLog - get error detaill
-
-    //      06 glDeleteShader - clean up the shader
-
     //  *** Repeat the same steps for fragment shader
 
+    GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
+
+    check_gl_errors();
+
+    string_view fragment_shader_source = R"(
+        void main()
+        {})";
+
     // 06 glCreateProgram
+
+    const GLchar* src = fragment_shader_source.data();
+    glShaderSource(fragment_shader_id, 1, &src, nullptr);
+
+    check_gl_errors();
+
+    glCompileShader(fragment_shader_id);
+
+    check_gl_errors();
+
+    GLint compilation_result;
+    glGetShaderiv(fragment_shader_id, GL_COMPILE_STATUS, &compilation_result);
+
+    check_gl_errors();
+
+    if (compilation_result == GL_FALSE)
+    {
+        GLsizei error_length = 0;
+        glGetShaderiv(fragment_shader_id, GL_INFO_LOG_LENGTH, &error_length);
+
+        check_gl_errors();
+
+        string message(static_cast<unsigned int>(error_length), ' ');
+        glGetShaderInfoLog(fragment_shader_id, error_length, nullptr,
+                           message.data());
+
+        check_gl_errors();
+
+        glDeleteShader(fragment_shader_id);
+
+        cerr << "Error compiling fragment shader: " << fragment_shader_source
+             << message.data() << '\n';
+
+        return false;
+    }
 
     // 07 glAttachShader - to attach shader to the program
 
