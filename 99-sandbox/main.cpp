@@ -12,8 +12,61 @@ T load_gl_function(const std::string name)
     return reinterpret_cast<T>(SDL_GL_GetProcAddress("glCreateShader"));
 }
 
+void check_gl_errors()
+{
+    const GLenum error = glGetError();
+
+    if (error != GL_NO_ERROR)
+    {
+        switch (error)
+        {
+            case GL_INVALID_ENUM:
+            {
+                std::cerr << "GL_INVALID_ENUM: An unacceptable value is "
+                             "specified for an enumerated argument"
+                          << '\n';
+                break;
+            }
+
+            case GL_INVALID_VALUE:
+            {
+                std::cerr
+                    << "GL_INVALID_VALUE: A numeric argument is out of range"
+                    << '\n';
+                break;
+            }
+
+            case GL_INVALID_OPERATION:
+            {
+                std::cerr << "GL_INVALID_OPERATION" << '\n';
+                break;
+            }
+
+            case GL_INVALID_FRAMEBUFFER_OPERATION:
+            {
+                std::cerr << "GL_INVALID_FRAMEBUFFER_OPERATION" << '\n';
+                break;
+            }
+
+            case GL_OUT_OF_MEMORY:
+            {
+                std::cerr << "GL_OUT_OF_MEMORY" << '\n';
+                break;
+            }
+
+            default:
+            {
+                std::cerr << "Unknown OpenGL error" << '\n';
+                break;
+            }
+        }
+    }
+}
+
 bool init()
 {
+    using namespace std;
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         std::cout << "error: could not initialize SDL: " << SDL_GetError()
@@ -66,11 +119,19 @@ bool init()
         load_gl_function<PFNGLCREATESHADERPROC>("glCreateShader");
 
     auto glShaderSource =
-            load_gl_function<PFNGLSHADERSOURCEPROC>("glCreateShader");
+        load_gl_function<PFNGLSHADERSOURCEPROC>("glCreateShader");
 
     auto glCompileShader =
-            load_gl_function<PFNGLCOMPILESHADERPROC>("glCreateShader");
+        load_gl_function<PFNGLCOMPILESHADERPROC>("glCompileShader");
 
+    auto glGetShaderiv =
+        load_gl_function<PFNGLGETSHADERIVPROC>("glGetShaderiv");
+
+    auto glGetShaderInfoLog =
+        load_gl_function<PFNGLGETSHADERINFOLOGPROC>("glGetShaderInfoLog");
+
+    auto glDeleteShader =
+        load_gl_function<PFNGLDELETESHADERPROC>("glDeleteShader");
 
     //    "glCreateShader", glCreateShader);
     //    "glShaderSource", glShaderSource);
@@ -78,6 +139,7 @@ bool init()
     //    "glGetShaderiv", glGetShaderiv);
     //    "glGetShaderInfoLog", glGetShaderInfoLog);
     //    "glDeleteShader", glDeleteShader);
+
     //    "glCreateProgram", glCreateProgram);
     //    "glAttachShader", glAttachShader);
     //    "glBindAttribLocation", glBindAttribLocation);
@@ -92,15 +154,64 @@ bool init()
 
     // 01 create shader with glCreateShader
 
-    GLuint vert_shader = glCreateShader(GL_VERTEX_SHADER);
+    GLuint vert_shader_id = glCreateShader(GL_VERTEX_SHADER);
 
+    check_gl_errors();
 
+    // 02 load shader from the source code
 
-    // 02 load shader form the text string with glShaderSource
+    const char* vertex_shader_src = R"(
+                                    attribute vec3 a_position;
+                                    varying vec4 v_position;
+                                    void main()
+                                    {
+                                    v_position = vec4(a_position, 1.0);
+                                    gl_Position = v_position;
+                                    }
+                                    )";
 
-    // 03 glCompileShader
+    glShaderSource(vert_shader_id, 1, &vertex_shader_src, nullptr);
 
-    // 04 glGetShaderiv - check for errors
+    check_gl_errors();
+
+    // 03 compile shader glCompileShader
+
+    glCompileShader(vert_shader_id);
+
+    check_gl_errors();
+
+    // 04 glGetShaderiv - check for compilation errors
+
+    GLint compiled_status = 0;
+    glGetShaderiv(vert_shader_id, GL_COMPILE_STATUS, &compiled_status);
+
+    check_gl_errors();
+
+    // 05 look at compilation error details
+
+    if (compiled_status == 0)
+    {
+        GLint info_len = 0;
+
+        glGetShaderiv(vert_shader_id, GL_COMPILE_STATUS, &info_len);
+
+        check_gl_errors();
+
+        GLchar* info_details = nullptr;
+        glGetShaderInfoLog(vert_shader_id, info_len, nullptr, info_details);
+
+        check_gl_errors();
+
+        // delete shader if it wasn't compiled correctly
+
+        glDeleteShader(vert_shader_id);
+
+        check_gl_errors();
+
+        cerr << "Error compiling vertex shader: " << vertex_shader_src << info_details << '\n';
+
+        return false;
+    }
 
     //      05 glGetShaderInfoLog - get error detaill
 
