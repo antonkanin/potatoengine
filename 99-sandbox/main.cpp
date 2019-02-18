@@ -185,6 +185,18 @@ bool init()
 
     glGetProgramiv = load_gl_function<PFNGLGETPROGRAMIVPROC>("glGetProgramiv");
 
+    glVertexAttribPointer =
+        load_gl_function<PFNGLVERTEXATTRIBPOINTERPROC>("glVertexAttribPointer");
+
+    glEnableVertexAttribArray =
+        load_gl_function<PFNGLENABLEVERTEXATTRIBARRAYPROC>(
+            "glEnableVertexAttribArray");
+
+    glValidateProgram =
+        load_gl_function<PFNGLVALIDATEPROGRAMPROC>("glValidateProgram");
+
+    glGetProgramiv = load_gl_function<PFNGLGETPROGRAMIVPROC>("glGetProgramiv");
+
     // 01 create shader with glCreateShader
 
     GLuint vert_shader_id = glCreateShader(GL_VERTEX_SHADER);
@@ -257,7 +269,9 @@ bool init()
 
     string_view fragment_shader_source = R"(
         void main()
-        {})";
+        {
+            gl_FragColor = vec4(0, 1, 0, 0);
+        })";
 
     // 06 glCreateProgram
 
@@ -360,6 +374,8 @@ bool init()
 
     check_gl_errors();
 
+    glEnable(GL_DEPTH_TEST);
+
     return true;
 }
 
@@ -400,10 +416,11 @@ void process_events()
     }
 }
 
-void render(const triangle& triangle)
+void render(const triangle& t)
 {
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          &triangle.v1);
+    using namespace std;
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), &t.v1);
 
     check_gl_errors();
 
@@ -418,7 +435,25 @@ void render(const triangle& triangle)
     GLint validate_result = 0;
     glGetProgramiv(gl_program_id, GL_VALIDATE_STATUS, &validate_result);
 
+    if (validate_result == GL_FALSE)
+    {
+        GLint info_length = 0;
 
+        glGetProgramiv(gl_program_id, GL_INFO_LOG_LENGTH, &info_length);
+
+        string error_message(static_cast<unsigned int>(info_length), ' ');
+
+        glGetProgramInfoLog(gl_program_id, info_length, nullptr,
+                            error_message.data());
+
+        cerr << "Error linking the program:" << '\n' << error_message.data();
+
+        throw runtime_error("error");
+    }
+
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    check_gl_errors();
 }
 
 int main(int /*argc*/, char** /*argv*/)
@@ -432,11 +467,17 @@ int main(int /*argc*/, char** /*argv*/)
 
     while (game_running)
     {
+        glClear(GL_DEPTH_BUFFER_BIT);
         process_events();
+
+        check_gl_errors();
 
         render(tr);
 
         SDL_GL_SwapWindow(sdl_window);
+
+        glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     return EXIT_SUCCESS;
