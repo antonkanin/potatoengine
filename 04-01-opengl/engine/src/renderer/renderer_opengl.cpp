@@ -24,6 +24,7 @@ PFNGLVERTEXATTRIBPOINTERPROC     glVertexAttribPointer     = nullptr;
 PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray = nullptr;
 PFNGLVALIDATEPROGRAMPROC         glValidateProgram         = nullptr;
 PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
+PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation       = nullptr;
 PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
 PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
 
@@ -59,6 +60,7 @@ void initialize_gl_functions()
     load_gl_func("glVertexAttribPointer", glVertexAttribPointer);
     load_gl_func("glEnableVertexAttribArray", glEnableVertexAttribArray);
     load_gl_func("glValidateProgram", glValidateProgram);
+    load_gl_func("glGetAttribLocation", glGetAttribLocation);
 }
 
 void check_gl_errors()
@@ -116,11 +118,20 @@ void renderer_opengl::draw_triangle(const triangle& tri)
 {
     using namespace std;
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), &tri.v1);
+    GLint position_attr = glGetAttribLocation(gl_program_id, "a_position");
 
     check_gl_errors();
 
-    glEnableVertexAttribArray(0);
+    if (position_attr == -1)
+    {
+        throw runtime_error("error: could not find attribute 'a_position'");
+    }
+
+    glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), &tri);
+
+    check_gl_errors();
+
+    glEnableVertexAttribArray(position_attr);
 
     check_gl_errors();
 

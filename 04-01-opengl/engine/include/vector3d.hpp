@@ -2,9 +2,9 @@
 
 struct vector3d
 {
-    double x;
-    double y;
-    double z;
+    float x;
+    float y;
+    float z;
 };
 
 inline vector3d operator+(const vector3d& lhs, const vector3d& rhs)

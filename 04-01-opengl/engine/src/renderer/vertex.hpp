@@ -5,9 +5,9 @@ namespace pt
 
 struct vertex
 {
-    double x;
-    double y;
-    double z;
+    float x;
+    float y;
+    float z;
 };
 
 } // namespace pt
