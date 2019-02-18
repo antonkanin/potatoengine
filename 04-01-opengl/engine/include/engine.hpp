@@ -27,6 +27,8 @@ public:
 
     input_manager& get_input_manager();
 
+    void set_title(const std::string& title);
+
 protected:
     void update_objects();
 
@@ -36,6 +38,8 @@ protected:
 
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();
+
+    std::string game_title_;
 
 private:
     std::vector<std::unique_ptr<game_object>> objects_;

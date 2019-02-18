@@ -6,6 +6,8 @@ int main(int argc, char* argv[])
 {
     auto engine = pt::make_engine();
 
+    engine->set_title("The Witcher 4: Wild Triangle");
+
     if (!engine->init())
     {
         return EXIT_FAILURE;

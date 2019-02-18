@@ -41,4 +41,9 @@ void engine::render_objects()
     }
 }
 
+void engine::set_title(const std::string& title)
+{
+    game_title_ = title;
+}
+
 } // namespace pt
