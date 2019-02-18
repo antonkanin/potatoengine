@@ -70,7 +70,7 @@ public:
     }
 };
 
-std::unique_ptr<pt::game_object> make_input_printer(pt::engine& engine)
+std::unique_ptr<pt::game_object> make_space_ship(pt::engine& engine)
 {
     std::unique_ptr<pt::game_object> result(new space_ship(engine));
     return result;
