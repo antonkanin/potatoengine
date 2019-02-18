@@ -1,12 +1,11 @@
 #pragma once
 
 #include "renderer.hpp"
-#include <memory>
 
 namespace pt
 {
 
-class renderer_opengl : public renderer
+class renderer_opengl final : public renderer
 {
 public:
     bool initialize(SDL_Window* window) override;
@@ -14,6 +13,9 @@ public:
     void draw_triangle(const triangle& tri) override;
 
     void swap_buffers() override;
+
+private:
+
 };
 
 } // namespace pt

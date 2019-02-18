@@ -21,7 +21,7 @@ private:
 
     void poll_events();
 
-    void clean_up();     // TODO I really need a better name for this method
+    void clean_up(); // TODO I really need a better name for this method
 
     void render_object(const vector3d& position) override;
 
