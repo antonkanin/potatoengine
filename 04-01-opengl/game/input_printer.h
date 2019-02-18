@@ -2,8 +2,9 @@
 
 #include <game_object.hpp>
 #include <iostream>
+#include <key_code.hpp>
 
-class input_printer : public pt::game_object
+class input_printer final : public pt::game_object
 {
 public:
     input_printer(pt::engine& engine)
@@ -12,6 +13,8 @@ public:
     void update() override
     {
         using namespace pt;
+
+        move_object();
 
         print_key_state(key_code::up, "Up");
         print_key_state(key_code::right, "Right");
@@ -38,6 +41,24 @@ public:
             std::cout << key_name << " is released\n";
         }
     }
+
+    void move_object()
+    {
+        using namespace pt;
+
+        const auto& input = get_engine().get_input_manager();
+
+        if (input.get_key_down(key_code::right))
+        {
+            set_position(get_position() + vector3d{0.1f, 0, 0});
+        }
+
+        if (input.get_key_down(key_code::left))
+        {
+            set_position(get_position() - vector3d{0.1f, 0, 0});
+        }
+    }
+
 };
 
 std::unique_ptr<pt::game_object> make_input_printer(pt::engine& engine)
