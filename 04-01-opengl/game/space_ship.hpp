@@ -4,10 +4,10 @@
 #include <iostream>
 #include <key_code.hpp>
 
-class input_printer final : public pt::game_object
+class space_ship final : public pt::game_object
 {
 public:
-    explicit input_printer(pt::engine& engine)
+    explicit space_ship(pt::engine& engine)
         : pt::game_object(engine){};
 
     void update() override
@@ -57,11 +57,21 @@ public:
         {
             set_position(get_position() - vector3d{ 0.1f, 0, 0 });
         }
+
+        if (input.get_key_down(key_code::up))
+        {
+            set_position(get_position() + vector3d{ 0, 0.1f, 0 });
+        }
+
+        if (input.get_key_down(key_code::down))
+        {
+            set_position(get_position() - vector3d{ 0, 0.1f, 0 });
+        }
     }
 };
 
 std::unique_ptr<pt::game_object> make_input_printer(pt::engine& engine)
 {
-    std::unique_ptr<pt::game_object> result(new input_printer(engine));
+    std::unique_ptr<pt::game_object> result(new space_ship(engine));
     return result;
 }

@@ -1,5 +1,5 @@
 #include "engine.hpp"
-#include "input_printer.hpp"
+#include "space_ship.hpp"
 #include <memory>
 
 int main(int argc, char* argv[])
