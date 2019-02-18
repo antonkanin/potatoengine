@@ -1,8 +1,8 @@
-#include "engine.h"
-#include "engine_sdl.h"
-#include "game_object.h"
+#include "engine.hpp"
+#include "engine_sdl.hpp"
+#include "game_object.hpp"
 #include <cstdlib>
-#include <engine.h>
+#include <engine.hpp>
 #include <memory>
 
 namespace pt

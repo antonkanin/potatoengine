@@ -1,4 +1,4 @@
-#include "input_manager.h"
+#include "input_manager.hpp"
 #include <iostream>
 
 namespace pt

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "key_code.h"
+#include "key_code.hpp"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 

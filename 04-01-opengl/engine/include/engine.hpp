@@ -4,9 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "game_object.h"
-#include "input_manager.h"
-#include "key_code.h"
+#include "game_object.hpp"
+#include "input_manager.hpp"
+#include "key_code.hpp"
 
 namespace pt
 {

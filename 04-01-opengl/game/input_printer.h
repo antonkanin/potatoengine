@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game_object.h>
+#include <game_object.hpp>
 #include <iostream>
 
 class input_printer : public pt::game_object

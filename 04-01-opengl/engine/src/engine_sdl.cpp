@@ -1,6 +1,6 @@
-#include "engine_sdl.h"
-#include "engine_utils.h"
-#include <engine_sdl.h>
+#include "engine_sdl.hpp"
+#include "engine_utils.hpp"
+#include "engine_sdl.hpp"
 
 namespace pt
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "key_code.h"
+#include "key_code.hpp"
 #include <map>
 
 namespace pt
