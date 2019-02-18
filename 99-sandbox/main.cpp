@@ -2,6 +2,7 @@
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 SDL_Window*   sdl_window = nullptr;
 SDL_GLContext gl_context = nullptr;
@@ -27,6 +28,8 @@ PFNGLVERTEXATTRIBPOINTERPROC     glVertexAttribPointer     = nullptr;
 PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray = nullptr;
 PFNGLVALIDATEPROGRAMPROC         glValidateProgram         = nullptr;
 PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
+PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
+PFNGLUNIFORM1FPROC               glUniform1f            = nullptr;
 
 struct vertex
 {
@@ -197,6 +200,11 @@ bool init()
 
     glGetProgramiv = load_gl_function<PFNGLGETPROGRAMIVPROC>("glGetProgramiv");
 
+    glGetUniformLocation =
+        load_gl_function<PFNGLGETUNIFORMLOCATIONPROC>("glGetUniformLocation");
+
+    glUniform1f = load_gl_function<PFNGLUNIFORM1FPROC>("glUniform1f");
+
     // 01 create shader with glCreateShader
 
     GLuint vert_shader_id = glCreateShader(GL_VERTEX_SHADER);
@@ -268,9 +276,17 @@ bool init()
     check_gl_errors();
 
     string_view fragment_shader_source = R"(
+        varying vec4 v_position;
+        uniform float u_wave_value;
         void main()
         {
-            gl_FragColor = vec4(1, 0, 1, 0);
+            // float r = abs(v_position.x * 2.0) * u_wave_value;
+            float r = u_wave_value;
+            // float g = v_position.y * 2.0;
+
+            float g = 0.0;
+            float b = 0.0;
+            gl_FragColor = vec4(r, g, b, 0);
         })";
 
     // 06 glCreateProgram
@@ -463,11 +479,28 @@ int main(int /*argc*/, char** /*argv*/)
         return EXIT_FAILURE;
     }
 
-    triangle tr = { { 0, 0, 0 }, { 0.5, 0, 0 }, { 0, 0.5, 0 } };
+    triangle tr = { { -1.0f, -1.0f, 0.0f },
+                    { 1.0f, -1.0f, 0.0f },
+                    { 0.0f, 1.0f, 0.0f } };
 
     while (game_running)
     {
         process_events();
+
+        check_gl_errors();
+
+        int vertexColorLocation =
+            glGetUniformLocation(gl_program_id, "u_wave_value");
+
+        check_gl_errors();
+
+        glUseProgram(gl_program_id);
+
+        check_gl_errors();
+
+        Uint32 ticks = SDL_GetTicks() * 1000;
+
+        glUniform1f(vertexColorLocation, sin(ticks));
 
         check_gl_errors();
 
@@ -476,7 +509,12 @@ int main(int /*argc*/, char** /*argv*/)
         SDL_GL_SwapWindow(sdl_window);
 
         glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
+
+        check_gl_errors();
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        check_gl_errors();
     }
 
     return EXIT_SUCCESS;
