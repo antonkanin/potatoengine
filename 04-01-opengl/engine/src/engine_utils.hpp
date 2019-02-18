@@ -1,10 +1,10 @@
 #pragma once
 
 #include "key_code.hpp"
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_keycode.h>
 #include "renderer/vertex.hpp"
 #include "vector3d.hpp"
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_keycode.h>
 
 pt::key_code get_key(const SDL_Keycode& sdl_keycode)
 {
@@ -59,8 +59,15 @@ pt::key_code get_key(const SDL_Keycode& sdl_keycode)
     }
 }
 
+bool is_keycode_supported(const SDL_Keycode& sdl_keycode)
+{
+    return (sdl_keycode == SDLK_UP || sdl_keycode == SDLK_RIGHT ||
+            sdl_keycode == SDLK_LEFT || sdl_keycode == SDLK_RIGHT ||
+            sdl_keycode == SDLK_q || sdl_keycode == SDLK_w ||
+            sdl_keycode == SDLK_a || sdl_keycode == SDLK_s);
+}
 
 pt::vertex world_to_screen(const vector3d& position)
 {
-    return {position.x, position.y, position.z};
+    return { position.x, position.y, position.z };
 }
