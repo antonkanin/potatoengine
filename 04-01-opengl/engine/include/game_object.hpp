@@ -20,15 +20,17 @@ public:
     virtual void update() = 0;
 
     vector3d get_position() const;
-    void set_position(const vector3d& position);
+    void     set_position(const vector3d& position);
 
 protected:
     engine& get_engine();
 
 private:
-    pt::engine& engine_;
+    friend engine;
 
-    vector3d position_ = {0.0, 0.0, 0.0};
+    engine& engine_;
+
+    vector3d position_ = { 0.0, 0.0, 0.0 };
 };
 
 } // namespace pt

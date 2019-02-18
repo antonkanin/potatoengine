@@ -7,7 +7,8 @@ add_library(${PROJECT_NAME} SHARED
         src/game_object.cpp
         src/input_manager.cpp
         src/engine_sdl.cpp
-        src/renderer/renderer.cpp)
+        src/renderer/renderer.cpp
+        src/renderer/renderer_opengl.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

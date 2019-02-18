@@ -1,6 +1,7 @@
 #include "engine.hpp"
 #include "engine_sdl.hpp"
 #include "game_object.hpp"
+#include "renderer/triangle.hpp"
 #include <cstdlib>
 #include <engine.hpp>
 #include <memory>
@@ -30,6 +31,14 @@ void engine::update_objects()
 input_manager& engine::get_input_manager()
 {
     return *input_manager_;
+}
+
+void engine::render_objects()
+{
+    for (auto& object : objects_)
+    {
+        render_object(object->get_position());
+    }
 }
 
 } // namespace pt

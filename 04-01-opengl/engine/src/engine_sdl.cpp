@@ -1,47 +1,24 @@
 #include "engine_sdl.hpp"
 #include "engine_utils.hpp"
-#include "engine_sdl.hpp"
+#include "renderer/renderer.hpp"
+#include "renderer/triangle.hpp"
 
 namespace pt
 {
 
 bool engine_sdl::run()
 {
-    bool game_running = true;
+    game_running_ = true;
 
-    while (game_running)
+    while (game_running_)
     {
-        // main game loop
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-                case SDL_KEYDOWN:
-                {
-                    process_event(event.key);
-                    break;
-                }
-
-                case SDL_KEYUP:
-                {
-                    process_event(event.key);
-                    break;
-                }
-
-                case SDL_QUIT:
-                {
-                    game_running = false;
-                }
-
-                default:
-                {
-                    break;
-                }
-            }
-        }
+        poll_events();
 
         update_objects();
+
+        render_objects();
+
+        renderer_->swap_buffers();
 
         get_input_manager().reset_states();
     }
@@ -71,6 +48,14 @@ bool engine_sdl::init()
         return false;
     }
 
+    renderer_ = make_renderer();
+
+    if (!renderer_->initialize(window_))
+    {
+        clean_up();
+        return false;
+    };
+
     return true;
 }
 
@@ -87,12 +72,56 @@ void engine_sdl::process_event(const SDL_KeyboardEvent& event)
 
 engine_sdl::~engine_sdl()
 {
+    clean_up();
+}
+
+void engine_sdl::poll_events()
+{
+    // main game loop
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        switch (event.type)
+        {
+            case SDL_KEYDOWN:
+            {
+                process_event(event.key);
+                break;
+            }
+
+            case SDL_KEYUP:
+            {
+                process_event(event.key);
+                break;
+            }
+
+            case SDL_QUIT:
+            {
+                game_running_ = false;
+            }
+
+            default:
+            {
+                break;
+            }
+        }
+    }
+}
+
+void engine_sdl::clean_up()
+{
     if (window_ != nullptr)
     {
         SDL_DestroyWindow(window_);
     }
 
     SDL_Quit();
+}
+
+void engine_sdl::render_object(const vector3d& position)
+{
+    triangle tri = {};
+    renderer_->draw_triangle(tri);
 }
 
 } // namespace pt

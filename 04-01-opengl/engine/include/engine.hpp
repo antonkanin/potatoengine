@@ -4,6 +4,9 @@
 #include <memory>
 #include <vector>
 
+#include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
+// abstraction instead of including a private header
+
 #include "game_object.hpp"
 #include "input_manager.hpp"
 #include "key_code.hpp"
@@ -26,6 +29,10 @@ public:
 
 protected:
     void update_objects();
+
+    void render_objects();
+
+    virtual void render_object(const vector3d& position) = 0;
 
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();
