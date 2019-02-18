@@ -3,6 +3,8 @@
 #include "key_code.hpp"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
+#include "renderer/vertex.hpp"
+#include "vector3d.hpp"
 
 pt::key_code get_key(const SDL_Keycode& sdl_keycode)
 {
@@ -55,4 +57,10 @@ pt::key_code get_key(const SDL_Keycode& sdl_keycode)
             return key_code::unsupported;
         }
     }
+}
+
+
+pt::vertex world_to_screen(const vector3d& position)
+{
+    return {position.x, position.y, position.z};
 }
