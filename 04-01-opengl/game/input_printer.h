@@ -7,7 +7,7 @@
 class input_printer final : public pt::game_object
 {
 public:
-    input_printer(pt::engine& engine)
+    explicit input_printer(pt::engine& engine)
         : pt::game_object(engine){};
 
     void update() override
@@ -50,15 +50,14 @@ public:
 
         if (input.get_key_down(key_code::right))
         {
-            set_position(get_position() + vector3d{0.1f, 0, 0});
+            set_position(get_position() + vector3d{ 0.1f, 0, 0 });
         }
 
         if (input.get_key_down(key_code::left))
         {
-            set_position(get_position() - vector3d{0.1f, 0, 0});
+            set_position(get_position() - vector3d{ 0.1f, 0, 0 });
         }
     }
-
 };
 
 std::unique_ptr<pt::game_object> make_input_printer(pt::engine& engine)

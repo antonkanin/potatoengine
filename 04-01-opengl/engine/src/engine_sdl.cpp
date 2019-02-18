@@ -65,7 +65,7 @@ void engine_sdl::process_event(const SDL_KeyboardEvent& event)
 
     if (code == key_code::unsupported)
     {
-        return;;
+        return;
     }
 
     get_input_manager().key_code_state(code, key_state::pressed) =

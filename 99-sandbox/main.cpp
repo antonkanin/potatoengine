@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <cmath>
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 SDL_Window*   sdl_window = nullptr;
 SDL_GLContext gl_context = nullptr;
@@ -29,7 +29,7 @@ PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray = nullptr;
 PFNGLVALIDATEPROGRAMPROC         glValidateProgram         = nullptr;
 PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
 PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
-PFNGLUNIFORM1FPROC               glUniform1f            = nullptr;
+PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
 
 struct vertex
 {

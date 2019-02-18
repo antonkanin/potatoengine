@@ -127,7 +127,8 @@ void renderer_opengl::draw_triangle(const triangle& tri)
         throw runtime_error("error: could not find attribute 'a_position'");
     }
 
-    glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), &tri);
+    glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                          &tri);
 
     check_gl_errors();
 

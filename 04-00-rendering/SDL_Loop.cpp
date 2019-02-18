@@ -27,9 +27,10 @@ bool init()
     }
     else
     { // Create window
-        gWindow = SDL_CreateWindow("2D Rendering demo (c) arm-ass studio", SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
-                                   SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        gWindow =
+            SDL_CreateWindow("2D Rendering demo (c) arm-ass studio",
+                             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                             SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
         if (gWindow == nullptr)
         {
             printf("Window could not be created! SDL_Error: %s\n",
