@@ -11,6 +11,8 @@ struct triangle;
 class renderer
 {
 public:
+    virtual ~renderer() = default;
+
     virtual bool initialize(SDL_Window* window);
 
     virtual void draw_triangle(const triangle& tri) = 0;

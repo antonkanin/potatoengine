@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.7)
 project(04-01-game-opengl)
 
 add_executable(${PROJECT_NAME}
-        game.cxx
-        input_printer.h)
+        game.cpp
+        input_printer.hpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

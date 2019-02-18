@@ -125,8 +125,8 @@ void engine_sdl::clean_up()
 
 void engine_sdl::render_object(const vector3d& position)
 {
-    triangle tri = { world_to_screen(position + vector3d{ -0.5, -0.5, 0.0 }),
-                     world_to_screen(position + vector3d{ 0.5, -0.5, 0.0 }),
+    triangle tri = { world_to_screen(position + vector3d{ -0.5f, -0.5f, 0.0 }),
+                     world_to_screen(position + vector3d{ 0.5, -0.5f, 0.0 }),
                      world_to_screen(position + vector3d{ 0.0, 0.5, 0.0 }) };
 
     renderer_->draw_triangle(tri);

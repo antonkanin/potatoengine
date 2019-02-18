@@ -16,6 +16,8 @@ public:
     void swap_buffers() override;
 
 private:
+    bool get_opengl_context();
+
     SDL_GLContext gl_context = nullptr;
 
     GLuint gl_program_id = 0;
