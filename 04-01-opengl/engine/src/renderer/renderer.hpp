@@ -17,7 +17,7 @@ public:
 
     virtual void swap_buffers() = 0;
 
-private:
+protected:
     SDL_Window* window_ = nullptr;
 };
 

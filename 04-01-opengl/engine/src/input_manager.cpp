@@ -6,7 +6,6 @@ namespace pt
 
 input_manager::input_manager()
 {
-    std::cout << "input_manager() ctor" << std::endl;
     reset_states();
 }
 

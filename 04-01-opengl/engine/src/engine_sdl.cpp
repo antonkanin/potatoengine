@@ -61,13 +61,13 @@ bool engine_sdl::init()
 
 void engine_sdl::process_event(const SDL_KeyboardEvent& event)
 {
-    auto code = get_key(event.keysym.sym);
-
-    get_input_manager().key_code_state(code, key_state::pressed) =
-        (event.state == SDL_PRESSED);
-
-    get_input_manager().key_code_state(code, key_state::released) =
-        (event.state == SDL_RELEASED);
+//    auto code = get_key(event.keysym.sym);
+//
+//    get_input_manager().key_code_state(code, key_state::pressed) =
+//        (event.state == SDL_PRESSED);
+//
+//    get_input_manager().key_code_state(code, key_state::released) =
+//        (event.state == SDL_RELEASED);
 }
 
 engine_sdl::~engine_sdl()
@@ -121,8 +121,8 @@ void engine_sdl::clean_up()
 void engine_sdl::render_object(const vector3d& position)
 {
     triangle tri = { world_to_screen(position + vector3d{ -0.5, -0.5, 0.0 }),
-                     world_to_screen(position + vector3d{ 0.0, 0.5, 0.0 }),
-                     world_to_screen(position + vector3d{ 0.5, -0.5, 0.0 }) };
+                     world_to_screen(position + vector3d{ 0.5, -0.5, 0.0 }),
+                     world_to_screen(position + vector3d{ 0.0, 0.5, 0.0 }) };
 
     renderer_->draw_triangle(tri);
 }
