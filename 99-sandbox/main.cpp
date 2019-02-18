@@ -270,7 +270,7 @@ bool init()
     string_view fragment_shader_source = R"(
         void main()
         {
-            gl_FragColor = vec4(0, 1, 0, 0);
+            gl_FragColor = vec4(1, 0, 1, 0);
         })";
 
     // 06 glCreateProgram
@@ -467,7 +467,6 @@ int main(int /*argc*/, char** /*argv*/)
 
     while (game_running)
     {
-        glClear(GL_DEPTH_BUFFER_BIT);
         process_events();
 
         check_gl_errors();
