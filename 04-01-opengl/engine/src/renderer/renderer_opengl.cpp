@@ -10,7 +10,6 @@
 namespace pt
 {
 
-
 // TODO how can we move initialize_gl_functions() to a separate header?
 
 void initialize_gl_functions()
@@ -99,6 +98,9 @@ bool renderer_opengl::initialize(SDL_Window* window)
     {
         return false;
     }
+
+    shader vertex_shader("shader01.vert");
+    vertex_shader.compile();
 
     GLuint vert_shader_id = glCreateShader(GL_VERTEX_SHADER);
 
