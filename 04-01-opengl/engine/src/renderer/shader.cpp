@@ -7,51 +7,24 @@
 namespace pt
 {
 
-shader::shader(const std::string& file_name)
+shader::shader(const std::string& file_name, const GLenum shader_type)
 {
-    using namespace std;
+    auto shader_text = load_from_file(file_name);
 
-    //cout << filesystem::current_path() << endl;
-
-    string path = filesystem::current_path().string() + "/" +  file_name;
-    cout << path << endl;
-
-    fstream file(path);
-
-
-    if (!file.is_open())
-    {
-        throw runtime_error("Error: failed to open the shader file " +
-                            file_name);
-    }
+    compile(shader_text, shader_type);
 }
 
-bool shader::compile()
+bool shader::compile(const std::string& shader_text, GLenum shader_type)
 {
     using namespace std;
 
-    shader_id_ = glCreateShader(GL_FRAGMENT_SHADER);
+    shader_id_ = glCreateShader(shader_type);
 
     check_gl_errors();
 
-    string_view fragment_shader_source = R"(
-            varying vec4 v_position;
-            uniform float u_wave_value;
-            void main()
-            {
-                float r = abs(v_position.x * 2.0);
-                //float r = 0.0;
-                float g = v_position.y * 2.0;
+    const GLchar* shader_src = shader_text.c_str();
 
-                //float g = 1.0;
-                float b = 0.0;
-                gl_FragColor = vec4(r, g, b, 0);
-            })";
-
-    // 06 glCreateProgram
-
-    const GLchar* src = fragment_shader_source.data();
-    glShaderSource(shader_id_, 1, &src, nullptr);
+    glShaderSource(shader_id_, 1, &shader_src, nullptr);
 
     check_gl_errors();
 
@@ -78,13 +51,40 @@ bool shader::compile()
 
         glDeleteShader(shader_id_);
 
-        cerr << "Error compiling fragment shader: " << fragment_shader_source
-             << message.data() << '\n';
+        cerr << "Error compiling shader: " << shader_text << message.data()
+             << '\n';
 
         return false;
     }
 
     return true;
+}
+
+std::string shader::load_from_file(const std::string& file_name)
+{
+    using namespace std;
+
+    // TODO might need to rework this... do we need to get abolute path?
+    string path = filesystem::current_path().string() + "/" + file_name;
+
+    fstream file(path);
+
+    if (!file.is_open())
+    {
+        throw runtime_error("Error: failed to open the shader file " +
+                            file_name);
+    }
+
+    string       line;
+    stringstream shader_ss;
+    while (getline(file, line))
+    {
+        shader_ss << line;
+    }
+
+    file.close();
+
+    return shader_ss.str();
 }
 
 } // namespace pt

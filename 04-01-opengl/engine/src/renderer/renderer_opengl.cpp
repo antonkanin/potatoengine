@@ -12,28 +12,6 @@ namespace pt
 
 // TODO how can we move initialize_gl_functions() to a separate header?
 
-void initialize_gl_functions()
-{
-    load_gl_func("glCreateShader", glCreateShader);
-    load_gl_func("glShaderSource", glShaderSource);
-    load_gl_func("glCompileShader", glCompileShader);
-    load_gl_func("glGetShaderiv", glGetShaderiv);
-    load_gl_func("glGetShaderInfoLog", glGetShaderInfoLog);
-    load_gl_func("glDeleteShader", glDeleteShader);
-    load_gl_func("glCreateProgram", glCreateProgram);
-    load_gl_func("glAttachShader", glAttachShader);
-    load_gl_func("glBindAttribLocation", glBindAttribLocation);
-    load_gl_func("glLinkProgram", glLinkProgram);
-    load_gl_func("glGetProgramiv", glGetProgramiv);
-    load_gl_func("glGetProgramInfoLog", glGetProgramInfoLog);
-    load_gl_func("glDeleteProgram", glDeleteProgram);
-    load_gl_func("glUseProgram", glUseProgram);
-    load_gl_func("glVertexAttribPointer", glVertexAttribPointer);
-    load_gl_func("glEnableVertexAttribArray", glEnableVertexAttribArray);
-    load_gl_func("glValidateProgram", glValidateProgram);
-    load_gl_func("glGetAttribLocation", glGetAttribLocation);
-}
-
 void renderer_opengl::draw_triangle(const triangle& tri)
 {
     using namespace std;
@@ -99,8 +77,7 @@ bool renderer_opengl::initialize(SDL_Window* window)
         return false;
     }
 
-    shader vertex_shader("shader01.vert");
-    vertex_shader.compile();
+    shader vertex_shader("shader01.vert", GL_VERTEX_SHADER);
 
     GLuint vert_shader_id = glCreateShader(GL_VERTEX_SHADER);
 

@@ -2,6 +2,27 @@
 
 #include <iostream>
 
+PFNGLCREATESHADERPROC            glCreateShader            = nullptr;
+PFNGLSHADERSOURCEPROC            glShaderSource            = nullptr;
+PFNGLCOMPILESHADERPROC           glCompileShader           = nullptr;
+PFNGLGETSHADERIVPROC             glGetShaderiv             = nullptr;
+PFNGLGETSHADERINFOLOGPROC        glGetShaderInfoLog        = nullptr;
+PFNGLDELETESHADERPROC            glDeleteShader            = nullptr;
+PFNGLCREATEPROGRAMPROC           glCreateProgram           = nullptr;
+PFNGLATTACHSHADERPROC            glAttachShader            = nullptr;
+PFNGLBINDATTRIBLOCATIONPROC      glBindAttribLocation      = nullptr;
+PFNGLLINKPROGRAMPROC             glLinkProgram             = nullptr;
+PFNGLGETPROGRAMINFOLOGPROC       glGetProgramInfoLog       = nullptr;
+PFNGLDELETEPROGRAMPROC           glDeleteProgram           = nullptr;
+PFNGLUSEPROGRAMPROC              glUseProgram              = nullptr;
+PFNGLVERTEXATTRIBPOINTERPROC     glVertexAttribPointer     = nullptr;
+PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray = nullptr;
+PFNGLVALIDATEPROGRAMPROC         glValidateProgram         = nullptr;
+PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
+PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation       = nullptr;
+PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
+PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
+
 void set_opengl_version()
 {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -59,4 +80,26 @@ void check_gl_errors()
             }
         }
     }
+}
+
+void initialize_gl_functions()
+{
+    load_gl_func("glCreateShader", glCreateShader);
+    load_gl_func("glShaderSource", glShaderSource);
+    load_gl_func("glCompileShader", glCompileShader);
+    load_gl_func("glGetShaderiv", glGetShaderiv);
+    load_gl_func("glGetShaderInfoLog", glGetShaderInfoLog);
+    load_gl_func("glDeleteShader", glDeleteShader);
+    load_gl_func("glCreateProgram", glCreateProgram);
+    load_gl_func("glAttachShader", glAttachShader);
+    load_gl_func("glBindAttribLocation", glBindAttribLocation);
+    load_gl_func("glLinkProgram", glLinkProgram);
+    load_gl_func("glGetProgramiv", glGetProgramiv);
+    load_gl_func("glGetProgramInfoLog", glGetProgramInfoLog);
+    load_gl_func("glDeleteProgram", glDeleteProgram);
+    load_gl_func("glUseProgram", glUseProgram);
+    load_gl_func("glVertexAttribPointer", glVertexAttribPointer);
+    load_gl_func("glEnableVertexAttribArray", glEnableVertexAttribArray);
+    load_gl_func("glValidateProgram", glValidateProgram);
+    load_gl_func("glGetAttribLocation", glGetAttribLocation);
 }

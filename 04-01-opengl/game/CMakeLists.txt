@@ -15,5 +15,3 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.vert
         ${CMAKE_CURRENT_BINARY_DIR}/shader01.vert)
-
-# message(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag)

@@ -8,26 +8,26 @@
 // TODO need to ask Sensei what the best way to declare 'locally public'
 // function pointers?
 
-static PFNGLCREATESHADERPROC            glCreateShader            = nullptr;
-static PFNGLSHADERSOURCEPROC            glShaderSource            = nullptr;
-static PFNGLCOMPILESHADERPROC           glCompileShader           = nullptr;
-static PFNGLGETSHADERIVPROC             glGetShaderiv             = nullptr;
-static PFNGLGETSHADERINFOLOGPROC        glGetShaderInfoLog        = nullptr;
-static PFNGLDELETESHADERPROC            glDeleteShader            = nullptr;
-static PFNGLCREATEPROGRAMPROC           glCreateProgram           = nullptr;
-static PFNGLATTACHSHADERPROC            glAttachShader            = nullptr;
-static PFNGLBINDATTRIBLOCATIONPROC      glBindAttribLocation      = nullptr;
-static PFNGLLINKPROGRAMPROC             glLinkProgram             = nullptr;
-static PFNGLGETPROGRAMINFOLOGPROC       glGetProgramInfoLog       = nullptr;
-static PFNGLDELETEPROGRAMPROC           glDeleteProgram           = nullptr;
-static PFNGLUSEPROGRAMPROC              glUseProgram              = nullptr;
-static PFNGLVERTEXATTRIBPOINTERPROC     glVertexAttribPointer     = nullptr;
-static PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray = nullptr;
-static PFNGLVALIDATEPROGRAMPROC         glValidateProgram         = nullptr;
-static PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
-static PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation       = nullptr;
-static PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
-static PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
+extern PFNGLCREATESHADERPROC            glCreateShader;
+extern PFNGLSHADERSOURCEPROC            glShaderSource;
+extern PFNGLCOMPILESHADERPROC           glCompileShader;
+extern PFNGLGETSHADERIVPROC             glGetShaderiv;
+extern PFNGLGETSHADERINFOLOGPROC        glGetShaderInfoLog;
+extern PFNGLDELETESHADERPROC            glDeleteShader;
+extern PFNGLCREATEPROGRAMPROC           glCreateProgram;
+extern PFNGLATTACHSHADERPROC            glAttachShader;
+extern PFNGLBINDATTRIBLOCATIONPROC      glBindAttribLocation;
+extern PFNGLLINKPROGRAMPROC             glLinkProgram;
+extern PFNGLGETPROGRAMINFOLOGPROC       glGetProgramInfoLog;
+extern PFNGLDELETEPROGRAMPROC           glDeleteProgram;
+extern PFNGLUSEPROGRAMPROC              glUseProgram;
+extern PFNGLVERTEXATTRIBPOINTERPROC     glVertexAttribPointer;
+extern PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
+extern PFNGLVALIDATEPROGRAMPROC         glValidateProgram;
+extern PFNGLGETPROGRAMIVPROC            glGetProgramiv;
+extern PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation;
+extern PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation;
+extern PFNGLUNIFORM1FPROC               glUniform1f;
 
 template <typename T>
 static void load_gl_func(const std::string& func_name, T& result)
@@ -39,9 +39,12 @@ static void load_gl_func(const std::string& func_name, T& result)
                                  func_name);
     }
 
-    result = reinterpret_cast<T>(func_pointer);
+    auto t = reinterpret_cast<T>(func_pointer);;
+    result = t;
 }
 
 void check_gl_errors();
 
 void set_opengl_version();
+
+void initialize_gl_functions();
