@@ -42,8 +42,6 @@ static void load_gl_func(const std::string& func_name, T& result)
     result = reinterpret_cast<T>(func_pointer);
 }
 
-void initialize_gl_functions();
-
 void check_gl_errors();
 
 void set_opengl_version();
