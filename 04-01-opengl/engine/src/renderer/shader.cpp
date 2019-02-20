@@ -1,8 +1,8 @@
 #include "shader.hpp"
 #include "SDL2/SDL_opengl.h"
 #include "opengl_utils.hpp"
-#include <filesystem>
 #include <iostream>
+#include <sstream>
 
 namespace pt
 {
@@ -64,10 +64,7 @@ std::string shader::load_from_file(const std::string& file_name)
 {
     using namespace std;
 
-    // TODO might need to rework this... do we need to get abolute path?
-    string path = filesystem::current_path().string() + "/" + file_name;
-
-    fstream file(path);
+    fstream file(file_name);
 
     if (!file.is_open())
     {
