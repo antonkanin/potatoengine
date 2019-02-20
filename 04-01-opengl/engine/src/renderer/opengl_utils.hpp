@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <stdexcept>
-#include <string>
 
 extern PFNGLCREATESHADERPROC            glCreateShader;
 extern PFNGLSHADERSOURCEPROC            glShaderSource;
@@ -30,15 +29,14 @@ template <typename T>
 static void load_gl_func(const std::string& func_name, T& result)
 {
     void* func_pointer = SDL_GL_GetProcAddress(func_name.data());
+
     if (func_pointer == nullptr)
     {
         throw std::runtime_error("Error: could not load OpenGL function: " +
                                  func_name);
     }
 
-    auto t = reinterpret_cast<T>(func_pointer);
-    ;
-    result = t;
+    result = reinterpret_cast<T>(func_pointer);
 }
 
 void check_gl_errors();
