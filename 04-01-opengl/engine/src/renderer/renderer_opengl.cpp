@@ -9,8 +9,6 @@
 namespace pt
 {
 
-// TODO how can we move initialize_gl_functions() to a separate header?
-
 void renderer_opengl::draw_triangle(const triangle& tri)
 {
     using namespace std;

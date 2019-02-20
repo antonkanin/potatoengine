@@ -5,9 +5,6 @@
 #include <stdexcept>
 #include <string>
 
-// TODO need to ask Sensei what the best way to declare 'locally public'
-// function pointers?
-
 extern PFNGLCREATESHADERPROC            glCreateShader;
 extern PFNGLSHADERSOURCEPROC            glShaderSource;
 extern PFNGLCOMPILESHADERPROC           glCompileShader;

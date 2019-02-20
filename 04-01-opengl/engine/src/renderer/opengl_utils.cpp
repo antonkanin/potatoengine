@@ -41,17 +41,13 @@ void check_gl_errors()
         {
             case GL_INVALID_ENUM:
             {
-                std::cerr << "GL_INVALID_ENUM: An unacceptable value is "
-                             "specified for an enumerated argument"
-                          << '\n';
+                std::cerr << "GL_INVALID_ENUM" << '\n';
                 break;
             }
 
             case GL_INVALID_VALUE:
             {
-                std::cerr
-                    << "GL_INVALID_VALUE: A numeric argument is out of range"
-                    << '\n';
+                std::cerr << "GL_INVALID_VALUE" << '\n';
                 break;
             }
 
