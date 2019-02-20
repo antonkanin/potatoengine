@@ -1,8 +1,10 @@
 #include "renderer_opengl.hpp"
 #include "opengl_utils.hpp"
+#include "shader.hpp"
 #include "triangle.hpp"
 #include "vertex.hpp"
 #include <SDL2/SDL_opengl.h>
+#include <glm/glm.hpp>
 #include <iostream>
 
 namespace pt
