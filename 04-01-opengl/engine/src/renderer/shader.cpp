@@ -77,14 +77,20 @@ std::string shader::load_from_file(const std::string& file_name)
 
     string       line;
     stringstream shader_ss;
+
     while (getline(file, line))
     {
-        shader_ss << line;
+        shader_ss << line << '\n';
     }
 
     file.close();
 
     return shader_ss.str();
+}
+
+GLuint shader::get_shader_id() const
+{
+    return shader_id_;
 }
 
 } // namespace pt

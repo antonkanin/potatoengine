@@ -15,3 +15,9 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.vert
         ${CMAKE_CURRENT_BINARY_DIR}/shader01.vert)
+
+add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag
+        ${CMAKE_CURRENT_BINARY_DIR}/shader01.frag)

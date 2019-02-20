@@ -39,7 +39,8 @@ static void load_gl_func(const std::string& func_name, T& result)
                                  func_name);
     }
 
-    auto t = reinterpret_cast<T>(func_pointer);;
+    auto t = reinterpret_cast<T>(func_pointer);
+    ;
     result = t;
 }
 
