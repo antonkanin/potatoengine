@@ -3,6 +3,7 @@
 #include <game_object.hpp>
 #include <iostream>
 #include <key_code.hpp>
+#include <vertex.hpp>
 
 class space_ship final : public pt::game_object
 {
@@ -12,7 +13,15 @@ public:
 
     void start() override
     {
-        // TODO load obj file into the model...
+        std::vector<pt::vertex> triangle = { { -0.5, -0.5, 0.0 },
+                                             { 0.0, 0.5, 0.0 },
+                                             { 0.5, -0.5, 0.0 } };
+
+        pt::model m;
+        m.vertices = triangle.data();
+        m.vert_count = triangle.size();
+
+        set_model(m);
     }
 
     void update() override
@@ -61,14 +70,14 @@ public:
 
         if (input.get_key_down(key_code::left))
         {
-            //set_position(get_position() - vector3d{ 0.1f, 0, 0 });
+            // set_position(get_position() - vector3d{ 0.1f, 0, 0 });
 
             set_rotation(trans.rotation_vector, trans.rotation_angle + 0.3f);
         }
 
         if (input.get_key_down(key_code::up))
         {
-            //set_position(get_position() + vector3d{ 0, 0.1f, 0 });
+            // set_position(get_position() + vector3d{ 0, 0.1f, 0 });
             set_rotation(trans.rotation_vector, trans.rotation_angle - 0.3f);
         }
 
