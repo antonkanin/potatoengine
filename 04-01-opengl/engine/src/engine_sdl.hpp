@@ -23,7 +23,8 @@ private:
 
     void clean_up(); // TODO I really need a better name for this method
 
-    void render_object(const vector3d& position) override;
+    void render_object(const model&          model,
+                       const transformation& transformation) override;
 
     SDL_Window* window_ = nullptr;
 

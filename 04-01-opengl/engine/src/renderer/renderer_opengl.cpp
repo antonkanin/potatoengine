@@ -3,18 +3,23 @@
 #include "shader.hpp"
 #include "triangle.hpp"
 #include "vertex.hpp"
+
 #include <SDL2/SDL_opengl.h>
-#include <glm/mat4x4.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 
 namespace pt
 {
 
-void renderer_opengl::draw_triangle(const triangle& tri)
+void renderer_opengl::draw_triangle(const model&          model,
+                                    const transformation& transformation)
 {
     using namespace std;
 
-    GLint position_attr = glGetAttribLocation(gl_program_id, "a_position");
+    GLint position_attr = glGetAttribLocation(gl_program_id_, "a_position");
     check_gl_errors();
 
     if (position_attr == -1)
@@ -23,32 +28,45 @@ void renderer_opengl::draw_triangle(const triangle& tri)
     }
 
     glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          &tri);
+                          &model.vertices);
     check_gl_errors();
 
     glEnableVertexAttribArray(position_attr);
     check_gl_errors();
 
+    // TODO refactor this into a separate method
     // applying transform matrix
-    glm::mat4 transform = glm::mat4(1.0f);
-    transform = glm::translate(transform, glm::vec3())
+    glm::mat4 trans = glm::mat4(1.0f);
 
-    glValidateProgram(gl_program_id);
+    auto trans_v =
+        glm::vec3(transformation.position.x, transformation.position.y,
+                  transformation.position.z);
+
+    trans = glm::translate(trans, trans_v);
+
+    // TODO add rotation matrix here
+
+    unsigned int transformLoc =
+        glGetUniformLocation(vertex_shader_id_, "transform");
+
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+    glValidateProgram(gl_program_id_);
     check_gl_errors();
 
     GLint validate_result = 0;
-    glGetProgramiv(gl_program_id, GL_VALIDATE_STATUS, &validate_result);
+    glGetProgramiv(gl_program_id_, GL_VALIDATE_STATUS, &validate_result);
 
     if (validate_result == GL_FALSE)
     {
         GLint info_length = 0;
 
-        glGetProgramiv(gl_program_id, GL_INFO_LOG_LENGTH, &info_length);
+        glGetProgramiv(gl_program_id_, GL_INFO_LOG_LENGTH, &info_length);
         check_gl_errors();
 
         string error_message(static_cast<unsigned int>(info_length), ' ');
 
-        glGetProgramInfoLog(gl_program_id, info_length, nullptr,
+        glGetProgramInfoLog(gl_program_id_, info_length, nullptr,
                             error_message.data());
         check_gl_errors();
 
@@ -81,50 +99,52 @@ bool renderer_opengl::initialize(SDL_Window* window)
 
     shader fragment_shader("shader01.frag", GL_FRAGMENT_SHADER);
 
-    gl_program_id = glCreateProgram();
+    gl_program_id_ = glCreateProgram();
     check_gl_errors();
 
-    if (gl_program_id == 0)
+    if (gl_program_id_ == 0)
     {
         cerr << "Failed to create gl program" << '\n';
         return false;
     }
 
-    glAttachShader(gl_program_id, vertex_shader.get_shader_id());
+    glAttachShader(gl_program_id_, vertex_shader.get_shader_id());
     check_gl_errors();
 
-    glAttachShader(gl_program_id, fragment_shader.get_shader_id());
+    glAttachShader(gl_program_id_, fragment_shader.get_shader_id());
     check_gl_errors();
 
-    glBindAttribLocation(gl_program_id, 0, "a_position");
+    vertex_shader_id_ = vertex_shader.get_shader_id();
+
+    glBindAttribLocation(gl_program_id_, 0, "a_position");
     check_gl_errors();
 
-    glLinkProgram(gl_program_id);
+    glLinkProgram(gl_program_id_);
     check_gl_errors();
 
     GLint linked_status = 0;
-    glGetProgramiv(gl_program_id, GL_LINK_STATUS, &linked_status);
+    glGetProgramiv(gl_program_id_, GL_LINK_STATUS, &linked_status);
 
     if (linked_status == GL_FALSE)
     {
         GLint info_length = 0;
-        glGetProgramiv(gl_program_id, GL_INFO_LOG_LENGTH, &info_length);
+        glGetProgramiv(gl_program_id_, GL_INFO_LOG_LENGTH, &info_length);
         check_gl_errors();
 
         string info_log(static_cast<unsigned int>(info_length), ' ');
-        glGetProgramInfoLog(gl_program_id, info_length, nullptr,
+        glGetProgramInfoLog(gl_program_id_, info_length, nullptr,
                             info_log.data());
         check_gl_errors();
 
         cerr << "Error linking the program:" << '\n' << info_log.data();
 
-        glDeleteProgram(gl_program_id);
+        glDeleteProgram(gl_program_id_);
         check_gl_errors();
 
         return false;
     }
 
-    glUseProgram(gl_program_id);
+    glUseProgram(gl_program_id_);
     check_gl_errors();
 
     glEnable(GL_DEPTH_TEST);
@@ -146,16 +166,16 @@ void renderer_opengl::swap_buffers()
 
 bool renderer_opengl::get_opengl_context()
 {
-    gl_context = SDL_GL_CreateContext(window_);
+    gl_context_ = SDL_GL_CreateContext(window_);
 
-    if (gl_context == nullptr)
+    if (gl_context_ == nullptr)
     {
         std::cout << "error: count not create OpenGL context: "
                   << SDL_GetError() << '\n';
         return false;
     }
 
-    SDL_assert(gl_context != nullptr);
+    SDL_assert(gl_context_ != nullptr);
 
     return true;
 }

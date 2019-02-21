@@ -22,6 +22,7 @@ PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
 PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation       = nullptr;
 PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
 PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
+PFNGLUNIFORMMATRIX4FVPROC        glUniformMatrix4fv        = nullptr;
 
 void set_opengl_version()
 {
@@ -98,4 +99,5 @@ void initialize_gl_functions()
     load_gl_func("glEnableVertexAttribArray", glEnableVertexAttribArray);
     load_gl_func("glValidateProgram", glValidateProgram);
     load_gl_func("glGetAttribLocation", glGetAttribLocation);
+    load_gl_func("glUniformMatrix4fv", glUniformMatrix4fv);
 }

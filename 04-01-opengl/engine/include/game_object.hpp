@@ -1,5 +1,7 @@
 #pragma once
 
+#include "model.hpp"
+#include "transformation.hpp"
 #include "vector3d.hpp"
 
 namespace pt
@@ -23,11 +25,17 @@ public:
     /** called every frame */
     virtual void update() = 0;
 
-    vector3d get_position() const;
-    void     set_position(const vector3d& position);
+    void set_transform(const transformation& transform);
 
-    vector3d get_rotation() const;
-    void set_roration(const vector3d& rotation);
+    const transformation& get_transformation() const;
+
+    void set_position(const vector3d& position);
+
+    void set_rotation(const vector3d& rotation_vector, const float angle);
+
+    model        get_model();
+    const model& get_model() const;
+    void         set_model(const model& model);
 
 protected:
     engine& get_engine();
@@ -37,8 +45,9 @@ private:
 
     engine& engine_;
 
-    vector3d position_ = { 0.0, 0.0, 0.0 };
-    vector3d rotation_ = { 0.0, 0.0, 0.0 };
+    model model_;
+
+    transformation transformation_ = { zero_vector, zero_vector, 0.0f, zero_vector };
 };
 
 } // namespace pt

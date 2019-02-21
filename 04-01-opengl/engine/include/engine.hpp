@@ -10,6 +10,7 @@
 #include "game_object.hpp"
 #include "input_manager.hpp"
 #include "key_code.hpp"
+#include "transformation.hpp"
 
 namespace pt
 {
@@ -36,7 +37,8 @@ protected:
 
     void render_objects();
 
-    virtual void render_object(const vector3d& position) = 0;
+    virtual void render_object(const model&          model,
+                               const transformation& transformation) = 0;
 
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();

@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL.h> // TODO do we need full SDL2.h here?
 #include <memory>
+#include <model.hpp>
+#include <transformation.hpp>
 
 namespace pt
 {
@@ -15,7 +17,8 @@ public:
 
     virtual bool initialize(SDL_Window* window);
 
-    virtual void draw_triangle(const triangle& tri) = 0;
+    virtual void draw_triangle(const model&          model,
+                               const transformation& transformation) = 0;
 
     virtual void swap_buffers() = 0;
 

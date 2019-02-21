@@ -24,9 +24,10 @@ extern PFNGLGETPROGRAMIVPROC            glGetProgramiv;
 extern PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation;
 extern PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation;
 extern PFNGLUNIFORM1FPROC               glUniform1f;
+extern PFNGLUNIFORMMATRIX4FVPROC        glUniformMatrix4fv;
 
-template <typename T>
-static void load_gl_func(const std::string& func_name, T& result)
+    template <typename T>
+    static void load_gl_func(const std::string& func_name, T& result)
 {
     void* func_pointer = SDL_GL_GetProcAddress(func_name.data());
 

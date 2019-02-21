@@ -1,6 +1,3 @@
-
-#include <game_object.hpp>
-
 #include "game_object.hpp"
 
 namespace pt
@@ -11,24 +8,40 @@ engine& game_object::get_engine()
     return engine_;
 }
 
-vector3d game_object::get_position() const
-{
-    return position_;
-}
-
 void game_object::set_position(const vector3d& position)
 {
-    position_ = position;
+    transformation_.position = position;
 }
 
-vector3d game_object::get_rotation() const
+const model& game_object::get_model() const
 {
-    return rotation_;
+    return model_;
 }
 
-void game_object::set_roration(const vector3d& rotation)
+void game_object::set_model(const model& model)
 {
-    rotation_ = rotation;
+    model_ = model;
+}
+
+model game_object::get_model()
+{
+    return model_;
+}
+
+const transformation& game_object::get_transformation() const
+{
+    return transformation_;
+}
+
+void game_object::set_transform(const transformation& transform)
+{
+    transformation_ = transform;
+}
+
+void game_object::set_rotation(const vector3d& rotation_vector, const float angle)
+{
+    transformation_.rotation_vector = rotation_vector;
+    transformation_.rotation_angle = angle;
 }
 
 } // namespace pt
