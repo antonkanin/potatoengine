@@ -9,7 +9,7 @@ namespace pt
 class shader
 {
 public:
-    explicit shader(const std::string& file_name, GLenum shader_type);
+    shader(const std::string& file_name, GLenum shader_type);
 
     GLuint get_shader_id() const;
 
