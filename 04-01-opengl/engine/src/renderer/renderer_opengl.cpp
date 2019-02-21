@@ -4,6 +4,7 @@
 #include "triangle.hpp"
 #include "vertex.hpp"
 #include <SDL2/SDL_opengl.h>
+#include <glm/mat4x4.hpp>
 #include <iostream>
 
 namespace pt
@@ -27,6 +28,10 @@ void renderer_opengl::draw_triangle(const triangle& tri)
 
     glEnableVertexAttribArray(position_attr);
     check_gl_errors();
+
+    // applying transform matrix
+    glm::mat4 transform = glm::mat4(1.0f);
+    transform = glm::translate(transform, glm::vec3())
 
     glValidateProgram(gl_program_id);
     check_gl_errors();

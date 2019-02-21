@@ -18,13 +18,16 @@ public:
     virtual ~game_object() = default;
 
     /** called once for each game object before the main loop */
-    virtual void start() {};
+    virtual void start(){};
 
-    /** called once every frame */
+    /** called every frame */
     virtual void update() = 0;
 
     vector3d get_position() const;
     void     set_position(const vector3d& position);
+
+    vector3d get_rotation() const;
+    void set_roration(const vector3d& rotation);
 
 protected:
     engine& get_engine();
@@ -35,6 +38,7 @@ private:
     engine& engine_;
 
     vector3d position_ = { 0.0, 0.0, 0.0 };
+    vector3d rotation_ = { 0.0, 0.0, 0.0 };
 };
 
-}
+} // namespace pt

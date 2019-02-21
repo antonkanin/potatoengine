@@ -60,12 +60,14 @@ public:
 
         if (input.get_key_down(key_code::left))
         {
-            set_position(get_position() - vector3d{ 0.1f, 0, 0 });
+            //set_position(get_position() - vector3d{ 0.1f, 0, 0 });
+            set_roration(get_rotation() - vector3d{ 0, 0.1f, 0 });
         }
 
         if (input.get_key_down(key_code::up))
         {
-            set_position(get_position() + vector3d{ 0, 0.1f, 0 });
+            //set_position(get_position() + vector3d{ 0, 0.1f, 0 });
+            set_roration(get_rotation() + vector3d{ 0, 0.1f, 0 });
         }
 
         if (input.get_key_down(key_code::down))
