@@ -1,7 +1,7 @@
 #pragma once
 
 #include "key_code.hpp"
-#include "renderer/vertex.hpp"
+#include "vertex.hpp"
 #include "vector3d.hpp"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>

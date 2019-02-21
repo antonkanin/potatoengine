@@ -46,4 +46,12 @@ void engine::set_title(const std::string& title)
     game_title_ = title;
 }
 
+void engine::start_objects()
+{
+    for (auto& object : objects_)
+    {
+        object->start();
+    }
+}
+
 } // namespace pt

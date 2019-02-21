@@ -10,6 +10,11 @@ public:
     explicit space_ship(pt::engine& engine)
         : pt::game_object(engine){};
 
+    void start() override
+    {
+        // TODO load obj file into the model...
+    }
+
     void update() override
     {
         using namespace pt;

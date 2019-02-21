@@ -10,13 +10,17 @@ class engine;
 class game_object
 {
 public:
-    game_object(engine& engine)
+    explicit game_object(engine& engine)
         : engine_(engine)
     {
     }
 
     virtual ~game_object() = default;
 
+    /** called once for each game object before the main loop */
+    virtual void start() {};
+
+    /** called once every frame */
     virtual void update() = 0;
 
     vector3d get_position() const;
@@ -33,4 +37,4 @@ private:
     vector3d position_ = { 0.0, 0.0, 0.0 };
 };
 
-} // namespace pt
+}

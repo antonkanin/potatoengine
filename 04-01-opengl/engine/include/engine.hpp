@@ -30,6 +30,8 @@ public:
     void set_title(const std::string& title);
 
 protected:
+    void start_objects();
+
     void update_objects();
 
     void render_objects();
