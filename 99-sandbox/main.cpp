@@ -9,6 +9,10 @@ SDL_GLContext gl_context = nullptr;
 
 GLuint gl_program_id = 0;
 
+GLuint vertex_buffer;
+GLuint index_buffer;
+GLuint VAO;
+
 bool game_running = true;
 
 PFNGLCREATESHADERPROC            glCreateShader            = nullptr;
@@ -30,6 +34,11 @@ PFNGLVALIDATEPROGRAMPROC         glValidateProgram         = nullptr;
 PFNGLGETPROGRAMIVPROC            glGetProgramiv            = nullptr;
 PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
 PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
+PFNGLGENBUFFERSPROC              glGenBuffers              = nullptr;
+PFNGLBINDBUFFERPROC              glBindBuffer              = nullptr;
+PFNGLBUFFERDATAPROC              glBufferData              = nullptr;
+PFNGLGENVERTEXARRAYSPROC         glGenVertexArrays         = nullptr;
+PFNGLBINDVERTEXARRAYPROC         glBindVertexArray         = nullptr;
 
 struct vertex
 {
@@ -205,6 +214,18 @@ bool init()
 
     glUniform1f = load_gl_function<PFNGLUNIFORM1FPROC>("glUniform1f");
 
+    glGenBuffers = load_gl_function<PFNGLGENBUFFERSPROC>("glGenBuffers");
+
+    glBindBuffer = load_gl_function<PFNGLBINDBUFFERPROC>("glBindBuffer");
+
+    glBufferData = load_gl_function<PFNGLBUFFERDATAPROC>("glBufferData");
+
+    glBindVertexArray =
+        load_gl_function<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray");
+
+    glGenVertexArrays =
+        load_gl_function<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArray");
+
     // 01 create shader with glCreateShader
 
     GLuint vert_shader_id = glCreateShader(GL_VERTEX_SHADER);
@@ -281,12 +302,12 @@ bool init()
         void main()
         {
             // float r = abs(v_position.x * 2.0) * u_wave_value;
-            float r = u_wave_value;
+            //float r = u_wave_value;
             // float g = v_position.y * 2.0;
 
-            float g = 0.0;
-            float b = 0.0;
-            gl_FragColor = vec4(r, g, b, 0);
+            //float g = 0.0;
+            //float b = 0.0;
+            gl_FragColor = vec4(1.0, 0.0, 0.0, 0);
         })";
 
     // 06 glCreateProgram
@@ -349,9 +370,8 @@ bool init()
 
     // 08 binding attributes
 
-    glBindAttribLocation(gl_program_id, 0, "a_position");
-
-    check_gl_errors();
+    // glBindAttribLocation(gl_program_id, 0, "a_position");
+    // check_gl_errors();
 
     // 09 link shaders program
 
@@ -388,9 +408,80 @@ bool init()
 
     glUseProgram(gl_program_id);
 
+    // loading vertexes
+
+    const int verts_count = 4;
+
+    vertex verts[verts_count] = { { -0.5f, -0.5f, 0.0f },
+                                  { -0.5f, +0.5f, 0.0f },
+                                  { +0.5f, +0.5f, 0.0f },
+                                  { +0.5f, -0.5f, 0.0f } };
+
+    GLuint indices[6] = { 0, 1, 2, 0, 3, 2 };
+
+    glGenVertexArrays(1, &VAO);
+    check_gl_errors();
+
+    glBindVertexArray(VAO);
+    check_gl_errors();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // vertex buffer
+
+    glGenBuffers(1, &vertex_buffer);
+    check_gl_errors();
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    check_gl_errors();
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), &verts, GL_STATIC_DRAW);
+    check_gl_errors();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // mapping out the attribute
+
+    glEnableVertexAttribArray(0);
+    check_gl_errors();
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    check_gl_errors();
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    check_gl_errors();
+
+    //////////////////////////////////////////////////////////////////////////
+    // index buffer
+
+    glGenBuffers(1, &index_buffer);
+    check_gl_errors();
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+    check_gl_errors();
+
+    cout << sizeof(indices) << endl;
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices,
+                 GL_STATIC_DRAW);
+    check_gl_errors();
+
+    //    glEnableVertexAttribArray(0);
+    //    check_gl_errors();
+    //
+    //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    //    check_gl_errors();
+    //
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    check_gl_errors();
+
+    //////////////////////////////////////////////////////////////////////////
+    // disabling VAI
+
+    glBindVertexArray(0);
     check_gl_errors();
 
     glEnable(GL_DEPTH_TEST);
+    check_gl_errors();
 
     return true;
 }
@@ -432,42 +523,27 @@ void process_events()
     }
 }
 
-void render(const triangle& t)
+void render()
 {
     using namespace std;
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), &t.v1);
+    //    glUseProgram(gl_program_id);
+    //    check_gl_errors();
+    //
+    //    glBindVertexArray(VAO); // OR glBindBuffer
+    //    check_gl_errors();
 
+    //    glEnableVertexAttribArray(0);
+    //    check_gl_errors();
+    //
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+    //
+    //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    //    check_gl_errors();
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    /// glDrawArrays(GL_TRIANGLES, 0, 3);
     check_gl_errors();
-
-    glEnableVertexAttribArray(0);
-
-    check_gl_errors();
-
-    glValidateProgram(gl_program_id);
-
-    check_gl_errors();
-
-    GLint validate_result = 0;
-    glGetProgramiv(gl_program_id, GL_VALIDATE_STATUS, &validate_result);
-
-    if (validate_result == GL_FALSE)
-    {
-        GLint info_length = 0;
-
-        glGetProgramiv(gl_program_id, GL_INFO_LOG_LENGTH, &info_length);
-
-        string error_message(static_cast<unsigned int>(info_length), ' ');
-
-        glGetProgramInfoLog(gl_program_id, info_length, nullptr,
-                            error_message.data());
-
-        cerr << "Error linking the program:" << '\n' << error_message.data();
-
-        throw runtime_error("error");
-    }
-
-    glDrawArrays(GL_TRIANGLES, 0, 3);
 
     check_gl_errors();
 }
@@ -479,32 +555,13 @@ int main(int /*argc*/, char** /*argv*/)
         return EXIT_FAILURE;
     }
 
-    triangle tr = { { -1.0f, -1.0f, 0.0f },
-                    { 1.0f, -1.0f, 0.0f },
-                    { 0.0f, 1.0f, 0.0f } };
-
     while (game_running)
     {
         process_events();
 
         check_gl_errors();
 
-        int vertexColorLocation =
-            glGetUniformLocation(gl_program_id, "u_wave_value");
-
-        check_gl_errors();
-
-        glUseProgram(gl_program_id);
-
-        check_gl_errors();
-
-        Uint32 ticks = SDL_GetTicks() * 1000;
-
-        glUniform1f(vertexColorLocation, sin(ticks));
-
-        check_gl_errors();
-
-        render(tr);
+        render();
 
         SDL_GL_SwapWindow(sdl_window);
 
