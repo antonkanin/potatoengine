@@ -84,4 +84,4 @@ model read_obj(const std::string& file_name)
     return result;
 }
 
-}
+} // namespace pt

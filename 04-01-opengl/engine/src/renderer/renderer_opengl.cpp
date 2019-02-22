@@ -55,12 +55,13 @@ void renderer_opengl::draw_triangle(const model&          model,
     glm::mat4 project_m =
         glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 5.0f);
 
-    glm::mat4 full_transfom_m = project_m *  translate_m * rotate_m;
+    glm::mat4 full_transfom_m = project_m * translate_m * rotate_m;
 
     GLint transformLoc = glGetUniformLocation(gl_program_id_, "transform");
     check_gl_errors();
 
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(full_transfom_m));
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+                       glm::value_ptr(full_transfom_m));
     check_gl_errors();
 
     glValidateProgram(gl_program_id_);
