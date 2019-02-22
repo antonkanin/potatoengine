@@ -36,7 +36,7 @@ void renderer_opengl::update_transform_matrix(
                               transformation.rotation_vector.z));
 
     glm::mat4 project_m =
-        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 5.0f);
+        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);
 
     glm::mat4 full_transfom_m = project_m * translate_m * rotate_m;
 

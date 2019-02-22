@@ -64,9 +64,14 @@ model read_obj(const std::string& file_name)
 
             ss >> garbage >> f1 >> f2 >> f3;
 
-            result.indices.push_back(get_vertex_id(f1));
-            result.indices.push_back(get_vertex_id(f2));
-            result.indices.push_back(get_vertex_id(f3));
+            result.indices.push_back(
+                static_cast<unsigned int&&>(get_vertex_id(f1) - 1));
+
+            result.indices.push_back(
+                static_cast<unsigned int&&>(get_vertex_id(f2) - 1));
+
+            result.indices.push_back(
+                static_cast<unsigned int&&>(get_vertex_id(f3) - 1));
         }
     }
 
