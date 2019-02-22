@@ -20,27 +20,10 @@ std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
     return out;
 }
 
-void renderer_opengl::draw_triangle(const model&          model,
-                                    const transformation& transformation)
+void renderer_opengl::update_transform_matrix(
+    const model& model, const transformation& transformation)
 {
-    using namespace std;
-
-    GLint position_attr = glGetAttribLocation(gl_program_id_, "a_position");
-    check_gl_errors();
-
-    if (position_attr == -1)
-    {
-        throw runtime_error("error: could not find attribute 'a_position'");
-    }
-
-    glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          model.vertices);
-    check_gl_errors();
-
-    glEnableVertexAttribArray(position_attr);
-    check_gl_errors();
-
-    auto trans_v =
+    glm::vec3 trans_v =
         glm::vec3(transformation.position.x, transformation.position.y,
                   transformation.position.z);
 
@@ -57,40 +40,33 @@ void renderer_opengl::draw_triangle(const model&          model,
 
     glm::mat4 full_transfom_m = project_m * translate_m * rotate_m;
 
-    GLint transformLoc = glGetUniformLocation(gl_program_id_, "transform");
+    GLint transformLoc =
+        glGetUniformLocation(gl_program_id_, "u_transform_matrix");
     check_gl_errors();
+
+    if (transformLoc == -1)
+    {
+        throw std::runtime_error(
+            "error: could not find attribute 'u_transform_matrix'");
+    }
 
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
                        glm::value_ptr(full_transfom_m));
     check_gl_errors();
+}
 
-    glValidateProgram(gl_program_id_);
-    check_gl_errors();
+void renderer_opengl::draw_triangle(const model&          model,
+                                    const transformation& transformation)
+{
+    using namespace std;
 
-    GLint validate_result = 0;
-    glGetProgramiv(gl_program_id_, GL_VALIDATE_STATUS, &validate_result);
-    check_gl_errors();
+    update_position(model);
 
-    if (validate_result == GL_FALSE)
-    {
-        GLint info_length = 0;
+    update_transform_matrix(model, transformation);
 
-        glGetProgramiv(gl_program_id_, GL_INFO_LOG_LENGTH, &info_length);
-        check_gl_errors();
-
-        string error_message(static_cast<unsigned int>(info_length), ' ');
-
-        glGetProgramInfoLog(gl_program_id_, info_length, nullptr,
-                            error_message.data());
-        check_gl_errors();
-
-        cerr << "Error linking the program:" << '\n' << error_message.data();
-
-        throw runtime_error("error");
-    }
+    validate_program();
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
-
     check_gl_errors();
 }
 
@@ -192,6 +168,52 @@ bool renderer_opengl::get_opengl_context()
     SDL_assert(gl_context_ != nullptr);
 
     return true;
+}
+
+void renderer_opengl::update_position(const model& model)
+{
+    GLint position_attr = glGetAttribLocation(gl_program_id_, "a_position");
+    check_gl_errors();
+
+    if (position_attr == -1)
+    {
+        throw std::runtime_error(
+            "error: could not find attribute 'a_position'");
+    }
+
+    glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                          model.vertices);
+    check_gl_errors();
+
+    glEnableVertexAttribArray(position_attr);
+    check_gl_errors();
+}
+
+void renderer_opengl::validate_program()
+{
+
+    glValidateProgram(gl_program_id_);
+    check_gl_errors();
+
+    GLint validate_result = 0;
+    glGetProgramiv(gl_program_id_, GL_VALIDATE_STATUS, &validate_result);
+    check_gl_errors();
+
+    if (validate_result == GL_FALSE)
+    {
+        GLint info_length = 0;
+
+        glGetProgramiv(gl_program_id_, GL_INFO_LOG_LENGTH, &info_length);
+        check_gl_errors();
+
+        std::string error_message(static_cast<unsigned int>(info_length), ' ');
+
+        glGetProgramInfoLog(gl_program_id_, info_length, nullptr,
+                            error_message.data());
+        check_gl_errors();
+
+        throw std::runtime_error("Error linking the program:" + error_message);
+    }
 }
 
 } // namespace pt

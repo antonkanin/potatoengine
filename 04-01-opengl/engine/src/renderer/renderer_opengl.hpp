@@ -21,6 +21,13 @@ public:
 private:
     bool get_opengl_context();
 
+    void update_position(const model& model);
+
+    void update_transform_matrix(const model&          model,
+                                 const transformation& transformation);
+
+    void validate_program();
+
     SDL_GLContext gl_context_ = nullptr;
 
     GLuint gl_program_id_ = 0;
