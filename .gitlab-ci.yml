@@ -2,7 +2,7 @@ image: fedora
 
 before_script:
   - dnf update -y
-  - dnf install findutils gcc gcc-c++ make cmake SDL2-devel SDL2-static -y
+  - dnf install findutils gcc gcc-c++ make cmake SDL2-devel SDL2-static glm-devel -y
 
 build:
   script:
