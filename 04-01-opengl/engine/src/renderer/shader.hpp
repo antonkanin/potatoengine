@@ -11,6 +11,8 @@ class shader
 public:
     shader(const std::string& file_name, GLenum shader_type);
 
+    ~shader();
+
     GLuint get_shader_id() const;
 
 private:

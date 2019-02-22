@@ -90,4 +90,10 @@ GLuint shader::get_shader_id() const
     return shader_id_;
 }
 
+shader::~shader()
+{
+    glDeleteShader(shader_id_);
+    check_gl_errors();
+}
+
 } // namespace pt
