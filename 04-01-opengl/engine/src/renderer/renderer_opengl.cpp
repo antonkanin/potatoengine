@@ -105,9 +105,6 @@ bool renderer_opengl::initialize(SDL_Window* window)
 
     vertex_shader_id_ = vertex_shader.get_shader_id();
 
-    glBindAttribLocation(gl_program_id_, 0, "a_position");
-    check_gl_errors();
-
     glLinkProgram(gl_program_id_);
     check_gl_errors();
 
