@@ -5,7 +5,7 @@ int main(int argc, char* argv[])
 {
     auto engine = pt::make_engine();
 
-    engine->set_title("The Witcher 4: Wild Triangle");
+    engine->set_title("The Witcher 5: Wild Cube");
 
     if (!engine->init())
     {
