@@ -23,8 +23,7 @@ private:
 
     void update_position(const model& model);
 
-    void update_transform_matrix(const model&          model,
-                                 const transformation& transformation);
+    void update_transform_matrix(const transformation &transformation);
 
     void validate_program();
 

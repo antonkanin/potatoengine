@@ -20,8 +20,7 @@ std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
     return out;
 }
 
-void renderer_opengl::update_transform_matrix(
-    const model& model, const transformation& transformation)
+void renderer_opengl::update_transform_matrix(const transformation &transformation)
 {
     glm::vec3 trans_v =
         glm::vec3(transformation.position.x, transformation.position.y,
@@ -62,7 +61,7 @@ void renderer_opengl::draw_triangle(const model&          model,
 
     update_position(model);
 
-    update_transform_matrix(model, transformation);
+    update_transform_matrix(transformation);
 
     validate_program();
 
