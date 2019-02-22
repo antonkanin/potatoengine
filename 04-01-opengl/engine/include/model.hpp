@@ -16,6 +16,8 @@ struct model
     model() = default;
 
     model(const model& source);
+
+    model& operator=(const model& source);
 };
 
 } // namespace pt

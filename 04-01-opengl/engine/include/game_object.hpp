@@ -33,7 +33,6 @@ public:
 
     void set_rotation(const vector3d& rotation_vector, const float angle);
 
-    model        get_model();
     const model& get_model() const;
     void         set_model(const model& model);
 

@@ -28,7 +28,7 @@ void renderer_opengl::draw_triangle(const model&          model,
     }
 
     glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          &model.vertices);
+                          model.vertices);
     check_gl_errors();
 
     glEnableVertexAttribArray(position_attr);
@@ -46,16 +46,18 @@ void renderer_opengl::draw_triangle(const model&          model,
 
     // TODO add rotation matrix here
 
-    unsigned int transformLoc =
-        glGetUniformLocation(vertex_shader_id_, "transform");
+    GLint transformLoc = glGetUniformLocation(gl_program_id_, "transform");
+    check_gl_errors();
 
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    check_gl_errors();
 
     glValidateProgram(gl_program_id_);
     check_gl_errors();
 
     GLint validate_result = 0;
     glGetProgramiv(gl_program_id_, GL_VALIDATE_STATUS, &validate_result);
+    check_gl_errors();
 
     if (validate_result == GL_FALSE)
     {

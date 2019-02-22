@@ -23,11 +23,6 @@ void game_object::set_model(const model& model)
     model_ = model;
 }
 
-model game_object::get_model()
-{
-    return model_;
-}
-
 const transformation& game_object::get_transformation() const
 {
     return transformation_;

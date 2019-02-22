@@ -10,6 +10,8 @@ bool engine_sdl::run()
 {
     game_running_ = true;
 
+    start_objects();
+
     while (game_running_)
     {
         poll_events();
