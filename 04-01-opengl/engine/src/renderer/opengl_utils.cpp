@@ -23,6 +23,11 @@ PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation       = nullptr;
 PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
 PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
 PFNGLUNIFORMMATRIX4FVPROC        glUniformMatrix4fv        = nullptr;
+PFNGLGENBUFFERSPROC              glGenBuffers              = nullptr;
+PFNGLBINDBUFFERPROC              glBindBuffer              = nullptr;
+PFNGLBUFFERDATAPROC              glBufferData              = nullptr;
+PFNGLGENVERTEXARRAYSPROC         glGenVertexArrays         = nullptr;
+PFNGLBINDVERTEXARRAYPROC         glBindVertexArray         = nullptr;
 
 void set_opengl_version()
 {
@@ -101,4 +106,9 @@ void initialize_gl_functions()
     load_gl_func("glGetAttribLocation", glGetAttribLocation);
     load_gl_func("glGetUniformLocation", glGetUniformLocation);
     load_gl_func("glUniformMatrix4fv", glUniformMatrix4fv);
+    load_gl_func("glGenBuffers", glGenBuffers);
+    load_gl_func("glBindBuffer", glBindBuffer);
+    load_gl_func("glBufferData", glBufferData);
+    load_gl_func("glGenVertexArrays", glGenVertexArrays);
+    load_gl_func("glBindVertexArray", glBindVertexArray);
 }

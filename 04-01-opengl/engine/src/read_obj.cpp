@@ -31,8 +31,7 @@ model read_obj(const std::string& file_name)
         throw std::runtime_error("Error: failed to open file " + file_name);
     }
 
-    std::vector<vertex>   vertices;
-    std::vector<uint16_t> indices;
+    model result{};
 
     std::string line;
     while (getline(file, line))
@@ -43,7 +42,7 @@ model read_obj(const std::string& file_name)
         }
 
         // reading vertices
-        if (line[0] == 'v')
+        if (line[0] == 'v' && line[1] == ' ')
         {
             std::stringstream ss(line);
 
@@ -52,7 +51,7 @@ model read_obj(const std::string& file_name)
 
             ss >> garbage >> x >> y >> z;
 
-            vertices.push_back({ x, y, z });
+            result.vertices.push_back({ x, y, z });
         }
 
         // reading triangles (faces)
@@ -65,21 +64,13 @@ model read_obj(const std::string& file_name)
 
             ss >> garbage >> f1 >> f2 >> f3;
 
-            indices.push_back(get_vertex_id(f1));
-            indices.push_back(get_vertex_id(f2));
-            indices.push_back(get_vertex_id(f3));
+            result.indices.push_back(get_vertex_id(f1));
+            result.indices.push_back(get_vertex_id(f2));
+            result.indices.push_back(get_vertex_id(f3));
         }
     }
 
     file.close();
-
-    model result{};
-
-    std::memcpy(result.vertices, vertices.data(), vertices.size());
-    result.vert_count = static_cast<unsigned short>(vertices.size());
-
-    std::memcpy(result.indices, indices.data(), indices.size());
-    result.ind_count = static_cast<unsigned short>(indices.size());
 
     return result;
 }

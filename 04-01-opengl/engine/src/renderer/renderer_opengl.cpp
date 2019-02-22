@@ -20,7 +20,8 @@ std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
     return out;
 }
 
-void renderer_opengl::update_transform_matrix(const transformation &transformation)
+void renderer_opengl::update_transform_matrix(
+    const transformation& transformation)
 {
     glm::vec3 trans_v =
         glm::vec3(transformation.position.x, transformation.position.y,
@@ -57,15 +58,11 @@ void renderer_opengl::update_transform_matrix(const transformation &transformati
 void renderer_opengl::draw_triangle(const model&          model,
                                     const transformation& transformation)
 {
-    using namespace std;
-
-    update_position(model);
-
     update_transform_matrix(transformation);
 
     validate_program();
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, indecies_count_, GL_UNSIGNED_INT, nullptr);
     check_gl_errors();
 }
 
@@ -166,25 +163,6 @@ bool renderer_opengl::get_opengl_context()
     return true;
 }
 
-void renderer_opengl::update_position(const model& model)
-{
-    GLint position_attr = glGetAttribLocation(gl_program_id_, "a_position");
-    check_gl_errors();
-
-    if (position_attr == -1)
-    {
-        throw std::runtime_error(
-            "error: could not find attribute 'a_position'");
-    }
-
-    glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          model.vertices);
-    check_gl_errors();
-
-    glEnableVertexAttribArray(position_attr);
-    check_gl_errors();
-}
-
 void renderer_opengl::validate_program()
 {
 
@@ -211,6 +189,48 @@ void renderer_opengl::validate_program()
         throw std::runtime_error("Error: failed to validate the program:" +
                                  error_message);
     }
+}
+
+void renderer_opengl::load_model(const model& model)
+{
+    glGenVertexArrays(1, &VAO_);
+    check_gl_errors();
+
+    glBindVertexArray(VAO_);
+    check_gl_errors();
+
+    GLuint VBO;
+    glGenBuffers(1, &VBO);
+    check_gl_errors();
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    check_gl_errors();
+
+    glBufferData(GL_ARRAY_BUFFER, model.vertices.size() * sizeof(vertex),
+                 model.vertices.data(), GL_STATIC_DRAW);
+    check_gl_errors();
+
+    glEnableVertexAttribArray(0); // can we use name instead of a number?
+    check_gl_errors();
+
+    // TODO replace with reinterpret cast
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    check_gl_errors();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // setting up EBO
+
+    glGenBuffers(1, &EBO_);
+    check_gl_errors();
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_);
+    check_gl_errors();
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 model.indices.size() * sizeof(unsigned int),
+                 model.indices.data(), GL_STATIC_DRAW);
+
+    indecies_count_ = static_cast<GLsizei>(model.indices.size());
 }
 
 } // namespace pt

@@ -25,6 +25,11 @@ extern PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation;
 extern PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation;
 extern PFNGLUNIFORM1FPROC               glUniform1f;
 extern PFNGLUNIFORMMATRIX4FVPROC        glUniformMatrix4fv;
+extern PFNGLGENBUFFERSPROC              glGenBuffers;
+extern PFNGLBINDBUFFERPROC              glBindBuffer;
+extern PFNGLBUFFERDATAPROC              glBufferData;
+extern PFNGLGENVERTEXARRAYSPROC         glGenVertexArrays;
+extern PFNGLBINDVERTEXARRAYPROC         glBindVertexArray;
 
 template <typename T>
 static void load_gl_func(const std::string& func_name, T& result)

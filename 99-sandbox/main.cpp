@@ -419,11 +419,11 @@ bool init()
 
     GLuint indices[6] = { 0, 1, 2, 0, 3, 2 };
 
-//    glGenVertexArrays(1, &VAO);
-//    check_gl_errors();
-//
-//    glBindVertexArray(VAO);
-//    check_gl_errors();
+    //    glGenVertexArrays(1, &VAO);
+    //    check_gl_errors();
+    //
+    //    glBindVertexArray(VAO);
+    //    check_gl_errors();
 
     ///////////////////////////////////////////////////////////////////////////
     // vertex buffer
@@ -516,13 +516,13 @@ void render()
     //    glUseProgram(gl_program_id);
     //    check_gl_errors();
     //
-//        glBindVertexArray(VAO); // OR glBindBuffer
-//        check_gl_errors();
+    //        glBindVertexArray(VAO); // OR glBindBuffer
+    //        check_gl_errors();
 
     //    glEnableVertexAttribArray(0);
     //    check_gl_errors();
     //
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
     //
     //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
     //    check_gl_errors();

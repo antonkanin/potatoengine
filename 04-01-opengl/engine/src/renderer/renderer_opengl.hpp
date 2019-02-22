@@ -18,12 +18,13 @@ public:
 
     void swap_buffers() override;
 
+    // currently we only support a single model
+    void load_model(const model& model) override;
+
 private:
     bool get_opengl_context();
 
-    void update_position(const model& model);
-
-    void update_transform_matrix(const transformation &transformation);
+    void update_transform_matrix(const transformation& transformation);
 
     void validate_program();
 
@@ -32,6 +33,11 @@ private:
     GLuint gl_program_id_ = 0;
 
     GLuint vertex_shader_id_ = 0;
+
+    GLuint VAO_ = 0;
+    GLuint EBO_ = 0;
+
+    GLsizei indecies_count_ = 0;
 };
 
 } // namespace pt

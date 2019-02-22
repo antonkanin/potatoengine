@@ -12,6 +12,8 @@ bool engine_sdl::run()
 
     start_objects();
 
+    load_models();
+
     while (game_running_)
     {
         poll_events();
@@ -129,6 +131,15 @@ void engine_sdl::render_object(const model&          model,
                                const transformation& transformation)
 {
     renderer_->draw_triangle(model, transformation);
+}
+
+// TODO this should be moved up to the render class
+void engine_sdl::load_models()
+{
+    for (const auto& object : objects_)
+    {
+        renderer_->load_model(object->get_model());
+    }
 }
 
 } // namespace pt

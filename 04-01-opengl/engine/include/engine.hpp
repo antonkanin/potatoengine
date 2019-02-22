@@ -45,7 +45,6 @@ protected:
 
     std::string game_title_;
 
-private:
     std::vector<std::unique_ptr<game_object>> objects_;
 };
 

@@ -21,3 +21,9 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag
         ${CMAKE_CURRENT_BINARY_DIR}/shader01.frag)
+
+add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/cube.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/cube.obj)

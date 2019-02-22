@@ -26,6 +26,8 @@ private:
     void render_object(const model&          model,
                        const transformation& transformation) override;
 
+    void load_models();
+
     SDL_Window* window_ = nullptr;
 
     bool game_running_ = false;

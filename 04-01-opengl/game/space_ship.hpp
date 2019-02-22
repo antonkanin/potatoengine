@@ -3,6 +3,7 @@
 #include <game_object.hpp>
 #include <iostream>
 #include <key_code.hpp>
+#include <read_obj.hpp>
 #include <vector3d.hpp>
 #include <vertex.hpp>
 
@@ -14,17 +15,12 @@ public:
 
     void start() override
     {
-        std::vector<pt::vertex> triangle = { { -0.5f, -0.5f, 0.0f },
-                                             { 0.0, 0.5f, 0.0f },
-                                             { 0.5, -0.5f, 0.0f } };
+        auto cube_model = pt::read_obj("cube.obj");
 
-        pt::model m;
-        m.vertices   = triangle.data();
-        m.vert_count = triangle.size();
-        set_model(m);
+        set_model(cube_model);
 
         set_position(get_transformation().position +
-                     pt::vector3d{ 0.0f, 0.0f, -2.0f });
+                     pt::vector3d{ 0.0f, 0.0f, -5.0f });
     }
 
     void update() override
