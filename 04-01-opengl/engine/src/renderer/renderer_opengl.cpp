@@ -212,7 +212,8 @@ void renderer_opengl::validate_program()
                             error_message.data());
         check_gl_errors();
 
-        throw std::runtime_error("Error linking the program:" + error_message);
+        throw std::runtime_error("Error: failed to validate the program:" +
+                                 error_message);
     }
 }
 
