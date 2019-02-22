@@ -14,6 +14,12 @@
 namespace pt
 {
 
+std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
+{
+    out << v.x << ' ' << v.y << ' ' << v.z << ' ' << v.w;
+    return out;
+}
+
 void renderer_opengl::draw_triangle(const model&          model,
                                     const transformation& transformation)
 {
@@ -34,22 +40,27 @@ void renderer_opengl::draw_triangle(const model&          model,
     glEnableVertexAttribArray(position_attr);
     check_gl_errors();
 
-    // TODO refactor this into a separate method
-    // applying transform matrix
-    glm::mat4 trans = glm::mat4(1.0f);
-
     auto trans_v =
         glm::vec3(transformation.position.x, transformation.position.y,
                   transformation.position.z);
 
-    trans = glm::translate(trans, trans_v);
+    glm::mat4 translate_m = glm::translate(glm::mat4(), trans_v);
 
-    // TODO add rotation matrix here
+    glm::mat4 rotate_m =
+        glm::rotate(glm::mat4(), transformation.rotation_angle,
+                    glm::vec3(transformation.rotation_vector.x,
+                              transformation.rotation_vector.y,
+                              transformation.rotation_vector.z));
+
+    glm::mat4 project_m =
+        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 5.0f);
+
+    glm::mat4 full_transfom_m = project_m *  translate_m * rotate_m;
 
     GLint transformLoc = glGetUniformLocation(gl_program_id_, "transform");
     check_gl_errors();
 
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(full_transfom_m));
     check_gl_errors();
 
     glValidateProgram(gl_program_id_);

@@ -67,7 +67,7 @@ bool is_keycode_supported(const SDL_Keycode& sdl_keycode)
             sdl_keycode == SDLK_a || sdl_keycode == SDLK_s);
 }
 
-pt::vertex world_to_screen(const vector3d& position)
+pt::vertex world_to_screen(const pt::vector3d& position)
 {
     return { position.x, position.y, position.z };
 }

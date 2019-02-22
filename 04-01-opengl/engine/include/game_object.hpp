@@ -46,7 +46,8 @@ private:
 
     model model_;
 
-    transformation transformation_ = { zero_vector, zero_vector, 0.0f, zero_vector };
+    transformation transformation_ = { zero_vector, up_vector, 0.0f,
+                                       zero_vector };
 };
 
 } // namespace pt
