@@ -1,4 +1,2 @@
-- Update CI config to get sld2 form the source repo, compile it and install
-
-
-- Specify the name of the dll in the dynamic library build (example 03)    - DONE
+- read UV coordinates
+- load texture in the TFA format
