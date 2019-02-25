@@ -1,2 +1,2 @@
 - read UV coordinates
-- load texture in the TFA format
+- load texture in the TGA format
