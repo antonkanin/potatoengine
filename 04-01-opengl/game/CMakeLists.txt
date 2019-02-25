@@ -22,8 +22,16 @@ add_custom_command(
         ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag
         ${CMAKE_CURRENT_BINARY_DIR}/shader01.frag)
 
-add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_SOURCE_DIR}/cube.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/cube.obj)
+#add_custom_command(
+#        TARGET ${PROJECT_NAME} POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy
+#        ${CMAKE_CURRENT_SOURCE_DIR}/cube_tri.obj
+#        ${CMAKE_CURRENT_BINARY_DIR}/cube_tri.obj)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cube_tri.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/cube_tri.obj COPYONLY)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cube_quad.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/cube_quad.obj COPYONLY)
+
+

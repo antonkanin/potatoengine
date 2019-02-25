@@ -15,7 +15,7 @@ public:
 
     void start() override
     {
-        auto cube_model = pt::read_obj("cube.obj");
+        auto cube_model = pt::read_obj("cube_quad.obj");
 
         set_model(cube_model);
 
