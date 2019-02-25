@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 namespace pt
 {
@@ -54,16 +55,26 @@ model read_obj(const std::string& file_name)
             result.vertices.push_back({ x, y, z });
         }
 
-        // reading triangles (faces)
+        // reading faces (triangles or quads)
         if (line[0] == 'f')
         {
-            std::stringstream ss(line);
+            // 4 spaces - it's a quad
+            // 3 spaces - it's a triangle
+            const auto space_count = std::count(begin(line), end(line), ' ');
+            const bool is_quad = (4 == space_count);
 
-            std::string f1, f2, f3;
+            std::stringstream ss(line);
+            std::string f1, f2, f3, f4;
             char        garbage;
 
             ss >> garbage >> f1 >> f2 >> f3;
+            if (is_quad)
+            {
+                ss >> f4;
+            }
 
+
+            // for triangle we  simply load 1st, 2nd, 3rd vertexes
             result.indices.push_back(
                 static_cast<unsigned int&&>(get_vertex_id(f1) - 1));
 
@@ -72,6 +83,19 @@ model read_obj(const std::string& file_name)
 
             result.indices.push_back(
                 static_cast<unsigned int&&>(get_vertex_id(f3) - 1));
+
+            // if it's a quad we load 3rd, 4th and 1st vertex to make a second triangle
+            if (is_quad)
+            {
+                result.indices.push_back(
+                        static_cast<unsigned int&&>(get_vertex_id(f3) - 1));
+
+                result.indices.push_back(
+                        static_cast<unsigned int&&>(get_vertex_id(f4) - 1));
+
+                result.indices.push_back(
+                        static_cast<unsigned int&&>(get_vertex_id(f1) - 1));
+            }
         }
     }
 
