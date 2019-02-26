@@ -57,6 +57,14 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/figure.png
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/figure.obj
         ${CMAKE_CURRENT_BINARY_DIR}/figure.obj COPYONLY)
 
+# two faces
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/two_faces.png
+        ${CMAKE_CURRENT_BINARY_DIR}/two_faces.png COPYONLY)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/two_faces.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/two_faces.obj COPYONLY)
+
+
 
 
 
