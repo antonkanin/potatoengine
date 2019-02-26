@@ -10,6 +10,12 @@
 namespace pt
 {
 
+struct uv
+{
+    float u;
+    float v;
+};
+
 unsigned short get_vertex_id(const std::string& string_id)
 {
     using namespace std;
@@ -48,30 +54,25 @@ void read_uv(const std::string& line, std::vector<uv>& texture_uv)
     texture_uv.push_back({ u, v });
 }
 
-struct face
+void add_face(const std::string& face, const std::vector<uv>& uvs,
+              /*OUT*/ std::vector<vertex>&                 vertices,
+              /*OUT*/ std::vector<index>&                  indices,
+              /*OUT*/ std::set<unsigned int>&              processed_vertex_ids,
+              /*OUT*/ std::map<std::string, unsigned int>& vertex_uv_pairs)
 {
-    int vertex_id;
-    int uv_id;
-    int normal_id;
-};
+    const auto slash_pos_1 = face.find('/');
 
-void add_face(const std::string& face, std::vector<vertex>& vertices,
-              std::vector<index>&                  indices,
-              std::set<unsigned int>&              processed_vertex_ids,
-              std::map<std::string, unsigned int>& vertex_uv_pairs)
-{
+    const auto vertex_id =
+        static_cast<unsigned int>(stoi(face.substr(0, slash_pos_1)));
 
-    auto slash_pos_1 = face.find('/');
+    const auto sub_str = face.substr(slash_pos_1 + 1);
 
-    auto vertex_id = static_cast<unsigned int>(stoi(face.substr(0, slash_pos_1)));
+    const auto slash_pos_2 = sub_str.find('/');
 
-    auto sub_str = face.substr(slash_pos_1 + 1);
+    const auto uv_id =
+        static_cast<unsigned int>(stoi(sub_str.substr(0, slash_pos_2)));
 
-    auto slash_pos_2 = sub_str.find('/');
-
-    auto uv_id = static_cast<unsigned int>(stoi(sub_str.substr(0, slash_pos_2)));
-
-    auto vertex_uv_pair_str = std::to_string(vertex_id) + std::to_string(uv_id);
+    const auto vertex_uv_pair_str = std::to_string(vertex_id) + std::to_string(uv_id);
 
     /*
         if (vertex_is is NOT in the processed_vertices)
@@ -103,6 +104,10 @@ void add_face(const std::string& face, std::vector<vertex>& vertices,
     if (processed_vertex_ids.count(vertex_id) == 0)
     {
         processed_vertex_ids.insert(vertex_id);
+
+        vertices[vertex_id - 1].u = uvs[uv_id - 1].u;
+        vertices[vertex_id - 1].v = uvs[uv_id - 1].v;
+
         vertex_uv_pairs[vertex_uv_pair_str] = vertex_id;
 
         indices.push_back(vertex_id - 1);
@@ -111,13 +116,17 @@ void add_face(const std::string& face, std::vector<vertex>& vertices,
     {
         if (vertex_uv_pairs.count(vertex_uv_pair_str) == 0)
         {
-            const auto vertex_data = vertices[vertex_id - 1];
+            auto vertex_data = vertices[vertex_id - 1];
+            vertex_data.u = uvs[uv_id - 1].u;
+            vertex_data.v = uvs[uv_id - 1].v;
+
             const auto new_vertex_id =
                 static_cast<unsigned int>(vertices.size()) + 1;
 
             vertex_uv_pairs[vertex_uv_pair_str] = new_vertex_id;
 
             indices.push_back(new_vertex_id - 1);
+
             vertices.push_back(vertex_data);
         }
         else
@@ -129,9 +138,10 @@ void add_face(const std::string& face, std::vector<vertex>& vertices,
     }
 }
 
-void read_faces(const std::string& line, std::vector<vertex>& vertices,
-                /*OUT*/ std::vector<index>& indices,
-                /*OUT*/ std::set<unsigned int>&              processed_vertex_ids,
+void read_faces(const std::string& line, const std::vector<uv>& uvs,
+                /*OUT*/ std::vector<vertex>&    vertices,
+                /*OUT*/ std::vector<index>&     indices,
+                /*OUT*/ std::set<unsigned int>& processed_vertex_ids,
                 /*OUT*/ std::map<std::string, unsigned int>& vertex_uv_pairs)
 {
     // 4 spaces - it's a quad
@@ -161,17 +171,17 @@ void read_faces(const std::string& line, std::vector<vertex>& vertices,
     }
 
     // for triangle we  simply load 1st, 2nd, 3rd vertexes
-    add_face(f1, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
-    add_face(f2, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
-    add_face(f3, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
+    add_face(f1, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
+    add_face(f2, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
+    add_face(f3, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
 
     // if it's a quad we load 3rd, 4th and 1st vertex to make a second
     // triangle
     if (is_quad)
     {
-        add_face(f3, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
-        add_face(f4, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
-        add_face(f1, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
+        add_face(f3, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
+        add_face(f4, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
+        add_face(f1, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
     }
 }
 
@@ -188,6 +198,7 @@ model read_obj(const std::string& file_name)
 
     std::set<unsigned int>              processed_vertex_ids;
     std::map<std::string, unsigned int> shifted_vertex_uv_pairs;
+    std::vector<uv>                     uvs;
 
     std::string line;
     while (getline(file, line))
@@ -206,13 +217,14 @@ model read_obj(const std::string& file_name)
         // reading UVs
         if (line.substr(0, 2) == "vt")
         {
-            read_uv(line, result.texture_uv);
+            read_uv(line, uvs);
         }
 
         // reading faces (triangles or quads)
         if (line.substr(0, 2) == "f ")
         {
-            read_faces(line, result.vertices, result.indices, processed_vertex_ids, shifted_vertex_uv_pairs);
+            read_faces(line, uvs, result.vertices, result.indices,
+                       processed_vertex_ids, shifted_vertex_uv_pairs);
         }
     }
 

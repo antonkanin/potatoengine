@@ -214,7 +214,7 @@ void renderer_opengl::load_model(const model& model)
     check_gl_errors();
 
     // TODO replace with reinterpret cast
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
     check_gl_errors();
 
     ///////////////////////////////////////////////////////////////////////////
