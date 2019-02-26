@@ -11,7 +11,7 @@ project(gamedev-swat)
 #add_subdirectory(03-01-sdl-loop)
 #add_subdirectory(03-02-sdl-loop-to-engine)
 
-add_subdirectory(04-00-rendering)
+#add_subdirectory(04-00-rendering)
 add_subdirectory(04-01-opengl)
 
-add_subdirectory(99-sandbox)
+#add_subdirectory(99-sandbox)

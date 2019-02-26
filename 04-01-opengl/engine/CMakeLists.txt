@@ -9,6 +9,7 @@ add_library(${PROJECT_NAME} SHARED
         src/engine_sdl.cpp
         src/read_obj.cpp
         src/model.cpp
+        src/texture_image.cpp
         src/renderer/renderer.cpp
         src/renderer/renderer_opengl.cpp
         src/renderer/shader.cpp
