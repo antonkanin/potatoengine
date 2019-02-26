@@ -32,4 +32,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cube_quad.obj
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cube_tri_uv.obj
         ${CMAKE_CURRENT_BINARY_DIR}/cube_tri_uv.obj COPYONLY)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/two_faces_uvs.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/two_faces_uvs.obj COPYONLY)
+
+
 

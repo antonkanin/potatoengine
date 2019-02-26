@@ -113,7 +113,7 @@ void add_face(const std::string& face, std::vector<vertex>& vertices,
         {
             const auto vertex_data = vertices[vertex_id - 1];
             const auto new_vertex_id =
-                static_cast<unsigned int>(vertices.size());
+                static_cast<unsigned int>(vertices.size()) + 1;
 
             vertex_uv_pairs[vertex_uv_pair_str] = new_vertex_id;
 
