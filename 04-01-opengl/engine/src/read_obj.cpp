@@ -61,11 +61,15 @@ void add_face(const std::string& face, std::vector<vertex>& vertices,
               std::map<std::string, unsigned int>& vertex_uv_pairs)
 {
 
-    auto slash_pos = face.find('/');
+    auto slash_pos_1 = face.find('/');
 
-    auto vertex_id = static_cast<unsigned int>(stoi(face.substr(0, slash_pos)));
-    auto uv_id     = static_cast<unsigned int>(
-        stoi(face.substr(slash_pos, face.length() - slash_pos)));
+    auto vertex_id = static_cast<unsigned int>(stoi(face.substr(0, slash_pos_1)));
+
+    auto sub_str = face.substr(slash_pos_1 + 1);
+
+    auto slash_pos_2 = sub_str.find('/');
+
+    auto uv_id = static_cast<unsigned int>(stoi(sub_str.substr(0, slash_pos_2)));
 
     auto vertex_uv_pair_str = std::to_string(vertex_id) + std::to_string(uv_id);
 
@@ -151,7 +155,7 @@ void read_faces(const std::string& line, std::vector<vertex>& vertices,
     // two '/' - vertex, uv id and
 
     auto slash_count = std::count(begin(f1), end(f1), '/');
-    if (0 == slash_count || 2 == slash_count)
+    if (0 == slash_count)
     {
         throw std::runtime_error("obj mode not supported");
     }
