@@ -1,11 +1,23 @@
 #include "texture_image.hpp"
+#include "../ext/picopng.hpp"
 
 namespace pt
 {
 
 void texture_image::load(const std::string& file_name)
 {
-    // load the image data...
+    std::vector<unsigned char> buffer;
+    loadFile(buffer, file_name);
+
+    int error =
+        decodePNG(image_data_, width_, height_, buffer.empty() ? 0 : &buffer[0],
+                  buffer.size(), false);
+
+    // if there's an error, display it
+    if (error != 0)
+    {
+        throw std::runtime_error("Error: failed to load png file: " + file_name);
+    }
 }
 
 size_t texture_image::width() const
@@ -18,24 +30,15 @@ size_t texture_image::height() const
     return height_;
 }
 
-texture_image::~texture_image()
+const unsigned char* texture_image::get_data() const
 {
-    if (image_data_ != nullptr)
-    {
-        delete[] image_data_;
-        image_data_ = nullptr;
-    }
+    return image_data_.data();
 }
 
-unsigned char* texture_image::get_data() const
+texture_image make_image(const std::string& file_name)
 {
-    return image_data_;
-}
-
-texture_image* make_image(const std::string& file_name)
-{
-    auto* result = new texture_image();
-    result->load(file_name);
+    texture_image result;
+    result.load(file_name);
     return result;
 }
 

@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 namespace pt
 {
@@ -14,17 +15,15 @@ public:
     size_t width() const;
     size_t height() const;
 
-    unsigned char* get_data() const;
-
-    ~texture_image();
+    const unsigned char* get_data() const;
 
 private:
     size_t width_  = 0;
     size_t height_ = 0;
 
-    unsigned char* image_data_ = nullptr;
+    std::vector<unsigned char> image_data_;
 };
 
-texture_image* make_image(const std::string& file_name);
+texture_image make_image(const std::string& file_name);
 
 } // namespace pt

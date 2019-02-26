@@ -6,13 +6,4 @@
 namespace pt
 {
 
-model::~model()
-{
-    if (image != nullptr)
-    {
-        delete[] image;
-        image = nullptr;
-    }
-}
-
 } // namespace pt
