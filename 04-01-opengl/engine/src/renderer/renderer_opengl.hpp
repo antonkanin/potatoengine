@@ -26,6 +26,8 @@ private:
 
     void update_transform_matrix(const transformation& transformation);
 
+    void load_tecture();
+
     void validate_program();
 
     SDL_GLContext gl_context_ = nullptr;
@@ -33,6 +35,8 @@ private:
     GLuint gl_program_id_ = 0;
 
     GLuint vertex_shader_id_ = 0;
+
+    GLuint texture_id_ = 0;
 
     GLuint VAO_ = 0;
     GLuint EBO_ = 0;

@@ -62,6 +62,12 @@ void renderer_opengl::draw_triangle(const model&          model,
 
     validate_program();
 
+    glActiveTexture(GL_TEXTURE0);
+    check_gl_errors();
+
+    glBindTexture(GL_TEXTURE_2D, texture_id_);
+    check_gl_errors();
+
     glDrawElements(GL_TRIANGLES, indecies_count_, GL_UNSIGNED_INT, nullptr);
     check_gl_errors();
 }
@@ -210,11 +216,20 @@ void renderer_opengl::load_model(const model& model)
                  model.vertices.data(), GL_STATIC_DRAW);
     check_gl_errors();
 
+    // position attribute
     glEnableVertexAttribArray(0); // can we use name instead of a number?
     check_gl_errors();
 
     // TODO replace with reinterpret cast
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
+    check_gl_errors();
+
+    // texture coordinates attribute (uv coords)
+    glEnableVertexAttribArray(1);
+    check_gl_errors();
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                          (void*)(3 * sizeof(float)));
     check_gl_errors();
 
     ///////////////////////////////////////////////////////////////////////////
@@ -231,6 +246,64 @@ void renderer_opengl::load_model(const model& model)
                  model.indices.data(), GL_STATIC_DRAW);
 
     indecies_count_ = static_cast<GLsizei>(model.indices.size());
+
+    ///////////////////////////////////////////////////////////////////////////
+    // loading texture
+
+    glUseProgram(gl_program_id_);
+    check_gl_errors();
+
+    int texture_unit = 0;
+    glActiveTexture(GL_TEXTURE0 + texture_unit);
+    check_gl_errors();
+
+    glGenBuffers(1, &texture_id_);
+    check_gl_errors();
+
+    glBindTexture(GL_TEXTURE_2D, texture_id_);
+    check_gl_errors();
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    check_gl_errors();
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    check_gl_errors();
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    check_gl_errors();
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    check_gl_errors();
+
+
+    const auto& i = model.image;
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(i.width()),
+                 static_cast<GLsizei>(i.height()), 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                 &i.get_data()[0]);
+    check_gl_errors();
+
+    //////////////////////////////////////
+    // passing texture to the uniform
+
+    int location = glGetUniformLocation(gl_program_id_, "u_texture");
+    check_gl_errors();
+
+    assert(-1 != location);
+
+    // http://www.khronos.org/opengles/sdk/docs/man/xhtml/glUniform.xml
+    glUniform1i(location, 0 + texture_unit);
+    check_gl_errors();
+
+    glEnable(GL_BLEND);
+    check_gl_errors();
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    check_gl_errors();
+}
+
+void renderer_opengl::load_tecture()
+{
+    // update texture uniform
 }
 
 } // namespace pt
