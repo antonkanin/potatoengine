@@ -4,9 +4,9 @@
 #include <iostream>
 #include <key_code.hpp>
 #include <read_obj.hpp>
+#include <texture_image.hpp>
 #include <vector3d.hpp>
 #include <vertex.hpp>
-#include <texture_image.hpp>
 
 class space_ship final : public pt::game_object
 {
@@ -16,9 +16,9 @@ public:
 
     void start() override
     {
-        auto cube_model = pt::read_obj("cube_tri_uv.obj");
+        auto cube_model = pt::read_obj("figure.obj");
 
-        cube_model.image = pt::make_image("texture.png");
+        cube_model.image = pt::make_image("figure.png");
 
         set_model(cube_model);
 

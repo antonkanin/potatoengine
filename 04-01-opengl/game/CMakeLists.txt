@@ -50,5 +50,15 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tank.png
         ${CMAKE_CURRENT_BINARY_DIR}/tank.png COPYONLY)
 
 
+# figure
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/figure.png
+        ${CMAKE_CURRENT_BINARY_DIR}/figure.png COPYONLY)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/figure.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/figure.obj COPYONLY)
+
+
+
+
 
 
