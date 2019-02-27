@@ -248,6 +248,13 @@ model read_obj(const std::string& file_name)
         }
     }
 
+    // invert vertical texture coordinate ('V')
+    for (auto& v : result.vertices)
+    {
+        v.v = 1.0f - v.v;
+    }
+
+
     file.close();
 
     return result;
