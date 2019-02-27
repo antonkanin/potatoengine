@@ -72,13 +72,26 @@ public:
 
         if (input.get_key_down(key_code::button_a))
         {
-            set_rotation(trans.rotation_vector, trans.rotation_angle - 0.3f);
+            //set_rotation(trans.rotation_vector, trans.rotation_angle - 0.3f);
+            set_rotation(up_vector, trans.rotation_angle - 0.3f);
         }
 
         if (input.get_key_down(key_code::button_b))
         {
-            set_rotation(trans.rotation_vector, trans.rotation_angle + 0.3f);
+            set_rotation(up_vector, trans.rotation_angle + 0.3f);
         }
+
+        if (input.get_key_down(key_code::start))
+        {
+            //set_rotation(trans.rotation_vector, trans.rotation_angle - 0.3f);
+            set_rotation(left_vector, trans.rotation_angle - 0.3f);
+        }
+
+        if (input.get_key_down(key_code::select))
+        {
+            set_rotation(left_vector, trans.rotation_angle + 0.3f);
+        }
+
     }
 
     void print_key_state(pt::key_code code, std::string_view key_name)

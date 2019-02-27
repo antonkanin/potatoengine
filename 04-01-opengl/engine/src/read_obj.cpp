@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cstring>
 #include <fstream>
+#include <iostream>
 #include <map>
 #include <set>
 #include <sstream>
@@ -72,7 +73,8 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
     const auto uv_id =
         static_cast<unsigned int>(stoi(sub_str.substr(0, slash_pos_2)));
 
-    const auto vertex_uv_pair_str = std::to_string(vertex_id) + std::to_string(uv_id);
+    const auto vertex_uv_pair_str =
+        std::to_string(vertex_id) + std::to_string(uv_id);
 
     /*
         if (vertex_is is NOT in the processed_vertices)
@@ -101,6 +103,8 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
         }
     */
 
+    std::cout << face;
+
     if (processed_vertex_ids.count(vertex_id) == 0)
     {
         processed_vertex_ids.insert(vertex_id);
@@ -111,14 +115,17 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
         vertex_uv_pairs[vertex_uv_pair_str] = vertex_id;
 
         indices.push_back(vertex_id - 1);
+
+        std::cout << " " << vertices[vertex_id - 1].u << ' '
+                  << vertices[vertex_id - 1].v;
     }
     else
     {
         if (vertex_uv_pairs.count(vertex_uv_pair_str) == 0)
         {
             auto vertex_data = vertices[vertex_id - 1];
-            vertex_data.u = uvs[uv_id - 1].u;
-            vertex_data.v = uvs[uv_id - 1].v;
+            vertex_data.u    = uvs[uv_id - 1].u;
+            vertex_data.v    = uvs[uv_id - 1].v;
 
             const auto new_vertex_id =
                 static_cast<unsigned int>(vertices.size()) + 1;
@@ -128,14 +135,24 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
             indices.push_back(new_vertex_id - 1);
 
             vertices.push_back(vertex_data);
+
+            std::cout << " " << vertices.back().u << ' '
+                      << vertices.back().v;
+
+            std::cout << "   adding vertex " << new_vertex_id;
         }
         else
         {
             const auto new_vertex_id = vertex_uv_pairs.at(vertex_uv_pair_str);
 
+            std::cout << " " << vertices[new_vertex_id - 1].u << ' '
+                      << vertices[new_vertex_id - 1].v;
+
             indices.push_back(new_vertex_id - 1);
         }
     }
+
+    std::cout << std::endl;
 }
 
 void read_faces(const std::string& line, const std::vector<uv>& uvs,
@@ -179,9 +196,12 @@ void read_faces(const std::string& line, const std::vector<uv>& uvs,
     // triangle
     if (is_quad)
     {
-        add_face(f3, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
-        add_face(f4, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
-        add_face(f1, uvs, vertices, indices, processed_vertex_ids, vertex_uv_pairs);
+        add_face(f3, uvs, vertices, indices, processed_vertex_ids,
+                 vertex_uv_pairs);
+        add_face(f4, uvs, vertices, indices, processed_vertex_ids,
+                 vertex_uv_pairs);
+        add_face(f1, uvs, vertices, indices, processed_vertex_ids,
+                 vertex_uv_pairs);
     }
 }
 
