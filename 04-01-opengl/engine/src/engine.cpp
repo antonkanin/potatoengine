@@ -54,4 +54,35 @@ void engine::start_objects()
     }
 }
 
+bool engine::run()
+{
+    game_running_ = true;
+
+    start_objects();
+
+    load_models();
+
+    while (game_running_)
+    {
+        poll_events();
+
+        update_objects();
+
+        render_objects();
+
+        // swap buffers
+        post_render_objects();
+
+        // TODO shoudl this be moved to the engine implementation?
+        get_input_manager().reset_states();
+    }
+
+    return true;
+}
+
+void engine::set_game_running(const bool is_game_running)
+{
+    game_running_ = is_game_running;
+}
+
 } // namespace pt

@@ -22,7 +22,7 @@ public:
 
     virtual bool init() = 0;
 
-    virtual bool run() = 0;
+    bool run();
 
     void add_object(std::unique_ptr<game_object> object);
 
@@ -30,7 +30,19 @@ public:
 
     void set_title(const std::string& title);
 
+    virtual float time() const = 0;
+
+    virtual float delta_time() const = 0;
+
 protected:
+    virtual void load_models() = 0;
+
+    virtual void poll_events() = 0;
+
+    virtual void post_render_objects() = 0;
+
+    void set_game_running(bool is_game_running);
+
     void start_objects();
 
     void update_objects();
@@ -46,6 +58,9 @@ protected:
     std::string game_title_;
 
     std::vector<std::unique_ptr<game_object>> objects_;
+
+private:
+    bool game_running_ = false;
 };
 
 std::unique_ptr<engine> make_engine();

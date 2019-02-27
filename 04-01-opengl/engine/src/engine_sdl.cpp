@@ -6,30 +6,6 @@
 namespace pt
 {
 
-bool engine_sdl::run()
-{
-    game_running_ = true;
-
-    start_objects();
-
-    load_models();
-
-    while (game_running_)
-    {
-        poll_events();
-
-        update_objects();
-
-        render_objects();
-
-        renderer_->swap_buffers();
-
-        get_input_manager().reset_states();
-    }
-
-    return true;
-}
-
 bool engine_sdl::init()
 {
     const int init_result = SDL_Init(SDL_INIT_EVERYTHING);
@@ -86,7 +62,6 @@ engine_sdl::~engine_sdl()
 
 void engine_sdl::poll_events()
 {
-    // main game loop
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -106,7 +81,7 @@ void engine_sdl::poll_events()
 
             case SDL_QUIT:
             {
-                game_running_ = false;
+                set_game_running(false);
             }
 
             default:
@@ -140,6 +115,21 @@ void engine_sdl::load_models()
     {
         renderer_->load_model(object->get_model());
     }
+}
+
+float engine_sdl::time() const
+{
+    return 0;
+}
+
+float engine_sdl::delta_time() const
+{
+    return 0;
+}
+
+void engine_sdl::post_render_objects()
+{
+    renderer_->swap_buffers();
 }
 
 } // namespace pt

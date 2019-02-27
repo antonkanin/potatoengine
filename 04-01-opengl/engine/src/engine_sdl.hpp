@@ -14,23 +14,27 @@ public:
 
     bool init() override;
 
-    bool run() override;
+    //bool run() override;
+
+    float time() const override;
+
+    float delta_time() const override;
 
 private:
+    void post_render_objects() override;
+
     void process_event(const SDL_KeyboardEvent& event);
 
-    void poll_events();
+    void poll_events() override;
 
     void clean_up(); // TODO I really need a better name for this method
 
     void render_object(const model&          model,
                        const transformation& transformation) override;
 
-    void load_models();
+    void load_models() override;
 
     SDL_Window* window_ = nullptr;
-
-    bool game_running_ = false;
 
     std::unique_ptr<renderer> renderer_;
 };
