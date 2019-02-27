@@ -1,2 +1,5 @@
-- read UV coordinates
+- add delta time to the engine and let objects use it
 - load texture in the TGA format
+
+Done
+- read UV coordinates

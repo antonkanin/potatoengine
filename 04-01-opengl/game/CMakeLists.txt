@@ -40,7 +40,6 @@ configure_file(res/texture.png
 configure_file(res/tank.png
         ${CMAKE_CURRENT_BINARY_DIR}/res/tank.png COPYONLY)
 
-
 # figure
 configure_file(res/figure.png
         ${CMAKE_CURRENT_BINARY_DIR}/res/figure.png COPYONLY)
