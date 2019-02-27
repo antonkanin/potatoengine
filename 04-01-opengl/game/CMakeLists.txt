@@ -10,70 +10,54 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 target_link_libraries(${PROJECT_NAME} 04-01-engine)
 
-#add_custom_command(
-#        TARGET ${PROJECT_NAME} POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.vert
-#        ${CMAKE_CURRENT_BINARY_DIR}/shader01.vert)
-
-#add_custom_command(
-#        TARGET ${PROJECT_NAME} POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag
-#        ${CMAKE_CURRENT_BINARY_DIR}/shader01.frag)
-
-
+###############################################################################
+# copying shaders
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.vert
         ${CMAKE_CURRENT_BINARY_DIR}/shader01.vert COPYONLY)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag
         ${CMAKE_CURRENT_BINARY_DIR}/shader01.frag COPYONLY)
 
+###############################################################################
+# copying images and objs files
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cube_tri.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/cube_tri.obj COPYONLY)
+configure_file(res/cube_tri.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/cube_tri.obj COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cube_quad.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/cube_quad.obj COPYONLY)
+configure_file(res/cube_quad.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/cube_quad.obj COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cube_tri_uv.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/cube_tri_uv.obj COPYONLY)
+configure_file(res/cube_tri_uv.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/cube_tri_uv.obj COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/two_faces_uvs.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/two_faces_uvs.obj COPYONLY)
+configure_file(res/two_faces_uvs.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/two_faces_uvs.obj COPYONLY)
 
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/texture.png
-        ${CMAKE_CURRENT_BINARY_DIR}/texture.png COPYONLY)
+configure_file(res/texture.png
+        ${CMAKE_CURRENT_BINARY_DIR}/res/texture.png COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tank.png
-        ${CMAKE_CURRENT_BINARY_DIR}/tank.png COPYONLY)
+configure_file(res/tank.png
+        ${CMAKE_CURRENT_BINARY_DIR}/res/tank.png COPYONLY)
 
 
 # figure
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/figure.png
-        ${CMAKE_CURRENT_BINARY_DIR}/figure.png COPYONLY)
+configure_file(res/figure.png
+        ${CMAKE_CURRENT_BINARY_DIR}/res/figure.png COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/figure.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/figure.obj COPYONLY)
+configure_file(res/figure.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/figure.obj COPYONLY)
 
 # two faces
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/two_faces.png
-        ${CMAKE_CURRENT_BINARY_DIR}/two_faces.png COPYONLY)
+configure_file(res/two_faces.png
+        ${CMAKE_CURRENT_BINARY_DIR}/res/two_faces.png COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/two_faces.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/two_faces.obj COPYONLY)
+configure_file(res/two_faces.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/two_faces.obj COPYONLY)
 
 # three faces
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/three_faces.png
-        ${CMAKE_CURRENT_BINARY_DIR}/three_faces.png COPYONLY)
+configure_file(res/three_faces.png
+        ${CMAKE_CURRENT_BINARY_DIR}/res/three_faces.png COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/three_faces.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/three_faces.obj COPYONLY)
-
-
-
-
-
-
-
+configure_file(res/three_faces.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/three_faces.obj COPYONLY)
