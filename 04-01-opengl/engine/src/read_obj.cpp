@@ -136,8 +136,7 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
 
             vertices.push_back(vertex_data);
 
-            std::cout << " " << vertices.back().u << ' '
-                      << vertices.back().v;
+            std::cout << " " << vertices.back().u << ' ' << vertices.back().v;
 
             std::cout << "   adding vertex " << new_vertex_id;
         }
@@ -253,7 +252,6 @@ model read_obj(const std::string& file_name)
     {
         v.v = 1.0f - v.v;
     }
-
 
     file.close();
 

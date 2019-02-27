@@ -1,6 +1,6 @@
 #include "engine.hpp"
-#include "space_ship.hpp"
 #include "show_fps.hpp"
+#include "space_ship.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -16,8 +16,8 @@ int main(int argc, char* argv[])
     auto space_ship = make_space_ship(*engine);
     engine->add_object(move(space_ship));
 
-//    auto fps_display = std::make_unique<show_fps>(*engine);
-//    engine->add_object(move(fps_display));
+    //    auto fps_display = std::make_unique<show_fps>(*engine);
+    //    engine->add_object(move(fps_display));
 
     engine->run();
 

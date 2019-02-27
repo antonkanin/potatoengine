@@ -14,7 +14,7 @@ public:
 
     bool init() override;
 
-    //bool run() override;
+    // bool run() override;
 
 private:
     void post_render_objects() override;
@@ -34,7 +34,6 @@ protected:
     float get_ticks() override;
 
 private:
-
     SDL_Window* window_ = nullptr;
 
     std::unique_ptr<renderer> renderer_;

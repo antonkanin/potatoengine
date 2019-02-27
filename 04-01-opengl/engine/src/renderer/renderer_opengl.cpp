@@ -275,7 +275,6 @@ void renderer_opengl::load_model(const model& model)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     check_gl_errors();
 
-
     const auto& i = model.image;
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, static_cast<GLsizei>(i.width()),
                  static_cast<GLsizei>(i.height()), 0, GL_RGBA, GL_UNSIGNED_BYTE,

@@ -70,8 +70,8 @@ public:
         const auto& input = get_engine().get_input_manager();
         const auto& trans = get_transformation();
 
-        set_rotation(up_vector, trans.rotation_angle - get_engine().delta_time() * 0.3f);
-
+        set_rotation(up_vector,
+                     trans.rotation_angle - get_engine().delta_time() * 0.3f);
 
         if (input.get_key_down(key_code::button_a))
         {

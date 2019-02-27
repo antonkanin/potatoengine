@@ -9,7 +9,6 @@ struct vector3d
     float z;
 };
 
-
 const vector3d zero_vector = { 0.0f, 0.0f, 0.0f };
 const vector3d up_vector   = { 0.0f, 1.0f, 0.0f };
 const vector3d left_vector = { 1.0f, 0.0f, 0.0f };

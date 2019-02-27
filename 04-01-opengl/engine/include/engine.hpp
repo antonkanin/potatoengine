@@ -64,7 +64,7 @@ protected:
 private:
     bool game_running_ = false;
 
-    float time_ = 0.f;
+    float time_       = 0.f;
     float delta_time_ = 0.f;
 };
 

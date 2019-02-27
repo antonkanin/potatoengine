@@ -5,7 +5,7 @@ class show_fps : public pt::game_object
 {
 public:
     explicit show_fps(pt::engine& engine)
-    : pt::game_object(engine){};
+        : pt::game_object(engine){};
 
     void update() override
     {
@@ -13,5 +13,4 @@ public:
 
         cout << "test/n";
     }
-
 };

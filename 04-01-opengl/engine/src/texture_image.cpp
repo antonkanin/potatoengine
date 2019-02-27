@@ -16,7 +16,8 @@ void texture_image::load(const std::string& file_name)
     // if there's an error, display it
     if (error != 0)
     {
-        throw std::runtime_error("Error: failed to load png file: " + file_name);
+        throw std::runtime_error("Error: failed to load png file: " +
+                                 file_name);
     }
 }
 
