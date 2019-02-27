@@ -1,5 +1,6 @@
 #include "engine.hpp"
 #include "space_ship.hpp"
+#include "show_fps.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -12,9 +13,11 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    auto input_printer_obj = make_space_ship(*engine);
+    auto space_ship = make_space_ship(*engine);
+    engine->add_object(move(space_ship));
 
-    engine->add_object(move(input_printer_obj));
+//    auto fps_display = std::make_unique<show_fps>(*engine);
+//    engine->add_object(move(fps_display));
 
     engine->run();
 
