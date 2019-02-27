@@ -16,10 +16,6 @@ public:
 
     //bool run() override;
 
-    float time() const override;
-
-    float delta_time() const override;
-
 private:
     void post_render_objects() override;
 
@@ -33,6 +29,11 @@ private:
                        const transformation& transformation) override;
 
     void load_models() override;
+
+protected:
+    float get_ticks() override;
+
+private:
 
     SDL_Window* window_ = nullptr;
 

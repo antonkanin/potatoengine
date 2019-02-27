@@ -117,19 +117,14 @@ void engine_sdl::load_models()
     }
 }
 
-float engine_sdl::time() const
-{
-    return 0;
-}
-
-float engine_sdl::delta_time() const
-{
-    return 0;
-}
-
 void engine_sdl::post_render_objects()
 {
     renderer_->swap_buffers();
+}
+
+float engine_sdl::get_ticks()
+{
+    return SDL_GetTicks();
 }
 
 } // namespace pt

@@ -30,9 +30,9 @@ public:
 
     void set_title(const std::string& title);
 
-    virtual float time() const = 0;
+    float time() const;
 
-    virtual float delta_time() const = 0;
+    float delta_time() const;
 
 protected:
     virtual void load_models() = 0;
@@ -40,6 +40,8 @@ protected:
     virtual void poll_events() = 0;
 
     virtual void post_render_objects() = 0;
+
+    virtual float get_ticks() = 0;
 
     void set_game_running(bool is_game_running);
 
@@ -61,6 +63,9 @@ protected:
 
 private:
     bool game_running_ = false;
+
+    float time_ = 0.f;
+    float delta_time_ = 0.f;
 };
 
 std::unique_ptr<engine> make_engine();

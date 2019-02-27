@@ -62,9 +62,17 @@ bool engine::run()
 
     load_models();
 
+    time_          = 0.f;
+    float old_time = 0.f;
+
     while (game_running_)
     {
         poll_events();
+
+        old_time = time_;
+        time_    = get_ticks() / 1000;
+
+        delta_time_ = time_ - old_time;
 
         update_objects();
 
@@ -73,7 +81,7 @@ bool engine::run()
         // swap buffers
         post_render_objects();
 
-        // TODO shoudl this be moved to the engine implementation?
+        // TODO should this be moved to the engine implementation?
         get_input_manager().reset_states();
     }
 
@@ -83,6 +91,16 @@ bool engine::run()
 void engine::set_game_running(const bool is_game_running)
 {
     game_running_ = is_game_running;
+}
+
+float engine::time() const
+{
+    return time_;
+}
+
+float engine::delta_time() const
+{
+    return delta_time_;
 }
 
 } // namespace pt

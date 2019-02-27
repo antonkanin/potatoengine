@@ -4,7 +4,8 @@ project(04-01-game-opengl)
 
 add_executable(${PROJECT_NAME}
         game.cpp
-        space_ship.hpp)
+        space_ship.hpp
+        show_fps.hpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
