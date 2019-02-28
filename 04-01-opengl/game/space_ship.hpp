@@ -137,11 +137,13 @@ public:
         if (input.get_key_down(key_code::right))
         {
             get_engine().get_camera().move_right(.1f);
+            //get_engine().get_camera().turn_right(.1f);
         }
 
         if (input.get_key_down(key_code::left))
         {
             get_engine().get_camera().move_left(.1f);
+            //get_engine().get_camera().turn_left(.1f);
         }
 
         if (input.get_key_down(key_code::up))

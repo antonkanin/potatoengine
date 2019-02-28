@@ -56,6 +56,11 @@ inline vec3 operator*(const float lhs, const vec3& rhs)
     return { lhs * rhs.x, lhs * rhs.y, lhs * rhs.z };
 }
 
+inline float operator*(const vec3& lhs, const vec3& rhs)
+{
+    return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+}
+
 inline std::ostream& operator<<(std::ostream& out, const vec3& value)
 {
     out << value.x << ' ' << value.y << ' ' << value.z;

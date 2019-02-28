@@ -26,6 +26,18 @@ void camera::move_right(float distance)
     position_ += shift;
 }
 
-void camera::turn_right(float angle) {}
+void camera::turn_right(float angle)
+{
+    const auto rotation_m = rotation(angle, up_);
+
+    direction_ = rotation_m * direction_;
+}
+
+void camera::turn_left(float angle)
+{
+    const auto rotation_m = rotation(-1 * angle, up_);
+
+    direction_ = rotation_m * direction_;
+}
 
 } // namespace pt

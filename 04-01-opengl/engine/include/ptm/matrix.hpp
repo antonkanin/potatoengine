@@ -19,4 +19,9 @@ struct matrix3x3
     }
 };
 
+vec3 operator*(const matrix3x3& m, const vec3& v)
+{
+    return {m.row1 * v, m.row2 * v, m.row3 * v};
+}
+
 } // namespace ptm

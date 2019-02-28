@@ -24,7 +24,7 @@ inline vec3 cross(const vec3& lhs, const vec3& rhs)
 
 inline float dot(const vec3& lhs, const vec3& rhs)
 {
-    return lhs.x * rhs.x + rhs.x * rhs.y + lhs.z * rhs.z;
+    return lhs * rhs;
 }
 
 inline float length(const vec3& v)
@@ -44,8 +44,7 @@ inline vec3 projection(const vec3& from, const vec3& to)
     return (dot(from, to) / dot(to, to)) * to;
 }
 
-inline matrix3x3 rotation(float angle,
-                        const vec3& direction)
+inline matrix3x3 rotation(float angle, const vec3& direction)
 {
     const auto n = normalize(direction);
     const auto c = std::cos(angle);
@@ -61,7 +60,7 @@ inline matrix3x3 rotation(float angle,
     result.row2.y = n.y * n.y * (1 - c) + c;
     result.row2.z = n.y * n.z * (1 - c) + n.x * s;
 
-    result.row3.x = n.x * n.z * (1 - c) + n.x * c;
+    result.row3.x = n.x * n.z * (1 - c) + n.y * s;
     result.row3.y = n.y * n.z * (1 - c) - n.x * s;
     result.row3.z = n.z * n.z * (1 - c) + c;
 
