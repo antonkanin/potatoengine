@@ -76,35 +76,6 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
     const auto vertex_uv_pair_str =
         std::to_string(vertex_id) + std::to_string(uv_id);
 
-    /*
-        if (vertex_is is NOT in the processed_vertices)
-        {
-            add vertex to the processed_vertices
-            add vertex_id to the list of indecies
-            add vert_uv paur to the map with the value = vertex_id
-        }
-        else
-        {
-            if (pair is not in the list of UV pairs)
-            {
-                // generating new vertex
-                get vertex data using vertex_id from the vertex list
-                                                                and add new
-                vertex the list of vertices use the count of vertices as the new
-                vertex_id add old_vertex_id/uv pair to the list of pairs and
-       link them to the new_vertex_idf add new_vertex_id to the list of indices
-       add new vertex data to the list of vertices (create a copy)
-            }
-            else
-            {
-                get a vertex_id code form the pair
-                add this code ad a new vertex to the list of indices
-            }
-        }
-    */
-
-    std::cout << face;
-
     if (processed_vertex_ids.count(vertex_id) == 0)
     {
         processed_vertex_ids.insert(vertex_id);
@@ -115,9 +86,6 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
         vertex_uv_pairs[vertex_uv_pair_str] = vertex_id;
 
         indices.push_back(vertex_id - 1);
-
-        std::cout << " " << vertices[vertex_id - 1].u << ' '
-                  << vertices[vertex_id - 1].v;
     }
     else
     {
@@ -143,10 +111,6 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
         else
         {
             const auto new_vertex_id = vertex_uv_pairs.at(vertex_uv_pair_str);
-
-            std::cout << " " << vertices[new_vertex_id - 1].u << ' '
-                      << vertices[new_vertex_id - 1].v;
-
             indices.push_back(new_vertex_id - 1);
         }
     }

@@ -37,6 +37,9 @@ bool engine_sdl::init()
         return false;
     };
 
+    // locking mouse at the center of the screen
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+
     return true;
 }
 
