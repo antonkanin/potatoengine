@@ -1,5 +1,6 @@
 #include "engine_sdl.hpp"
 #include "engine_utils.hpp"
+#include "log_utils.hpp"
 #include "renderer/renderer.hpp"
 #include "renderer/triangle.hpp"
 
@@ -82,6 +83,12 @@ void engine_sdl::poll_events()
             case SDL_QUIT:
             {
                 set_game_running(false);
+                break;
+            }
+
+            case SDL_MOUSEMOTION:
+            {
+                log_line("mouse movement");
             }
 
             default:

@@ -22,14 +22,14 @@ std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
 
 glm::vec3 glm_vec(const vec3 vector)
 {
-    return {vector.x, vector.y, vector.z};
+    return { vector.x, vector.y, vector.z };
 }
 
 glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
 {
-    return glm::lookAt(glm_vec(position), glm_vec(position + direction), glm_vec(up));
+    return glm::lookAt(glm_vec(position), glm_vec(position + direction),
+                       glm_vec(up));
 }
-
 
 void renderer_opengl::update_transform_matrix(
     const transformation& transformation, const camera& camera)
@@ -46,12 +46,11 @@ void renderer_opengl::update_transform_matrix(
                               transformation.rotation_vector.y,
                               transformation.rotation_vector.z));
 
-    glm::mat4 view_m = look_at(camera.get_position(), camera.get_direction(), camera.get_up());
+    glm::mat4 view_m =
+        look_at(camera.get_position(), camera.get_direction(), camera.get_up());
 
-    std::cout << camera.get_position() << std::endl;
-
-        glm::mat4 project_m =
-            glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);
+    glm::mat4 project_m =
+        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);
 
     glm::mat4 full_transfom_m = project_m * view_m * translate_m * rotate_m;
 

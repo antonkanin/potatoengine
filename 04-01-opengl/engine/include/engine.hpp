@@ -31,8 +31,10 @@ public:
 
     void set_title(const std::string& title);
 
+    /** time from the start of the game */
     float time() const;
 
+    /** duration of the previous frame */
     float delta_time() const;
 
     camera& get_camera() { return camera_; }

@@ -3,9 +3,9 @@
 #include <game_object.hpp>
 #include <iostream>
 #include <key_code.hpp>
+#include <ptm/vec3.hpp>
 #include <read_obj.hpp>
 #include <texture_image.hpp>
-#include <ptm/vec3.hpp>
 #include <vertex.hpp>
 
 class space_ship final : public pt::game_object
@@ -28,7 +28,7 @@ public:
 
     void update() override
     {
-        //handle_movement();
+        // handle_movement();
         handle_camera_movement();
 
         handle_rotation();
@@ -137,13 +137,13 @@ public:
         if (input.get_key_down(key_code::right))
         {
             get_engine().get_camera().move_right(.1f);
-            //get_engine().get_camera().turn_right(.1f);
+            // get_engine().get_camera().turn_right(.1f);
         }
 
         if (input.get_key_down(key_code::left))
         {
             get_engine().get_camera().move_left(.1f);
-            //get_engine().get_camera().turn_left(.1f);
+            // get_engine().get_camera().turn_left(.1f);
         }
 
         if (input.get_key_down(key_code::up))
@@ -155,9 +155,7 @@ public:
         {
             get_engine().get_camera().move_backward(.1f);
         }
-
     }
-
 };
 
 std::unique_ptr<pt::game_object> make_space_ship(pt::engine& engine)
