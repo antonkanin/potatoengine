@@ -27,7 +27,7 @@ glm::vec3 glm_vec(const vector3d vector)
 
 glm::mat4x4 look_at(const vector3d& position, const vector3d& direction, const vector3d& up)
 {
-    return glm::lookAt(glm_vec(position), glm_vec(direction), glm_vec(up));
+    return glm::lookAt(glm_vec(position), glm_vec(position + direction), glm_vec(up));
 }
 
 

@@ -136,17 +136,16 @@ public:
 
         if (input.get_key_down(key_code::right))
         {
-            //set_position(trans.position + vector3d{ 0.1f, 0, 0 });
+            get_engine().get_camera().move_right(.1f);
         }
 
         if (input.get_key_down(key_code::left))
         {
-            //set_position(trans.position - vector3d{ 0.1f, 0, 0 });
+            get_engine().get_camera().move_left(.1f);
         }
 
         if (input.get_key_down(key_code::up))
         {
-            //set_position(trans.position + vector3d{ 0, 0.1f, 0 });
             get_engine().get_camera().move_forward(.1f);
         }
 

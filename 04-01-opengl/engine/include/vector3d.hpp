@@ -48,6 +48,11 @@ inline vector3d operator*(const vector3d lhs, const float rhs)
     return { lhs.x * rhs, lhs.y * rhs, lhs.z * rhs };
 }
 
+inline vector3d operator*(const float lhs, const vector3d& rhs)
+{
+    return { lhs * rhs.x, lhs * rhs.y, lhs * rhs.z };
+}
+
 inline std::ostream& operator<<(std::ostream& out, const vector3d& value)
 {
     out << value.x << ' ' << value.y << ' ' << value.z;
