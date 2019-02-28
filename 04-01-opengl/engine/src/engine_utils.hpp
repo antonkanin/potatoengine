@@ -12,22 +12,22 @@ pt::key_code get_key(const SDL_Keycode& sdl_keycode)
 
     switch (sdl_keycode)
     {
-        case SDLK_UP:
+        case SDLK_o: // SDLK_UP:
         {
             return key_code::up;
         }
 
-        case SDLK_RIGHT:
+        case SDLK_SEMICOLON: // SDLK_RIGHT:
         {
             return key_code::right;
         }
 
-        case SDLK_DOWN:
+        case SDLK_l: // SDLK_DOWN:
         {
             return key_code::down;
         }
 
-        case SDLK_LEFT:
+        case SDLK_k: // SDLK_LEFT:
         {
             return key_code::left;
         }
