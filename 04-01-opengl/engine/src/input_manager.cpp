@@ -54,6 +54,9 @@ void input_manager::reset_states()
 
     keys_[key_code::start][key_state::pressed]  = false;
     keys_[key_code::start][key_state::released] = false;
+
+    axis_x_ = 0.f;
+    axis_y_ = 0.f;
 }
 
 } // namespace pt

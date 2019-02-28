@@ -40,7 +40,7 @@ bool engine_sdl::init()
     return true;
 }
 
-void engine_sdl::process_event(const SDL_KeyboardEvent& event)
+void engine_sdl::process_keyboard_event(const SDL_KeyboardEvent& event)
 {
     auto code = get_key(event.keysym.sym);
 
@@ -70,13 +70,13 @@ void engine_sdl::poll_events()
         {
             case SDL_KEYDOWN:
             {
-                process_event(event.key);
+                process_keyboard_event(event.key);
                 break;
             }
 
             case SDL_KEYUP:
             {
-                process_event(event.key);
+                process_keyboard_event(event.key);
                 break;
             }
 
@@ -88,7 +88,7 @@ void engine_sdl::poll_events()
 
             case SDL_MOUSEMOTION:
             {
-                log_line("mouse movement");
+                process_mouse_motion_event(event.motion);
             }
 
             default:
@@ -132,6 +132,12 @@ void engine_sdl::post_render_objects()
 float engine_sdl::get_ticks()
 {
     return SDL_GetTicks();
+}
+
+void engine_sdl::process_mouse_motion_event(const SDL_MouseMotionEvent& event)
+{
+    get_input_manager().set_axis_x(event.xrel);
+    get_input_manager().set_axis_y(event.yrel);
 }
 
 } // namespace pt

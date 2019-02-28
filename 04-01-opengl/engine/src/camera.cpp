@@ -1,3 +1,6 @@
+
+#include <camera.hpp>
+
 #include "camera.hpp"
 #include "ptm/math.hpp"
 
@@ -26,16 +29,17 @@ void camera::move_right(float distance)
     position_ += shift;
 }
 
-void camera::turn_right(float angle)
+void camera::add_yaw(float angle)
 {
     const auto rotation_m = rotation(angle, up_);
-
     direction_ = rotation_m * direction_;
 }
 
-void camera::turn_left(float angle)
+void camera::add_pitch(float angle)
 {
-    const auto rotation_m = rotation(-1 * angle, up_);
+    const auto left = cross(direction_, up_);
+
+    const auto rotation_m = rotation(angle, left);
 
     direction_ = rotation_m * direction_;
 }

@@ -17,7 +17,9 @@ public:
 private:
     void post_render_objects() override;
 
-    void process_event(const SDL_KeyboardEvent& event);
+    void process_keyboard_event(const SDL_KeyboardEvent& event);
+
+    void process_mouse_motion_event(const SDL_MouseMotionEvent& event);
 
     void poll_events() override;
 

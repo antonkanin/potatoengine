@@ -30,8 +30,8 @@ public:
     void move_up(float distance) {}
     void move_down(float distance) {}
 
-    void turn_right(float angle);
-    void turn_left(float angle);
+    void add_yaw(float angle);
+    void add_pitch(float angle);
 
 private:
     vec3 direction_ = { 0.f, 0.f, -1.f };
