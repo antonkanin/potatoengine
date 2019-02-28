@@ -5,7 +5,7 @@
 #include <key_code.hpp>
 #include <read_obj.hpp>
 #include <texture_image.hpp>
-#include <vector3d.hpp>
+#include <ptm/vec3.hpp>
 #include <vertex.hpp>
 
 class space_ship final : public pt::game_object
@@ -23,7 +23,7 @@ public:
         set_model(cube_model);
 
         set_position(get_transformation().position +
-                     pt::vector3d{ 0.0f, 0.0f, -5.0f });
+                     pt::vec3{ 0.0f, 0.0f, -5.0f });
     }
 
     void update() override
@@ -45,22 +45,22 @@ public:
 
         if (input.get_key_down(key_code::right))
         {
-            set_position(trans.position + vector3d{ 0.1f, 0, 0 });
+            set_position(trans.position + vec3{ 0.1f, 0, 0 });
         }
 
         if (input.get_key_down(key_code::left))
         {
-            set_position(trans.position - vector3d{ 0.1f, 0, 0 });
+            set_position(trans.position - vec3{ 0.1f, 0, 0 });
         }
 
         if (input.get_key_down(key_code::up))
         {
-            set_position(trans.position + vector3d{ 0, 0.1f, 0 });
+            set_position(trans.position + vec3{ 0, 0.1f, 0 });
         }
 
         if (input.get_key_down(key_code::down))
         {
-            set_position(trans.position - vector3d{ 0, 0.1f, 0 });
+            set_position(trans.position - vec3{ 0, 0.1f, 0 });
         }
     }
 

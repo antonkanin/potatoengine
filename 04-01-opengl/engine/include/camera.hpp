@@ -1,25 +1,27 @@
 #pragma once
 
-#include "vector3d.hpp"
+#include "ptm/vec3.hpp"
 
 namespace pt
 {
+
+using namespace ptm;
+
 // TODO should the camera just have a transform object to handle position &
 // rotation?
-
 class camera
 {
 public:
-    vector3d get_direction() const { return direction_; }
-    void     set_direction(const vector3d& direction) {}
+    vec3 get_direction() const { return direction_; }
+    void set_direction(const vec3& direction) {}
 
-    vector3d get_position() const { return position_; }
-    void     set_position(const vector3d& position) {}
+    vec3 get_position() const { return position_; }
+    void set_position(const vec3& position) {}
 
-    vector3d get_up() const { return up_; }
-    void     set_up(const vector3d& direction) { up_ = direction; }
+    vec3 get_up() const { return up_; }
+    void set_up(const vec3& direction) { up_ = direction; }
 
-    void move_forward(float distance);
+    void move_forward(float dist);
     void move_backward(float distance);
 
     void move_left(float distance);
@@ -30,16 +32,12 @@ public:
 
     void turn_right(float angle);
 
-
-    void turn_left(float angle)
-    {
-
-    }
+    void turn_left(float angle) {}
 
 private:
-    vector3d direction_ = { 0.f, 0.f, -1.f };
-    vector3d up_        = up_vector;
-    vector3d position_  = { 0.f, 0.f, 0.f };
+    vec3 direction_ = { 0.f, 0.f, -1.f };
+    vec3 up_        = up_vector;
+    vec3 position_  = { 0.f, 0.f, 0.f };
 };
 
 } // namespace pt

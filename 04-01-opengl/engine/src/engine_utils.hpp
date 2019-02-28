@@ -1,7 +1,7 @@
 #pragma once
 
 #include "key_code.hpp"
-#include "vector3d.hpp"
+#include "ptm/vec3.hpp"
 #include "vertex.hpp"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
@@ -67,7 +67,7 @@ bool is_keycode_supported(const SDL_Keycode& sdl_keycode)
             sdl_keycode == SDLK_a || sdl_keycode == SDLK_s);
 }
 
-pt::vertex world_to_screen(const pt::vector3d& position)
+pt::vertex world_to_screen(const pt::vec3& position)
 {
     return { position.x, position.y, position.z };
 }

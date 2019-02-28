@@ -20,12 +20,12 @@ std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
     return out;
 }
 
-glm::vec3 glm_vec(const vector3d vector)
+glm::vec3 glm_vec(const vec3 vector)
 {
     return {vector.x, vector.y, vector.z};
 }
 
-glm::mat4x4 look_at(const vector3d& position, const vector3d& direction, const vector3d& up)
+glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
 {
     return glm::lookAt(glm_vec(position), glm_vec(position + direction), glm_vec(up));
 }

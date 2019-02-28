@@ -26,10 +26,6 @@ void camera::move_right(float distance)
     position_ += shift;
 }
 
-    void camera::turn_right(float angle)
-    {
-
-
-    }
+void camera::turn_right(float angle) {}
 
 } // namespace pt

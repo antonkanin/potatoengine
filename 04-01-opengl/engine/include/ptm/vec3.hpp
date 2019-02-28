@@ -2,15 +2,16 @@
 
 #include <ostream>
 
-namespace pt
+namespace ptm
 {
-struct vector3d
+
+struct vec3
 {
     float x;
     float y;
     float z;
 
-    vector3d& operator+=(const vector3d& rhs)
+    vec3& operator+=(const vec3& rhs)
     {
         this->x += rhs.x;
         this->y += rhs.y;
@@ -19,7 +20,7 @@ struct vector3d
         return *this;
     }
 
-    vector3d& operator-=(const vector3d& rhs)
+    vec3& operator-=(const vec3& rhs)
     {
         this->x -= rhs.x;
         this->y -= rhs.y;
@@ -29,34 +30,34 @@ struct vector3d
     }
 };
 
-const vector3d zero_vector = { 0.0f, 0.0f, 0.0f };
-const vector3d up_vector   = { 0.0f, 1.0f, 0.0f };
-const vector3d left_vector = { 1.0f, 0.0f, 0.0f };
+const vec3 zero_vector = { 0.0f, 0.0f, 0.0f };
+const vec3 up_vector   = { 0.0f, 1.0f, 0.0f };
+const vec3 left_vector = { 1.0f, 0.0f, 0.0f };
 
-inline vector3d operator+(const vector3d& lhs, const vector3d& rhs)
+inline vec3 operator+(const vec3& lhs, const vec3& rhs)
 {
     return { lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z };
 }
 
-inline vector3d operator-(const vector3d& lhs, const vector3d rhs)
+inline vec3 operator-(const vec3& lhs, const vec3 rhs)
 {
     return { lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z };
 }
 
-inline vector3d operator*(const vector3d lhs, const float rhs)
+inline vec3 operator*(const vec3 lhs, const float rhs)
 {
     return { lhs.x * rhs, lhs.y * rhs, lhs.z * rhs };
 }
 
-inline vector3d operator*(const float lhs, const vector3d& rhs)
+inline vec3 operator*(const float lhs, const vec3& rhs)
 {
     return { lhs * rhs.x, lhs * rhs.y, lhs * rhs.z };
 }
 
-inline std::ostream& operator<<(std::ostream& out, const vector3d& value)
+inline std::ostream& operator<<(std::ostream& out, const vec3& value)
 {
     out << value.x << ' ' << value.y << ' ' << value.z;
     return out;
 }
 
-} // namespace pt
+} // namespace ptm

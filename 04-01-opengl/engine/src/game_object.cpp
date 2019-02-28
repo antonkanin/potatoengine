@@ -8,7 +8,7 @@ engine& game_object::get_engine()
     return engine_;
 }
 
-void game_object::set_position(const vector3d& position)
+void game_object::set_position(const ptm::vec3& position)
 {
     transformation_.position = position;
 }
@@ -33,7 +33,7 @@ void game_object::set_transform(const transformation& transform)
     transformation_ = transform;
 }
 
-void game_object::set_rotation(const vector3d& rotation_vector, float angle)
+void game_object::set_rotation(const ptm::vec3& rotation_vector, float angle)
 {
     transformation_.rotation_vector = rotation_vector;
     transformation_.rotation_angle  = angle;

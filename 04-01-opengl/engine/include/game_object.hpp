@@ -2,7 +2,7 @@
 
 #include "model.hpp"
 #include "transformation.hpp"
-#include "vector3d.hpp"
+#include "ptm/vec3.hpp"
 
 namespace pt
 {
@@ -29,9 +29,9 @@ public:
 
     const transformation& get_transformation() const;
 
-    void set_position(const vector3d& position);
+    void set_position(const ptm::vec3& position);
 
-    void set_rotation(const vector3d& rotation_vector, float angle);
+    void set_rotation(const ptm::vec3& rotation_vector, float angle);
 
     const model& get_model() const;
     void         set_model(const model& model);
@@ -46,8 +46,8 @@ private:
 
     model model_;
 
-    transformation transformation_ = { zero_vector, up_vector, 0.0f,
-                                       zero_vector };
+    transformation transformation_ = { ptm::zero_vector, ptm::up_vector, 0.0f,
+                                       ptm::zero_vector };
 };
 
 } // namespace pt

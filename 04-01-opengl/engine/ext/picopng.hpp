@@ -5,7 +5,7 @@ decodePNG: The picoPNG function, decodes a PNG file buffer in memory, into a raw
 pixel buffer.
 out_image: output parameter, this will contain the raw pixels after decoding.
   By default the output is 32-bit RGBA color.
-  The std::vector is automatically resized to the correct size.
+  The std::vec3 is automatically resized to the correct size.
 image_width: output_parameter, this will contain the width of the image in
 pixels.
 image_height: output_parameter, this will contain the height of the image in
@@ -674,7 +674,7 @@ int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width,
             out.resize(outlength); // time to fill the out buffer
             unsigned char* out_ =
                 outlength ? &out[0] : 0;   // use a regular pointer to the
-                                           // std::vector for faster code if
+                                           // std::vec3 for faster code if
                                            // compiled without optimization
             if (info.interlaceMethod == 0) // no interlace, just filter
             {
@@ -1131,7 +1131,7 @@ int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width,
 
 void loadFile(std::vector<unsigned char>& buffer,
               const std::string& filename) // designed for loading files from
-                                           // hard disk in an std::vector
+                                           // hard disk in an std::vec3
 {
     std::ifstream file(filename.c_str(),
                        std::ios::in | std::ios::binary | std::ios::ate);
@@ -1143,7 +1143,7 @@ void loadFile(std::vector<unsigned char>& buffer,
     if (file.seekg(0, std::ios::beg).good())
         size -= file.tellg();
 
-    // read contents of the file into the vector
+    // read contents of the file into the vec3
     if (size > 0)
     {
         buffer.resize((size_t)size);
@@ -1159,7 +1159,7 @@ int main(int argc, char *argv[])
   const char* filename = argc > 1 ? argv[1] : "test.png";
 
   //load and decode
-  std::vector<unsigned char> buffer, image;
+  std::vec3<unsigned char> buffer, image;
   loadFile(buffer, filename);
   unsigned long w, h;
   int error = decodePNG(image, w, h, buffer.empty() ? 0 : &buffer[0], (unsigned
@@ -1168,7 +1168,7 @@ long)buffer.size());
   //if there's an error, display it
   if(error != 0) std::cout << "error: " << error << std::endl;
 
-  //the pixels are now in the vector "image", use it as texture, draw it, ...
+  //the pixels are now in the vec3 "image", use it as texture, draw it, ...
 
   if(image.size() > 4) std::cout << "width: " << w << " height: " << h << "
 first pixel: " << std::hex << int(image[0]) << int(image[1]) << int(image[2]) <<
