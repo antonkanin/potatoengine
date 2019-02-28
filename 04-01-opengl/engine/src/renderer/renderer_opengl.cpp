@@ -20,8 +20,19 @@ std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
     return out;
 }
 
+glm::vec3 glm_vec(const vector3d vector)
+{
+    return {vector.x, vector.y, vector.z};
+}
+
+glm::mat4x4 look_at(const vector3d& position, const vector3d& direction, const vector3d& up)
+{
+    return glm::lookAt(glm_vec(position), glm_vec(direction), glm_vec(up));
+}
+
+
 void renderer_opengl::update_transform_matrix(
-    const transformation& transformation)
+    const transformation& transformation, const camera& camera)
 {
     glm::vec3 trans_v =
         glm::vec3(transformation.position.x, transformation.position.y,
@@ -35,10 +46,14 @@ void renderer_opengl::update_transform_matrix(
                               transformation.rotation_vector.y,
                               transformation.rotation_vector.z));
 
-    glm::mat4 project_m =
-        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);
+    glm::mat4 view_m = look_at(camera.get_position(), camera.get_direction(), camera.get_up());
 
-    glm::mat4 full_transfom_m = project_m * translate_m * rotate_m;
+    std::cout << camera.get_position() << std::endl;
+
+        glm::mat4 project_m =
+            glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);
+
+    glm::mat4 full_transfom_m = project_m * view_m * translate_m * rotate_m;
 
     GLint transformLoc =
         glGetUniformLocation(gl_program_id_, "u_transform_matrix");
@@ -55,10 +70,10 @@ void renderer_opengl::update_transform_matrix(
     check_gl_errors();
 }
 
-void renderer_opengl::draw_triangle(const model&          model,
-                                    const transformation& transformation)
+void renderer_opengl::draw_triangle(const transformation& transformation,
+                                    const camera&         camera)
 {
-    update_transform_matrix(transformation);
+    update_transform_matrix(transformation, camera);
 
     validate_program();
 

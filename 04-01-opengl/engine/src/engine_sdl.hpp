@@ -14,8 +14,6 @@ public:
 
     bool init() override;
 
-    // bool run() override;
-
 private:
     void post_render_objects() override;
 

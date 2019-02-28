@@ -13,8 +13,8 @@ class renderer_opengl final : public renderer
 public:
     bool initialize(SDL_Window* window) override;
 
-    void draw_triangle(const model&          model,
-                       const transformation& transformation) override;
+    void draw_triangle(const transformation& transformation,
+                       const camera&         camera) override;
 
     void swap_buffers() override;
 
@@ -24,7 +24,8 @@ public:
 private:
     bool get_opengl_context();
 
-    void update_transform_matrix(const transformation& transformation);
+    void update_transform_matrix(const transformation& transformation,
+                                 const camera&         camera);
 
     void load_tecture();
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "camera.hpp"
 #include <SDL2/SDL.h> // TODO do we really need the full SDL2.h here?
 #include <memory>
 #include <model.hpp>
@@ -19,8 +20,8 @@ public:
 
     virtual void load_model(const model& model) = 0;
 
-    virtual void draw_triangle(const model&          model,
-                               const transformation& transformation) = 0;
+    virtual void draw_triangle(const transformation& transformation,
+                               const camera&         camera) = 0;
 
     virtual void swap_buffers() = 0;
 

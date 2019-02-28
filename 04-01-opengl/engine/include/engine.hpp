@@ -7,6 +7,7 @@
 #include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
 // abstraction instead of including a private header
 
+#include "camera.hpp"
 #include "game_object.hpp"
 #include "input_manager.hpp"
 #include "key_code.hpp"
@@ -33,6 +34,8 @@ public:
     float time() const;
 
     float delta_time() const;
+
+    camera& get_camera() { return camera_; }
 
 protected:
     virtual void load_models() = 0;
@@ -66,6 +69,8 @@ private:
 
     float time_       = 0.f;
     float delta_time_ = 0.f;
+
+    camera camera_;
 };
 
 std::unique_ptr<engine> make_engine();

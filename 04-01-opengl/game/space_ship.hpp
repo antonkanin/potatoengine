@@ -28,7 +28,8 @@ public:
 
     void update() override
     {
-        handle_movement();
+        //handle_movement();
+        handle_camera_movement();
 
         handle_rotation();
 
@@ -125,6 +126,37 @@ public:
         print_key_state(key_code::button_a, "Button A");
         print_key_state(key_code::button_b, "Button B");
     }
+
+    void handle_camera_movement()
+    {
+        using namespace pt;
+
+        const auto& input = get_engine().get_input_manager();
+        const auto& trans = get_transformation();
+
+        if (input.get_key_down(key_code::right))
+        {
+            //set_position(trans.position + vector3d{ 0.1f, 0, 0 });
+        }
+
+        if (input.get_key_down(key_code::left))
+        {
+            //set_position(trans.position - vector3d{ 0.1f, 0, 0 });
+        }
+
+        if (input.get_key_down(key_code::up))
+        {
+            //set_position(trans.position + vector3d{ 0, 0.1f, 0 });
+            get_engine().get_camera().move_forward(.1f);
+        }
+
+        if (input.get_key_down(key_code::down))
+        {
+            get_engine().get_camera().move_backward(.1f);
+        }
+
+    }
+
 };
 
 std::unique_ptr<pt::game_object> make_space_ship(pt::engine& engine)

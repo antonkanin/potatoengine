@@ -105,7 +105,7 @@ void engine_sdl::clean_up()
 void engine_sdl::render_object(const model&          model,
                                const transformation& transformation)
 {
-    renderer_->draw_triangle(model, transformation);
+    renderer_->draw_triangle(transformation, get_camera());
 }
 
 // TODO this should be moved up to the render class

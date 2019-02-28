@@ -1,5 +1,6 @@
-- add delta time to the engine and let objects use it
+- add camera class and make it available to the game_object
 - load texture in the TGA format
 
 Done
+- add delta time to the engine and let objects use it
 - read UV coordinates
