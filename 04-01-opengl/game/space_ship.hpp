@@ -34,7 +34,7 @@ public:
 
         // handle_rotation();
 
-        print_keys();
+        // print_keys();
     }
 
     void handle_movement()
@@ -77,7 +77,6 @@ public:
 
         if (input.get_key_down(key_code::button_a))
         {
-            // set_rotation(trans.rotation_vector, trans.rotation_angle - 0.3f);
             set_rotation(up_vector, trans.rotation_angle - 0.3f);
         }
 
@@ -88,7 +87,6 @@ public:
 
         if (input.get_key_down(key_code::start))
         {
-            // set_rotation(trans.rotation_vector, trans.rotation_angle - 0.3f);
             set_rotation(left_vector, trans.rotation_angle - 0.3f);
         }
 
@@ -135,24 +133,36 @@ public:
         const auto& input = get_engine().get_input_manager();
         const auto& trans = get_transformation();
 
+        const float MOVEMENT_SPEED = 0.1f;
+
         if (input.get_key_down(key_code::right))
         {
-            get_engine().get_camera().move_right(.1f);
+            get_engine().get_camera().move_right(MOVEMENT_SPEED);
         }
 
         if (input.get_key_down(key_code::left))
         {
-            get_engine().get_camera().move_left(.1f);
+            get_engine().get_camera().move_left(MOVEMENT_SPEED);
         }
 
         if (input.get_key_down(key_code::up))
         {
-            get_engine().get_camera().move_forward(.1f);
+            get_engine().get_camera().move_forward(MOVEMENT_SPEED);
         }
 
         if (input.get_key_down(key_code::down))
         {
-            get_engine().get_camera().move_backward(.1f);
+            get_engine().get_camera().move_backward(MOVEMENT_SPEED);
+        }
+
+        if (input.get_key_down(key_code::jump))
+        {
+            get_engine().get_camera().move_up(MOVEMENT_SPEED);
+        }
+
+        if (input.get_key_down(key_code::crouch))
+        {
+            get_engine().get_camera().move_down(MOVEMENT_SPEED);
         }
 
         get_engine().get_camera().add_yaw(input.get_axis_x() * 0.02f);

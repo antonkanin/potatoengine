@@ -25,35 +25,28 @@ bool& input_manager::key_code_state(const key_code&  code,
     return keys_.at(code).at(state);
 }
 
+void input_manager::reset_key_state(key_code code)
+{
+    keys_[code][key_state::pressed]  = false;
+    keys_[code][key_state::released] = false;
+}
+
 void input_manager::reset_states()
 {
     // TODO need to refactor key_code into the container (possibly std::array?)
     // instead of using enum so we can integrate though values instead of
     // hardcoding them here
 
-    keys_[key_code::up][key_state::pressed]  = false;
-    keys_[key_code::up][key_state::released] = false;
-
-    keys_[key_code::right][key_state::pressed]  = false;
-    keys_[key_code::right][key_state::released] = false;
-
-    keys_[key_code::down][key_state::pressed]  = false;
-    keys_[key_code::down][key_state::released] = false;
-
-    keys_[key_code::left][key_state::pressed]  = false;
-    keys_[key_code::left][key_state::released] = false;
-
-    keys_[key_code::button_a][key_state::pressed]  = false;
-    keys_[key_code::button_a][key_state::released] = false;
-
-    keys_[key_code::button_b][key_state::pressed]  = false;
-    keys_[key_code::button_b][key_state::released] = false;
-
-    keys_[key_code::select][key_state::pressed]  = false;
-    keys_[key_code::select][key_state::released] = false;
-
-    keys_[key_code::start][key_state::pressed]  = false;
-    keys_[key_code::start][key_state::released] = false;
+    reset_key_state(key_code::up);
+    reset_key_state(key_code::right);
+    reset_key_state(key_code::left);
+    reset_key_state(key_code::down);
+    reset_key_state(key_code::button_a);
+    reset_key_state(key_code::button_b);
+    reset_key_state(key_code::select);
+    reset_key_state(key_code::start);
+    reset_key_state(key_code::jump);
+    reset_key_state(key_code::crouch);
 
     axis_x_ = 0.f;
     axis_y_ = 0.f;

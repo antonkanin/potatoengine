@@ -13,7 +13,9 @@ enum class key_code
     button_a    = 5,
     button_b    = 6,
     select      = 7,
-    start       = 8
+    start       = 8,
+    jump        = 9,
+    crouch      = 10
 };
 
 enum class key_state

@@ -103,10 +103,6 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
             indices.push_back(new_vertex_id - 1);
 
             vertices.push_back(vertex_data);
-
-            std::cout << " " << vertices.back().u << ' ' << vertices.back().v;
-
-            std::cout << "   adding vertex " << new_vertex_id;
         }
         else
         {
@@ -114,8 +110,6 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
             indices.push_back(new_vertex_id - 1);
         }
     }
-
-    std::cout << std::endl;
 }
 
 void read_faces(const std::string& line, const std::vector<uv>& uvs,

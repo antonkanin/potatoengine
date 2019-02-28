@@ -92,6 +92,7 @@ void engine_sdl::poll_events()
             case SDL_MOUSEMOTION:
             {
                 process_mouse_motion_event(event.motion);
+                break;
             }
 
             default:

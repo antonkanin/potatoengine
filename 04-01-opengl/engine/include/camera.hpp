@@ -12,14 +12,14 @@ using namespace ptm;
 class camera
 {
 public:
-    vec3 get_direction() const { return direction_; }
-    void set_direction(const vec3& direction) {}
+    vec3 get_direction() const;
+    void set_direction(const vec3& direction);
 
-    vec3 get_position() const { return position_; }
-    void set_position(const vec3& position) {}
+    vec3 get_position() const;
+    void set_position(const vec3& position);
 
-    vec3 get_up() const { return up_; }
-    void set_up(const vec3& direction) { up_ = direction; }
+    vec3 get_up() const;
+    void set_up(const vec3& direction);
 
     void move_forward(float dist);
     void move_backward(float distance);
@@ -27,8 +27,8 @@ public:
     void move_left(float distance);
     void move_right(float distance);
 
-    void move_up(float distance) {}
-    void move_down(float distance) {}
+    void move_up(float distance);
+    void move_down(float distance);
 
     void add_yaw(float angle);
     void add_pitch(float angle);

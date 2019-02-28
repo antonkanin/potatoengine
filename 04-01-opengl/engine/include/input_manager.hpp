@@ -28,6 +28,8 @@ public:
     float get_axis_y() const { return axis_y_; }
 
 private:
+    void reset_key_state(key_code code);
+
     std::map<key_code, std::map<key_state, bool>> keys_;
 
     float axis_x_ = 0.f;

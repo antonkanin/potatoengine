@@ -52,19 +52,21 @@ pt::key_code get_key(const SDL_Keycode& sdl_keycode)
             return key_code::select;
         }
 
+        case SDLK_SPACE:
+        {
+            return key_code::jump;
+        }
+
+        case SDLK_RSHIFT:
+        {
+            return key_code::crouch;
+        }
+
         default:
         {
             return key_code::unsupported;
         }
     }
-}
-
-bool is_keycode_supported(const SDL_Keycode& sdl_keycode)
-{
-    return (sdl_keycode == SDLK_UP || sdl_keycode == SDLK_RIGHT ||
-            sdl_keycode == SDLK_LEFT || sdl_keycode == SDLK_RIGHT ||
-            sdl_keycode == SDLK_q || sdl_keycode == SDLK_w ||
-            sdl_keycode == SDLK_a || sdl_keycode == SDLK_s);
 }
 
 pt::vertex world_to_screen(const pt::vec3& position)
