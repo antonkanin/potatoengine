@@ -1,5 +1,5 @@
 #include "camera.hpp"
-#include "math.hpp"
+#include "ptm/math.hpp"
 
 namespace pt
 {

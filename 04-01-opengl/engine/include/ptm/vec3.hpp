@@ -11,6 +11,8 @@ struct vec3
     float y;
     float z;
 
+    vec3(float x, float y, float z) : x(x), y(y), z(z) {}
+
     vec3& operator+=(const vec3& rhs)
     {
         this->x += rhs.x;
