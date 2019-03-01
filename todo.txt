@@ -3,7 +3,9 @@
 - enhance shader class: add a method to setup uniforms
 - add support for multiple game objects with models, currently we only support one model
 - remove 0.5 sec delay when pressing keys on the keyboard
+- [low] do not read mouse input when the game window is not in active
 - [low] load texture in the TGA format
+
 
 Done
 - add camera class and make it available to the game_object
