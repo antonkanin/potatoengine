@@ -1,3 +1,6 @@
+- implement translation, rotation, projection matrices
+- [bug] LEFT SHIFT does continue movement when you hold it
+- enhance shader class: add a method to setup uniforms
 - add support for multiple game objects with models, currently we only support one model
 - remove 0.5 sec delay when pressing keys on the keyboard
 - [low] load texture in the TGA format
