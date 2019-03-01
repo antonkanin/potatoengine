@@ -1,5 +1,7 @@
 #include "renderer_opengl.hpp"
 #include "opengl_utils.hpp"
+#include "ptm/math.hpp"
+#include "ptm/matrix.hpp"
 #include "shader.hpp"
 #include "triangle.hpp"
 #include "vertex.hpp"
@@ -25,6 +27,33 @@ glm::vec3 glm_vec(const vec3 vector)
     return { vector.x, vector.y, vector.z };
 }
 
+glm::mat4x4 glm_mat(const ptm::matrix4x4& mat)
+{
+    glm::mat4x4 result;
+
+    result[0].x = mat.row1.x;
+    result[1].x = mat.row1.y;
+    result[2].x = mat.row1.z;
+    result[3].x = mat.row1.w;
+
+    result[0].y = mat.row2.x;
+    result[1].y = mat.row2.y;
+    result[2].y = mat.row2.z;
+    result[3].y = mat.row2.w;
+
+    result[0].z = mat.row3.x;
+    result[1].z = mat.row3.y;
+    result[2].z = mat.row3.z;
+    result[3].z = mat.row3.w;
+
+    result[0].w = mat.row4.x;
+    result[1].w = mat.row4.y;
+    result[2].w = mat.row4.z;
+    result[3].w = mat.row4.w;
+
+    return result;
+}
+
 glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
 {
     return glm::lookAt(glm_vec(position), glm_vec(position + direction),
@@ -34,20 +63,40 @@ glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
 void renderer_opengl::update_transform_matrix(
     const transformation& transformation, const camera& camera)
 {
-    glm::vec3 trans_v =
-        glm::vec3(transformation.position.x, transformation.position.y,
-                  transformation.position.z);
+    //    glm::vec3 trans_v =
+    //        glm::vec3(transformation.position.x, transformation.position.y,
+    //                  transformation.position.z);
 
-    glm::mat4 translate_m = glm::translate(glm::mat4(), trans_v);
 
-    glm::mat4 rotate_m =
-        glm::rotate(glm::mat4(), transformation.rotation_angle,
-                    glm::vec3(transformation.rotation_vector.x,
-                              transformation.rotation_vector.y,
-                              transformation.rotation_vector.z));
+    ///////////////////////////////////////////////////////////////////////////
+    // make translation matrix
+
+    ptm::matrix4x4 translation_m = ptm::translation(transformation.position);
+
+    glm::mat4 translate_m = glm_mat(translation_m);
+
+    ///////////////////////////////////////////////////////////////////////////
+    // make rotation matrix
+
+    ptm::matrix4x4 rotation_m = ptm::matrix4x4(ptm::rotation(
+        transformation.rotation_angle, transformation.rotation_vector));
+
+//    glm::mat4 rotate_m =
+//        glm::rotate(glm::mat4(), transformation.rotation_angle,
+//                    glm::vec3(transformation.rotation_vector.x,
+//                              transformation.rotation_vector.y,
+//                              transformation.rotation_vector.z));
+
+    glm::mat4 rotate_m = glm_mat(rotation_m);
+
+    ///////////////////////////////////////////////////////////////////////////
+    // make view matrix
 
     glm::mat4 view_m =
         look_at(camera.get_position(), camera.get_direction(), camera.get_up());
+
+    ///////////////////////////////////////////////////////////////////////////
+    // make projection matrix
 
     glm::mat4 project_m =
         glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);

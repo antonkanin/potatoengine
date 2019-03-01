@@ -67,4 +67,15 @@ inline matrix3x3 rotation(float angle, const vec3& direction)
     return result;
 }
 
+inline matrix4x4 translation(const vec3& v)
+{
+    matrix4x4 result;
+
+    result.row1.w = v.x;
+    result.row2.w = v.y;
+    result.row3.w = v.z;
+
+    return result;
+}
+
 } // namespace ptm
