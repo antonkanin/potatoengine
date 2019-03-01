@@ -17,9 +17,9 @@ public:
 
     void start() override
     {
-        auto cube_model = pt::read_obj("figure.obj");
+        auto cube_model = pt::read_obj("res/figure.obj");
 
-        cube_model.image = pt::make_image("figure.png");
+        cube_model.image = pt::make_image("res/figure.png");
 
         set_model(cube_model);
 
@@ -32,7 +32,7 @@ public:
         // handle_movement();
         handle_camera_movement();
 
-        //handle_rotation();
+        handle_rotation();
 
         // print_keys();
     }
