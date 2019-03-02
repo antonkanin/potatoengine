@@ -9,8 +9,7 @@ namespace pt
 class program
 {
 public:
-    program(const std::string& vertex_path,
-               const std::string& fragment_path);
+    program(const std::string& vertex_path, const std::string& fragment_path);
 
     ~program();
 
@@ -19,6 +18,10 @@ public:
     void use();
 
     void validate();
+
+    void set_matrix4(const std::string &uniform_name, const GLfloat *uniform_value);
+
+    void set_1i(const std::string& uniform_name, GLint uniform_value);
 
 private:
     std::string load_file(const std::string& file_name);

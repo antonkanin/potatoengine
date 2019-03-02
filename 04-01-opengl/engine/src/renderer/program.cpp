@@ -19,7 +19,7 @@ std::string program::load_file(const std::string& file_name)
 
     std::stringstream ss;
 
-    ss << file.rdbuf();
+    ss << file.rdbuf() << '\n';
 
     file.close();
 
@@ -33,9 +33,15 @@ GLuint program::load_shader(const std::string& code, GLenum shader_type)
     shader_id = glCreateShader(shader_type);
     check_gl_errors();
 
+//    glShaderSource(shader_id, 1,
+//                   reinterpret_cast<const GLchar* const*>(code.c_str()),
+//                   nullptr);
+
+    const GLchar* shader_src = code.c_str();
     glShaderSource(shader_id, 1,
-                   reinterpret_cast<const GLchar* const*>(code.c_str()),
+                   &shader_src,
                    nullptr);
+
     check_gl_errors();
 
     GLint compilation_result;
@@ -163,6 +169,38 @@ void program::validate()
         throw std::runtime_error("Error: failed to validate the program:" +
                                  error_message);
     }
+}
+
+void program::set_matrix4(const std::string& uniform_name,
+                          const GLfloat*     uniform_value)
+{
+    GLint location =
+        glGetUniformLocation(program_id_, uniform_name.c_str());
+    check_gl_errors();
+
+    if (-1 == location)
+    {
+        throw std::runtime_error("Error: could not find attribute " +
+                                 uniform_name);
+    }
+
+    glUniformMatrix4fv(location, 1, GL_FALSE, uniform_value);
+    check_gl_errors();
+}
+
+void program::set_1i(const std::string& uniform_name, GLint uniform_value)
+{
+    GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
+    check_gl_errors();
+
+    if (-1 == location)
+    {
+        throw std::runtime_error("Error: could not find attribute " +
+                                 uniform_name);
+    }
+
+    glUniform1i(location, uniform_value);
+    check_gl_errors();
 }
 
 } // namespace pt

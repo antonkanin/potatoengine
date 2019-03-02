@@ -5,6 +5,7 @@
 #include "shader.hpp"
 #include "triangle.hpp"
 #include "vertex.hpp"
+#include "program.hpp"
 
 #include <SDL2/SDL_opengl.h>
 #include <glm/glm.hpp>
@@ -103,19 +104,22 @@ void renderer_opengl::update_transform_matrix(
 
     glm::mat4 full_transfom_m = project_m * view_m * translate_m * rotate_m;
 
-    GLint transformLoc =
-        glGetUniformLocation(gl_program_id_, "u_transform_matrix");
-    check_gl_errors();
+//    GLint transformLoc =
+//        glGetUniformLocation(gl_program_id_, "u_transform_matrix");
+//    check_gl_errors();
+//
+//    if (transformLoc == -1)
+//    {
+//        throw std::runtime_error(
+//            "error: could not find attribute 'u_transform_matrix'");
+//    }
+//
+//
+//    glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+//                       glm::value_ptr(full_transfom_m));
+//    check_gl_errors();
 
-    if (transformLoc == -1)
-    {
-        throw std::runtime_error(
-            "error: could not find attribute 'u_transform_matrix'");
-    }
-
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
-                       glm::value_ptr(full_transfom_m));
-    check_gl_errors();
+    program_->set_matrix4("u_transform_matrix", glm::value_ptr(full_transfom_m));
 }
 
 void renderer_opengl::draw_triangle(const transformation& transformation,
@@ -123,7 +127,7 @@ void renderer_opengl::draw_triangle(const transformation& transformation,
 {
     update_transform_matrix(transformation, camera);
 
-    validate_program();
+    program_->validate();
 
     glActiveTexture(GL_TEXTURE0);
     check_gl_errors();
@@ -150,54 +154,8 @@ bool renderer_opengl::initialize(SDL_Window* window)
         return false;
     }
 
-    shader vertex_shader("shader01.vert", GL_VERTEX_SHADER);
-
-    shader fragment_shader("shader01.frag", GL_FRAGMENT_SHADER);
-
-    gl_program_id_ = glCreateProgram();
-    check_gl_errors();
-
-    if (gl_program_id_ == 0)
-    {
-        cerr << "Failed to create gl program" << '\n';
-        return false;
-    }
-
-    glAttachShader(gl_program_id_, vertex_shader.get_shader_id());
-    check_gl_errors();
-
-    glAttachShader(gl_program_id_, fragment_shader.get_shader_id());
-    check_gl_errors();
-
-    vertex_shader_id_ = vertex_shader.get_shader_id();
-
-    glLinkProgram(gl_program_id_);
-    check_gl_errors();
-
-    GLint linked_status = 0;
-    glGetProgramiv(gl_program_id_, GL_LINK_STATUS, &linked_status);
-
-    if (linked_status == GL_FALSE)
-    {
-        GLint info_length = 0;
-        glGetProgramiv(gl_program_id_, GL_INFO_LOG_LENGTH, &info_length);
-        check_gl_errors();
-
-        string info_log(static_cast<unsigned int>(info_length), ' ');
-        glGetProgramInfoLog(gl_program_id_, info_length, nullptr,
-                            info_log.data());
-        check_gl_errors();
-
-        cerr << "Error linking the program:" << '\n' << info_log.data();
-
-        glDeleteProgram(gl_program_id_);
-        check_gl_errors();
-
-        return false;
-    }
-
-    glUseProgram(gl_program_id_);
-    check_gl_errors();
+    program_ = make_unique<program>("shader01.vert", "shader01.frag");
+    program_->use();
 
     glEnable(GL_DEPTH_TEST);
     check_gl_errors();
@@ -232,33 +190,6 @@ bool renderer_opengl::get_opengl_context()
     return true;
 }
 
-void renderer_opengl::validate_program()
-{
-
-    glValidateProgram(gl_program_id_);
-    check_gl_errors();
-
-    GLint validate_result = 0;
-    glGetProgramiv(gl_program_id_, GL_VALIDATE_STATUS, &validate_result);
-    check_gl_errors();
-
-    if (validate_result == GL_FALSE)
-    {
-        GLint info_length = 0;
-
-        glGetProgramiv(gl_program_id_, GL_INFO_LOG_LENGTH, &info_length);
-        check_gl_errors();
-
-        std::string error_message(static_cast<unsigned int>(info_length), ' ');
-
-        glGetProgramInfoLog(gl_program_id_, info_length, nullptr,
-                            error_message.data());
-        check_gl_errors();
-
-        throw std::runtime_error("Error: failed to validate the program:" +
-                                 error_message);
-    }
-}
 
 void renderer_opengl::load_model(const model& model)
 {
@@ -313,8 +244,9 @@ void renderer_opengl::load_model(const model& model)
     ///////////////////////////////////////////////////////////////////////////
     // loading texture
 
-    glUseProgram(gl_program_id_);
-    check_gl_errors();
+    //glUseProgram(gl_program_id_);
+    //check_gl_errors();
+    program_->use();
 
     int texture_unit = 0;
     glActiveTexture(GL_TEXTURE0 + texture_unit);
@@ -347,14 +279,16 @@ void renderer_opengl::load_model(const model& model)
     //////////////////////////////////////
     // passing texture to the uniform
 
-    int location = glGetUniformLocation(gl_program_id_, "u_texture");
-    check_gl_errors();
+//    int location = glGetUniformLocation(gl_program_id_, "u_texture");
+//    check_gl_errors();
+//
+//    assert(-1 != location);
+//
+//    // http://www.khronos.org/opengles/sdk/docs/man/xhtml/glUniform.xml
+//    glUniform1i(location, 0 + texture_unit);
+//    check_gl_errors();
 
-    assert(-1 != location);
-
-    // http://www.khronos.org/opengles/sdk/docs/man/xhtml/glUniform.xml
-    glUniform1i(location, 0 + texture_unit);
-    check_gl_errors();
+    program_->set_1i("u_texture", 0 + texture_unit);
 
     glEnable(GL_BLEND);
     check_gl_errors();

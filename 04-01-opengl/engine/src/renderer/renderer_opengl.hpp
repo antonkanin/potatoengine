@@ -4,6 +4,7 @@
 #include "transformation.hpp"
 #include <SDL2/SDL_opengl.h>
 #include <model.hpp>
+#include "program.hpp"
 
 namespace pt
 {
@@ -29,11 +30,7 @@ private:
 
     void load_tecture();
 
-    void validate_program();
-
     SDL_GLContext gl_context_ = nullptr;
-
-    GLuint gl_program_id_ = 0;
 
     GLuint vertex_shader_id_ = 0;
 
@@ -43,6 +40,8 @@ private:
     GLuint EBO_ = 0;
 
     GLsizei indecies_count_ = 0;
+
+    std::unique_ptr<program> program_;
 };
 
 } // namespace pt
