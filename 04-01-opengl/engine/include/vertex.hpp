@@ -1,15 +1,15 @@
 #pragma once
 
+#include "ptm/vec3.hpp"
+#include "ptm/vec2.hpp"
+
 namespace pt
 {
 
 struct vertex
 {
-    float x;
-    float y;
-    float z;
-    float u;
-    float v;
+    ptm::vec3 position;
+    ptm::vec2 tex_coords;
 };
 
 } // namespace pt

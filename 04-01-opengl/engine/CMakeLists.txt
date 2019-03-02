@@ -11,6 +11,7 @@ add_library(${PROJECT_NAME} SHARED
         src/model.cpp
         src/camera.cpp
         src/texture_image.cpp
+        src/mesh.cpp
         src/renderer/renderer.cpp
         src/renderer/program.cpp
         src/renderer/renderer_opengl.cpp
