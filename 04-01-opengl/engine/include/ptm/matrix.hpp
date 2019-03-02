@@ -36,12 +36,13 @@ struct matrix4x4
     {
     }
 
-    matrix4x4(const matrix3x3& matrix) :
-    row1(matrix.row1, 0),
-    row2(matrix.row2, 0),
-    row3(matrix.row3, 0),
-    row4(0.f, 0.f, 0.f, 1.f) {}
-
+    matrix4x4(const matrix3x3& matrix)
+        : row1(matrix.row1, 0)
+        , row2(matrix.row2, 0)
+        , row3(matrix.row3, 0)
+        , row4(0.f, 0.f, 0.f, 1.f)
+    {
+    }
 };
 
 inline vec3 operator*(const matrix3x3& m, const vec3& v)

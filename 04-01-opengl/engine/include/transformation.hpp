@@ -9,7 +9,7 @@ struct transformation
 {
     ptm::vec3 position;
     ptm::vec3 rotation_vector;
-    float    rotation_angle;
+    float     rotation_angle;
     ptm::vec3 scale;
 };
 

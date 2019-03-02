@@ -1,10 +1,10 @@
 #include "renderer_opengl.hpp"
 #include "opengl_utils.hpp"
+#include "program.hpp"
 #include "ptm/math.hpp"
 #include "ptm/matrix.hpp"
 #include "triangle.hpp"
 #include "vertex.hpp"
-#include "program.hpp"
 
 #include <SDL2/SDL_opengl.h>
 #include <glm/glm.hpp>
@@ -95,7 +95,8 @@ void renderer_opengl::update_transform_matrix(
 
     glm::mat4 full_transfom_m = project_m * view_m * translate_m * rotate_m;
 
-    program_->set_matrix4("u_transform_matrix", glm::value_ptr(full_transfom_m));
+    program_->set_matrix4("u_transform_matrix",
+                          glm::value_ptr(full_transfom_m));
 }
 
 void renderer_opengl::draw_triangle(const transformation& transformation,
@@ -165,7 +166,6 @@ bool renderer_opengl::get_opengl_context()
 
     return true;
 }
-
 
 void renderer_opengl::load_model(const model& model)
 {

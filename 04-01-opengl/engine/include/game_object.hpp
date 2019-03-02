@@ -1,8 +1,8 @@
 #pragma once
 
 #include "model.hpp"
-#include "transformation.hpp"
 #include "ptm/vec3.hpp"
+#include "transformation.hpp"
 
 namespace pt
 {

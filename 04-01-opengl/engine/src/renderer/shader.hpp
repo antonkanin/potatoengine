@@ -1,8 +1,8 @@
 #pragma once
 
+#include "opengl_utils.hpp"
 #include <SDL2/SDL_opengl.h>
 #include <fstream>
-#include "opengl_utils.hpp"
 
 namespace pt
 {

@@ -1,10 +1,10 @@
 #pragma once
 
+#include "program.hpp"
 #include "renderer.hpp"
 #include "transformation.hpp"
 #include <SDL2/SDL_opengl.h>
 #include <model.hpp>
-#include "program.hpp"
 
 namespace pt
 {
