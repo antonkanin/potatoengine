@@ -28,11 +28,7 @@ private:
     void update_transform_matrix(const transformation& transformation,
                                  const camera&         camera);
 
-    void load_tecture();
-
     SDL_GLContext gl_context_ = nullptr;
-
-    GLuint vertex_shader_id_ = 0;
 
     GLuint texture_id_ = 0;
 

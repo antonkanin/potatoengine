@@ -1,6 +1,7 @@
 #include "program.hpp"
 
 #include "opengl_utils.hpp"
+#include "shader.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -26,63 +27,14 @@ std::string program::load_file(const std::string& file_name)
     return ss.str();
 }
 
-GLuint program::load_shader(const std::string& code, GLenum shader_type)
-{
-
-    GLuint shader_id;
-    shader_id = glCreateShader(shader_type);
-    check_gl_errors();
-
-//    glShaderSource(shader_id, 1,
-//                   reinterpret_cast<const GLchar* const*>(code.c_str()),
-//                   nullptr);
-
-    const GLchar* shader_src = code.c_str();
-    glShaderSource(shader_id, 1,
-                   &shader_src,
-                   nullptr);
-
-    check_gl_errors();
-
-    GLint compilation_result;
-    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &compilation_result);
-    check_gl_errors();
-
-    if (GL_FALSE == compilation_result)
-    {
-        GLsizei error_length = 0;
-        glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &error_length);
-
-        check_gl_errors();
-
-        std::string message(static_cast<unsigned int>(error_length), ' ');
-        glGetShaderInfoLog(shader_id, error_length, nullptr, message.data());
-        check_gl_errors();
-
-        delete_shader(shader_id);
-
-        std::cerr << "Error compiling shader: " << code << message.data()
-                  << '\n';
-
-        throw std::runtime_error("Error: failed to compile shader");
-    }
-
-    return shader_id;
-}
-
 program::program(const std::string& vertex_path,
                  const std::string& fragment_path)
 {
-    auto vertex_code = load_file(vertex_path);
-    auto frag_code   = load_file(fragment_path);
+    shader vertex_shader(vertex_path, GL_VERTEX_SHADER);
+    shader fragment_shader(fragment_path, GL_FRAGMENT_SHADER);
 
-    auto vertex_id = load_shader(vertex_code, GL_VERTEX_SHADER);
-    auto frag_id   = load_shader(frag_code, GL_FRAGMENT_SHADER);
-
-    program_id_ = make_program(vertex_id, frag_id);
-
-    delete_shader(vertex_id);
-    delete_shader(frag_id);
+    program_id_ = make_program(vertex_shader.get_shader_id(),
+                               fragment_shader.get_shader_id());
 }
 
 GLuint program::make_program(GLuint vertex_id, GLuint fragment_id)
@@ -123,12 +75,6 @@ GLuint program::make_program(GLuint vertex_id, GLuint fragment_id)
     }
 
     return result_program;
-}
-
-void program::delete_shader(GLuint shader_id)
-{
-    glDeleteShader(shader_id);
-    check_gl_errors();
 }
 
 void program::use()
@@ -174,8 +120,7 @@ void program::validate()
 void program::set_matrix4(const std::string& uniform_name,
                           const GLfloat*     uniform_value)
 {
-    GLint location =
-        glGetUniformLocation(program_id_, uniform_name.c_str());
+    GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
     check_gl_errors();
 
     if (-1 == location)

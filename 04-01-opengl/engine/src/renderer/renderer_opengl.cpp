@@ -2,7 +2,6 @@
 #include "opengl_utils.hpp"
 #include "ptm/math.hpp"
 #include "ptm/matrix.hpp"
-#include "shader.hpp"
 #include "triangle.hpp"
 #include "vertex.hpp"
 #include "program.hpp"
@@ -64,11 +63,6 @@ glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
 void renderer_opengl::update_transform_matrix(
     const transformation& transformation, const camera& camera)
 {
-    //    glm::vec3 trans_v =
-    //        glm::vec3(transformation.position.x, transformation.position.y,
-    //                  transformation.position.z);
-
-
     ///////////////////////////////////////////////////////////////////////////
     // make translation matrix
 
@@ -81,12 +75,6 @@ void renderer_opengl::update_transform_matrix(
 
     ptm::matrix4x4 rotation_m = ptm::matrix4x4(ptm::rotation(
         transformation.rotation_angle, transformation.rotation_vector));
-
-//    glm::mat4 rotate_m =
-//        glm::rotate(glm::mat4(), transformation.rotation_angle,
-//                    glm::vec3(transformation.rotation_vector.x,
-//                              transformation.rotation_vector.y,
-//                              transformation.rotation_vector.z));
 
     glm::mat4 rotate_m = glm_mat(rotation_m);
 
@@ -102,22 +90,10 @@ void renderer_opengl::update_transform_matrix(
     glm::mat4 project_m =
         glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);
 
-    glm::mat4 full_transfom_m = project_m * view_m * translate_m * rotate_m;
+    ///////////////////////////////////////////////////////////////////////////
+    // make full transformation matrix
 
-//    GLint transformLoc =
-//        glGetUniformLocation(gl_program_id_, "u_transform_matrix");
-//    check_gl_errors();
-//
-//    if (transformLoc == -1)
-//    {
-//        throw std::runtime_error(
-//            "error: could not find attribute 'u_transform_matrix'");
-//    }
-//
-//
-//    glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
-//                       glm::value_ptr(full_transfom_m));
-//    check_gl_errors();
+    glm::mat4 full_transfom_m = project_m * view_m * translate_m * rotate_m;
 
     program_->set_matrix4("u_transform_matrix", glm::value_ptr(full_transfom_m));
 }
@@ -244,8 +220,6 @@ void renderer_opengl::load_model(const model& model)
     ///////////////////////////////////////////////////////////////////////////
     // loading texture
 
-    //glUseProgram(gl_program_id_);
-    //check_gl_errors();
     program_->use();
 
     int texture_unit = 0;
@@ -279,15 +253,6 @@ void renderer_opengl::load_model(const model& model)
     //////////////////////////////////////
     // passing texture to the uniform
 
-//    int location = glGetUniformLocation(gl_program_id_, "u_texture");
-//    check_gl_errors();
-//
-//    assert(-1 != location);
-//
-//    // http://www.khronos.org/opengles/sdk/docs/man/xhtml/glUniform.xml
-//    glUniform1i(location, 0 + texture_unit);
-//    check_gl_errors();
-
     program_->set_1i("u_texture", 0 + texture_unit);
 
     glEnable(GL_BLEND);
@@ -295,11 +260,6 @@ void renderer_opengl::load_model(const model& model)
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     check_gl_errors();
-}
-
-void renderer_opengl::load_tecture()
-{
-    // update texture uniform
 }
 
 } // namespace pt
