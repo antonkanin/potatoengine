@@ -113,8 +113,8 @@ void engine_sdl::clean_up()
     SDL_Quit();
 }
 
-void engine_sdl::render_object(const mesh&          model,
-                               const transformation& transformation)
+void engine_sdl::render_object(const model &model,
+                               const transformation &transformation)
 {
     renderer_->draw_triangle(transformation, get_camera());
 }

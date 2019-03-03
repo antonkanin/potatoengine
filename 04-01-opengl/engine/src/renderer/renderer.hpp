@@ -5,6 +5,7 @@
 #include <memory>
 #include <mesh.hpp>
 #include <transformation.hpp>
+#include <model.hpp>
 
 namespace pt
 {
@@ -18,7 +19,7 @@ public:
 
     virtual bool initialize(SDL_Window* window);
 
-    virtual void load_model(const mesh& model) = 0;
+    virtual void load_model(const model &model) = 0;
 
     virtual void draw_triangle(const transformation& transformation,
                                const camera&         camera) = 0;

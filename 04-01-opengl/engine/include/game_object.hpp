@@ -3,6 +3,7 @@
 #include "mesh.hpp"
 #include "ptm/vec3.hpp"
 #include "transformation.hpp"
+#include "model.hpp"
 
 namespace pt
 {
@@ -33,8 +34,8 @@ public:
 
     void set_rotation(const ptm::vec3& rotation_vector, float angle);
 
-    const mesh& get_model() const;
-    void         set_model(const mesh& model);
+    const model& get_model() const;
+    void         set_model(const model &model);
 
 protected:
     engine& get_engine();
@@ -44,7 +45,7 @@ private:
 
     engine& engine_;
 
-    mesh model_;
+    model model_;
 
     transformation transformation_ = { ptm::zero_vector, ptm::up_vector, 0.0f,
                                        ptm::zero_vector };

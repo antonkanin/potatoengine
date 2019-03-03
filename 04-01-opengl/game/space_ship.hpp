@@ -17,9 +17,10 @@ public:
 
     void start() override
     {
-        auto cube_model = pt::read_obj("res/figure.obj");
+        //pt::model cube_model = pt::read_obj("res/figure.obj");
+        pt::model cube_model;
 
-        cube_model.image = pt::make_image("res/figure.png");
+        //cube_model.image = pt::make_image("res/figure.png");
 
         set_model(cube_model);
 

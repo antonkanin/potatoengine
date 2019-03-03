@@ -13,12 +13,12 @@ void game_object::set_position(const ptm::vec3& position)
     transformation_.position = position;
 }
 
-const mesh& game_object::get_model() const
+const model & game_object::get_model() const
 {
     return model_;
 }
 
-void game_object::set_model(const mesh& model)
+void game_object::set_model(const model &model)
 {
     model_ = model;
 }

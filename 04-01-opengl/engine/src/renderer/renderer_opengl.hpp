@@ -5,6 +5,7 @@
 #include "transformation.hpp"
 #include <SDL2/SDL_opengl.h>
 #include <mesh.hpp>
+#include <model.hpp>
 
 namespace pt
 {
@@ -20,7 +21,7 @@ public:
     void swap_buffers() override;
 
     // currently we only support a single mesh
-    void load_model(const mesh& model) override;
+    void load_model(const model &model) override;
 
 private:
     bool get_opengl_context();

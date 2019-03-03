@@ -25,8 +25,8 @@ private:
 
     void clean_up(); // TODO I really need a better name for this method
 
-    void render_object(const mesh&          model,
-                       const transformation& transformation) override;
+    void render_object(const model &model,
+                       const transformation &transformation) override;
 
     void load_models() override;
 
