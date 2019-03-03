@@ -1,11 +1,11 @@
 #pragma once
 
-#include "model.hpp"
+#include "mesh.hpp"
 #include <string>
 
 namespace pt
 {
 
-model read_obj(const std::string& file_name);
+mesh read_obj(const std::string& file_name);
 
 }

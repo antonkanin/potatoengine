@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} SHARED
         src/input_manager.cpp
         src/engine_sdl.cpp
         src/read_obj.cpp
-        src/model.cpp
+        src/mesh.cpp
         src/camera.cpp
         src/texture_image.cpp
         src/mesh.cpp

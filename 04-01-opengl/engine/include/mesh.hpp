@@ -10,11 +10,15 @@
 namespace pt
 {
 
+typedef unsigned int index;
+
 struct mesh
 {
-    std::vector<vertex>       vertices;
-    std::vector<unsigned int> indices;
-    std::vector<texture>      textures;
+    std::vector<vertex>  vertices;
+    std::vector<index>   indices;
+    std::vector<texture> textures;
+
+    mesh() = default;
 
     mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices,
          std::vector<texture> textures);

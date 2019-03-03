@@ -2,9 +2,11 @@
 
 #include "renderer/opengl_utils.hpp"
 
-pt::mesh::mesh(std::vector<pt::vertex>   vertices,
-               std::vector<unsigned int> indices,
-               std::vector<pt::texture>  textures)
+namespace pt
+{
+
+mesh::mesh(std::vector<pt::vertex> vertices, std::vector<unsigned int> indices,
+           std::vector<pt::texture> textures)
     : vertices(std::move(vertices))
     , indices(std::move(indices))
     , textures(std::move(textures))
@@ -12,7 +14,7 @@ pt::mesh::mesh(std::vector<pt::vertex>   vertices,
     setup_mesh();
 }
 
-void pt::mesh::setup_mesh()
+void mesh::setup_mesh()
 {
     ///////////////////////////////////////////////////////////////////////////
     // generate buffers
@@ -68,7 +70,7 @@ void pt::mesh::setup_mesh()
     glBindVertexArray(0);
 }
 
-void pt::mesh::draw(pt::program program)
+void mesh::draw(pt::program program)
 {
     for (unsigned int tex_index = 0; tex_index < textures.size(); ++tex_index)
     {
@@ -89,3 +91,5 @@ void pt::mesh::draw(pt::program program)
     glBindVertexArray(0);
     check_gl_errors();
 }
+
+} // namespace pt

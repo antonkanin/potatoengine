@@ -1,6 +1,6 @@
 - implement translation, rotation, projection matrices
 - [bug] LEFT SHIFT does continue movement when you hold it
-- add support for multiple game objects with models, currently we only support one model
+- add support for multiple game objects with models, currently we only support one mesh
 - remove 0.5 sec delay when pressing keys on the keyboard
 - add the support for two view ports (player view (First Person) and free camera)
 - [low] do not read mouse input when the game window is not in active

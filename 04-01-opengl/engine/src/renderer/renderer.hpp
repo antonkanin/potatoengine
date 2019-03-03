@@ -3,7 +3,7 @@
 #include "camera.hpp"
 #include <SDL2/SDL.h> // TODO do we really need the full SDL2.h here?
 #include <memory>
-#include <model.hpp>
+#include <mesh.hpp>
 #include <transformation.hpp>
 
 namespace pt
@@ -18,7 +18,7 @@ public:
 
     virtual bool initialize(SDL_Window* window);
 
-    virtual void load_model(const model& model) = 0;
+    virtual void load_model(const mesh& model) = 0;
 
     virtual void draw_triangle(const transformation& transformation,
                                const camera&         camera) = 0;

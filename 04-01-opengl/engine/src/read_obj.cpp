@@ -162,7 +162,7 @@ void read_faces(const std::string& line, const std::vector<uv>& uvs,
     }
 }
 
-model read_obj(const std::string& file_name)
+mesh read_obj(const std::string& file_name)
 {
     std::ifstream file(file_name);
 
@@ -171,7 +171,7 @@ model read_obj(const std::string& file_name)
         throw std::runtime_error("Error: failed to open file " + file_name);
     }
 
-    model result{};
+    mesh result{};
 
     std::set<unsigned int>              processed_vertex_ids;
     std::map<std::string, unsigned int> shifted_vertex_uv_pairs;

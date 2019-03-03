@@ -167,7 +167,7 @@ bool renderer_opengl::get_opengl_context()
     return true;
 }
 
-void renderer_opengl::load_model(const model& model)
+void renderer_opengl::load_model(const mesh& model)
 {
     glGenVertexArrays(1, &VAO_);
     check_gl_errors();
