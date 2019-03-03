@@ -45,6 +45,7 @@ void mesh::setup_mesh()
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
                  indices.data(), GL_STATIC_DRAW);
+    check_gl_errors();
 
     ///////////////////////////////////////////////////////////////////////////
     // setup attributes
@@ -61,7 +62,7 @@ void mesh::setup_mesh()
     check_gl_errors();
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          (void*)(3 * sizeof(ptm::vec3)));
+                          (void*)(sizeof(ptm::vec3)));
     check_gl_errors();
 
     // normals

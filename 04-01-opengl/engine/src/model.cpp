@@ -1,6 +1,7 @@
 #include "model.hpp"
 
 #include "mesh.hpp"
+#include "renderer/opengl_utils.hpp"
 #include "renderer/program.hpp"
 #include "texture.hpp"
 #include <iostream>
@@ -18,10 +19,13 @@ unsigned int TextureFromFile(const char* path, const std::string& directory,
 
     unsigned int textureID;
     glGenTextures(1, &textureID);
+    check_gl_errors();
 
-    int            width, height, nrComponents;
+    int width, height, nrComponents;
+
     unsigned char* data =
         stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+
     if (data)
     {
         GLenum format;
@@ -33,16 +37,26 @@ unsigned int TextureFromFile(const char* path, const std::string& directory,
             format = GL_RGBA;
 
         glBindTexture(GL_TEXTURE_2D, textureID);
+        check_gl_errors();
+
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
                      GL_UNSIGNED_BYTE, data);
+        check_gl_errors();
 
         // glGenerateMipmap(GL_TEXTURE_2D); // TODO turn on MIPMAPS
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        check_gl_errors();
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        check_gl_errors();
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                         GL_LINEAR_MIPMAP_LINEAR);
+        check_gl_errors();
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        check_gl_errors();
 
         stbi_image_free(data);
     }

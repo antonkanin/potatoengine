@@ -45,8 +45,14 @@ configure_file(res/tank.png
 configure_file(res/figure.png
         ${CMAKE_CURRENT_BINARY_DIR}/res/figure.png COPYONLY)
 
+configure_file(res/figure.mtl
+        ${CMAKE_CURRENT_BINARY_DIR}/res/figure.mtl COPYONLY)
+
 configure_file(res/figure.obj
         ${CMAKE_CURRENT_BINARY_DIR}/res/figure.obj COPYONLY)
+
+configure_file(res/figure.blend
+        ${CMAKE_CURRENT_BINARY_DIR}/res/figure.blend COPYONLY)
 
 # two faces
 configure_file(res/two_faces.png
