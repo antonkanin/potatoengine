@@ -42,7 +42,7 @@ void read_vertices(const std::string&           line,
 
     ss >> garbage >> x >> y >> z;
 
-    vertices.push_back({ x, y, z });
+    vertices.push_back({{x, y, z}});
 }
 
 void read_uv(const std::string& line, std::vector<uv>& texture_uv)
@@ -80,8 +80,8 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
     {
         processed_vertex_ids.insert(vertex_id);
 
-        vertices[vertex_id - 1].u = uvs[uv_id - 1].u;
-        vertices[vertex_id - 1].v = uvs[uv_id - 1].v;
+        vertices[vertex_id - 1].tex_coords.x = uvs[uv_id - 1].u;
+        vertices[vertex_id - 1].tex_coords.y = uvs[uv_id - 1].v;
 
         vertex_uv_pairs[vertex_uv_pair_str] = vertex_id;
 
@@ -92,8 +92,8 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
         if (vertex_uv_pairs.count(vertex_uv_pair_str) == 0)
         {
             auto vertex_data = vertices[vertex_id - 1];
-            vertex_data.u    = uvs[uv_id - 1].u;
-            vertex_data.v    = uvs[uv_id - 1].v;
+            vertex_data.tex_coords.x    = uvs[uv_id - 1].u;
+            vertex_data.tex_coords.y    = uvs[uv_id - 1].v;
 
             const auto new_vertex_id =
                 static_cast<unsigned int>(vertices.size()) + 1;
@@ -208,7 +208,7 @@ model read_obj(const std::string& file_name)
     // invert vertical texture coordinate ('V')
     for (auto& v : result.vertices)
     {
-        v.v = 1.0f - v.v;
+        v.tex_coords.y = 1.0f - v.tex_coords.y;
     }
 
     file.close();

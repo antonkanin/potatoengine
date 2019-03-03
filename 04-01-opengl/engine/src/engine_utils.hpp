@@ -68,8 +68,3 @@ pt::key_code get_key(const SDL_Keycode& sdl_keycode)
         }
     }
 }
-
-pt::vertex world_to_screen(const pt::vec3& position)
-{
-    return { position.x, position.y, position.z };
-}

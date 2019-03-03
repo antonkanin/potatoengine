@@ -12,4 +12,3 @@ struct texture
 };
 
 } // namespace pt
-`
