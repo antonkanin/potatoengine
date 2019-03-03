@@ -5,7 +5,7 @@
 namespace pt
 {
 
-void log_line(const std::string line)
+inline void log_line(const std::string line)
 {
     std::cout << line << '\n';
 }

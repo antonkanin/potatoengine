@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.7)
 
 project(04-01-engine)
 
-add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME} STATIC
         src/engine.cpp
         src/game_object.cpp
         src/input_manager.cpp
