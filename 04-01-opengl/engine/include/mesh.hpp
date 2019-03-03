@@ -23,7 +23,7 @@ struct mesh
     mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices,
          std::vector<texture> textures);
 
-    void draw(program program);
+    void draw(program& program) const;
 
 private:
     unsigned int VAO_ = 0;

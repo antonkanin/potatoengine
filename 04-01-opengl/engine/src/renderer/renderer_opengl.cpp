@@ -99,21 +99,24 @@ void renderer_opengl::update_transform_matrix(
                           glm::value_ptr(full_transfom_m));
 }
 
-void renderer_opengl::draw_triangle(const transformation& transformation,
-                                    const camera&         camera)
+void renderer_opengl::draw_model(const model&          model,
+                                 const transformation& transformation,
+                                 const camera&         camera)
 {
     update_transform_matrix(transformation, camera);
 
     program_->validate();
 
-    glActiveTexture(GL_TEXTURE0);
-    check_gl_errors();
+    model.draw(*(program_.get()));
 
-    glBindTexture(GL_TEXTURE_2D, texture_id_);
-    check_gl_errors();
-
-    glDrawElements(GL_TRIANGLES, indecies_count_, GL_UNSIGNED_INT, nullptr);
-    check_gl_errors();
+//    glActiveTexture(GL_TEXTURE0);
+//    check_gl_errors();
+//
+//    glBindTexture(GL_TEXTURE_2D, texture_id_);
+//    check_gl_errors();
+//
+//    glDrawElements(GL_TRIANGLES, indecies_count_, GL_UNSIGNED_INT, nullptr);
+//    check_gl_errors();
 }
 
 bool renderer_opengl::initialize(SDL_Window* window)
@@ -167,9 +170,9 @@ bool renderer_opengl::get_opengl_context()
     return true;
 }
 
-void renderer_opengl::load_model(const model &model)
-{
-    // TODO ...
-}
+// void renderer_opengl::load_model(const model &model)
+//{
+//
+//}
 
 } // namespace pt

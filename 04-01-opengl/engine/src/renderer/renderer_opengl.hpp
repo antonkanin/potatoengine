@@ -15,13 +15,13 @@ class renderer_opengl final : public renderer
 public:
     bool initialize(SDL_Window* window) override;
 
-    void draw_triangle(const transformation& transformation,
-                       const camera&         camera) override;
+    void draw_model(const model& model, const transformation& transformation,
+                    const camera& camera) override;
 
     void swap_buffers() override;
 
     // currently we only support a single mesh
-    void load_model(const model &model) override;
+    // void load_model(const model &model) override;
 
 private:
     bool get_opengl_context();

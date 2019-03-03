@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME} SHARED
         src/camera.cpp
         src/texture_image.cpp
         src/mesh.cpp
+        src/model.cpp
         src/renderer/renderer.cpp
         src/renderer/program.cpp
         src/renderer/renderer_opengl.cpp
@@ -20,7 +21,11 @@ add_library(${PROJECT_NAME} SHARED
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
-target_link_libraries(${PROJECT_NAME} SDL2 GL /usr/local/lib/libassimp.so)
+target_link_libraries(${PROJECT_NAME}
+        SDL2
+        GL
+        stbi
+        /usr/local/lib/libassimp.so)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include)

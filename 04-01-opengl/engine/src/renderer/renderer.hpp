@@ -19,10 +19,11 @@ public:
 
     virtual bool initialize(SDL_Window* window);
 
-    virtual void load_model(const model& model) = 0;
+    // virtual void load_model(const model& model) = 0;
 
-    virtual void draw_triangle(const transformation& transformation,
-                               const camera&         camera) = 0;
+    virtual void draw_model(const model&          model,
+                            const transformation& transformation,
+                            const camera&         camera) = 0;
 
     virtual void swap_buffers() = 0;
 

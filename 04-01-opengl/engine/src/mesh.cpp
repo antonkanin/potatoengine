@@ -70,7 +70,7 @@ void mesh::setup_mesh()
     glBindVertexArray(0);
 }
 
-void mesh::draw(pt::program program)
+void mesh::draw(pt::program& program) const
 {
     for (unsigned int tex_index = 0; tex_index < textures.size(); ++tex_index)
     {

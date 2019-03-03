@@ -116,17 +116,17 @@ void engine_sdl::clean_up()
 void engine_sdl::render_object(const model &model,
                                const transformation &transformation)
 {
-    renderer_->draw_triangle(transformation, get_camera());
+    renderer_->draw_model(model, transformation, get_camera());
 }
 
 // TODO this should be moved up to the render class
-void engine_sdl::load_models()
-{
-    for (const auto& object : objects_)
-    {
-        renderer_->load_model(object->get_model());
-    }
-}
+//void engine_sdl::load_models()
+//{
+//    for (const auto& object : objects_)
+//    {
+//        renderer_->load_model(object->get_model());
+//    }
+//}
 
 void engine_sdl::post_render_objects()
 {

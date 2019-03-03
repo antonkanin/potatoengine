@@ -28,7 +28,7 @@ private:
     void render_object(const model &model,
                        const transformation &transformation) override;
 
-    void load_models() override;
+    //void load_models() override;
 
 protected:
     float get_ticks() override;

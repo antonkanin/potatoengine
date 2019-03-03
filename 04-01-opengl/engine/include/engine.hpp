@@ -40,7 +40,7 @@ public:
     camera& get_camera() { return camera_; }
 
 protected:
-    virtual void load_models() = 0;
+    //virtual void load_models() = 0;
 
     virtual void poll_events() = 0;
 

@@ -42,7 +42,7 @@ void read_vertices(const std::string&           line,
 
     ss >> garbage >> x >> y >> z;
 
-    vertices.push_back({{x, y, z}});
+    //vertices.push_back({{x, y, z}});
 }
 
 void read_uv(const std::string& line, std::vector<uv>& texture_uv)
