@@ -130,6 +130,8 @@ bool renderer_opengl::initialize(SDL_Window* window)
     program_ = make_unique<program>("shader01.vert", "shader01.frag");
     program_->use();
 
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
     glEnable(GL_DEPTH_TEST);
     check_gl_errors();
 
