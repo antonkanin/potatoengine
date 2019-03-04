@@ -14,6 +14,8 @@ public:
 
     bool init() override;
 
+    void enable_vsync(bool state) override;
+
 private:
     void post_render_objects() override;
 
@@ -27,8 +29,6 @@ private:
 
     void render_object(const model&          model,
                        const transformation& transformation) override;
-
-    // void load_models() override;
 
 protected:
     float get_ticks() override;

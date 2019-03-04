@@ -27,6 +27,8 @@ public:
 
     virtual void swap_buffers() = 0;
 
+    virtual void enable_vsync(bool state) = 0;
+
 protected:
     SDL_Window* window_ = nullptr; // we shouldn't be using SDL_Window here as
                                    // it's an implementation detail

@@ -8,10 +8,10 @@
 // abstraction instead of including a private header
 
 #include "camera.hpp"
+#include "game_object.hpp"
 #include "input_manager.hpp"
 #include "key_code.hpp"
 #include "transformation.hpp"
-#include "game_object.hpp"
 
 namespace pt
 {
@@ -47,6 +47,8 @@ public:
     float delta_time() const;
 
     camera& get_camera() { return camera_; }
+
+    virtual void enable_vsync(bool state) = 0;
 
 protected:
     // virtual void load_models() = 0;

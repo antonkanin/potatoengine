@@ -120,7 +120,7 @@ bool renderer_opengl::initialize(SDL_Window* window)
 
     set_opengl_version();
 
-    if (!get_opengl_context())
+    if (!create_opengl_context())
     {
         return false;
     }
@@ -149,7 +149,7 @@ void renderer_opengl::swap_buffers()
     check_gl_errors();
 }
 
-bool renderer_opengl::get_opengl_context()
+bool renderer_opengl::create_opengl_context()
 {
     gl_context_ = SDL_GL_CreateContext(window_);
 
@@ -163,6 +163,11 @@ bool renderer_opengl::get_opengl_context()
     SDL_assert(gl_context_ != nullptr);
 
     return true;
+}
+
+void renderer_opengl::enable_vsync(bool state)
+{
+    SDL_GL_SetSwapInterval(state ? 1 : 0);
 }
 
 } // namespace pt

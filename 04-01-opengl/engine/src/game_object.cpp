@@ -54,7 +54,7 @@ void game_object::load_model(const std::string& path)
 
 game_object::~game_object()
 {
-    engine_= nullptr;
+    engine_ = nullptr;
 };
 
 } // namespace pt

@@ -18,8 +18,10 @@ public:
 
     void swap_buffers() override;
 
+    void enable_vsync(bool state) override;
+
 private:
-    bool get_opengl_context();
+    bool create_opengl_context();
 
     void update_transform_matrix(const transformation& transformation,
                                  const camera&         camera);

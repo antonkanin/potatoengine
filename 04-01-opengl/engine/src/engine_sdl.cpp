@@ -144,4 +144,9 @@ void engine_sdl::process_mouse_motion_event(const SDL_MouseMotionEvent& event)
     get_input_manager().set_axis_y(event.yrel);
 }
 
+void engine_sdl::enable_vsync(bool state)
+{
+    renderer_->enable_vsync(state);
+}
+
 } // namespace pt
