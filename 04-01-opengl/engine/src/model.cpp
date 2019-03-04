@@ -5,6 +5,7 @@
 #include "renderer/program.hpp"
 #include "texture.hpp"
 #include <iostream>
+#include <log_utils.hpp>
 #include <stb_image.h>
 #include <vector>
 
@@ -148,6 +149,16 @@ mesh model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
         textures.insert(textures.end(), specularMaps.begin(),
                         specularMaps.end());
+
+        // reading diffuse color
+        aiColor3D diffuse_color;
+        if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color))
+        {
+            for (auto& v : vertices)
+            {
+                v.color = { diffuse_color.r, diffuse_color.g, diffuse_color.b };
+            }
+        };
     }
 
     return { vertices, indices, textures };

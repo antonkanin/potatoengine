@@ -74,3 +74,7 @@ configure_file(res/three_faces.obj
 #vehicle
 configure_file(res/military_vehicle_2.obj
         ${CMAKE_CURRENT_BINARY_DIR}/res/military_vehicle_2.obj COPYONLY)
+
+configure_file(res/military_vehicle_2.mtl
+        ${CMAKE_CURRENT_BINARY_DIR}/res/military_vehicle_2.mtl COPYONLY)
+
