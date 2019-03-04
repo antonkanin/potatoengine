@@ -45,7 +45,8 @@ void print_opengl_version()
     SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
     SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
 
-    std::cout << "Using OpenGL version " << major_version << '.' << minor_version << std::endl;
+    std::cout << "Using OpenGL version " << major_version << '.'
+              << minor_version << std::endl;
 }
 
 void check_gl_errors()

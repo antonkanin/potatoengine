@@ -7,9 +7,9 @@
 namespace pt
 {
 
-//typedef unsigned int index;
+// typedef unsigned int index;
 
-//struct mesh
+// struct mesh
 //{
 //    std::vector<vertex> vertices;
 //    std::vector<index>  indices;

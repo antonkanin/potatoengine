@@ -42,7 +42,7 @@ void read_vertices(const std::string&           line,
 
     ss >> garbage >> x >> y >> z;
 
-    //vertices.push_back({{x, y, z}});
+    // vertices.push_back({{x, y, z}});
 }
 
 void read_uv(const std::string& line, std::vector<uv>& texture_uv)
@@ -91,9 +91,9 @@ void add_face(const std::string& face, const std::vector<uv>& uvs,
     {
         if (vertex_uv_pairs.count(vertex_uv_pair_str) == 0)
         {
-            auto vertex_data = vertices[vertex_id - 1];
-            vertex_data.tex_coords.x    = uvs[uv_id - 1].u;
-            vertex_data.tex_coords.y    = uvs[uv_id - 1].v;
+            auto vertex_data         = vertices[vertex_id - 1];
+            vertex_data.tex_coords.x = uvs[uv_id - 1].u;
+            vertex_data.tex_coords.y = uvs[uv_id - 1].v;
 
             const auto new_vertex_id =
                 static_cast<unsigned int>(vertices.size()) + 1;

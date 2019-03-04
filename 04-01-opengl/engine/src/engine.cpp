@@ -60,7 +60,7 @@ bool engine::run()
 
     start_objects();
 
-    //load_models();
+    // load_models();
 
     time_          = 0.f;
     float old_time = 0.f;

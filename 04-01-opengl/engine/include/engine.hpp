@@ -40,7 +40,7 @@ public:
     camera& get_camera() { return camera_; }
 
 protected:
-    //virtual void load_models() = 0;
+    // virtual void load_models() = 0;
 
     virtual void poll_events() = 0;
 
@@ -56,8 +56,8 @@ protected:
 
     void render_objects();
 
-    virtual void render_object(const model &model,
-                               const transformation &transformation) = 0;
+    virtual void render_object(const model&          model,
+                               const transformation& transformation) = 0;
 
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();

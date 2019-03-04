@@ -18,15 +18,17 @@ public:
     void start() override
     {
         pt::model cube_model("res/figure.obj");
-        //pt::model cube_model("res/figure.blend");
+        // pt::model cube_model("res/figure.blend");
 
+        // pt::model
+        // cube_model("/home/anton/Documents/blender/parent_child/parent_child.blend");
+        // pt::model
+        // cube_model("/home/anton/Documents/blender/parent_child/parent_child.obj");
 
-        //pt::model cube_model("/home/anton/Documents/blender/parent_child/parent_child.blend");
-        //pt::model cube_model("/home/anton/Documents/blender/parent_child/parent_child.obj");
+        // pt::model
+        // cube_model("/home/anton/Documents/blender/military_vehicle/military_vehicle_2.obj");
 
-        //pt::model cube_model("/home/anton/Documents/blender/military_vehicle/military_vehicle_2.obj");
-
-        //cube_model.image = pt::make_image("res/figure.png");
+        // cube_model.image = pt::make_image("res/figure.png");
 
         set_model(cube_model);
 
@@ -133,7 +135,7 @@ public:
     }
 };
 
-std::unique_ptr<pt::game_object> make_model(pt::engine &engine)
+std::unique_ptr<pt::game_object> make_model(pt::engine& engine)
 {
     std::unique_ptr<pt::game_object> result(new space_ship(engine));
     return result;
