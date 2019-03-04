@@ -10,10 +10,12 @@ struct vertex
 {
     ptm::vec3 position;
     ptm::vec2 tex_coords;
+    ptm::vec3 color;
 
     vertex()
         : position(0.f, 0.f, 0.f)
         , tex_coords(0.f, 0.f)
+        , color(ptm::red)
     {
     }
 };

@@ -16,15 +16,18 @@ mesh::mesh(std::vector<pt::vertex> vertices, std::vector<unsigned int> indices,
 
 void mesh::setup_mesh()
 {
+    unsigned int VBO = 0;
+    unsigned int EBO = 0;
+
     ///////////////////////////////////////////////////////////////////////////
     // generate buffers
     glGenVertexArrays(1, &VAO_);
     check_gl_errors();
 
-    glGenBuffers(1, &VBO_);
+    glGenBuffers(1, &VBO);
     check_gl_errors();
 
-    glGenBuffers(1, &EBO_);
+    glGenBuffers(1, &EBO);
     check_gl_errors();
 
     ///////////////////////////////////////////////////////////////////////////
@@ -33,14 +36,14 @@ void mesh::setup_mesh()
     glBindVertexArray(VAO_);
     check_gl_errors();
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     check_gl_errors();
 
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertex),
                  vertices.data(), GL_STATIC_DRAW);
     check_gl_errors();
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     check_gl_errors();
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
@@ -63,6 +66,14 @@ void mesh::setup_mesh()
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex),
                           (void*)(sizeof(ptm::vec3)));
+    check_gl_errors();
+
+    // color
+    glEnableVertexAttribArray(2);
+    check_gl_errors();
+
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                          (void*)(sizeof(ptm::vec3) + sizeof(ptm::vec2)));
     check_gl_errors();
 
     // normals
