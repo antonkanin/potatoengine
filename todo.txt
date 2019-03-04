@@ -1,13 +1,13 @@
-- implement translation, rotation, projection matrices
+- read apply diffuse color to the vertex when it's present in the model
 - [bug] LEFT SHIFT does continue movement when you hold it
-- add support for multiple game objects with models, currently we only support one mesh
 - remove 0.5 sec delay when pressing keys on the keyboard
 - add the support for two view ports (player view (First Person) and free camera)
+- [low] implement my own projection & lookat matrices
 - [low] do not read mouse input when the game window is not in active
 - [low] load texture in the TGA format
 
-
 Done
+- add support for multiple game objects with models, currently we only support one mesh
 - enhance shader class: add a method to setup uniforms
 - add camera class and make it available to the game_object
 - add delta time to the engine and let objects use it
