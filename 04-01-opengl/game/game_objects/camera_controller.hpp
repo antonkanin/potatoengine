@@ -7,11 +7,6 @@
 class camera_controller : public pt::game_object
 {
 public:
-    camera_controller(pt::engine& engine)
-        : pt::game_object(engine)
-    {
-    }
-
     void update() override { handle_camera_movement(); }
 
     void handle_camera_movement()

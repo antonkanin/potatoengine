@@ -1,6 +1,7 @@
 #include "engine.hpp"
 #include "engine_sdl.hpp"
 #include "game_object.hpp"
+#include "model.hpp"
 #include "renderer/triangle.hpp"
 #include <cstdlib>
 #include <engine.hpp>
@@ -17,6 +18,7 @@ std::unique_ptr<engine> make_engine()
 
 void engine::add_object(std::unique_ptr<game_object> object)
 {
+    object->engine_ = this;
     objects_.emplace_back(std::move(object));
 }
 

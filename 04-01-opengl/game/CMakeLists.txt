@@ -4,9 +4,10 @@ project(04-01-game-opengl)
 
 add_executable(${PROJECT_NAME}
         game.cpp
-        space_ship.hpp
-        camera_controller.hpp
-        show_fps.hpp)
+        game_objects/space_ship.hpp
+        game_objects/camera_controller.hpp
+        game_objects/show_fps.hpp
+        game_objects/vehicle.hpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
@@ -68,3 +69,8 @@ configure_file(res/three_faces.png
 
 configure_file(res/three_faces.obj
         ${CMAKE_CURRENT_BINARY_DIR}/res/three_faces.obj COPYONLY)
+
+
+#vehicle
+configure_file(res/military_vehicle_2.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/military_vehicle_2.obj COPYONLY)

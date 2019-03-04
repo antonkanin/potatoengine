@@ -8,13 +8,15 @@
 // abstraction instead of including a private header
 
 #include "camera.hpp"
-#include "game_object.hpp"
 #include "input_manager.hpp"
 #include "key_code.hpp"
 #include "transformation.hpp"
+#include "game_object.hpp"
 
 namespace pt
 {
+
+class model;
 
 class engine
 {
@@ -26,6 +28,13 @@ public:
     bool run();
 
     void add_object(std::unique_ptr<game_object> object);
+
+    template <typename T>
+    engine* add_object()
+    {
+        add_object(std::make_unique<T>());
+        return this;
+    }
 
     input_manager& get_input_manager();
 

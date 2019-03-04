@@ -14,12 +14,7 @@ class engine;
 class game_object
 {
 public:
-    explicit game_object(engine& engine)
-        : engine_(engine)
-    {
-    }
-
-    virtual ~game_object() = default;
+    virtual ~game_object();
 
     /** called once for each game object before the main loop */
     virtual void start(){};
@@ -39,25 +34,20 @@ public:
     const model& get_model() const;
     void         set_model(const model& model);
 
+    void load_model(const std::string& path);
+
 protected:
     engine& get_engine();
 
 private:
-    friend engine;
+    friend class engine;
 
-    engine& engine_;
+    engine* engine_ = nullptr;
 
     model model_;
 
     transformation transformation_ = { ptm::zero_vector, ptm::up_vector, 0.0f,
                                        ptm::zero_vector };
 };
-
-template <typename T>
-std::unique_ptr<pt::game_object> make_object(pt::engine& engine)
-{
-    std::unique_ptr<pt::game_object> result(new T(engine));
-    return result;
-}
 
 } // namespace pt

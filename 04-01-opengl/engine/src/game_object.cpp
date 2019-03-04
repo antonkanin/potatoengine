@@ -8,7 +8,7 @@ namespace pt
 
 engine& game_object::get_engine()
 {
-    return engine_;
+    return *engine_;
 }
 
 void game_object::set_position(const ptm::vec3& position)
@@ -46,5 +46,15 @@ ptm::vec3 game_object::get_position() const
 {
     return transformation_.position;
 }
+
+void game_object::load_model(const std::string& path)
+{
+    set_model(model(path));
+}
+
+game_object::~game_object()
+{
+    engine_= nullptr;
+};
 
 } // namespace pt

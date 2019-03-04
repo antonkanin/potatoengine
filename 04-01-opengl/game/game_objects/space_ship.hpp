@@ -12,9 +12,6 @@
 class space_ship final : public pt::game_object
 {
 public:
-    explicit space_ship(pt::engine& engine)
-        : pt::game_object(engine){};
-
     void start() override
     {
         pt::model cube_model("res/figure.obj");
@@ -134,9 +131,3 @@ public:
         print_key_state(key_code::button_b, "Button B");
     }
 };
-
-std::unique_ptr<pt::game_object> make_model(pt::engine& engine)
-{
-    std::unique_ptr<pt::game_object> result(new space_ship(engine));
-    return result;
-}
