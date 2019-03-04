@@ -1,7 +1,7 @@
 **How to build on Linux**
 
 ```
-git clone https://gitlab.com/antonkanin/gamedev_specialforces
+git clone https://gitlab.com/antonkanin/swat
 mkdir build
 cd build
 cmake . ..
