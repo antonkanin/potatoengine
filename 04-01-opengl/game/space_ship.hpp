@@ -37,9 +37,8 @@ public:
     void update() override
     {
         // handle_movement();
-        handle_camera_movement();
 
-        // handle_rotation();
+        rotate_object();
 
         // print_keys();
     }
@@ -72,7 +71,7 @@ public:
         }
     }
 
-    void handle_rotation()
+    void rotate_object()
     {
         using namespace pt;
 
@@ -131,49 +130,6 @@ public:
         print_key_state(key_code::start, "Start");
         print_key_state(key_code::button_a, "Button A");
         print_key_state(key_code::button_b, "Button B");
-    }
-
-    void handle_camera_movement()
-    {
-        using namespace pt;
-
-        const auto& input = get_engine().get_input_manager();
-        const auto& trans = get_transformation();
-
-        const float MOVEMENT_SPEED = 0.1f;
-
-        if (input.get_key_down(key_code::right))
-        {
-            get_engine().get_camera().move_right(MOVEMENT_SPEED);
-        }
-
-        if (input.get_key_down(key_code::left))
-        {
-            get_engine().get_camera().move_left(MOVEMENT_SPEED);
-        }
-
-        if (input.get_key_down(key_code::up))
-        {
-            get_engine().get_camera().move_forward(MOVEMENT_SPEED);
-        }
-
-        if (input.get_key_down(key_code::down))
-        {
-            get_engine().get_camera().move_backward(MOVEMENT_SPEED);
-        }
-
-        if (input.get_key_down(key_code::jump))
-        {
-            get_engine().get_camera().move_up(MOVEMENT_SPEED);
-        }
-
-        if (input.get_key_down(key_code::crouch))
-        {
-            get_engine().get_camera().move_down(MOVEMENT_SPEED);
-        }
-
-        get_engine().get_camera().add_yaw(input.get_axis_x() * 0.02f);
-        get_engine().get_camera().add_pitch(input.get_axis_y() * 0.02f);
     }
 };
 
