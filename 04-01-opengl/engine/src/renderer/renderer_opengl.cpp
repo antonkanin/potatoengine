@@ -134,6 +134,8 @@ bool renderer_opengl::initialize(SDL_Window* window)
         return false;
     }
 
+    print_opengl_version();
+
     program_ = make_unique<program>("shader01.vert", "shader01.frag");
     program_->use();
 
