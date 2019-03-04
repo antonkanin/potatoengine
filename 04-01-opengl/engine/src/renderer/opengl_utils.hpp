@@ -50,4 +50,6 @@ void check_gl_errors();
 
 void set_opengl_version();
 
+void print_opengl_version();
+
 void initialize_gl_functions();

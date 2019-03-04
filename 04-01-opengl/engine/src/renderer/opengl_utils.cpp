@@ -32,10 +32,20 @@ PFNGLBINDVERTEXARRAYPROC         glBindVertexArray         = nullptr;
 
 void set_opengl_version()
 {
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
                         SDL_GL_CONTEXT_PROFILE_CORE);
+}
+
+void print_opengl_version()
+{
+    int major_version = 0;
+    int minor_version = 0;
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
+
+    std::cout << "Using OpenGL version " << major_version << '.' << minor_version << std::endl;
 }
 
 void check_gl_errors()
