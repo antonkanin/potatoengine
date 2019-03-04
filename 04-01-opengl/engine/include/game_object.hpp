@@ -31,6 +31,7 @@ public:
     const transformation& get_transformation() const;
 
     void set_position(const ptm::vec3& position);
+    ptm::vec3 get_position() const;
 
     void set_rotation(const ptm::vec3& rotation_vector, float angle);
 

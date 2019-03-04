@@ -37,9 +37,10 @@ struct vec3
     }
 };
 
-const vec3 zero_vector = { 0.0f, 0.0f, 0.0f };
-const vec3 up_vector   = { 0.0f, 1.0f, 0.0f };
-const vec3 left_vector = { 1.0f, 0.0f, 0.0f };
+const vec3 zero_vector    = { 0.0f, 0.0f, 0.0f };
+const vec3 up_vector      = { 0.0f, 1.0f, 0.0f };
+const vec3 forward_vector = { 1.0f, 0.0f, 0.0f };
+const vec3 left_vector    = { 1.0f, 0.0f, 0.0f };
 
 const vec3 white = { 1.f, 1.f, 1.f };
 const vec3 red   = { 1.f, 0.f, 0.f };
