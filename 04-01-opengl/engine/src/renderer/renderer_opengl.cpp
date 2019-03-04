@@ -131,6 +131,8 @@ bool renderer_opengl::initialize(SDL_Window* window)
         return false;
     }
 
+    print_opengl_version();
+
     program_ = make_unique<program>("shader01.vert", "shader01.frag");
     program_->use();
 
@@ -226,7 +228,7 @@ void renderer_opengl::load_model(const model& model)
     glActiveTexture(GL_TEXTURE0 + texture_unit);
     check_gl_errors();
 
-    glGenBuffers(1, &texture_id_);
+    glGenTextures(1, &texture_id_);
     check_gl_errors();
 
     glBindTexture(GL_TEXTURE_2D, texture_id_);
