@@ -18,8 +18,8 @@ public:
     void start() override
     {
         //pt::model cube_model = pt::read_obj("res/figure.obj");
-        pt::model cube_model("res/figure.obj");
-        //pt::model cube_model("res/figure.blend");
+        //pt::model cube_model("res/figure.obj");
+        pt::model cube_model("res/figure.blend");
 
         //cube_model.image = pt::make_image("res/figure.png");
 
