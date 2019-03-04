@@ -88,7 +88,7 @@ void renderer_opengl::update_transform_matrix(
     // make projection matrix
 
     glm::mat4 project_m =
-        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 10.0f);
+        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 100.0f);
 
     ///////////////////////////////////////////////////////////////////////////
     // make full transformation matrix
@@ -108,15 +108,6 @@ void renderer_opengl::draw_model(const model&          model,
     program_->validate();
 
     model.draw(*(program_.get()));
-
-//    glActiveTexture(GL_TEXTURE0);
-//    check_gl_errors();
-//
-//    glBindTexture(GL_TEXTURE_2D, texture_id_);
-//    check_gl_errors();
-//
-//    glDrawElements(GL_TRIANGLES, indecies_count_, GL_UNSIGNED_INT, nullptr);
-//    check_gl_errors();
 }
 
 bool renderer_opengl::initialize(SDL_Window* window)
@@ -171,10 +162,5 @@ bool renderer_opengl::get_opengl_context()
 
     return true;
 }
-
-// void renderer_opengl::load_model(const model &model)
-//{
-//
-//}
 
 } // namespace pt
