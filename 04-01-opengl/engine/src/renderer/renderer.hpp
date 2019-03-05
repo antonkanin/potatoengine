@@ -19,8 +19,6 @@ public:
 
     virtual bool initialize(SDL_Window* window);
 
-    // virtual void load_model(const model& model) = 0;
-
     virtual void draw_model(const model&          model,
                             const transformation& transformation,
                             const camera&         camera) = 0;
@@ -28,6 +26,8 @@ public:
     virtual void swap_buffers() = 0;
 
     virtual void enable_vsync(bool state) = 0;
+
+    virtual void render_gui() = 0;
 
 protected:
     SDL_Window* window_ = nullptr; // we shouldn't be using SDL_Window here as

@@ -20,11 +20,15 @@ public:
 
     void enable_vsync(bool state) override;
 
+    void render_gui() override;
+
 private:
     bool create_opengl_context();
 
     void update_transform_matrix(const transformation& transformation,
                                  const camera&         camera);
+
+    void init_imgui(SDL_Window* window);
 
     SDL_GLContext gl_context_ = nullptr;
 

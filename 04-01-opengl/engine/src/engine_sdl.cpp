@@ -3,6 +3,8 @@
 #include "log_utils.hpp"
 #include "renderer/renderer.hpp"
 #include "renderer/triangle.hpp"
+#include <imgui.h>
+#include "imgui/imgui_impl_sdl.h"
 
 namespace pt
 {
@@ -38,7 +40,7 @@ bool engine_sdl::init()
     };
 
     // locking mouse at the center of the screen
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    //SDL_SetRelativeMouseMode(SDL_TRUE);
 
     return true;
 }
@@ -69,6 +71,8 @@ void engine_sdl::poll_events()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+
         switch (event.type)
         {
             case SDL_KEYDOWN:
@@ -142,7 +146,7 @@ void engine_sdl::enable_vsync(bool state)
 
 void engine_sdl::render_gui()
 {
-    // rendering gui
+    renderer_->render_gui();
 }
 
 } // namespace pt

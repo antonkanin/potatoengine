@@ -1,3 +1,4 @@
+- separate IMGUI integration into input handling and rendering
 - add basic lighting
 - [bug] LEFT SHIFT does continue movement when you hold it
 - remove 0.5 sec delay when pressing keys on the keyboard

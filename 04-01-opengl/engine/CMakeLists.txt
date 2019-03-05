@@ -21,6 +21,7 @@ add_library(${PROJECT_NAME} STATIC
         src/renderer/shader.cpp
         src/renderer/opengl_utils.cpp
 
+        src/imgui/imgui_impl_sdl.cpp
         src/imgui/imgui_impl_opengl3.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
