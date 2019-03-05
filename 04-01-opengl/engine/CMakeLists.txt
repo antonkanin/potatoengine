@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.7)
 
 project(04-01-engine)
 
+add_subdirectory(ext)
+
 add_library(${PROJECT_NAME} STATIC
         src/engine.cpp
         src/game_object.cpp
@@ -17,7 +19,9 @@ add_library(${PROJECT_NAME} STATIC
         src/renderer/program.cpp
         src/renderer/renderer_opengl.cpp
         src/renderer/shader.cpp
-        src/renderer/opengl_utils.cpp)
+        src/renderer/opengl_utils.cpp
+
+        src/imgui/imgui_impl_opengl3.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
@@ -25,7 +29,8 @@ target_link_libraries(${PROJECT_NAME}
         SDL2
         GL
         stbi
-        assimp)
+        assimp
+        external)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include)

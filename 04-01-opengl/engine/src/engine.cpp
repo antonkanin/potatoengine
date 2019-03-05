@@ -80,6 +80,8 @@ bool engine::run()
 
         render_objects();
 
+        render_gui();
+
         // swap buffers
         post_render_objects();
 

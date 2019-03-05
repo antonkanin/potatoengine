@@ -1,5 +1,5 @@
 #include "texture_image.hpp"
-#include "../ext/picopng.hpp"
+#include "../ext/picopng/picopng.hpp"
 
 namespace pt
 {

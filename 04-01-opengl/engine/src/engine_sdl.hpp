@@ -30,6 +30,8 @@ private:
     void render_object(const model&          model,
                        const transformation& transformation) override;
 
+    void render_gui() override;
+
 protected:
     float get_ticks() override;
 

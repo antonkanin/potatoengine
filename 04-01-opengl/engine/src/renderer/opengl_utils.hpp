@@ -31,6 +31,12 @@ extern PFNGLBINDBUFFERPROC              glBindBuffer;
 extern PFNGLBUFFERDATAPROC              glBufferData;
 extern PFNGLGENVERTEXARRAYSPROC         glGenVertexArrays;
 extern PFNGLBINDVERTEXARRAYPROC         glBindVertexArray;
+extern PFNGLDETACHSHADERPROC            glDetachShader;
+extern PFNGLBINDSAMPLERPROC             glBindSampler;
+extern PFNGLDELETEBUFFERSPROC           glDeleteBuffers;
+extern PFNGLDELETEVERTEXARRAYSPROC      glDeleteVertexArrays;
+extern PFNGLBLENDEQUATIONSEPARATEPROC   glBlendEquationSeparate;
+extern PFNGLBLENDFUNCSEPARATEPROC       glBlendFuncSeparate;
 
 template <typename T>
 static void load_gl_func(const std::string& func_name, T& result)

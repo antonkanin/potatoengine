@@ -29,6 +29,12 @@ PFNGLBINDBUFFERPROC              glBindBuffer              = nullptr;
 PFNGLBUFFERDATAPROC              glBufferData              = nullptr;
 PFNGLGENVERTEXARRAYSPROC         glGenVertexArrays         = nullptr;
 PFNGLBINDVERTEXARRAYPROC         glBindVertexArray         = nullptr;
+PFNGLDETACHSHADERPROC            glDetachShader            = nullptr;
+PFNGLBINDSAMPLERPROC             glBindSampler             = nullptr;
+PFNGLDELETEBUFFERSPROC           glDeleteBuffers           = nullptr;
+PFNGLDELETEVERTEXARRAYSPROC      glDeleteVertexArrays      = nullptr;
+PFNGLBLENDEQUATIONSEPARATEPROC   glBlendEquationSeparate   = nullptr;
+PFNGLBLENDFUNCSEPARATEPROC       glBlendFuncSeparate       = nullptr;
 
 void set_opengl_version()
 {
@@ -124,4 +130,9 @@ void initialize_gl_functions()
     load_gl_func("glGenVertexArrays", glGenVertexArrays);
     load_gl_func("glBindVertexArray", glBindVertexArray);
     load_gl_func("glUniform1i", glUniform1i);
+    load_gl_func("glDetachShader", glDetachShader);
+    load_gl_func("glBindSampler", glBindSampler);
+    load_gl_func("glDeleteVertexArrays", glDeleteVertexArrays);
+    load_gl_func("glBlendEquationSeparate", glBlendEquationSeparate);
+    load_gl_func("glBlendFuncSeparate", glBlendFuncSeparate);
 }
