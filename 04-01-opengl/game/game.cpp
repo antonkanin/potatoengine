@@ -27,11 +27,11 @@ int main(int argc, char* argv[])
     create_model(*engine, { 0.f, 5.f, 0.f });
     create_model(*engine, { 5.f, 5.f, 0.f });
 
-    //engine->add_object<camera_controller>();
+    // engine->add_object<camera_controller>();
 
-    //engine->add_object<vehicle>();
+    // engine->add_object<vehicle>();
 
-    //engine->add_object<show_fps>();
+    // engine->add_object<show_fps>();
 
     engine->run();
 

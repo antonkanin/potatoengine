@@ -72,7 +72,6 @@ protected:
 
     virtual void render_gui() = 0;
 
-
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();
 
