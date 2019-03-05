@@ -1,10 +1,10 @@
 #include "engine_sdl.hpp"
 #include "engine_utils.hpp"
+#include "imgui/imgui_impl_sdl.h"
 #include "log_utils.hpp"
 #include "renderer/renderer.hpp"
 #include "renderer/triangle.hpp"
 #include <imgui.h>
-#include "imgui/imgui_impl_sdl.h"
 
 namespace pt
 {
@@ -18,11 +18,14 @@ bool engine_sdl::init()
         return false;
     }
 
+    const unsigned int WINDOW_WIDTH  = 1024;
+    const unsigned int WINDOW_HEIGHT = 768;
+
     // TODO fix the warning "Warning:(47, 43) Clang-Tidy: Use of a signed
     // integer operand with a binary bitwise operator"
-    window_ =
-        SDL_CreateWindow(game_title_.c_str(), SDL_WINDOWPOS_CENTERED,
-                         SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
+    window_ = SDL_CreateWindow(game_title_.c_str(), SDL_WINDOWPOS_CENTERED,
+                               SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH,
+                               WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
 
     if (window_ == nullptr)
     {
@@ -40,7 +43,7 @@ bool engine_sdl::init()
     };
 
     // locking mouse at the center of the screen
-    //SDL_SetRelativeMouseMode(SDL_TRUE);
+    // SDL_SetRelativeMouseMode(SDL_TRUE);
 
     return true;
 }
