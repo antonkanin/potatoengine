@@ -1,6 +1,7 @@
 //varying vec4 v_position;
 varying vec2 v_tex_coord;
 varying vec3 v_color;
+varying vec3 v_normal;
 
 //uniform sampler2D u_texture;
 uniform sampler2D texture;

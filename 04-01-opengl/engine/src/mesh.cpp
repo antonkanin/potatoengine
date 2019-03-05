@@ -77,9 +77,16 @@ void mesh::setup_mesh()
     check_gl_errors();
 
     // normals
-    // TODO...
+    glEnableVertexAttribArray(3);
+    check_gl_errors();
+
+    glVertexAttribPointer(
+        3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+        (void*)(sizeof(ptm::vec3) + sizeof(ptm::vec2) + sizeof(ptm::vec3)));
+    check_gl_errors();
 
     glBindVertexArray(0);
+    check_gl_errors();
 }
 
 void mesh::draw(pt::program& program) const
@@ -97,7 +104,8 @@ void mesh::draw(pt::program& program) const
     glBindVertexArray(VAO_);
     check_gl_errors();
 
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
+                   GL_UNSIGNED_INT, nullptr);
     check_gl_errors();
 
     glBindVertexArray(0);

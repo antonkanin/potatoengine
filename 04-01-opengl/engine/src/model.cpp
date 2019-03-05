@@ -108,7 +108,9 @@ mesh model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
         if (mesh->mNormals != nullptr)
         {
-            // process normals...
+            vertex.normal = { mesh->mNormals[vertex_id].x,
+                              mesh->mNormals[vertex_id].y,
+                              mesh->mNormals[vertex_id].z };
         }
 
         if (mesh->mTextureCoords[0] != nullptr)
