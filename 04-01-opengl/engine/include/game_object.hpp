@@ -22,6 +22,9 @@ public:
     /** called every frame */
     virtual void update() = 0;
 
+    /** add custom GUI */
+    virtual void on_gui() {};
+
     void set_transform(const transformation& transform);
 
     const transformation& get_transformation() const;

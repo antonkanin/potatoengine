@@ -175,19 +175,8 @@ void renderer_opengl::enable_vsync(bool state)
     SDL_GL_SetSwapInterval(state ? 1 : 0);
 }
 
-void renderer_opengl::render_gui()
+void renderer_opengl::render_gui_frame()
 {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(window_);
-    ImGui::NewFrame();
-
-    // 1. Show the big demo window (Most of the sample code is in
-    // ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear
-    // ImGui!).
-
-    bool is_show = true;
-    ImGui::ShowDemoWindow(&is_show);
-
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -208,6 +197,13 @@ void renderer_opengl::init_imgui(SDL_Window* window)
     // Setup Platform/Renderer bindings
     ImGui_ImplSDL2_InitForOpenGL(window, gl_context_);
     ImGui_ImplOpenGL3_Init(nullptr);
+}
+
+void renderer_opengl::prepare_gui_frame()
+{
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(window_);
+    ImGui::NewFrame();
 }
 
 } // namespace pt

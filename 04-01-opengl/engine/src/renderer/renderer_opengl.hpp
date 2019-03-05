@@ -20,7 +20,8 @@ public:
 
     void enable_vsync(bool state) override;
 
-    void render_gui() override;
+    void prepare_gui_frame() override;
+    void render_gui_frame() override;
 
 private:
     bool create_opengl_context();

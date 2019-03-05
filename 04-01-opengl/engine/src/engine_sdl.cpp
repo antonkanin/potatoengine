@@ -147,9 +147,14 @@ void engine_sdl::enable_vsync(bool state)
     renderer_->enable_vsync(state);
 }
 
-void engine_sdl::render_gui()
+void engine_sdl::prepare_gui_frame()
 {
-    renderer_->render_gui();
+    renderer_->prepare_gui_frame();
+}
+
+void engine_sdl::render_gui_frame()
+{
+    renderer_->render_gui_frame();
 }
 
 } // namespace pt

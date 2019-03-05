@@ -27,7 +27,9 @@ public:
 
     virtual void enable_vsync(bool state) = 0;
 
-    virtual void render_gui() = 0;
+    virtual void prepare_gui_frame() = 0;
+
+    virtual void render_gui_frame() = 0;
 
 protected:
     SDL_Window* window_ = nullptr; // we shouldn't be using SDL_Window here as

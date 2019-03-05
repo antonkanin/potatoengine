@@ -1,4 +1,8 @@
+- refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
+  input_strategy, audio_strategy, etc)
+
 - separate IMGUI integration into input handling and rendering
+
 - add basic lighting
 - [bug] LEFT SHIFT does continue movement when you hold it
 - remove 0.5 sec delay when pressing keys on the keyboard

@@ -80,7 +80,12 @@ bool engine::run()
 
         render_objects();
 
-        render_gui();
+        // GUI rendering
+        prepare_gui_frame();
+
+        render_objects_gui();
+
+        render_gui_frame();
 
         // swap buffers
         post_render_objects();
@@ -105,6 +110,14 @@ float engine::time() const
 float engine::delta_time() const
 {
     return delta_time_;
+}
+
+void engine::render_objects_gui()
+{
+    for (auto& object : objects_)
+    {
+        object->on_gui();
+    }
 }
 
 } // namespace pt
