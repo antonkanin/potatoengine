@@ -28,16 +28,16 @@ public:
         // cube_model.image = pt::make_image("res/figure.png");
 
         set_model(cube_model);
-
-        set_position(get_transformation().position +
-                     pt::vec3{ 0.0f, 0.0f, -5.0f });
+//
+//        set_position(get_transformation().position +
+//                     pt::vec3{ 0.0f, 0.0f, -5.0f });
     }
 
     void update() override
     {
         // handle_movement();
 
-        //rotate_object();
+        rotate_object();
 
         // print_keys();
     }
