@@ -7,10 +7,10 @@
 #include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
 // abstraction instead of including a private header
 
-#include "movable_object.hpp"
 #include "game_object.hpp"
 #include "input_manager.hpp"
 #include "key_code.hpp"
+#include "movable_object.hpp"
 #include "transformation.hpp"
 
 namespace pt
@@ -48,6 +48,8 @@ public:
 
     movable_object& get_camera() { return camera_; }
 
+    movable_object& get_light() { return light_; }
+
     virtual void enable_vsync(bool state) = 0;
 
 protected:
@@ -67,12 +69,11 @@ protected:
 
     void render_objects();
 
-
-
     void render_objects_gui();
 
     virtual void render_object(const model&          model,
-                               const transformation& transformation) = 0;
+                               const transformation& transformation,
+                               const ptm::vec3&      light_position) = 0;
 
     virtual void prepare_gui_frame() = 0;
 
@@ -92,6 +93,7 @@ private:
     float delta_time_ = 0.f;
 
     movable_object camera_;
+    movable_object light_;
 };
 
 std::unique_ptr<engine> make_engine();

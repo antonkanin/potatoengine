@@ -39,7 +39,7 @@ void engine::render_objects()
 {
     for (auto& object : objects_)
     {
-        render_object(object->get_model(), object->get_transformation());
+        render_object(object->get_model(), object->get_transformation(), get_light().get_position());
     }
 }
 

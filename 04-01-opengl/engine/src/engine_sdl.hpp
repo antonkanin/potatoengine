@@ -27,8 +27,8 @@ private:
 
     void clean_up(); // TODO I really need a better name for this method
 
-    void render_object(const model&          model,
-                       const transformation& transformation) override;
+    void
+    render_object(const model &model, const transformation &transformation, const ptm::vec3 &light_position) override;
 
     void prepare_gui_frame() override;
 

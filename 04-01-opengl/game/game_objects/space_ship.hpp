@@ -14,8 +14,8 @@ class space_ship final : public pt::game_object
 public:
     void start() override
     {
-        //pt::model cube_model("res/figure.obj");
-        pt::model cube_model("res/two_faces.obj");
+        pt::model cube_model("res/figure.obj");
+        // pt::model cube_model("res/two_faces.obj");
         // pt::model cube_model("res/figure.blend");
 
         // pt::model
@@ -29,47 +29,12 @@ public:
         // cube_model.image = pt::make_image("res/figure.png");
 
         set_model(cube_model);
-//
-//        set_position(get_transformation().position +
-//                     pt::vec3{ 0.0f, 0.0f, -5.0f });
+        //
+        //        set_position(get_transformation().position +
+        //                     pt::vec3{ 0.0f, 0.0f, -5.0f });
     }
 
-    void update() override
-    {
-        // handle_movement();
-
-        //rotate_object();
-
-        // print_keys();
-    }
-
-    void handle_movement()
-    {
-        using namespace pt;
-
-        const auto& input = get_engine().get_input_manager();
-        const auto& trans = get_transformation();
-
-        if (input.get_key_down(key_code::right))
-        {
-            set_position(trans.position + vec3{ 0.1f, 0, 0 });
-        }
-
-        if (input.get_key_down(key_code::left))
-        {
-            set_position(trans.position - vec3{ 0.1f, 0, 0 });
-        }
-
-        if (input.get_key_down(key_code::up))
-        {
-            set_position(trans.position + vec3{ 0, 0.1f, 0 });
-        }
-
-        if (input.get_key_down(key_code::down))
-        {
-            set_position(trans.position - vec3{ 0, 0.1f, 0 });
-        }
-    }
+    void update() override { rotate_object(); }
 
     void rotate_object()
     {

@@ -43,7 +43,7 @@ bool engine_sdl::init()
     };
 
     // locking mouse at the center of the screen
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    // SDL_SetRelativeMouseMode(SDL_TRUE);
 
     return true;
 }
@@ -121,9 +121,11 @@ void engine_sdl::clean_up()
 }
 
 void engine_sdl::render_object(const model&          model,
-                               const transformation& transformation)
+                               const transformation& transformation,
+                               const ptm::vec3&      light_position)
 {
-    renderer_->draw_model(model, transformation, get_camera());
+    renderer_->draw_model(model, transformation, get_camera(),
+                          light_position);
 }
 
 void engine_sdl::post_render_objects()

@@ -21,7 +21,8 @@ public:
 
     virtual void draw_model(const model&          model,
                             const transformation& transformation,
-                            const movable_object&         camera) = 0;
+                            const movable_object& camera,
+                            const ptm::vec3&      light_position) = 0;
 
     virtual void swap_buffers() = 0;
 

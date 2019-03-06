@@ -5,10 +5,10 @@ project(04-01-game-opengl)
 add_executable(${PROJECT_NAME}
         game.cpp
         game_objects/space_ship.hpp
-        game_objects/camera_controller.hpp
+        game_objects/camera_keyboard_controller.hpp
         game_objects/show_fps.hpp
         game_objects/vehicle.hpp
-        game_objects/light.hpp)
+        game_objects/light_controller.hpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

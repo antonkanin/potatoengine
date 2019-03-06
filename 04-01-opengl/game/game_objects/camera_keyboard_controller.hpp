@@ -4,7 +4,7 @@
 #include <game_object.hpp>
 #include <key_code.hpp>
 
-class camera_controller : public pt::game_object
+class camera_keyboard_controller : public pt::game_object
 {
 public:
     void update() override { handle_camera_movement(); }

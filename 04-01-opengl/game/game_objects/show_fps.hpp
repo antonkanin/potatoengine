@@ -24,7 +24,7 @@ public:
     void on_gui() override
     {
         bool is_show = false;
-        // ImGui::ShowDemoWindow(&is_show);
+        //ImGui::ShowDemoWindow(&is_show);
         ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Appearing);
         ImGui::SetNextWindowSize(ImVec2(40, 30), ImGuiCond_Appearing);
 
