@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../src/renderer/program.hpp" // TODO clean this up
+//#include "../src/renderer/program.hpp" // TODO clean this up
 #include "texture.hpp"
 #include "vertex.hpp"
 #include <vector>
@@ -11,6 +11,8 @@ namespace pt
 {
 
 typedef unsigned int index;
+
+struct program;
 
 struct mesh
 {

@@ -23,6 +23,7 @@ PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation       = nullptr;
 PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation      = nullptr;
 PFNGLUNIFORM1FPROC               glUniform1f               = nullptr;
 PFNGLUNIFORM1IPROC               glUniform1i               = nullptr;
+PFNGLUNIFORM3FPROC               glUniform3f               = nullptr;
 PFNGLUNIFORMMATRIX4FVPROC        glUniformMatrix4fv        = nullptr;
 PFNGLGENBUFFERSPROC              glGenBuffers              = nullptr;
 PFNGLBINDBUFFERPROC              glBindBuffer              = nullptr;
@@ -123,6 +124,7 @@ void initialize_gl_functions()
     load_gl_func("glValidateProgram", glValidateProgram);
     load_gl_func("glGetAttribLocation", glGetAttribLocation);
     load_gl_func("glGetUniformLocation", glGetUniformLocation);
+    load_gl_func("glUniform3f", glUniform3f);
     load_gl_func("glUniformMatrix4fv", glUniformMatrix4fv);
     load_gl_func("glGenBuffers", glGenBuffers);
     load_gl_func("glBindBuffer", glBindBuffer);

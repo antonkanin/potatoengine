@@ -24,6 +24,7 @@ extern PFNGLGETPROGRAMIVPROC            glGetProgramiv;
 extern PFNGLGETATTRIBLOCATIONPROC       glGetAttribLocation;
 extern PFNGLGETUNIFORMLOCATIONPROC      glGetUniformLocation;
 extern PFNGLUNIFORM1FPROC               glUniform1f;
+extern PFNGLUNIFORM3FPROC               glUniform3f;
 extern PFNGLUNIFORM1IPROC               glUniform1i;
 extern PFNGLUNIFORMMATRIX4FVPROC        glUniformMatrix4fv;
 extern PFNGLGENBUFFERSPROC              glGenBuffers;

@@ -108,6 +108,9 @@ void renderer_opengl::draw_model(const model&          model,
 {
     update_transform_matrix(transformation, camera);
 
+
+    program_->set_vec3("u_light_pos", {0.f, 10.f, 10.f});
+
     program_->validate();
 
     model.draw(*(program_.get()));

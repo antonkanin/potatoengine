@@ -1,6 +1,7 @@
 #include "mesh.hpp"
 
 #include "renderer/opengl_utils.hpp"
+#include "renderer/program.hpp"
 
 namespace pt
 {

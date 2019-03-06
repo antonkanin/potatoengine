@@ -37,7 +37,7 @@ public:
     {
         // handle_movement();
 
-        rotate_object();
+        //rotate_object();
 
         // print_keys();
     }

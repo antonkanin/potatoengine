@@ -4,6 +4,7 @@
 #include "shader.hpp"
 #include <fstream>
 #include <iostream>
+#include <ptm/vec3.hpp>
 #include <sstream>
 
 namespace pt
@@ -125,8 +126,10 @@ void program::set_matrix4(const std::string& uniform_name,
 
     if (-1 == location)
     {
-        throw std::runtime_error("Error: could not find attribute " +
-                                 uniform_name);
+        //        throw std::runtime_error("Error: could not find attribute " +
+        //                                 uniform_name);
+        std::cout << "Error: could not find matrix4 attribute " << uniform_name << '\n';
+        return;
     }
 
     glUniformMatrix4fv(location, 1, GL_FALSE, uniform_value);
@@ -140,11 +143,32 @@ void program::set_1i(const std::string& uniform_name, GLint uniform_value)
 
     if (-1 == location)
     {
-        throw std::runtime_error("Error: could not find attribute " +
-                                 uniform_name);
+//        throw std::runtime_error("Error: could not find attribute " +
+//                                 uniform_name);
+
+        std::cout << "Error: could not find 1i attribute " << uniform_name << '\n';
+        return;
+
     }
 
     glUniform1i(location, uniform_value);
+    check_gl_errors();
+}
+
+void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
+{
+    GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
+    check_gl_errors();
+
+    if (-1 == location)
+    {
+        //        throw std::runtime_error("Error: could not find attribute " +
+        //                                 uniform_name);
+        std::cout << "Error: could not find 3f attribute " << uniform_name << '\n';
+        return;
+    }
+
+    glUniform3f(location, value.x, value.y, value.z);
     check_gl_errors();
 }
 
