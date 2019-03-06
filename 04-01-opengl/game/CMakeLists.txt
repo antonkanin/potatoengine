@@ -6,6 +6,7 @@ add_executable(${PROJECT_NAME}
         game.cpp
         game_objects/space_ship.hpp
         game_objects/camera_keyboard_controller.hpp
+        game_objects/camera_gui_controller.hpp
         game_objects/show_fps.hpp
         game_objects/vehicle.hpp
         game_objects/light_controller.hpp)
@@ -67,7 +68,6 @@ configure_file(res/three_faces.png
 
 configure_file(res/three_faces.obj
         ${CMAKE_CURRENT_BINARY_DIR}/res/three_faces.obj COPYONLY)
-
 
 #vehicle
 configure_file(res/military_vehicle_2.obj

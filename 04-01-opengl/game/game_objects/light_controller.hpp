@@ -19,7 +19,7 @@ public:
     void on_gui() override
     {
         ImGui::SetNextWindowPos(ImVec2(300, 0), ImGuiCond_Appearing);
-        ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiCond_Appearing);
 
         if (!ImGui::Begin("Light", nullptr, 0 /*ImGuiWindowFlags_NoTitleBar*/))
         {
