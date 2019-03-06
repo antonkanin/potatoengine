@@ -14,7 +14,7 @@ public:
     bool initialize(SDL_Window* window) override;
 
     void draw_model(const model& model, const transformation& transformation,
-                    const camera& camera) override;
+                    const movable_object& camera) override;
 
     void swap_buffers() override;
 
@@ -27,7 +27,7 @@ private:
     bool create_opengl_context();
 
     void update_transform_matrix(const transformation& transformation,
-                                 const camera&         camera);
+                                 const movable_object&         camera);
 
     void init_imgui(SDL_Window* window);
 

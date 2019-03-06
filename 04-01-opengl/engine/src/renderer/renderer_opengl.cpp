@@ -64,7 +64,7 @@ glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
 }
 
 void renderer_opengl::update_transform_matrix(
-    const transformation& transformation, const camera& camera)
+    const transformation& transformation, const movable_object& camera)
 {
     ///////////////////////////////////////////////////////////////////////////
     // make translation matrix
@@ -100,16 +100,23 @@ void renderer_opengl::update_transform_matrix(
 
     program_->set_matrix4("u_transform_matrix",
                           glm::value_ptr(full_transfom_m));
+
+
+    // positional light
+    ptm::vec3 light_position = {0.f, 0.f, 0.f};
+    auto light_eye = full_transfom_m * glm::vec4(glm_vec(light_position), 1.0);
+
+    ptm::vec3 l{light_eye.x, light_eye.y, light_eye.z};
+    program_->set_vec3("u_light_pos", l);
+
+    //std::cout << l << std::endl;
 }
 
 void renderer_opengl::draw_model(const model&          model,
                                  const transformation& transformation,
-                                 const camera&         camera)
+                                 const movable_object&         camera)
 {
     update_transform_matrix(transformation, camera);
-
-
-    program_->set_vec3("u_light_pos", {0.f, 0.f, 0.f});
 
     program_->validate();
 

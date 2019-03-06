@@ -1,6 +1,6 @@
 #pragma once
 
-#include "camera.hpp"
+#include "movable_object.hpp"
 #include <SDL2/SDL.h> // TODO do we really need the full SDL2.h here?
 #include <memory>
 #include <mesh.hpp>
@@ -21,7 +21,7 @@ public:
 
     virtual void draw_model(const model&          model,
                             const transformation& transformation,
-                            const camera&         camera) = 0;
+                            const movable_object&         camera) = 0;
 
     virtual void swap_buffers() = 0;
 

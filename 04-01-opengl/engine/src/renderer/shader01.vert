@@ -11,7 +11,7 @@ varying vec3 v_color;
 varying vec3 v_normal;
 
 uniform mat4 u_transform_matrix;
-uniform vec3 u_light_pos;
+//uniform vec3 u_light_pos;
 
 void main()
 {

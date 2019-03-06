@@ -15,6 +15,6 @@ Done
 - read apply diffuse color to the vertex when it's present in the model
 - add support for multiple game objects with models, currently we only support one mesh
 - enhance shader class: add a method to setup uniforms
-- add camera class and make it available to the game_object
+- add movable_object class and make it available to the game_object
 - add delta time to the engine and let objects use it
 - read UV coordinates

@@ -9,7 +9,7 @@ using namespace ptm;
 
 // TODO should the camera just have a transform object to handle position &
 // rotation?
-class camera
+class movable_object
 {
 public:
     vec3 get_direction() const;

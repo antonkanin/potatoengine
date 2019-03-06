@@ -3,6 +3,8 @@
 #include "game_objects/show_fps.hpp"
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
+#include "game_objects/light.hpp"
+
 
 void create_model(pt::engine& engine, const ptm::vec3 shift)
 {
@@ -22,14 +24,15 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    create_model(*engine, { 0.f, 0.f, -10.f });
-    create_model(*engine, { 5.f, 0.f, -10.f });
+    create_model(*engine, { 0.f, 0.f, -5.f });
+    //create_model(*engine, { 5.f, 0.f, -5.f });
     // create_model(*engine, { 0.f, 0.f, 0.f });
     // create_model(*engine, { 5.f, 5.f, 0.f });
 
     engine->add_object<camera_controller>();
+    //engine->add_object<light>();
 
-    engine->add_object<vehicle>();
+    //engine->add_object<vehicle>();
 
     // engine->add_object<show_fps>();
 

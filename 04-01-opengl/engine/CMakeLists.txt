@@ -11,7 +11,7 @@ add_library(${PROJECT_NAME} STATIC
         src/engine_sdl.cpp
         src/read_obj.cpp
         src/mesh.cpp
-        src/camera.cpp
+        src/movable_object.cpp
         src/texture_image.cpp
         src/mesh.cpp
         src/model.cpp

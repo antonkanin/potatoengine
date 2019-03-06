@@ -7,7 +7,8 @@ add_executable(${PROJECT_NAME}
         game_objects/space_ship.hpp
         game_objects/camera_controller.hpp
         game_objects/show_fps.hpp
-        game_objects/vehicle.hpp)
+        game_objects/vehicle.hpp
+        game_objects/light.hpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
@@ -33,9 +34,6 @@ configure_file(res/cube_quad.obj
 configure_file(res/cube_tri_uv.obj
         ${CMAKE_CURRENT_BINARY_DIR}/res/cube_tri_uv.obj COPYONLY)
 
-configure_file(res/two_faces_uvs.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/res/two_faces_uvs.obj COPYONLY)
-
 
 configure_file(res/texture.png
         ${CMAKE_CURRENT_BINARY_DIR}/res/texture.png COPYONLY)
@@ -57,11 +55,11 @@ configure_file(res/figure.blend
         ${CMAKE_CURRENT_BINARY_DIR}/res/figure.blend COPYONLY)
 
 # two faces
-configure_file(res/two_faces.png
-        ${CMAKE_CURRENT_BINARY_DIR}/res/two_faces.png COPYONLY)
-
 configure_file(res/two_faces.obj
         ${CMAKE_CURRENT_BINARY_DIR}/res/two_faces.obj COPYONLY)
+
+configure_file(res/two_faces.mtl
+        ${CMAKE_CURRENT_BINARY_DIR}/res/two_faces.mtl COPYONLY)
 
 # three faces
 configure_file(res/three_faces.png
