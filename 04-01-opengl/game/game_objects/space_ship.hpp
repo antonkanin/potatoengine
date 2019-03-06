@@ -14,7 +14,7 @@ class space_ship final : public pt::game_object
 public:
     void start() override
     {
-        //pt::model cube_model("res/figure.obj");
+        // pt::model cube_model("res/figure.obj");
         pt::model cube_model("res/two_faces.obj");
         // pt::model cube_model("res/figure.blend");
 

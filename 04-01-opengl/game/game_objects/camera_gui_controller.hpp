@@ -23,14 +23,14 @@ public:
 
         // camera position
 
-        auto pos = get_engine().get_camera().get_position();
+        auto pos = get_position();
 
         ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
         ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);
         ImGui::SliderFloat("z", &pos.z, -10.0f, 10.0f, "%.4f", 2.0f);
 
-        get_engine().get_camera().set_position(pos);
         set_position(pos);
+        get_engine().get_camera().set_position(pos);
 
         // camera direction (Yaw)
 

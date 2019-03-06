@@ -1,6 +1,3 @@
-
-#include <game_object.hpp>
-
 #include "game_object.hpp"
 
 namespace pt

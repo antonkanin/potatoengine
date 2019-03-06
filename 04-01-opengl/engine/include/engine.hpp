@@ -36,6 +36,15 @@ public:
         return this;
     }
 
+    template <typename T>
+    engine* add_object(const ptm::vec3 position)
+    {
+        auto obj = std::make_unique<T>();
+        obj->set_position(position);
+        this->add_object(move(obj));
+        return this;
+    }
+
     input_manager& get_input_manager();
 
     void set_title(const std::string& title);
