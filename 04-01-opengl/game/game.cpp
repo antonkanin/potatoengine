@@ -23,8 +23,15 @@ int main(int argc, char* argv[])
             ->set_position({ -3.f, 0.f, 0.f });
             //->set_scale({0.1f, 0.1f, 0.1f});
 
-//    engine->add_object<space_ship>()->
-//            set_position({ -4.f, 5.f, 0.f });
+    engine->add_object<space_ship>()->
+            set_position({ -4.f, 5.f, 0.f });
+
+    engine->add_object<space_ship>()->
+            set_position({ -4.f, 5.f, -5.f });
+
+    engine->add_object<space_ship>()->
+            set_position({ -4.f, 5.f, -5.f });
+
 
     engine->add_object<light_controller>()
             ->set_position({ 3.f, 0.f, 0.f });
