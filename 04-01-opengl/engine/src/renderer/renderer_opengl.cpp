@@ -108,7 +108,7 @@ void renderer_opengl::draw_model(const model&          model,
 {
     auto full_transform_m = get_transform_matrix(transformation, camera);
 
-    program_->set_matrix4("u_transform_matrix",
+    generic_program_->set_matrix4("u_transform_matrix",
                           glm::value_ptr(full_transform_m));
 
     // positional light
@@ -116,13 +116,13 @@ void renderer_opengl::draw_model(const model&          model,
     auto light_eye = full_transform_m * glm::vec4(glm_vec(light_position), 1.0);
 
     ptm::vec3 l{ light_eye.x, light_eye.y, light_eye.z };
-    program_->set_vec3("u_light_pos", l);
+    generic_program_->set_vec3("u_light_pos", l);
 
     // std::cout << l << std::endl;
 
-    program_->validate();
+    generic_program_->validate();
 
-    model.draw(*(program_.get()));
+    model.draw(*(generic_program_.get()));
 }
 
 bool renderer_opengl::initialize(SDL_Window* window)
@@ -142,8 +142,9 @@ bool renderer_opengl::initialize(SDL_Window* window)
 
     print_opengl_version();
 
-    program_ = make_unique<program>("shader01.vert", "shader01.frag");
-    program_->use();
+    generic_program_ = make_unique<program>("shaders/generic_shader.vert", "shaders/generic_shader.frag");
+    light_program_ = make_unique<program>("shaders/generic_shader.vert", "shaders/generic_shader.frag");
+    generic_program_->use();
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 

@@ -34,7 +34,8 @@ private:
 
     SDL_GLContext gl_context_ = nullptr;
 
-    std::unique_ptr<program> program_;
+    std::unique_ptr<program> generic_program_;
+    std::unique_ptr<program> light_program_;
 };
 
 } // namespace pt

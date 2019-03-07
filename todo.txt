@@ -1,3 +1,5 @@
+- separate light and other objects rendering
+
 - refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
   input_strategy, audio_strategy, etc)
 

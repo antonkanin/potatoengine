@@ -17,11 +17,11 @@ target_link_libraries(${PROJECT_NAME} 04-01-engine)
 
 ###############################################################################
 # copying shaders
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.vert
-        ${CMAKE_CURRENT_BINARY_DIR}/shader01.vert COPYONLY)
+configure_file(../engine/src/renderer/shaders/generic_shader.vert
+        ${CMAKE_CURRENT_BINARY_DIR}/shaders/generic_shader.vert COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag
-        ${CMAKE_CURRENT_BINARY_DIR}/shader01.frag COPYONLY)
+configure_file(../engine/src/renderer/shaders/generic_shader.frag
+        ${CMAKE_CURRENT_BINARY_DIR}/shaders/generic_shader.frag COPYONLY)
 
 ###############################################################################
 # copying images and objs files
