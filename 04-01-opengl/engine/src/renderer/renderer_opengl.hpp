@@ -33,8 +33,8 @@ public:
 private:
     bool create_opengl_context();
 
-    glm::mat4 get_transform_matrix(const transformation& transformation,
-                                   const movable_object& camera) const;
+    glm::mat4 get_model_view_matrix(const transformation &transformation,
+                                    const movable_object &camera) const;
 
     glm::mat4 get_view_matrix(const movable_object& camera) const;
 

@@ -14,8 +14,8 @@ class space_ship final : public pt::game_object
 public:
     void start() override
     {
-        // set_model(pt::model("res/cube/cube.obj"));
-        set_model(pt::model("res/two_faces.obj"));
+        set_model(pt::model("res/cube/cube.obj"));
+        // set_model(pt::model("res/two_faces.obj"));
     }
 
     void update() override
@@ -95,8 +95,8 @@ public:
 
     void on_gui()
     {
-        ImGui::SetNextWindowPos(ImVec2(100, 0), ImGuiCond_Appearing);
-        ImGui::SetNextWindowSize(ImVec2(200, 130), ImGuiCond_Appearing);
+        ImGui::SetNextWindowPos(ImVec2(140, 0), ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize(ImVec2(260, 150), ImGuiCond_Appearing);
 
         if (!ImGui::Begin("Spaceship", nullptr,
                           0 /*ImGuiWindowFlags_NoTitleBar*/))

@@ -19,10 +19,10 @@
 namespace pt
 {
 
-const glm::mat4x4 perspective_matrix_ =
+const glm::mat4x4 projection_matrix =
     glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 100.0f);
 
-// const glm::mat4x4 perspective_matrix_ = glm::mat4x4();
+// const glm::mat4x4 projection_matrix = glm::mat4x4();
 
 std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
 {
@@ -68,7 +68,7 @@ glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
                        glm_vec(up));
 }
 
-glm::mat4 renderer_opengl::get_transform_matrix(
+glm::mat4 renderer_opengl::get_model_view_matrix(
     const transformation& transformation, const movable_object& camera) const
 {
     ///////////////////////////////////////////////////////////////////////////
@@ -96,13 +96,7 @@ glm::mat4 renderer_opengl::get_transform_matrix(
 
     glm::mat4 view_m = get_view_matrix(camera);
 
-    ///////////////////////////////////////////////////////////////////////////
-    // make full transformation matrix
-
-    glm::mat4 full_transfom_m =
-        perspective_matrix_ * view_m * translate_m * rotate_m * scale_m;
-
-    return full_transfom_m;
+    return view_m * translate_m * rotate_m * scale_m;
 }
 
 glm::mat4 renderer_opengl::get_view_matrix(const movable_object& camera) const
@@ -120,10 +114,13 @@ void renderer_opengl::render_model(const model&          model,
 
     generic_program_->use();
 
-    auto full_transform_m = get_transform_matrix(transformation, camera);
+    auto model_view_matrix_m = get_model_view_matrix(transformation, camera);
 
-    generic_program_->set_matrix4("u_transform_matrix",
-                                  glm::value_ptr(full_transform_m));
+    generic_program_->set_matrix4("u_model_view_matrix",
+                                  glm::value_ptr(model_view_matrix_m));
+
+    generic_program_->set_matrix4("u_projection_matrix",
+                                  glm::value_ptr(projection_matrix));
 
     generic_program_->set_vec3("u_light_pos", light_position);
 
@@ -142,7 +139,7 @@ void renderer_opengl::render_light(const model&          model,
 
     glm::mat4 view_m = get_view_matrix(camera);
 
-    glm::mat4 full_transform_m = perspective_matrix_ * view_m * translate_m;
+    glm::mat4 full_transform_m = projection_matrix * view_m * translate_m;
 
     light_program_->use();
 
