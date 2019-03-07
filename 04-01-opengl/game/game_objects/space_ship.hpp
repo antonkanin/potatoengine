@@ -15,7 +15,7 @@ public:
     void start() override
     {
         set_model(pt::model("res/cube/cube.obj"));
-        set_model(pt::model("res/figure.obj"));
+        //set_model(pt::model("res/figure.obj"));
         // set_model(pt::model("res/two_faces.obj"));
     }
 
