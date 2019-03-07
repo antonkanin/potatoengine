@@ -11,9 +11,10 @@ engine& game_object::get_engine()
     return *engine_;
 }
 
-void game_object::set_position(const ptm::vec3& position)
+game_object* game_object::set_position(const ptm::vec3 &position)
 {
     transformation_.position = position;
+    return this;
 }
 
 const model& game_object::get_model() const

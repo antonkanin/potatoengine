@@ -12,19 +12,35 @@
 class space_ship final : public pt::game_object
 {
 public:
-    void start() override { set_model(pt::model("res/cube/cube.obj")); }
+    void start() override
+    {
+        // set_model(pt::model("res/cube/cube.obj"));
+        set_model(pt::model("res/two_faces.obj"));
+    }
 
-    void update() override { rotate_object(); }
+    void update() override
+    {
+        process_movement();
 
-    void rotate_object()
+        process_rotation();
+    }
+
+    void process_rotation()
+    {
+        if (is_auto_rotate_)
+        {
+            using namespace pt;
+            set_rotation(up_vector, get_transformation().rotation_angle -
+                                        get_engine().delta_time() * 0.3f);
+        }
+    }
+
+    void process_movement()
     {
         using namespace pt;
 
         const auto& input = get_engine().get_input_manager();
         const auto& trans = get_transformation();
-
-        set_rotation(up_vector,
-                     trans.rotation_angle - get_engine().delta_time() * 0.3f);
 
         if (input.get_key_down(key_code::button_a))
         {
@@ -98,9 +114,14 @@ public:
 
         ImGui::SliderFloat("scale", &scale, -10.0f, 10.0f, "%.4f", 1.0f);
 
+        ImGui::Checkbox("Auto-rotate", &is_auto_rotate_);
+
         set_position(pos);
         set_scale({ scale, scale, scale });
 
         ImGui::End();
     }
+
+private:
+    bool is_auto_rotate_ = true;
 };

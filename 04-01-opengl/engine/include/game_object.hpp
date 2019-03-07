@@ -29,7 +29,7 @@ public:
 
     const transformation& get_transformation() const;
 
-    void      set_position(const ptm::vec3& position);
+    game_object * set_position(const ptm::vec3 &position);
     ptm::vec3 get_position() const;
 
     void      set_scale(const ptm::vec3& scale);

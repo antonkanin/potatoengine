@@ -117,23 +117,40 @@ void renderer_opengl::render_model(const model&          model,
                                    const movable_object& camera,
                                    const ptm::vec3&      light_position)
 {
-    auto full_transform_m = get_transform_matrix(transformation, camera);
-
-    auto light_pos_view =
-        full_transform_m * glm::vec4(glm_vec(light_position), 1.0);
 
     generic_program_->use();
+
+    auto full_transform_m = get_transform_matrix(transformation, camera);
 
     generic_program_->set_matrix4("u_transform_matrix",
                                   glm::value_ptr(full_transform_m));
 
-    generic_program_->set_vec3(
-        "u_light_pos",
-        { light_pos_view.x, light_pos_view.y, light_pos_view.z });
+    generic_program_->set_vec3("u_light_pos", light_position);
 
     generic_program_->validate();
 
     model.draw(*(generic_program_.get()));
+}
+
+void renderer_opengl::render_light(const model&          model,
+                                   const vec3&           light_position,
+                                   const movable_object& camera)
+{
+    ptm::matrix4x4 translation_m = ptm::translation(light_position);
+
+    glm::mat4 translate_m = glm_mat(translation_m);
+
+    glm::mat4 view_m = get_view_matrix(camera);
+
+    glm::mat4 full_transform_m = perspective_matrix_ * view_m * translate_m;
+
+    light_program_->use();
+
+    light_program_->set_matrix4("u_transform_matrix",
+                                glm::value_ptr(full_transform_m));
+    light_program_->validate();
+
+    model.draw(*(light_program_.get()));
 }
 
 bool renderer_opengl::initialize(SDL_Window* window)
@@ -229,27 +246,6 @@ void renderer_opengl::prepare_gui_frame()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window_);
     ImGui::NewFrame();
-}
-
-void renderer_opengl::render_light(const model&          model,
-                                   const vec3&           light_position,
-                                   const movable_object& camera)
-{
-    ptm::matrix4x4 translation_m = ptm::translation(light_position);
-
-    glm::mat4 translate_m = glm_mat(translation_m);
-
-    glm::mat4 view_m = get_view_matrix(camera);
-
-    glm::mat4 full_transform_m = perspective_matrix_ * view_m * translate_m;
-
-    light_program_->use();
-
-    light_program_->set_matrix4("u_transform_matrix",
-                                glm::value_ptr(full_transform_m));
-    light_program_->validate();
-
-    model.draw(*(light_program_.get()));
 }
 
 void renderer_opengl::enable_wireframe(bool state)
