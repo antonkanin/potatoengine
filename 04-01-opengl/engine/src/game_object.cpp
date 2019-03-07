@@ -1,3 +1,6 @@
+
+#include <game_object.hpp>
+
 #include "game_object.hpp"
 
 namespace pt
@@ -20,7 +23,8 @@ const model& game_object::get_model() const
 
 void game_object::set_model(const model& model)
 {
-    model_ = model;
+    has_model_ = true;
+    model_     = model;
 }
 
 const transformation& game_object::get_transformation() const
@@ -52,6 +56,16 @@ void game_object::load_model(const std::string& path)
 game_object::~game_object()
 {
     engine_ = nullptr;
+}
+
+void game_object::set_scale(const ptm::vec3& scale)
+{
+    transformation_.scale = scale;
+}
+
+ptm::vec3 game_object::get_scale() const
+{
+    return transformation_.scale;
 };
 
 } // namespace pt

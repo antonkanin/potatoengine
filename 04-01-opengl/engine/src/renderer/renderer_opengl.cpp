@@ -19,6 +19,9 @@
 namespace pt
 {
 
+const glm::mat4x4 perspective_matrix_ =
+    glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 100.0f);
+
 std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
 {
     out << v.x << ' ' << v.y << ' ' << v.z << ' ' << v.w;
@@ -88,37 +91,32 @@ glm::mat4 renderer_opengl::get_transform_matrix(
         look_at(camera.get_position(), camera.get_direction(), camera.get_up());
 
     ///////////////////////////////////////////////////////////////////////////
-    // make projection matrix
-
-    glm::mat4 project_m =
-        glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 100.0f);
-
-    ///////////////////////////////////////////////////////////////////////////
     // make full transformation matrix
 
-    glm::mat4 full_transfom_m = project_m * view_m * translate_m * rotate_m;
+    glm::mat4 full_transfom_m =
+        perspective_matrix_ * view_m * translate_m * rotate_m;
 
     return full_transfom_m;
 }
 
-void renderer_opengl::draw_model(const model&          model,
-                                 const transformation& transformation,
-                                 const movable_object& camera,
-                                 const ptm::vec3&      light_position)
+void renderer_opengl::render_model(const model&          model,
+                                   const transformation& transformation,
+                                   const movable_object& camera,
+                                   const ptm::vec3&      light_position)
 {
     auto full_transform_m = get_transform_matrix(transformation, camera);
 
+    auto light_pos_view =
+        full_transform_m * glm::vec4(glm_vec(light_position), 1.0);
+
+    generic_program_->use();
+
     generic_program_->set_matrix4("u_transform_matrix",
-                          glm::value_ptr(full_transform_m));
+                                  glm::value_ptr(full_transform_m));
 
-    // positional light
-
-    auto light_eye = full_transform_m * glm::vec4(glm_vec(light_position), 1.0);
-
-    ptm::vec3 l{ light_eye.x, light_eye.y, light_eye.z };
-    generic_program_->set_vec3("u_light_pos", l);
-
-    // std::cout << l << std::endl;
+    generic_program_->set_vec3(
+        "u_light_pos",
+        { light_pos_view.x, light_pos_view.y, light_pos_view.z });
 
     generic_program_->validate();
 
@@ -142,9 +140,11 @@ bool renderer_opengl::initialize(SDL_Window* window)
 
     print_opengl_version();
 
-    generic_program_ = make_unique<program>("shaders/generic_shader.vert", "shaders/generic_shader.frag");
-    light_program_ = make_unique<program>("shaders/generic_shader.vert", "shaders/generic_shader.frag");
-    generic_program_->use();
+    generic_program_ = make_unique<program>("shaders/generic_shader.vert",
+                                            "shaders/generic_shader.frag");
+    light_program_   = make_unique<program>("shaders/light_shader.vert",
+                                          "shaders/light_shader.frag");
+    // generic_program_->use();
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -217,6 +217,28 @@ void renderer_opengl::prepare_gui_frame()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window_);
     ImGui::NewFrame();
+}
+
+void renderer_opengl::render_light(const model&          model,
+                                   const vec3&           light_position,
+                                   const movable_object& camera)
+{
+    ptm::matrix4x4 translation_m = ptm::translation(light_position);
+
+    glm::mat4 translate_m = glm_mat(translation_m);
+
+    glm::mat4 view_m =
+        look_at(camera.get_position(), camera.get_direction(), camera.get_up());
+
+    glm::mat4 full_transform_m = perspective_matrix_ * view_m * translate_m;
+
+    light_program_->use();
+
+    light_program_->set_matrix4("u_transform_matrix",
+                                glm::value_ptr(full_transform_m));
+    light_program_->validate();
+
+    model.draw(*(light_program_.get()));
 }
 
 } // namespace pt

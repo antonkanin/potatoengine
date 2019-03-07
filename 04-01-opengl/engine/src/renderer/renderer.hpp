@@ -19,10 +19,15 @@ public:
 
     virtual bool initialize(SDL_Window* window);
 
-    virtual void draw_model(const model&          model,
-                            const transformation& transformation,
-                            const movable_object& camera,
-                            const ptm::vec3&      light_position) = 0;
+    // TODO merge render_modal and render_light into a generic method, add 'material' abstraction
+    virtual void render_model(const model &model,
+                              const transformation &transformation,
+                              const movable_object &camera,
+                              const ptm::vec3 &light_position) = 0;
+
+    virtual void render_light(const model &model,
+                              const vec3 &light_position,
+                              const movable_object &camera) = 0;
 
     virtual void swap_buffers() = 0;
 

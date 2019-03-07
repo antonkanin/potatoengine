@@ -18,7 +18,7 @@ std::unique_ptr<engine> make_engine()
 
 game_object* engine::add_object(std::unique_ptr<game_object> object)
 {
-    object->engine_ = this;
+    object->engine_         = this;
     game_object* object_ptr = object.get();
     objects_.emplace_back(std::move(object));
     return object_ptr;
@@ -41,7 +41,11 @@ void engine::render_objects()
 {
     for (auto& object : objects_)
     {
-        render_object(object->get_model(), object->get_transformation(), get_light().get_position());
+        if (object->has_model_)
+        {
+            render_object(object->get_model(), object->get_transformation(),
+                          get_light().get_position());
+        }
     }
 }
 
@@ -79,6 +83,8 @@ bool engine::run()
         update_objects();
 
         render_objects();
+
+        render_lights();
 
         // GUI rendering
         prepare_gui_frame();
@@ -118,6 +124,11 @@ void engine::render_objects_gui()
     {
         object->on_gui();
     }
+}
+
+void engine::set_light_model(const model& model)
+{
+    light_model_ = model;
 }
 
 } // namespace pt

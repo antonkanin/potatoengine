@@ -34,6 +34,8 @@ private:
 
     void render_gui_frame() override;
 
+    void render_lights() override;
+
 protected:
     float get_ticks() override;
 

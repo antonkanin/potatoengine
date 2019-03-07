@@ -23,6 +23,12 @@ configure_file(../engine/src/renderer/shaders/generic_shader.vert
 configure_file(../engine/src/renderer/shaders/generic_shader.frag
         ${CMAKE_CURRENT_BINARY_DIR}/shaders/generic_shader.frag COPYONLY)
 
+configure_file(../engine/src/renderer/shaders/light_shader.vert
+        ${CMAKE_CURRENT_BINARY_DIR}/shaders/light_shader.vert COPYONLY)
+
+configure_file(../engine/src/renderer/shaders/light_shader.frag
+        ${CMAKE_CURRENT_BINARY_DIR}/shaders/light_shader.frag COPYONLY)
+
 ###############################################################################
 # copying images and objs files
 

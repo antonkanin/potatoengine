@@ -124,8 +124,8 @@ void engine_sdl::render_object(const model&          model,
                                const transformation& transformation,
                                const ptm::vec3&      light_position)
 {
-    renderer_->draw_model(model, transformation, get_camera(),
-                          light_position);
+    renderer_->render_model(model, transformation, get_camera(),
+                            light_position);
 }
 
 void engine_sdl::post_render_objects()
@@ -157,6 +157,11 @@ void engine_sdl::prepare_gui_frame()
 void engine_sdl::render_gui_frame()
 {
     renderer_->render_gui_frame();
+}
+
+void engine_sdl::render_lights()
+{
+    renderer_->render_light(light_model_, get_light().get_position(), get_camera());
 }
 
 } // namespace pt

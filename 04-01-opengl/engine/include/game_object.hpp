@@ -32,6 +32,9 @@ public:
     void      set_position(const ptm::vec3& position);
     ptm::vec3 get_position() const;
 
+    void      set_scale(const ptm::vec3& scale);
+    ptm::vec3 get_scale() const;
+
     void set_rotation(const ptm::vec3& rotation_vector, float angle);
 
     const model& get_model() const;
@@ -47,10 +50,13 @@ private:
 
     engine* engine_ = nullptr;
 
+    bool  has_model_ = false;
     model model_;
 
-    transformation transformation_ = { ptm::zero_vector, ptm::up_vector, 0.0f,
-                                       ptm::zero_vector };
+    transformation transformation_ = { .position        = ptm::zero_vector,
+                                       .rotation_vector = ptm::up_vector,
+                                       .rotation_angle  = 0.0f,
+                                       .scale           = { 1.f, 1.f, 1.f } };
 };
 
 } // namespace pt

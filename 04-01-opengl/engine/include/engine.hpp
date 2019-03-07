@@ -45,11 +45,13 @@ public:
     /** duration of the previous frame */
     float delta_time() const;
 
-    movable_object& get_camera() { return camera_; }
+    movable_object& get_camera() { return camera_position_; }
 
-    movable_object& get_light() { return light_; }
+    movable_object& get_light() { return light_position_; }
 
     virtual void enable_vsync(bool state) = 0;
+
+    void set_light_model(const model& model);
 
 protected:
     // virtual void load_models() = 0;
@@ -59,6 +61,8 @@ protected:
     virtual void post_render_objects() = 0;
 
     virtual float get_ticks() = 0;
+
+    virtual void render_lights() = 0;
 
     void set_game_running(bool is_game_running);
 
@@ -85,14 +89,18 @@ protected:
 
     std::vector<std::unique_ptr<game_object>> objects_;
 
+protected:
+    model light_model_; // TODO engine implementation needs to see this so it
+                        // can pass it to the renderer
+
 private:
     bool game_running_ = false;
 
     float time_       = 0.f;
     float delta_time_ = 0.f;
 
-    movable_object camera_;
-    movable_object light_;
+    movable_object camera_position_;
+    movable_object light_position_;
 };
 
 std::unique_ptr<engine> make_engine();
