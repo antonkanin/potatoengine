@@ -16,10 +16,12 @@ std::unique_ptr<engine> make_engine()
     return result;
 }
 
-void engine::add_object(std::unique_ptr<game_object> object)
+game_object* engine::add_object(std::unique_ptr<game_object> object)
 {
     object->engine_ = this;
+    game_object* object_ptr = object.get();
     objects_.emplace_back(std::move(object));
+    return object_ptr;
 }
 
 void engine::update_objects()
@@ -61,8 +63,6 @@ bool engine::run()
     game_running_ = true;
 
     start_objects();
-
-    // load_models();
 
     time_          = 0.f;
     float old_time = 0.f;

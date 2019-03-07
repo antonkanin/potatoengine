@@ -27,22 +27,12 @@ public:
 
     bool run();
 
-    void add_object(std::unique_ptr<game_object> object);
+    game_object* add_object(std::unique_ptr<game_object> object);
 
     template <typename T>
-    engine* add_object()
+    game_object* add_object()
     {
-        add_object(std::make_unique<T>());
-        return this;
-    }
-
-    template <typename T>
-    engine* add_object(const ptm::vec3 position)
-    {
-        auto obj = std::make_unique<T>();
-        obj->set_position(position);
-        this->add_object(move(obj));
-        return this;
+        return add_object(std::make_unique<T>());
     }
 
     input_manager& get_input_manager();

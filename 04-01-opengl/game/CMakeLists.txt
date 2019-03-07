@@ -26,21 +26,12 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/renderer/shader01.frag
 ###############################################################################
 # copying images and objs files
 
-configure_file(res/cube_tri.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/res/cube_tri.obj COPYONLY)
+configure_file(res/cube/cube.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/res/cube/cube.obj COPYONLY)
 
-configure_file(res/cube_quad.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/res/cube_quad.obj COPYONLY)
+configure_file(res/cube/cube.mtl
+        ${CMAKE_CURRENT_BINARY_DIR}/res/cube/cube.mtl COPYONLY)
 
-configure_file(res/cube_tri_uv.obj
-        ${CMAKE_CURRENT_BINARY_DIR}/res/cube_tri_uv.obj COPYONLY)
-
-
-configure_file(res/texture.png
-        ${CMAKE_CURRENT_BINARY_DIR}/res/texture.png COPYONLY)
-
-configure_file(res/tank.png
-        ${CMAKE_CURRENT_BINARY_DIR}/res/tank.png COPYONLY)
 
 # figure
 configure_file(res/figure.png

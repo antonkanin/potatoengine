@@ -8,7 +8,7 @@ class light_controller final : public pt::game_object
 public:
     void start() override
     {
-        set_model(pt::model{"res/figure.obj"});
+        set_model(pt::model{"res/cube/cube.obj"});
 
         // sync game object and light positions
         get_engine().get_light().set_position(get_position());

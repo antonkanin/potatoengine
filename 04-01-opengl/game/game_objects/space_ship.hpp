@@ -12,27 +12,7 @@
 class space_ship final : public pt::game_object
 {
 public:
-    void start() override
-    {
-        // pt::model cube_model("res/figure.obj");
-        pt::model cube_model("res/two_faces.obj");
-        // pt::model cube_model("res/figure.blend");
-
-        // pt::model
-        // cube_model("/home/anton/Documents/blender/parent_child/parent_child.blend");
-        // pt::model
-        // cube_model("/home/anton/Documents/blender/parent_child/parent_child.obj");
-
-        // pt::model
-        // cube_model("/home/anton/Documents/blender/military_vehicle/military_vehicle_2.obj");
-
-        // cube_model.image = pt::make_image("res/figure.png");
-
-        set_model(cube_model);
-        //
-        //        set_position(get_transformation().position +
-        //                     pt::vec3{ 0.0f, 0.0f, -5.0f });
-    }
+    void start() override { set_model(pt::model("res/cube/cube.obj")); }
 
     void update() override { rotate_object(); }
 

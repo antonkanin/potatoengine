@@ -6,13 +6,6 @@
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
 
-void create_model(pt::engine& engine, const ptm::vec3 shift)
-{
-    auto m = std::make_unique<space_ship>();
-    m->set_position(m->get_position() + shift);
-    engine.add_object(move(m));
-}
-
 int main(int argc, char* argv[])
 {
     auto engine = pt::make_engine();
@@ -24,21 +17,24 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    create_model(*engine, { -4.f, 0.f, 0.f });
-    // create_model(*engine, { 5.f, 0.f, -5.f });
-    // create_model(*engine, { 0.f, 0.f, 0.f });
-    // create_model(*engine, { 5.f, 5.f, 0.f });
+    // clang-format off
+
+    engine->add_object<space_ship>()->
+            set_position({ -4.f, 0.f, 0.f });
+
+    engine->add_object<light_controller>()->
+            set_position({ 4.f, 0.f, 0.f });
+
+    engine->add_object<camera_gui_controller>()->
+            set_position({ 0.f, 0.f, 5.f });
 
     // engine->add_object<camera_keyboard_controller>();
-    engine->add_object<camera_gui_controller>({0.f, 0.f, 5.f});
-
-    auto light_obj = std::make_unique<light_controller>();
-    light_obj->set_position({4.f, 0.f, 0.f});
-    engine->add_object(move(light_obj));
 
     // engine->add_object<vehicle>();
 
     engine->add_object<show_fps>();
+
+    // clang-format on
 
     engine->run();
 

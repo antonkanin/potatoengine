@@ -23,7 +23,7 @@ public:
     virtual void update() = 0;
 
     /** add custom GUI */
-    virtual void on_gui() {};
+    virtual void on_gui(){};
 
     void set_transform(const transformation& transform);
 

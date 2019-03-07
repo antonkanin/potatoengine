@@ -1,8 +1,8 @@
 #pragma once
 
+#include "ptm/vec3.hpp"
 #include <SDL2/SDL_opengl.h>
 #include <string>
-#include "ptm/vec3.hpp"
 
 namespace pt
 {
