@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
     engine->add_object<camera_keyboard_controller>();
 
-    //engine->add_object<vehicle>();
+    engine->add_object<vehicle>();
 
     engine->add_object<show_fps>();
 

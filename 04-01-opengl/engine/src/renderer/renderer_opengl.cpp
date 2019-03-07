@@ -122,7 +122,9 @@ void renderer_opengl::render_model(const model&          model,
     generic_program_->set_matrix4("u_projection_matrix",
                                   glm::value_ptr(projection_matrix));
 
-    generic_program_->set_vec3("u_light_pos", light_position);
+    auto light_pos = get_view_matrix(camera) * glm::vec4(glm_vec(light_position), 1.0f);
+
+    generic_program_->set_vec3("u_light_pos", {light_pos.x, light_pos.y, light_pos.z});
 
     generic_program_->validate();
 
@@ -169,10 +171,9 @@ bool renderer_opengl::initialize(SDL_Window* window)
 
     generic_program_ = make_unique<program>("shaders/generic_shader.vert",
                                             "shaders/generic_shader.frag");
-    light_program_   = make_unique<program>("shaders/light_shader.vert",
-                                          "shaders/light_shader.frag");
 
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    light_program_ = make_unique<program>("shaders/light_shader.vert",
+                                          "shaders/light_shader.frag");
 
     glEnable(GL_DEPTH_TEST);
     check_gl_errors();
