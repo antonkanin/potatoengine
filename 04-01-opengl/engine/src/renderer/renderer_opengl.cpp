@@ -72,16 +72,16 @@ glm::mat4 renderer_opengl::get_transform_matrix(
     ///////////////////////////////////////////////////////////////////////////
     // make scale matrix
 
-    glm::mat4x4 scale_m = glm::scale(glm::mat4x4(), glm_vec(transformation.scale));
+    glm::mat4x4 scale_m =
+        glm::scale(glm::mat4x4(), glm_vec(transformation.scale));
 
     ///////////////////////////////////////////////////////////////////////////
     // make rotation matrix
 
     ptm::matrix4x4 rotation_m = ptm::matrix4x4(ptm::rotation(
-            transformation.rotation_angle, transformation.rotation_vector));
+        transformation.rotation_angle, transformation.rotation_vector));
 
     glm::mat4 rotate_m = glm_mat(rotation_m);
-
 
     ///////////////////////////////////////////////////////////////////////////
     // make translation matrix
@@ -89,7 +89,6 @@ glm::mat4 renderer_opengl::get_transform_matrix(
     ptm::matrix4x4 translation_m = ptm::translation(transformation.position);
 
     glm::mat4 translate_m = glm_mat(translation_m);
-
 
     ///////////////////////////////////////////////////////////////////////////
     // make view matrix

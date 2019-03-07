@@ -1,10 +1,7 @@
 #pragma once
 
 #include "key_code.hpp"
-#include "ptm/vec3.hpp"
-#include "vertex.hpp"
 #include <SDL2/SDL_events.h>
-#include <SDL2/SDL_keycode.h>
 
 pt::key_code get_key(const SDL_Keycode& sdl_keycode)
 {

@@ -8,6 +8,11 @@
 class camera_gui_controller : public pt::game_object
 {
 public:
+    void start()
+    {
+        get_engine().get_camera().set_position(get_position());
+    }
+
     void update() override {}
 
     void on_gui() override
@@ -23,7 +28,7 @@ public:
 
         // camera position
 
-        auto pos = get_position();
+        auto pos = get_engine().get_camera().get_position();
 
         ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
         ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);

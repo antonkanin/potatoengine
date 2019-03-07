@@ -23,6 +23,8 @@ private:
 
     void process_mouse_motion_event(const SDL_MouseMotionEvent& event);
 
+    void process_mouse_button_event(const SDL_MouseButtonEvent& event);
+
     void poll_events() override;
 
     void clean_up(); // TODO I really need a better name for this method

@@ -82,13 +82,14 @@ public:
         ImGui::SetNextWindowPos(ImVec2(100, 0), ImGuiCond_Appearing);
         ImGui::SetNextWindowSize(ImVec2(200, 130), ImGuiCond_Appearing);
 
-        if (!ImGui::Begin("Spaceship", nullptr, 0 /*ImGuiWindowFlags_NoTitleBar*/))
+        if (!ImGui::Begin("Spaceship", nullptr,
+                          0 /*ImGuiWindowFlags_NoTitleBar*/))
         {
             ImGui::End();
             return;
         }
 
-        auto pos = get_position();
+        auto pos   = get_position();
         auto scale = get_scale().x;
 
         ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
@@ -98,9 +99,8 @@ public:
         ImGui::SliderFloat("scale", &scale, -10.0f, 10.0f, "%.4f", 1.0f);
 
         set_position(pos);
-        set_scale({scale, scale, scale});
+        set_scale({ scale, scale, scale });
 
         ImGui::End();
     }
-
 };

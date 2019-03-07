@@ -64,6 +64,31 @@ void engine_sdl::process_keyboard_event(const SDL_KeyboardEvent& event)
         (event.state == SDL_RELEASED);
 }
 
+void engine_sdl::process_mouse_button_event(const SDL_MouseButtonEvent& event)
+{
+    if (event.button == SDL_BUTTON_LEFT)
+    {
+        get_input_manager().key_code_state(key_code::mouse_left,
+                                           key_state::pressed) =
+            (event.state == SDL_PRESSED);
+
+        get_input_manager().key_code_state(key_code::mouse_left,
+                                           key_state::released) =
+            (event.state == SDL_RELEASED);
+    }
+
+    if (event.button == SDL_BUTTON_RIGHT)
+    {
+        get_input_manager().key_code_state(key_code::mouse_right,
+                                           key_state::pressed) =
+            (event.state == SDL_PRESSED);
+
+        get_input_manager().key_code_state(key_code::mouse_right,
+                                           key_state::released) =
+            (event.state == SDL_RELEASED);
+    }
+}
+
 engine_sdl::~engine_sdl()
 {
     clean_up();
@@ -79,11 +104,6 @@ void engine_sdl::poll_events()
         switch (event.type)
         {
             case SDL_KEYDOWN:
-            {
-                process_keyboard_event(event.key);
-                break;
-            }
-
             case SDL_KEYUP:
             {
                 process_keyboard_event(event.key);
@@ -99,6 +119,13 @@ void engine_sdl::poll_events()
             case SDL_MOUSEMOTION:
             {
                 process_mouse_motion_event(event.motion);
+                break;
+            }
+
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP:
+            {
+                process_mouse_button_event(event.button);
                 break;
             }
 
@@ -161,7 +188,8 @@ void engine_sdl::render_gui_frame()
 
 void engine_sdl::render_lights()
 {
-    renderer_->render_light(light_model_, get_light().get_position(), get_camera());
+    renderer_->render_light(light_model_, get_light().get_position(),
+                            get_camera());
 }
 
 } // namespace pt
