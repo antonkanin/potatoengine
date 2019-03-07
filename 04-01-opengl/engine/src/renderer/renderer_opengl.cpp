@@ -93,11 +93,6 @@ glm::mat4 renderer_opengl::get_transform_matrix(
     glm::mat4 translate_m = glm_mat(translation_m);
 
     ///////////////////////////////////////////////////////////////////////////
-    // make view matrix
-
-    //    glm::mat4 view_m =
-    //        look_at(camera.get_position(), camera.get_direction(),
-    //        camera.get_up());
 
     glm::mat4 view_m = get_view_matrix(camera);
 
@@ -162,7 +157,6 @@ bool renderer_opengl::initialize(SDL_Window* window)
                                             "shaders/generic_shader.frag");
     light_program_   = make_unique<program>("shaders/light_shader.vert",
                                           "shaders/light_shader.frag");
-    // generic_program_->use();
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -256,6 +250,18 @@ void renderer_opengl::render_light(const model&          model,
     light_program_->validate();
 
     model.draw(*(light_program_.get()));
+}
+
+void renderer_opengl::enable_wireframe(bool state)
+{
+    if (state)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+    else
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
 }
 
 } // namespace pt

@@ -192,4 +192,9 @@ void engine_sdl::render_lights()
                             get_camera());
 }
 
+void engine_sdl::enable_wireframe(bool state)
+{
+    renderer_->enable_wireframe(state);
+}
+
 } // namespace pt

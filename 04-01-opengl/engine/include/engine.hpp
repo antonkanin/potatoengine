@@ -51,6 +51,8 @@ public:
 
     virtual void enable_vsync(bool state) = 0;
 
+    virtual void enable_wireframe(bool state) = 0;
+
     void set_light_model(const model& model);
 
 protected:

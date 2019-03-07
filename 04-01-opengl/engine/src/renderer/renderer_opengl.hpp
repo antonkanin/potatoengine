@@ -25,6 +25,8 @@ public:
 
     void enable_vsync(bool state) override;
 
+    void enable_wireframe(bool state) override;
+
     void prepare_gui_frame() override;
     void render_gui_frame() override;
 

@@ -3,6 +3,7 @@
 #include "engine.hpp"
 #include "renderer/renderer.hpp"
 #include <SDL2/SDL.h>
+#include <imstb_truetype.h>
 
 namespace pt
 {
@@ -15,6 +16,8 @@ public:
     bool init() override;
 
     void enable_vsync(bool state) override;
+
+    void enable_wireframe(bool state) override;
 
 private:
     void post_render_objects() override;
