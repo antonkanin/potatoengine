@@ -22,6 +22,8 @@ namespace pt
 const glm::mat4x4 perspective_matrix_ =
     glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 100.0f);
 
+// const glm::mat4x4 perspective_matrix_ = glm::mat4x4();
+
 std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
 {
     out << v.x << ' ' << v.y << ' ' << v.z << ' ' << v.w;
@@ -67,7 +69,7 @@ glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
 }
 
 glm::mat4 renderer_opengl::get_transform_matrix(
-    const transformation& transformation, const movable_object& camera)
+    const transformation& transformation, const movable_object& camera) const
 {
     ///////////////////////////////////////////////////////////////////////////
     // make scale matrix
@@ -93,8 +95,11 @@ glm::mat4 renderer_opengl::get_transform_matrix(
     ///////////////////////////////////////////////////////////////////////////
     // make view matrix
 
-    glm::mat4 view_m =
-        look_at(camera.get_position(), camera.get_direction(), camera.get_up());
+    //    glm::mat4 view_m =
+    //        look_at(camera.get_position(), camera.get_direction(),
+    //        camera.get_up());
+
+    glm::mat4 view_m = get_view_matrix(camera);
 
     ///////////////////////////////////////////////////////////////////////////
     // make full transformation matrix
@@ -103,6 +108,13 @@ glm::mat4 renderer_opengl::get_transform_matrix(
         perspective_matrix_ * view_m * translate_m * rotate_m * scale_m;
 
     return full_transfom_m;
+}
+
+glm::mat4 renderer_opengl::get_view_matrix(const movable_object& camera) const
+{
+    glm::mat4 view_m =
+        look_at(camera.get_position(), camera.get_direction(), camera.get_up());
+    return view_m;
 }
 
 void renderer_opengl::render_model(const model&          model,
@@ -233,8 +245,7 @@ void renderer_opengl::render_light(const model&          model,
 
     glm::mat4 translate_m = glm_mat(translation_m);
 
-    glm::mat4 view_m =
-        look_at(camera.get_position(), camera.get_direction(), camera.get_up());
+    glm::mat4 view_m = get_view_matrix(camera);
 
     glm::mat4 full_transform_m = perspective_matrix_ * view_m * translate_m;
 

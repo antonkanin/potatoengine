@@ -32,7 +32,9 @@ private:
     bool create_opengl_context();
 
     glm::mat4 get_transform_matrix(const transformation& transformation,
-                                   const movable_object& camera);
+                                   const movable_object& camera) const;
+
+    glm::mat4 get_view_matrix(const movable_object& camera) const;
 
     void init_imgui(SDL_Window* window);
 
