@@ -70,19 +70,26 @@ glm::mat4 renderer_opengl::get_transform_matrix(
     const transformation& transformation, const movable_object& camera)
 {
     ///////////////////////////////////////////////////////////////////////////
+    // make scale matrix
+
+    glm::mat4x4 scale_m = glm::scale(glm::mat4x4(), glm_vec(transformation.scale));
+
+    ///////////////////////////////////////////////////////////////////////////
+    // make rotation matrix
+
+    ptm::matrix4x4 rotation_m = ptm::matrix4x4(ptm::rotation(
+            transformation.rotation_angle, transformation.rotation_vector));
+
+    glm::mat4 rotate_m = glm_mat(rotation_m);
+
+
+    ///////////////////////////////////////////////////////////////////////////
     // make translation matrix
 
     ptm::matrix4x4 translation_m = ptm::translation(transformation.position);
 
     glm::mat4 translate_m = glm_mat(translation_m);
 
-    ///////////////////////////////////////////////////////////////////////////
-    // make rotation matrix
-
-    ptm::matrix4x4 rotation_m = ptm::matrix4x4(ptm::rotation(
-        transformation.rotation_angle, transformation.rotation_vector));
-
-    glm::mat4 rotate_m = glm_mat(rotation_m);
 
     ///////////////////////////////////////////////////////////////////////////
     // make view matrix
@@ -94,7 +101,7 @@ glm::mat4 renderer_opengl::get_transform_matrix(
     // make full transformation matrix
 
     glm::mat4 full_transfom_m =
-        perspective_matrix_ * view_m * translate_m * rotate_m;
+        perspective_matrix_ * view_m * translate_m * rotate_m * scale_m;
 
     return full_transfom_m;
 }

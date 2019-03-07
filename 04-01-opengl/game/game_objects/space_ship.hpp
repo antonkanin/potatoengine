@@ -76,4 +76,31 @@ public:
         print_key_state(key_code::button_a, "Button A");
         print_key_state(key_code::button_b, "Button B");
     }
+
+    void on_gui()
+    {
+        ImGui::SetNextWindowPos(ImVec2(100, 0), ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize(ImVec2(200, 130), ImGuiCond_Appearing);
+
+        if (!ImGui::Begin("Spaceship", nullptr, 0 /*ImGuiWindowFlags_NoTitleBar*/))
+        {
+            ImGui::End();
+            return;
+        }
+
+        auto pos = get_position();
+        auto scale = get_scale().x;
+
+        ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
+        ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);
+        ImGui::SliderFloat("z", &pos.z, -10.0f, 10.0f, "%.4f", 2.0f);
+
+        ImGui::SliderFloat("scale", &scale, -10.0f, 10.0f, "%.4f", 1.0f);
+
+        set_position(pos);
+        set_scale({scale, scale, scale});
+
+        ImGui::End();
+    }
+
 };
