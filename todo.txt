@@ -1,19 +1,25 @@
-- separate light and other objects rendering
+- add child 'game objects' support
 
 - refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
   input_strategy, audio_strategy, etc)
 
 - separate IMGUI integration into input handling and rendering
 
-- add basic lighting
 - [bug] LEFT SHIFT does continue movement when you hold it
+
 - remove 0.5 sec delay when pressing keys on the keyboard
+
 - add the support for two view ports (player view (First Person) and free camera)
+
 - [low] implement my own projection & lookat matrices
+
 - [low] do not read mouse input when the game window is not in active
+
 - [low] load texture in the TGA format
 
 Done
+- separate light and other objects rendering
+- add basic lighting
 - read apply diffuse color to the vertex when it's present in the model
 - add support for multiple game objects with models, currently we only support one mesh
 - enhance shader class: add a method to setup uniforms
