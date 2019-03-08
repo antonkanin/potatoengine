@@ -23,9 +23,9 @@ bool engine_sdl::init()
 
     // TODO fix the warning "Warning:(47, 43) Clang-Tidy: Use of a signed
     // integer operand with a binary bitwise operator"
-    window_ = SDL_CreateWindow(game_title_.c_str(), SDL_WINDOWPOS_CENTERED,
-                               SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH,
-                               WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
+    window_ = SDL_CreateWindow(
+        game_title_.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     if (window_ == nullptr)
     {
