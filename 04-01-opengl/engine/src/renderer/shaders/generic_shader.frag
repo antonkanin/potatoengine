@@ -12,6 +12,9 @@ uniform vec3 u_light_pos;
 
 void main()
 {
+    if (distance(vec3(v_position), vec3(u_light_pos)) < 2.0)
+        discard;
+
     vec3 norm = normalize(vec3(v_normal));
     vec3 light_dir = normalize(vec3(u_light_pos) - vec3(v_position));
     float ambient = 0.1;
