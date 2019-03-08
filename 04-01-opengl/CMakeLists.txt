@@ -4,3 +4,4 @@ project(04-01-opengl)
 
 add_subdirectory(engine)
 add_subdirectory(game)
+add_subdirectory(ext)

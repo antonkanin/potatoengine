@@ -6,7 +6,6 @@
 #include <log_utils.hpp>
 #include <ptm/vec3.hpp>
 #include <read_obj.hpp>
-#include <texture_image.hpp>
 #include <vertex.hpp>
 
 class space_ship final : public pt::game_object

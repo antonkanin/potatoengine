@@ -4,13 +4,9 @@ project(external)
 
 file(GLOB_RECURSE ext_source
         ${PROJECT_SOURCE_DIR}/imgui/*.cpp
-        ${PROJECT_SOURCE_DIR}/imgui/*.h
-
-        ${PROJECT_SOURCE_DIR}/picopng/*.h)
+        ${PROJECT_SOURCE_DIR}/imgui/*.h)
 
 add_library(${PROJECT_NAME} STATIC ${ext_source})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ${PROJECT_SOURCE_DIR}/imgui/
-        ${PROJECT_SOURCE_DIR}/picopng/)
-
+        ${PROJECT_SOURCE_DIR}/imgui/)

@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.7)
 
 project(04-01-engine)
 
-add_subdirectory(ext)
-
 add_library(${PROJECT_NAME} STATIC
         src/engine.cpp
         src/game_object.cpp
@@ -12,7 +10,6 @@ add_library(${PROJECT_NAME} STATIC
         src/read_obj.cpp
         src/mesh.cpp
         src/movable_object.cpp
-        src/texture_image.cpp
         src/mesh.cpp
         src/model.cpp
         src/renderer/renderer.cpp
