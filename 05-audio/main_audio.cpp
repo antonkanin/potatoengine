@@ -1,4 +1,6 @@
 #include <SDL2/SDL.h>
+#include <chrono>
+#include <ctime>
 #include <iostream>
 
 #define MUS_PATH "Alesis-Fusion-Nylon-String-Guitar-C4.wav"
@@ -22,6 +24,7 @@ int main(int argc, char* argv[])
     {
         std::cout << "error: failed to load SDL audio " << SDL_GetError()
                   << std::endl;
+        return EXIT_FAILURE;
     }
 
     // local variables
@@ -31,16 +34,21 @@ int main(int argc, char* argv[])
 
     /* Load the WAV */
     // the specs, length and buffer of our wav are filled
-    //SDL_AudioSpec* spec =
+    SDL_AudioSpec* spec =
+        SDL_LoadWAV(MUS_PATH, &wav_spec, &wav_buffer, &wav_length);
 
-    if (SDL_LoadWAV(MUS_PATH, &wav_spec, &wav_buffer, &wav_length) == NULL)
+    if (spec == nullptr)
     {
         std::cout << "Error loading waw file: " << SDL_GetError() << std::endl;
+        return EXIT_FAILURE;
     }
 
     // set the callback function
     wav_spec.callback = my_audio_callback;
+    wav_spec.format   = AUDIO_S16;
     wav_spec.userdata = NULL;
+    wav_spec.samples  = 4096 * 8;
+
     // set our global static variables
     audio_pos = wav_buffer; // copy sound buffer
     audio_len = wav_length; // copy file length
@@ -64,6 +72,8 @@ int main(int argc, char* argv[])
     // shut everything down
     SDL_CloseAudio();
     SDL_FreeWAV(wav_buffer);
+
+    return EXIT_SUCCESS;
 }
 
 // audio callback function
@@ -73,7 +83,17 @@ int main(int argc, char* argv[])
 void my_audio_callback(void* userdata, Uint8* stream, int len)
 {
 
-    std::cout << "callback " << audio_len << '\n';
+    // std::cout << "callback " << audio_len << '\n';
+    {
+        using namespace std::chrono;
+
+        auto now = system_clock::now();
+        auto t = system_clock::to_time_t(now);
+
+
+        std::cout << "callback " << audio_len
+                  << std::ctime(&t) << '\n';
+    }
 
     if (audio_len == 0)
         return;
