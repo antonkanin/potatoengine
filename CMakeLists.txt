@@ -14,4 +14,6 @@ project(gamedev-swat)
 #add_subdirectory(04-00-rendering)
 add_subdirectory(04-01-opengl)
 
+add_subdirectory(05-audio)
+
 #add_subdirectory(99-sandbox)
