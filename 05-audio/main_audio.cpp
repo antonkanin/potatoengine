@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
+#include <iostream>
 
-#define MUS_PATH "Roland-GR-1-Trumpet-C5.wav"
+#define MUS_PATH "Alesis-Fusion-Nylon-String-Guitar-C4.wav"
 
 // prototype for our audio callback
 // see the implementation for more information
@@ -18,7 +19,10 @@ int main(int argc, char* argv[])
 
     // Initialize SDL.
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
-        return 1;
+    {
+        std::cout << "error: failed to load SDL audio " << SDL_GetError()
+                  << std::endl;
+    }
 
     // local variables
     static Uint32        wav_length; // length of our sample
@@ -27,10 +31,13 @@ int main(int argc, char* argv[])
 
     /* Load the WAV */
     // the specs, length and buffer of our wav are filled
+    //SDL_AudioSpec* spec =
+
     if (SDL_LoadWAV(MUS_PATH, &wav_spec, &wav_buffer, &wav_length) == NULL)
     {
-        return 1;
+        std::cout << "Error loading waw file: " << SDL_GetError() << std::endl;
     }
+
     // set the callback function
     wav_spec.callback = my_audio_callback;
     wav_spec.userdata = NULL;
@@ -66,12 +73,14 @@ int main(int argc, char* argv[])
 void my_audio_callback(void* userdata, Uint8* stream, int len)
 {
 
+    std::cout << "callback " << audio_len << '\n';
+
     if (audio_len == 0)
         return;
 
     len = (len > audio_len ? audio_len : len);
-    // SDL_memcpy (stream, audio_pos, len); 					// simply copy from one buffer
-    // into the other
+    // SDL_memcpy (stream, audio_pos, len); 					// simply copy
+    // from one buffer into the other
     SDL_MixAudio(stream, audio_pos, len,
                  SDL_MIX_MAXVOLUME); // mix from one buffer into another
 
