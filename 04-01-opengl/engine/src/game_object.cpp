@@ -106,7 +106,7 @@ game_object* game_object::add_body(bool is_dynamic)
     if (is_dynamic)
     {
         mass = 1.0f;
-        shape->calculateLocalInertia(mass, localInertia);
+        // shape->calculateLocalInertia(mass, localInertia);
     }
 
     btDefaultMotionState* myMotionState =

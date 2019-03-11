@@ -86,7 +86,7 @@ void engine::start_objects()
 
 bool engine::run()
 {
-    init_physics();
+    //init_physics();
 
     game_running_ = true;
 
