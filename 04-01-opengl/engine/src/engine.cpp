@@ -42,6 +42,12 @@ void engine::update_objects()
                                    transform.getOrigin().y(),
                                    transform.getOrigin().z() });
 
+            auto rot = transform.getRotation();
+
+            object->set_rotation(
+                { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
+                rot.getAngle());
+
             std::cout << object->get_position() << '\n';
         }
         object->update();

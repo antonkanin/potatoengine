@@ -4,8 +4,8 @@
 #include "model.hpp"
 #include "ptm/vec3.hpp"
 #include "transformation.hpp"
-#include <memory>
 #include <BulletDynamics/Dynamics/btRigidBody.h>
+#include <memory>
 
 namespace pt
 {
@@ -30,19 +30,22 @@ public:
 
     const transformation& get_transformation() const;
 
-    game_object * set_position(const ptm::vec3 &position);
-    ptm::vec3 get_position() const;
+    game_object* set_position(const ptm::vec3& position);
+    ptm::vec3    get_position() const;
 
-    void      set_scale(const ptm::vec3& scale);
-    ptm::vec3 get_scale() const;
+    game_object* set_scale(const ptm::vec3& scale);
+    ptm::vec3    get_scale() const;
 
     void set_rotation(const ptm::vec3& rotation_vector, float angle);
 
     const model& get_model() const;
-    void         set_model(const model& model);
+    void         set_model(const model& model, bool is_dynamic = false);
 
-    void load_model(const std::string& path);
+    game_object* load_model(const std::string& path);
 
+    game_object* add_body(bool is_dynamic);
+
+    // physics
     btRigidBody* body;
 
 protected:

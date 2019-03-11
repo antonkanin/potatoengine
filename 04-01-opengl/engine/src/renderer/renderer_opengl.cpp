@@ -96,7 +96,7 @@ glm::mat4 renderer_opengl::get_model_view_matrix(
 
     glm::mat4 view_m = get_view_matrix(camera);
 
-    return view_m * translate_m * rotate_m * scale_m;
+    return view_m * translate_m * scale_m * rotate_m;
 }
 
 glm::mat4 renderer_opengl::get_view_matrix(const movable_object& camera) const

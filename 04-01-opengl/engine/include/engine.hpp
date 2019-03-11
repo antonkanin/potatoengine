@@ -26,6 +26,12 @@ public:
 
     virtual bool init() = 0;
 
+    bool init_engine()
+    {
+        init_physics();
+        return init();
+    }
+
     bool run();
 
     game_object* add_object(std::unique_ptr<game_object> object);
