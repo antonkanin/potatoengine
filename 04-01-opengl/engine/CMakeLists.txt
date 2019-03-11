@@ -28,7 +28,11 @@ target_link_libraries(${PROJECT_NAME}
         GL
         stbi
         assimp
-        external)
+        external
+        BulletDynamics
+        BulletCollision
+        LinearMath)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include)
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        /usr/include/bullet)

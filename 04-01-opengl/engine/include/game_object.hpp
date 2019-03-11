@@ -5,6 +5,7 @@
 #include "ptm/vec3.hpp"
 #include "transformation.hpp"
 #include <memory>
+#include <BulletDynamics/Dynamics/btRigidBody.h>
 
 namespace pt
 {
@@ -41,6 +42,8 @@ public:
     void         set_model(const model& model);
 
     void load_model(const std::string& path);
+
+    btRigidBody* body;
 
 protected:
     engine& get_engine();

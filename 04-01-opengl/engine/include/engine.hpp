@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 
 #include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
 // abstraction instead of including a private header
@@ -55,6 +56,8 @@ public:
 
     void set_light_model(const model& model);
 
+    btDiscreteDynamicsWorld* get_dynamics_world();
+
 protected:
     // virtual void load_models() = 0;
 
@@ -103,6 +106,12 @@ private:
 
     movable_object camera_position_;
     movable_object light_position_;
+
+// TODO move physics to a separate component
+private:
+    void init_physics();
+
+    void update_physics();
 };
 
 std::unique_ptr<engine> make_engine();

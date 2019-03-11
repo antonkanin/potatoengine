@@ -5,7 +5,7 @@
 class show_fps final : public pt::game_object
 {
 public:
-    void start() override { get_engine().enable_vsync(false); }
+    void start() override { /*get_engine().enable_vsync(false);*/ }
 
     void update() override
     {
@@ -24,7 +24,7 @@ public:
     void on_gui() override
     {
         bool is_show = false;
-        //ImGui::ShowDemoWindow(&is_show);
+        // ImGui::ShowDemoWindow(&is_show);
         ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Appearing);
         ImGui::SetNextWindowSize(ImVec2(120, 60), ImGuiCond_Appearing);
 

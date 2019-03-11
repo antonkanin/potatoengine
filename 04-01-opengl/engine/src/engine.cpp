@@ -7,6 +7,8 @@
 #include <engine.hpp>
 #include <memory>
 
+#include <bullet/btBulletDynamicsCommon.h>
+
 namespace pt
 {
 
@@ -18,7 +20,10 @@ std::unique_ptr<engine> make_engine()
 
 game_object* engine::add_object(std::unique_ptr<game_object> object)
 {
-    object->engine_         = this;
+    object->engine_ = this;
+
+    // add object to the physics engine...
+
     game_object* object_ptr = object.get();
     objects_.emplace_back(std::move(object));
     return object_ptr;
@@ -28,6 +33,17 @@ void engine::update_objects()
 {
     for (auto& object : objects_)
     {
+        if (object->body != nullptr)
+        {
+            btTransform transform;
+            object->body->getMotionState()->getWorldTransform(transform);
+
+            object->set_position({ transform.getOrigin().x(),
+                                   transform.getOrigin().y(),
+                                   transform.getOrigin().z() });
+
+            std::cout << object->get_position() << '\n';
+        }
         object->update();
     }
 }
@@ -64,6 +80,8 @@ void engine::start_objects()
 
 bool engine::run()
 {
+    init_physics();
+
     game_running_ = true;
 
     start_objects();
@@ -79,6 +97,8 @@ bool engine::run()
         time_    = get_ticks() / 1000;
 
         delta_time_ = time_ - old_time;
+
+        update_physics();
 
         update_objects();
 
@@ -129,6 +149,47 @@ void engine::render_objects_gui()
 void engine::set_light_model(const model& model)
 {
     light_model_ = model;
+}
+
+struct bullet_config
+{
+    btDefaultCollisionConfiguration*     collisionConfig;
+    btCollisionDispatcher*               dispatcher;
+    btBroadphaseInterface*               overlappingPairCache;
+    btSequentialImpulseConstraintSolver* solver;
+    btDiscreteDynamicsWorld*             dynamicsWorld;
+} bullet_engine;
+
+void engine::init_physics()
+{
+    bullet_engine.collisionConfig = new btDefaultCollisionConfiguration();
+
+    bullet_engine.dispatcher =
+        new btCollisionDispatcher(bullet_engine.collisionConfig);
+
+    bullet_engine.overlappingPairCache = new btDbvtBroadphase();
+
+    bullet_engine.solver = new btSequentialImpulseConstraintSolver();
+
+    // clang-format off
+    bullet_engine.dynamicsWorld = new btDiscreteDynamicsWorld(
+        bullet_engine.dispatcher,
+        bullet_engine.overlappingPairCache,
+        bullet_engine.solver,
+        bullet_engine.collisionConfig);
+    // clang-format on
+
+    bullet_engine.dynamicsWorld->setGravity(btVector3(0, -10, 0));
+}
+
+void engine::update_physics()
+{
+    bullet_engine.dynamicsWorld->stepSimulation(delta_time(), 10);
+}
+
+btDiscreteDynamicsWorld* engine::get_dynamics_world()
+{
+    return bullet_engine.dynamicsWorld;
 }
 
 } // namespace pt
