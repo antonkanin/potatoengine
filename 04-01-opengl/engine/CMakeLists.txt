@@ -6,7 +6,6 @@ add_library(${PROJECT_NAME} STATIC
         src/engine.cpp
         src/game_object.cpp
         src/input_manager.cpp
-        src/read_obj.cpp
         src/mesh.cpp
         src/movable_object.cpp
         src/mesh.cpp
