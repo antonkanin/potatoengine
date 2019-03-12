@@ -10,9 +10,12 @@ add_library(${PROJECT_NAME} STATIC
         src/movable_object.cpp
         src/mesh.cpp
         src/model.cpp
+
         src/input_component.cpp
         src/video_component.cpp
         src/gui_component.cpp
+        src/physics_component.cpp
+
         src/engine_utils.cpp
 
         src/renderer/program.cpp

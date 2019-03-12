@@ -87,7 +87,7 @@ void engine::start_objects()
 
 bool engine::run()
 {
-    // init_physics();
+    //init_physics();
 
     game_running_ = true;
 
@@ -207,6 +207,7 @@ bool engine::init_engine()
     init_physics();
     video_component_->init(game_title_);
     gui_component_->init(video_component_->get_window());
+
 
     // TODO add a proper init check
     return true;
