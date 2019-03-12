@@ -100,48 +100,6 @@ engine_sdl::~engine_sdl()
     clean_up();
 }
 
-void engine_sdl::poll_events()
-{
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-
-        switch (event.type)
-        {
-            case SDL_KEYDOWN:
-            case SDL_KEYUP:
-            {
-                process_keyboard_event(event.key);
-                break;
-            }
-
-            case SDL_QUIT:
-            {
-                set_game_running(false);
-                break;
-            }
-
-            case SDL_MOUSEMOTION:
-            {
-                process_mouse_motion_event(event.motion);
-                break;
-            }
-
-            case SDL_MOUSEBUTTONDOWN:
-            case SDL_MOUSEBUTTONUP:
-            {
-                process_mouse_button_event(event.button);
-                break;
-            }
-
-            default:
-            {
-                break;
-            }
-        }
-    }
-}
 
 void engine_sdl::clean_up()
 {

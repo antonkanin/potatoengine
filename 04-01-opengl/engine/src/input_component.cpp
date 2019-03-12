@@ -22,8 +22,7 @@ public:
 };
 
 input_component::input_component()
-    : pimpl_(new input_component_pimpl()
-            /*std::make_unique<input_component_pimpl>()*/)
+    : pimpl_(std::make_unique<input_component_pimpl>())
 {
 }
 
@@ -87,6 +86,8 @@ void input_component::poll_events(input_manager& input_manager)
         }
     }
 }
+
+input_component::~input_component() = default;
 
 void input_component_pimpl::process_keyboard_event(
     const SDL_KeyboardEvent& event, input_manager& input_manager)

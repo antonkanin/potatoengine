@@ -70,8 +70,6 @@ public:
 protected:
     // virtual void load_models() = 0;
 
-    virtual void poll_events() = 0;
-
     virtual void post_render_objects() = 0;
 
     virtual float get_ticks() = 0;
