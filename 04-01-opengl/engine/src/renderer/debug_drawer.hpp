@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../video_component.hpp"
 #include "model.hpp"
-#include "renderer.hpp"
 #include <LinearMath/btIDebugDraw.h>
 
 namespace pt
@@ -10,8 +10,8 @@ namespace pt
 class debug_drawer : public btIDebugDraw
 {
 public:
-    explicit debug_drawer(renderer* renderer)
-        : renderer_(renderer)
+    explicit debug_drawer(video_component* video_component)
+        : video_component_(video_component)
     {
         vertex v;
 
@@ -59,7 +59,8 @@ public:
     int getDebugMode() const override { return 0; }
 
 private:
-    renderer*              renderer_; // we don't own the rendered so should not destroy it
+    video_component* video_component_; // we don't own the rendered so should not destroy it
+
     std::shared_ptr<model> model_;
 };
 

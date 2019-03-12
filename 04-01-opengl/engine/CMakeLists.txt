@@ -16,9 +16,7 @@ add_library(${PROJECT_NAME} STATIC
         src/gui_component.cpp
         src/engine_utils.cpp
 
-        src/renderer/renderer.cpp
         src/renderer/program.cpp
-        src/renderer/renderer_opengl.cpp
         src/renderer/shader.cpp
         src/renderer/opengl_utils.cpp
 

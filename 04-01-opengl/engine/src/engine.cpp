@@ -219,7 +219,13 @@ void engine::enable_wireframe(bool state)
 
 engine::~engine()
 {
-   video_component_->clean_up();
+    video_component_->clean_up();
+}
+
+void engine::render_lights()
+{
+    video_component_->render_light(light_model_, get_light().get_position(),
+                                   get_camera());
 }
 
 } // namespace pt

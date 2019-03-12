@@ -107,6 +107,8 @@ private:
     void init_physics();
 
     void update_physics();
+
+    void render_lights();
 };
 
 std::unique_ptr<engine> make_engine();
