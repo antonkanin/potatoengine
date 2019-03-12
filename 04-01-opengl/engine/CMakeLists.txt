@@ -6,7 +6,6 @@ add_library(${PROJECT_NAME} STATIC
         src/engine.cpp
         src/game_object.cpp
         src/input_manager.cpp
-        src/engine_sdl.cpp
         src/read_obj.cpp
         src/mesh.cpp
         src/movable_object.cpp
@@ -14,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC
         src/model.cpp
         src/input_component.cpp
         src/video_component.cpp
+        src/gui_component.cpp
         src/engine_utils.cpp
 
         src/renderer/renderer.cpp
@@ -21,7 +21,6 @@ add_library(${PROJECT_NAME} STATIC
         src/renderer/renderer_opengl.cpp
         src/renderer/shader.cpp
         src/renderer/opengl_utils.cpp
-
 
         src/imgui/imgui_impl_sdl.cpp
         src/imgui/imgui_impl_opengl3.cpp

@@ -235,7 +235,7 @@ void renderer_opengl::init_imgui(SDL_Window* window)
     // ImGui::StyleColorsClassic();
 
     // Setup Platform/Renderer bindings
-    ImGui_ImplSDL2_InitForOpenGL(window, gl_context_);
+    ImGui_ImplSDL2_InitForOpenGL(window/*, gl_context_*/);
     ImGui_ImplOpenGL3_Init(nullptr);
 }
 

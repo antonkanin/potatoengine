@@ -1,5 +1,4 @@
 #include "engine.hpp"
-#include "engine_sdl.hpp"
 #include "game_object.hpp"
 #include "input_component.hpp"
 #include "model.hpp"
@@ -17,7 +16,7 @@ namespace pt
 
 std::unique_ptr<engine> make_engine()
 {
-    std::unique_ptr<engine> result(new engine_sdl());
+    std::unique_ptr<engine> result(new engine());
     return result;
 }
 
@@ -69,10 +68,6 @@ void engine::render_objects()
             video_component_->render_object(
                 object->get_model(), object->get_transformation(), get_camera(),
                 get_light().get_position());
-
-            //            render_object(object->get_model(),
-            //            object->get_transformation(),
-            //                          get_light().get_position());
         }
     }
 }
@@ -103,31 +98,28 @@ bool engine::run()
 
     while (game_running_)
     {
-        // poll_events();
         input_component_->poll_events(*input_manager_.get());
 
         old_time = time_;
-        time_    = get_ticks() / 1000;
+        time_    = video_component_->get_ticks() / 1000;
 
         delta_time_ = time_ - old_time;
 
-//        update_physics();
-//
+        //        update_physics();
+
         update_objects();
 
         render_objects();
 
-//        render_lights();
-//
-//        // GUI rendering
-//        prepare_gui_frame();
-//
-//        render_objects_gui();
+        //        render_lights();
 
-//        render_gui_frame();
+        gui_component_->prepare_gui_frame();
+
+        render_objects_gui();
+
+        gui_component_->render_gui_frame();
 
         video_component_->swap_buffers();
-        //post_render_objects();
 
         // TODO should this be moved to the engine implementation?
         get_input_manager().reset_states();
@@ -214,9 +206,20 @@ bool engine::init_engine()
 {
     init_physics();
     video_component_->init(game_title_);
-    return init();
+    gui_component_->init(video_component_->get_window());
+
+    // TODO add a proper init check
+    return true;
 }
 
-    engine::~engine() = default;
+void engine::enable_wireframe(bool state)
+{
+    video_component_->enable_wireframe(state);
+}
+
+engine::~engine()
+{
+   video_component_->clean_up();
+}
 
 } // namespace pt

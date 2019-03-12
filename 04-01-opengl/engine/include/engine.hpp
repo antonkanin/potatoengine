@@ -5,8 +5,9 @@
 #include <memory>
 #include <vector>
 
-#include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
+#include "../src/gui_component.hpp"   // TODO need to replace 'triangle' with an
 #include "../src/input_component.hpp" // TODO need to replace 'triangle' with an
+#include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
 #include "../src/video_component.hpp" // TODO need to replace 'triangle' with an
 // abstraction instead of including a private header
 
@@ -21,14 +22,12 @@ namespace pt
 
 class model;
 
-///class input_component;
+/// class input_component;
 
 class engine
 {
 public:
-    virtual ~engine();
-
-    virtual bool init() = 0;
+    ~engine();
 
     bool init_engine();
 
@@ -56,22 +55,13 @@ public:
 
     movable_object& get_light() { return light_position_; }
 
-    virtual void enable_vsync(bool state) = 0;
-
-    virtual void enable_wireframe(bool state) = 0;
+    void enable_wireframe(bool state);
 
     void set_light_model(const model& model);
 
     btDiscreteDynamicsWorld* get_dynamics_world();
 
 protected:
-    // virtual void load_models() = 0;
-
-    virtual void post_render_objects() = 0;
-
-    virtual float get_ticks() = 0;
-
-    virtual void render_lights() = 0;
 
     void set_game_running(bool is_game_running);
 
@@ -82,14 +72,6 @@ protected:
     void render_objects();
 
     void render_objects_gui();
-
-    virtual void render_object(const model&          model,
-                               const transformation& transformation,
-                               const ptm::vec3&      light_position) = 0;
-
-    virtual void prepare_gui_frame() = 0;
-
-    virtual void render_gui_frame() = 0;
 
     std::unique_ptr<input_manager> input_manager_ =
         std::make_unique<input_manager>();
@@ -115,7 +97,10 @@ private:
         std::make_unique<input_component>();
 
     std::unique_ptr<video_component> video_component_ =
-            std::make_unique<video_component>();
+        std::make_unique<video_component>();
+
+    std::unique_ptr<gui_component> gui_component_ =
+        std::make_unique<gui_component>();
 
     // TODO move physics to a separate component
 private:
