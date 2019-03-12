@@ -1,11 +1,12 @@
 #pragma once
 
+#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 
 #include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
+#include "../src/input_component.hpp" // TODO need to replace 'triangle' with an
 // abstraction instead of including a private header
 
 #include "game_object.hpp"
@@ -18,6 +19,8 @@ namespace pt
 {
 
 class model;
+
+///class input_component;
 
 class engine
 {
@@ -113,7 +116,10 @@ private:
     movable_object camera_position_;
     movable_object light_position_;
 
-// TODO move physics to a separate component
+    std::unique_ptr<input_component> input_component_ =
+        std::make_unique<input_component>();
+
+    // TODO move physics to a separate component
 private:
     void init_physics();
 

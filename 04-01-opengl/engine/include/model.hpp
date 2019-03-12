@@ -20,8 +20,15 @@ public:
 
     void draw(program& program) const;
 
+    void add_mesh(const mesh& mesh);
+
+    std::vector<mesh>& get_meshes()
+    {
+        return meshes_;
+    }
+
 private:
-    std::vector<mesh> meshes;
+    std::vector<mesh> meshes_;
     std::string       directory;
 
     void load_model(const std::string& path);

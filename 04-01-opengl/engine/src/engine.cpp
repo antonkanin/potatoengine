@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <engine.hpp>
 #include <memory>
+#include "renderer/debug_drawer.hpp"
+#include "input_component.hpp"
 
 #include <bullet/btBulletDynamicsCommon.h>
 
@@ -47,8 +49,6 @@ void engine::update_objects()
             object->set_rotation(
                 { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
                 rot.getAngle());
-
-            std::cout << object->get_position() << '\n';
         }
         object->update();
     }
@@ -97,7 +97,8 @@ bool engine::run()
 
     while (game_running_)
     {
-        poll_events();
+        //poll_events();
+        input_component_->poll_events(*input_manager_.get());
 
         old_time = time_;
         time_    = get_ticks() / 1000;
@@ -164,6 +165,9 @@ struct bullet_config
     btBroadphaseInterface*               overlappingPairCache;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld*             dynamicsWorld;
+
+    debug_drawer* debug_drawer_;
+
 } bullet_engine;
 
 void engine::init_physics()
@@ -186,6 +190,8 @@ void engine::init_physics()
     // clang-format on
 
     bullet_engine.dynamicsWorld->setGravity(btVector3(0, -10, 0));
+
+    //bullet_engine.debug_drawer_ = new debug_drawer(renderer_);;
 }
 
 void engine::update_physics()

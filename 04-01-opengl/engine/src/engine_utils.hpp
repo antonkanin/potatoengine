@@ -3,65 +3,9 @@
 #include "key_code.hpp"
 #include <SDL2/SDL_events.h>
 
-pt::key_code get_key(const SDL_Keycode& sdl_keycode)
+namespace pt
 {
-    using namespace pt;
 
-    switch (sdl_keycode)
-    {
-        case SDLK_o: // SDLK_UP:
-        {
-            return key_code::up;
-        }
+key_code get_key(const SDL_Keycode& sdl_keycode);
 
-        case SDLK_SEMICOLON: // SDLK_RIGHT:
-        {
-            return key_code::right;
-        }
-
-        case SDLK_l: // SDLK_DOWN:
-        {
-            return key_code::down;
-        }
-
-        case SDLK_k: // SDLK_LEFT:
-        {
-            return key_code::left;
-        }
-
-        case SDLK_q:
-        {
-            return key_code::button_a;
-        }
-
-        case SDLK_w:
-        {
-            return key_code::button_b;
-        }
-
-        case SDLK_a:
-        {
-            return key_code::start;
-        }
-
-        case SDLK_s:
-        {
-            return key_code::select;
-        }
-
-        case SDLK_SPACE:
-        {
-            return key_code::jump;
-        }
-
-        case SDLK_RSHIFT:
-        {
-            return key_code::crouch;
-        }
-
-        default:
-        {
-            return key_code::unsupported;
-        }
-    }
-}
+} // namespace pt

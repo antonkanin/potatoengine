@@ -12,16 +12,22 @@ add_library(${PROJECT_NAME} STATIC
         src/movable_object.cpp
         src/mesh.cpp
         src/model.cpp
+        src/input_component.cpp
+        src/engine_utils.cpp
+
         src/renderer/renderer.cpp
         src/renderer/program.cpp
         src/renderer/renderer_opengl.cpp
         src/renderer/shader.cpp
         src/renderer/opengl_utils.cpp
 
-        src/imgui/imgui_impl_sdl.cpp
-        src/imgui/imgui_impl_opengl3.cpp)
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+        src/imgui/imgui_impl_sdl.cpp
+        src/imgui/imgui_impl_opengl3.cpp
+
+        src/renderer/debug_drawer.hpp)
+
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 target_link_libraries(${PROJECT_NAME}
         SDL2

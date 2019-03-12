@@ -89,6 +89,12 @@ void engine_sdl::process_mouse_button_event(const SDL_MouseButtonEvent& event)
     }
 }
 
+void engine_sdl::process_mouse_motion_event(const SDL_MouseMotionEvent& event)
+{
+    get_input_manager().set_axis_x(event.xrel);
+    get_input_manager().set_axis_y(event.yrel);
+}
+
 engine_sdl::~engine_sdl()
 {
     clean_up();
@@ -163,12 +169,6 @@ void engine_sdl::post_render_objects()
 float engine_sdl::get_ticks()
 {
     return SDL_GetTicks();
-}
-
-void engine_sdl::process_mouse_motion_event(const SDL_MouseMotionEvent& event)
-{
-    get_input_manager().set_axis_x(event.xrel);
-    get_input_manager().set_axis_y(event.yrel);
 }
 
 void engine_sdl::enable_vsync(bool state)

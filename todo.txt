@@ -1,3 +1,9 @@
+- separate logic into 4 separate components:
+    * input
+    * rendering
+    * audio
+    * physics
+
 - add child 'game objects' support
 
 - refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,

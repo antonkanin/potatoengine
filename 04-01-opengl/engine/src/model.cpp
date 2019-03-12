@@ -191,7 +191,7 @@ void model::process_node(aiNode* node, const aiScene* scene)
          ++mesh_index)
     {
         auto mesh = scene->mMeshes[node->mMeshes[mesh_index]];
-        meshes.push_back(process_mesh(mesh, scene));
+        meshes_.push_back(process_mesh(mesh, scene));
     }
 
     for (unsigned int child_index = 0; child_index < node->mNumChildren;
@@ -203,10 +203,15 @@ void model::process_node(aiNode* node, const aiScene* scene)
 
 void model::draw(program& program) const
 {
-    for (auto& mesh : meshes)
+    for (auto& mesh : meshes_)
     {
         mesh.draw(program);
     }
+}
+
+void model::add_mesh(const mesh& mesh)
+{
+    meshes_.push_back(mesh);
 }
 
 } // namespace pt
