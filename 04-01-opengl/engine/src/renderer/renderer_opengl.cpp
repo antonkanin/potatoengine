@@ -30,12 +30,12 @@ std::ostream& operator<<(std::ostream& out, const glm::vec4& v)
     return out;
 }
 
-glm::vec3 glm_vec(const vec3 vector)
+glm::vec3 glm_vec_2(const vec3 vector)
 {
     return { vector.x, vector.y, vector.z };
 }
 
-glm::mat4x4 glm_mat(const ptm::matrix4x4& mat)
+glm::mat4x4 glm_mat_2(const ptm::matrix4x4& mat)
 {
     glm::mat4x4 result;
 
@@ -62,10 +62,10 @@ glm::mat4x4 glm_mat(const ptm::matrix4x4& mat)
     return result;
 }
 
-glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
+glm::mat4x4 look_at_2(const vec3& position, const vec3& direction, const vec3& up)
 {
-    return glm::lookAt(glm_vec(position), glm_vec(position + direction),
-                       glm_vec(up));
+    return glm::lookAt(glm_vec_2(position), glm_vec_2(position + direction),
+                       glm_vec_2(up));
 }
 
 glm::mat4 renderer_opengl::get_model_view_matrix(
@@ -75,7 +75,7 @@ glm::mat4 renderer_opengl::get_model_view_matrix(
     // make scale matrix
 
     glm::mat4x4 scale_m =
-        glm::scale(glm::mat4x4(), glm_vec(transformation.scale));
+        glm::scale(glm::mat4x4(), glm_vec_2(transformation.scale));
 
     ///////////////////////////////////////////////////////////////////////////
     // make rotation matrix
@@ -83,14 +83,14 @@ glm::mat4 renderer_opengl::get_model_view_matrix(
     ptm::matrix4x4 rotation_m = ptm::matrix4x4(ptm::rotation(
         transformation.rotation_angle, transformation.rotation_vector));
 
-    glm::mat4 rotate_m = glm_mat(rotation_m);
+    glm::mat4 rotate_m = glm_mat_2(rotation_m);
 
     ///////////////////////////////////////////////////////////////////////////
     // make translation matrix
 
     ptm::matrix4x4 translation_m = ptm::translation(transformation.position);
 
-    glm::mat4 translate_m = glm_mat(translation_m);
+    glm::mat4 translate_m = glm_mat_2(translation_m);
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -102,7 +102,7 @@ glm::mat4 renderer_opengl::get_model_view_matrix(
 glm::mat4 renderer_opengl::get_view_matrix(const movable_object& camera) const
 {
     glm::mat4 view_m =
-        look_at(camera.get_position(), camera.get_direction(), camera.get_up());
+        look_at_2(camera.get_position(), camera.get_direction(), camera.get_up());
     return view_m;
 }
 
@@ -122,7 +122,7 @@ void renderer_opengl::render_model(const model&          model,
     generic_program_->set_matrix4("u_projection_matrix",
                                   glm::value_ptr(projection_matrix));
 
-    auto light_pos = get_view_matrix(camera) * glm::vec4(glm_vec(light_position), 1.0f);
+    auto light_pos = get_view_matrix(camera) * glm::vec4(glm_vec_2(light_position), 1.0f);
 
     generic_program_->set_vec3("u_light_pos", {light_pos.x, light_pos.y, light_pos.z});
 
@@ -137,7 +137,7 @@ void renderer_opengl::render_light(const model&          model,
 {
     ptm::matrix4x4 translation_m = ptm::translation(light_position);
 
-    glm::mat4 translate_m = glm_mat(translation_m);
+    glm::mat4 translate_m = glm_mat_2(translation_m);
 
     glm::mat4 view_m = get_view_matrix(camera);
 

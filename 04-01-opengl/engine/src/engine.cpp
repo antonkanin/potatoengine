@@ -1,14 +1,15 @@
 #include "engine.hpp"
 #include "engine_sdl.hpp"
 #include "game_object.hpp"
+#include "input_component.hpp"
 #include "model.hpp"
+#include "renderer/debug_drawer.hpp"
 #include "renderer/triangle.hpp"
 #include <cstdlib>
 #include <engine.hpp>
 #include <memory>
-#include "renderer/debug_drawer.hpp"
-#include "input_component.hpp"
 
+#include "video_component.hpp"
 #include <bullet/btBulletDynamicsCommon.h>
 
 namespace pt
@@ -65,8 +66,13 @@ void engine::render_objects()
     {
         if (object->has_model_)
         {
-            render_object(object->get_model(), object->get_transformation(),
-                          get_light().get_position());
+            video_component_->render_object(
+                object->get_model(), object->get_transformation(), get_camera(),
+                get_light().get_position());
+
+            //            render_object(object->get_model(),
+            //            object->get_transformation(),
+            //                          get_light().get_position());
         }
     }
 }
@@ -86,7 +92,7 @@ void engine::start_objects()
 
 bool engine::run()
 {
-    //init_physics();
+    // init_physics();
 
     game_running_ = true;
 
@@ -97,7 +103,7 @@ bool engine::run()
 
     while (game_running_)
     {
-        //poll_events();
+        // poll_events();
         input_component_->poll_events(*input_manager_.get());
 
         old_time = time_;
@@ -105,23 +111,23 @@ bool engine::run()
 
         delta_time_ = time_ - old_time;
 
-        update_physics();
-
+//        update_physics();
+//
         update_objects();
 
         render_objects();
 
-        render_lights();
+//        render_lights();
+//
+//        // GUI rendering
+//        prepare_gui_frame();
+//
+//        render_objects_gui();
 
-        // GUI rendering
-        prepare_gui_frame();
+//        render_gui_frame();
 
-        render_objects_gui();
-
-        render_gui_frame();
-
-        // swap buffers
-        post_render_objects();
+        video_component_->swap_buffers();
+        //post_render_objects();
 
         // TODO should this be moved to the engine implementation?
         get_input_manager().reset_states();
@@ -191,7 +197,7 @@ void engine::init_physics()
 
     bullet_engine.dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-    //bullet_engine.debug_drawer_ = new debug_drawer(renderer_);;
+    // bullet_engine.debug_drawer_ = new debug_drawer(renderer_);;
 }
 
 void engine::update_physics()
@@ -203,5 +209,14 @@ btDiscreteDynamicsWorld* engine::get_dynamics_world()
 {
     return bullet_engine.dynamicsWorld;
 }
+
+bool engine::init_engine()
+{
+    init_physics();
+    video_component_->init(game_title_);
+    return init();
+}
+
+    engine::~engine() = default;
 
 } // namespace pt

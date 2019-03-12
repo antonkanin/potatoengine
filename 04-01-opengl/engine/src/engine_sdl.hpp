@@ -22,17 +22,10 @@ public:
 private:
     void post_render_objects() override;
 
-    void process_keyboard_event(const SDL_KeyboardEvent& event);
-
-    void process_mouse_motion_event(const SDL_MouseMotionEvent& event);
-
-    void process_mouse_button_event(const SDL_MouseButtonEvent& event);
-
-
     void clean_up(); // TODO I really need a better name for this method
 
-    void
-    render_object(const model &model, const transformation &transformation, const ptm::vec3 &light_position) override;
+    void render_object(const model& model, const transformation& transformation,
+                       const ptm::vec3& light_position) override;
 
     void prepare_gui_frame() override;
 

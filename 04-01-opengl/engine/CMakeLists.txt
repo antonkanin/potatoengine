@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC
         src/mesh.cpp
         src/model.cpp
         src/input_component.cpp
+        src/video_component.cpp
         src/engine_utils.cpp
 
         src/renderer/renderer.cpp
