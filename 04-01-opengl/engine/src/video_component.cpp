@@ -260,6 +260,27 @@ void video_component::clean_up()
     SDL_Quit();
 }
 
+void video_component::render_light(const model&          model,
+                                   const vec3&           light_position,
+                                   const movable_object& camera)
+{
+    ptm::matrix4x4 translation_m = ptm::translation(light_position);
+
+    glm::mat4 translate_m = glm_mat(translation_m);
+
+    glm::mat4 view_m = get_view_matrix(camera);
+
+    glm::mat4 full_transform_m = projection_matrix * view_m * translate_m;
+
+    pimpl_->light_program_->use();
+
+    pimpl_->light_program_->set_matrix4("u_transform_matrix",
+                                glm::value_ptr(full_transform_m));
+    pimpl_->light_program_->validate();
+
+    model.draw(*(pimpl_->light_program_.get()));
+}
+
 video_component::~video_component() = default;
 
 } // namespace pt

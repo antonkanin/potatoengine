@@ -23,6 +23,9 @@ public:
                        const class movable_object& camera,
                        const ptm::vec3&            light_position);
 
+    void render_light(const class model& model, const ptm::vec3& light_position,
+                      const class movable_object& camera);
+
     void swap_buffers();
 
     void enable_vsync(bool state);

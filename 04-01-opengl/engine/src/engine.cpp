@@ -111,7 +111,7 @@ bool engine::run()
 
         render_objects();
 
-        //        render_lights();
+        render_lights();
 
         gui_component_->prepare_gui_frame();
 
