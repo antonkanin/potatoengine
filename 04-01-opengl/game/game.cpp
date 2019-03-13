@@ -8,7 +8,7 @@
 
 int main(int argc, char* argv[])
 {
-    auto engine = pt::make_engine();
+    auto engine = std::make_unique<pt::engine>();
 
     engine->set_title("The Witcher 5: Wild Cube");
 

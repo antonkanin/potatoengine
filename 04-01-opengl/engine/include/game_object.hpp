@@ -52,6 +52,7 @@ protected:
 
 private:
     friend class engine;
+    friend class engine_pimpl;
 
     engine* engine_ = nullptr;
 

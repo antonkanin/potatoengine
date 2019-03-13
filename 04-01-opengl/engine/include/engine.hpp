@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
+#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h> // TODO find a way to remove the bullet physics header
 #include <memory>
 
 namespace pt
@@ -53,23 +53,10 @@ private:
 
     void set_game_running(bool is_game_running);
 
-    void start_objects();
-
-    void update_objects();
-
-    void render_objects();
-
-    void render_objects_gui();
 
     // TODO move physics to a separate component
 private:
-    void init_physics();
-
-    void update_physics();
-
     void render_lights();
 };
-
-std::unique_ptr<engine> make_engine();
 
 } // namespace pt

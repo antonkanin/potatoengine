@@ -1,9 +1,3 @@
-#include "engine.hpp"
-
-#include "renderer/debug_drawer.hpp"
-
-#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
-#include <bullet/btBulletDynamicsCommon.h>
 #include <engine.hpp>
 #include <log_utils.hpp>
 
@@ -19,22 +13,20 @@
 namespace pt
 {
 
-std::unique_ptr<engine> make_engine()
-{
-    return std::make_unique<engine>();
-}
-
 class engine_pimpl
 {
 public:
-    engine_pimpl()
-        : input_manager_(std::make_unique<input_manager>())
+    explicit engine_pimpl(engine* e)
+        : engine_(e)
+        , input_manager_(std::make_unique<input_manager>())
         , gui(std::make_unique<gui_component>())
         , input(std::make_unique<input_component>())
         , video(std::make_unique<video_component>())
         , physics(std::make_unique<physics_component>())
     {
     }
+
+    engine* engine_;
 
     model light_model_; // TODO engine implementation needs to see this so it
     // can pass it to the renderer
@@ -57,10 +49,18 @@ public:
     std::unique_ptr<video_component>   video;
     std::unique_ptr<gui_component>     gui;
     std::unique_ptr<physics_component> physics;
+
+    void start_objects();
+
+    void update_objects();
+
+    void render_objects();
+
+    void render_objects_gui();
 };
 
 engine::engine()
-    : impl(std::make_unique<engine_pimpl>())
+    : impl(std::make_unique<engine_pimpl>(this))
 {
 }
 
@@ -72,68 +72,15 @@ game_object* engine::add_object(std::unique_ptr<game_object> object)
 
     game_object* object_ptr = object.get();
     impl->objects_.emplace_back(std::move(object));
+
     return object_ptr;
-}
-
-void engine::update_objects()
-{
-    for (auto& object : impl->objects_)
-    {
-        if (object->body != nullptr)
-        {
-            btTransform transform;
-            object->body->getMotionState()->getWorldTransform(transform);
-
-            object->set_position({ transform.getOrigin().x(),
-                                   transform.getOrigin().y(),
-                                   transform.getOrigin().z() });
-
-            auto rot = transform.getRotation();
-
-            object->set_rotation(
-                { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
-                rot.getAngle());
-        }
-        object->update();
-    }
-}
-
-input_manager& engine::get_input_manager()
-{
-    return *(impl->input_manager_);
-}
-
-void engine::render_objects()
-{
-    for (auto& object : impl->objects_)
-    {
-        if (object->has_model_)
-        {
-            impl->video->render_object(
-                object->get_model(), object->get_transformation(), get_camera(),
-                get_light().get_position());
-        }
-    }
-}
-
-void engine::set_title(const std::string& title)
-{
-    impl->game_title_ = title;
-}
-
-void engine::start_objects()
-{
-    for (auto& object : impl->objects_)
-    {
-        object->start();
-    }
 }
 
 bool engine::run()
 {
     impl->game_running_ = true;
 
-    start_objects();
+    impl->start_objects();
 
     impl->time_    = 0.f;
     float old_time = 0.f;
@@ -147,18 +94,18 @@ bool engine::run()
 
         impl->delta_time_ = impl->time_ - old_time;
 
-        //update_physics();
+        // update_physics();
         impl->physics->update_physics(impl->delta_time_);
 
-        update_objects();
+        impl->update_objects();
 
-        render_objects();
+        impl->render_objects();
 
         render_lights();
 
         impl->gui->prepare_gui_frame();
 
-        render_objects_gui();
+        impl->render_objects_gui();
 
         impl->gui->render_gui_frame();
 
@@ -186,59 +133,9 @@ float engine::delta_time() const
     return impl->delta_time_;
 }
 
-void engine::render_objects_gui()
-{
-    for (auto& object : impl->objects_)
-    {
-        object->on_gui();
-    }
-}
-
 void engine::set_light_model(const model& model)
 {
     impl->light_model_ = model;
-}
-
-struct bullet_config
-{
-    btDefaultCollisionConfiguration*     collisionConfig;
-    btCollisionDispatcher*               dispatcher;
-    btBroadphaseInterface*               overlappingPairCache;
-    btSequentialImpulseConstraintSolver* solver;
-    btDiscreteDynamicsWorld*             dynamicsWorld;
-
-    debug_drawer* debug_drawer_;
-
-} bullet_engine;
-
-void engine::init_physics()
-{
-    bullet_engine.collisionConfig = new btDefaultCollisionConfiguration();
-
-    bullet_engine.dispatcher =
-        new btCollisionDispatcher(bullet_engine.collisionConfig);
-
-    bullet_engine.overlappingPairCache = new btDbvtBroadphase();
-
-    bullet_engine.solver = new btSequentialImpulseConstraintSolver();
-
-    // clang-format off
-    bullet_engine.dynamicsWorld = new btDiscreteDynamicsWorld(
-        bullet_engine.dispatcher,
-        bullet_engine.overlappingPairCache,
-        bullet_engine.solver,
-        bullet_engine.collisionConfig);
-    // clang-format on
-
-    bullet_engine.dynamicsWorld->setGravity(btVector3(0, -10, 0));
-
-    // bullet_engine.debug_drawer_ = new debug_drawer(renderer_);;
-}
-
-void engine::update_physics()
-{
-    // log_line(std::to_string(delta_time()));
-    bullet_engine.dynamicsWorld->stepSimulation(delta_time(), 10);
 }
 
 btDiscreteDynamicsWorld* engine::get_dynamics_world()
@@ -248,8 +145,6 @@ btDiscreteDynamicsWorld* engine::get_dynamics_world()
 
 bool engine::init_engine()
 {
-    //init_physics();
-
     impl->video->init(impl->game_title_);
 
     impl->gui->init(impl->video->get_window());
@@ -284,6 +179,71 @@ movable_object& engine::get_camera()
 movable_object& engine::get_light()
 {
     return impl->light_position_;
+}
+
+void engine::set_title(const std::string& title)
+{
+    impl->game_title_ = title;
+}
+
+input_manager& engine::get_input_manager()
+{
+    return *(impl->input_manager_);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// engine implementation
+
+void engine_pimpl::update_objects()
+{
+    for (auto& object : objects_)
+    {
+        if (object->body != nullptr)
+        {
+            btTransform transform;
+            object->body->getMotionState()->getWorldTransform(transform);
+
+            object->set_position({ transform.getOrigin().x(),
+                                   transform.getOrigin().y(),
+                                   transform.getOrigin().z() });
+
+            auto rot = transform.getRotation();
+
+            object->set_rotation(
+                { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
+                rot.getAngle());
+        }
+        object->update();
+    }
+}
+
+void engine_pimpl::render_objects()
+{
+    for (auto& object : objects_)
+    {
+        if (object->has_model_)
+        {
+            video->render_object(
+                object->get_model(), object->get_transformation(),
+                engine_->get_camera(), engine_->get_light().get_position());
+        }
+    }
+}
+
+void engine_pimpl::start_objects()
+{
+    for (auto& object : objects_)
+    {
+        object->start();
+    }
+}
+
+void engine_pimpl::render_objects_gui()
+{
+    for (auto& object : objects_)
+    {
+        object->on_gui();
+    }
 }
 
 } // namespace pt
