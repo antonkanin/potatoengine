@@ -10,6 +10,7 @@
 #include "game_object.hpp"
 #include "gui_component.hpp"
 #include "input_component.hpp"
+#include "physics_component.hpp"
 #include "video_component.hpp"
 
 #include "input_manager.hpp"
@@ -28,9 +29,10 @@ class engine_pimpl
 public:
     engine_pimpl()
         : input_manager_(std::make_unique<input_manager>())
-        , gui_component_(std::make_unique<gui_component>())
-        , input_component_(std::make_unique<input_component>())
-        , video_component_(std::make_unique<video_component>())
+        , gui(std::make_unique<gui_component>())
+        , input(std::make_unique<input_component>())
+        , video(std::make_unique<video_component>())
+        , physics(std::make_unique<physics_component>())
     {
     }
 
@@ -50,10 +52,11 @@ public:
 
     std::vector<std::unique_ptr<game_object>> objects_;
 
-    std::unique_ptr<class input_manager>   input_manager_;
-    std::unique_ptr<class input_component> input_component_;
-    std::unique_ptr<class video_component> video_component_;
-    std::unique_ptr<class gui_component>   gui_component_;
+    std::unique_ptr<input_manager>     input_manager_;
+    std::unique_ptr<input_component>   input;
+    std::unique_ptr<video_component>   video;
+    std::unique_ptr<gui_component>     gui;
+    std::unique_ptr<physics_component> physics;
 };
 
 engine::engine()
@@ -106,7 +109,7 @@ void engine::render_objects()
     {
         if (object->has_model_)
         {
-            impl->video_component_->render_object(
+            impl->video->render_object(
                 object->get_model(), object->get_transformation(), get_camera(),
                 get_light().get_position());
         }
@@ -128,8 +131,6 @@ void engine::start_objects()
 
 bool engine::run()
 {
-    init_physics();
-
     impl->game_running_ = true;
 
     start_objects();
@@ -139,14 +140,15 @@ bool engine::run()
 
     while (impl->game_running_)
     {
-        impl->input_component_->poll_events(*impl->input_manager_.get());
+        impl->input->poll_events(*impl->input_manager_.get());
 
         old_time    = impl->time_;
-        impl->time_ = impl->video_component_->get_ticks() / 1000;
+        impl->time_ = impl->video->get_ticks() / 1000;
 
         impl->delta_time_ = impl->time_ - old_time;
 
-        update_physics();
+        //update_physics();
+        impl->physics->update_physics(impl->delta_time_);
 
         update_objects();
 
@@ -154,13 +156,13 @@ bool engine::run()
 
         render_lights();
 
-        impl->gui_component_->prepare_gui_frame();
+        impl->gui->prepare_gui_frame();
 
-        //render_objects_gui();
+        render_objects_gui();
 
-        impl->gui_component_->render_gui_frame();
+        impl->gui->render_gui_frame();
 
-        impl->video_component_->swap_buffers();
+        impl->video->swap_buffers();
 
         // TODO should this be moved to the engine implementation?
         get_input_manager().reset_states();
@@ -235,23 +237,24 @@ void engine::init_physics()
 
 void engine::update_physics()
 {
-    //log_line(std::to_string(delta_time()));
+    // log_line(std::to_string(delta_time()));
     bullet_engine.dynamicsWorld->stepSimulation(delta_time(), 10);
-
 }
 
 btDiscreteDynamicsWorld* engine::get_dynamics_world()
 {
-    return bullet_engine.dynamicsWorld;
+    return impl->physics->get_dynamics_world();
 }
 
 bool engine::init_engine()
 {
-    init_physics();
+    //init_physics();
 
-    impl->video_component_->init(impl->game_title_);
+    impl->video->init(impl->game_title_);
 
-    impl->gui_component_->init(impl->video_component_->get_window());
+    impl->gui->init(impl->video->get_window());
+
+    impl->physics->init();
 
     // TODO add a proper init check
     return true;
@@ -259,18 +262,18 @@ bool engine::init_engine()
 
 void engine::enable_wireframe(bool state)
 {
-    impl->video_component_->enable_wireframe(state);
+    impl->video->enable_wireframe(state);
 }
 
 engine::~engine()
 {
-    impl->video_component_->clean_up();
+    impl->video->clean_up();
 }
 
 void engine::render_lights()
 {
-    impl->video_component_->render_light(
-        impl->light_model_, get_light().get_position(), get_camera());
+    impl->video->render_light(impl->light_model_, get_light().get_position(),
+                              get_camera());
 }
 
 movable_object& engine::get_camera()

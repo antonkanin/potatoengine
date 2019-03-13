@@ -1,7 +1,6 @@
 #include "physics_component.hpp"
 
 #include "renderer/debug_drawer.hpp"
-#include <bullet/btBulletDynamicsCommon.h>
 
 namespace pt
 {
@@ -52,6 +51,11 @@ bool physics_component::init()
 void physics_component::update_physics(float delta_time)
 {
     pimpl_->dynamicsWorld->stepSimulation(delta_time, 10);
+}
+
+btDiscreteDynamicsWorld* physics_component::get_dynamics_world()
+{
+    return pimpl_->dynamicsWorld;
 }
 
 physics_component::~physics_component() = default;
