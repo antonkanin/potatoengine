@@ -4,6 +4,7 @@
 #include <game_object.hpp>
 #include <imgui.h>
 #include <key_code.hpp>
+#include <movable_object.hpp>
 
 class camera_gui_controller : public pt::game_object
 {

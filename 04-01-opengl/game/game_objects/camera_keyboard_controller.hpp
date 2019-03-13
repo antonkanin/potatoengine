@@ -2,6 +2,7 @@
 
 #include <engine.hpp>
 #include <game_object.hpp>
+#include <input_manager.hpp>
 #include <key_code.hpp>
 #include <log_utils.hpp>
 

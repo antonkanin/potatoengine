@@ -6,11 +6,10 @@
 #include "transformation.hpp"
 #include <BulletDynamics/Dynamics/btRigidBody.h>
 #include <memory>
+#include <engine.hpp>
 
 namespace pt
 {
-
-class engine;
 
 class game_object
 {

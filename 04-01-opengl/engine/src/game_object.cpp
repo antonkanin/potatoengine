@@ -1,9 +1,9 @@
-#include "game_object.hpp"
+#include <game_object.hpp>
 
 #include "engine.hpp"
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
+#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 #include <LinearMath/btDefaultMotionState.h>
-#include <game_object.hpp>
 
 namespace pt
 {

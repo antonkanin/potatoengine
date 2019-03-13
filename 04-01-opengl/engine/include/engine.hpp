@@ -1,21 +1,14 @@
 #pragma once
 
 #include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
-#include <iostream>
 #include <memory>
-#include <vector>
-
-// abstraction instead of including a private header
-
-#include "input_manager.hpp"
-#include "key_code.hpp"
-#include "movable_object.hpp"
-#include "transformation.hpp"
 
 namespace pt
 {
 
 class game_object;
+class movable_object;
+class input_manager;
 
 class engine
 {
@@ -45,9 +38,9 @@ public:
     /** duration of the previous frame */
     float delta_time() const;
 
-    movable_object& get_camera() { return camera_position_; }
+    movable_object& get_camera();
 
-    movable_object& get_light() { return light_position_; }
+    movable_object& get_light();
 
     void enable_wireframe(bool state);
 
@@ -56,9 +49,8 @@ public:
     btDiscreteDynamicsWorld* get_dynamics_world();
 
 private:
-    std::unique_ptr<class engine_pimpl> pimpl_;
+    std::unique_ptr<class engine_pimpl> impl;
 
-protected:
     void set_game_running(bool is_game_running);
 
     void start_objects();
@@ -68,30 +60,6 @@ protected:
     void render_objects();
 
     void render_objects_gui();
-
-    std::unique_ptr<input_manager> input_manager_ =
-        std::make_unique<input_manager>();
-
-    std::string game_title_;
-
-    std::vector<std::unique_ptr<game_object>> objects_;
-
-protected:
-
-private:
-    bool game_running_ = false;
-
-    float time_       = 0.f;
-    float delta_time_ = 0.f;
-
-    movable_object camera_position_;
-    movable_object light_position_;
-
-    std::unique_ptr<class input_component> input_component_;
-
-    std::unique_ptr<class video_component> video_component_;
-
-    std::unique_ptr<class gui_component> gui_component_;
 
     // TODO move physics to a separate component
 private:
