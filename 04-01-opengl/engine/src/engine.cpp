@@ -5,6 +5,7 @@
 #include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 #include <bullet/btBulletDynamicsCommon.h>
 #include <engine.hpp>
+#include <log_utils.hpp>
 
 #include "game_object.hpp"
 #include "gui_component.hpp"
@@ -155,7 +156,7 @@ bool engine::run()
 
         impl->gui_component_->prepare_gui_frame();
 
-        render_objects_gui();
+        //render_objects_gui();
 
         impl->gui_component_->render_gui_frame();
 
@@ -234,7 +235,9 @@ void engine::init_physics()
 
 void engine::update_physics()
 {
+    //log_line(std::to_string(delta_time()));
     bullet_engine.dynamicsWorld->stepSimulation(delta_time(), 10);
+
 }
 
 btDiscreteDynamicsWorld* engine::get_dynamics_world()
@@ -245,7 +248,9 @@ btDiscreteDynamicsWorld* engine::get_dynamics_world()
 bool engine::init_engine()
 {
     init_physics();
+
     impl->video_component_->init(impl->game_title_);
+
     impl->gui_component_->init(impl->video_component_->get_window());
 
     // TODO add a proper init check

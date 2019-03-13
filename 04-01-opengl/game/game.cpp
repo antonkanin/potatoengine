@@ -23,10 +23,10 @@ int main(int argc, char* argv[])
             ->set_position({ -3.f, 3.f, -5.f })
             ->add_body(true);
 
-    engine->add_object<space_ship>()
-            ->set_position({ -3.f, -5.f, -5.f })
-            ->set_scale({10.f, .1f, 10.f})
-            ->add_body(false);
+//    engine->add_object<space_ship>()
+//            ->set_position({ -3.f, -5.f, -5.f })
+//            ->set_scale({10.f, .1f, 10.f})
+//            ->add_body(false);
 //
 //    engine->add_object<space_ship>()
 //            ->set_position({ -3.f, 4.f, 0.f });
@@ -35,17 +35,17 @@ int main(int argc, char* argv[])
 //            ->set_position({ -3.f, 4.f, 5.f });
 
 
-    engine->add_object<light_controller>()
-            ->set_position({ 3.f, 0.f, 0.f });
-
-    engine->add_object<camera_gui_controller>()->
-            set_position({ 0.f, 0.f, 6.f });
+//    engine->add_object<light_controller>()
+//            ->set_position({ 3.f, 0.f, 0.f });
+//
+//    engine->add_object<camera_gui_controller>()->
+//            set_position({ 0.f, 0.f, 6.f });
 
     engine->add_object<camera_keyboard_controller>();
 
     //engine->add_object<vehicle>()->set_position({ 10.f, 0.f, 6.f });
 
-    engine->add_object<show_fps>();
+    //engine->add_object<show_fps>();
 
     // clang-format on
 
