@@ -1,14 +1,7 @@
 #include "engine.hpp"
-#include "game_object.hpp"
-#include "input_component.hpp"
-#include "model.hpp"
-#include "renderer/debug_drawer.hpp"
-#include "renderer/triangle.hpp"
-#include <cstdlib>
-#include <engine.hpp>
-#include <memory>
 
-#include "video_component.hpp"
+#include "renderer/debug_drawer.hpp"
+
 #include <bullet/btBulletDynamicsCommon.h>
 
 namespace pt

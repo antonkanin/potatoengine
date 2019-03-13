@@ -7,7 +7,6 @@
 
 #include "../src/gui_component.hpp"   // TODO need to replace 'triangle' with an
 #include "../src/input_component.hpp" // TODO need to replace 'triangle' with an
-#include "../src/renderer/triangle.hpp" // TODO need to replace 'triangle' with an
 #include "../src/video_component.hpp" // TODO need to replace 'triangle' with an
 // abstraction instead of including a private header
 
