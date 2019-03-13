@@ -275,10 +275,64 @@ void video_component::render_light(const model&          model,
     pimpl_->light_program_->use();
 
     pimpl_->light_program_->set_matrix4("u_transform_matrix",
-                                glm::value_ptr(full_transform_m));
+                                        glm::value_ptr(full_transform_m));
     pimpl_->light_program_->validate();
 
     model.draw(*(pimpl_->light_program_.get()));
+}
+
+void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
+                                  const ptm::vec3&              color,
+                                  const struct movable_obkject& camera)
+{
+    unsigned int VBO = 0;
+    unsigned int EBO = 0;
+
+    ///////////////////////////////////////////////////////////////////////////
+    // generate buffers
+
+    glGenBuffers(1, &VBO);
+    check_gl_errors();
+
+    glGenBuffers(1, &EBO);
+    check_gl_errors();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // bind buffers
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    check_gl_errors();
+
+    const ptm::vec3 vertices[2] = { from, to };
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0],
+                 GL_STATIC_DRAW);
+    check_gl_errors();
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    check_gl_errors();
+
+    const unsigned int indices[2] = { 0, 1 };
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0],
+                 GL_STATIC_DRAW);
+    check_gl_errors();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // setup attributes
+
+    // position
+    glEnableVertexAttribArray(0); // can we use name instead of a number?
+    check_gl_errors();
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ptm::vec3), (void*)0);
+    check_gl_errors();
+
+    pimpl_->light_program_->use();
+
+    glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, indices);
+
+    // call draw
 }
 
 video_component::~video_component() = default;
