@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../video_component.hpp"
+#include "log_utils.hpp"
 #include "model.hpp"
 #include <LinearMath/btIDebugDraw.h>
-#include "log_utils.hpp"
 
 namespace pt
 {
@@ -26,8 +26,6 @@ public:
             /*to*/ { to.x(), to.y(), to.z() },
             /*color*/ { color.x(), color.y(), color.z() },
             /*camera*/ *camera_);
-
-        log_line("test");
     }
 
     void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
@@ -42,14 +40,14 @@ public:
     {
     }
 
-    void setDebugMode(int debugMode) override { debug_mode_ = debugMode;}
+    void setDebugMode(int debugMode) override { debug_mode_ = debugMode; }
 
     int getDebugMode() const override { return debug_mode_; }
 
 private:
     video_component* video_component_;
     movable_object*  camera_;
-    int debug_mode_;
+    int              debug_mode_;
 };
 
 } // namespace pt

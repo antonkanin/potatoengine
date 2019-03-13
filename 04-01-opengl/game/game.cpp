@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
     engine->add_object<space_ship>()
             ->set_position({ -3.f, -5.f, -5.f })
-            ->set_scale({10.f, .1f, 10.f})
+            ->set_scale({2.f, .1f, 2.f})
             ->add_body(false);
 //
 //    engine->add_object<space_ship>()
