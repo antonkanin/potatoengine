@@ -10,6 +10,7 @@ class physics_component
 {
 public:
     physics_component();
+
     ~physics_component();
 
     bool init();

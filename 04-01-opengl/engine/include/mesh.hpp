@@ -1,10 +1,8 @@
-#include <utility>
-
 #pragma once
 
-//#include "../src/renderer/program.hpp" // TODO clean this up
 #include "texture.hpp"
 #include "vertex.hpp"
+#include <utility>
 #include <vector>
 
 namespace pt

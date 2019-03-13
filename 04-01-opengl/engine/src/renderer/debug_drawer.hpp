@@ -3,6 +3,7 @@
 #include "../video_component.hpp"
 #include "model.hpp"
 #include <LinearMath/btIDebugDraw.h>
+#include "log_utils.hpp"
 
 namespace pt
 {
@@ -10,36 +11,23 @@ namespace pt
 class debug_drawer : public btIDebugDraw
 {
 public:
-    explicit debug_drawer(video_component* video_component)
+    explicit debug_drawer(video_component* video_component,
+                          movable_object*  camera)
         : video_component_(video_component)
+        , camera_(camera)
     {
-        vertex v;
-
-        mesh m = { .vertices = { v, v, v },
-                   .indices  = { 1, 2, 3 },
-                   .textures = {} };
-
-        model_ = std::make_shared<model>();
-        model_->add_mesh(m);
     }
 
     void drawLine(const btVector3& from, const btVector3& to,
                   const btVector3& color) override
     {
-        model_->get_meshes()[0].vertices[0].position = { from.x(), from.y(),
-                                                         from.z() };
-        model_->get_meshes()[0].vertices[0].color    = { color.x(), color.y(),
-                                                      color.z() };
+        video_component_->render_line(
+            /*from*/ { from.x(), from.y(), from.z() },
+            /*to*/ { to.x(), to.y(), to.z() },
+            /*color*/ { color.x(), color.y(), color.z() },
+            /*camera*/ *camera_);
 
-        model_->get_meshes()[0].vertices[1].position = { from.x(), from.y(),
-                                                         from.z() };
-        model_->get_meshes()[0].vertices[1].color    = { color.x(), color.y(),
-                                                      color.z() };
-
-        model_->get_meshes()[0].vertices[2].position = { to.x(), to.y(),
-                                                         to.z() };
-        model_->get_meshes()[0].vertices[2].color    = { color.x(), color.y(),
-                                                      color.z() };
+        log_line("test");
     }
 
     void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
@@ -54,14 +42,14 @@ public:
     {
     }
 
-    void setDebugMode(int debugMode) override {}
+    void setDebugMode(int debugMode) override { debug_mode_ = debugMode;}
 
-    int getDebugMode() const override { return 0; }
+    int getDebugMode() const override { return debug_mode_; }
 
 private:
-    video_component* video_component_; // we don't own the rendered so should not destroy it
-
-    std::shared_ptr<model> model_;
+    video_component* video_component_;
+    movable_object*  camera_;
+    int debug_mode_;
 };
 
 } // namespace pt

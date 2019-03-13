@@ -9,6 +9,7 @@
 
 #include "input_manager.hpp"
 #include "movable_object.hpp"
+#include "renderer/debug_drawer.hpp"
 
 namespace pt
 {
@@ -49,6 +50,8 @@ public:
     std::unique_ptr<video_component>   video;
     std::unique_ptr<gui_component>     gui;
     std::unique_ptr<physics_component> physics;
+
+    debug_drawer* debug_drawer_;
 
     void start_objects();
 
@@ -111,6 +114,8 @@ bool engine::run()
 
         impl->gui->render_gui_frame();
 
+        impl->physics->get_dynamics_world()->debugDrawWorld();
+
         impl->video->swap_buffers();
 
         // TODO should this be moved to the engine implementation?
@@ -147,6 +152,11 @@ bool engine::init_engine()
     impl->gui->init(impl->video->get_window());
 
     impl->physics->init();
+
+    impl->debug_drawer_ = new debug_drawer(impl->video.get(), &get_camera());
+    impl->debug_drawer_->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
+
+    impl->physics->get_dynamics_world()->setDebugDrawer(impl->debug_drawer_);
 
     // TODO add a proper init check
     return true;

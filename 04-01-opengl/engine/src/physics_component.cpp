@@ -24,7 +24,6 @@ physics_component::physics_component()
 
 bool physics_component::init()
 {
-
     pimpl_->collisionConfig = new btDefaultCollisionConfiguration();
 
     pimpl_->dispatcher = new btCollisionDispatcher(pimpl_->collisionConfig);
