@@ -88,11 +88,9 @@ void my_audio_callback(void* userdata, Uint8* stream, int len)
         using namespace std::chrono;
 
         auto now = system_clock::now();
-        auto t = system_clock::to_time_t(now);
+        auto t   = system_clock::to_time_t(now);
 
-
-        std::cout << "callback " << audio_len
-                  << std::ctime(&t) << '\n';
+        std::cout << "callback " << audio_len << std::ctime(&t) << '\n';
     }
 
     if (audio_len == 0)

@@ -5,7 +5,9 @@
 class show_fps final : public pt::game_object
 {
 public:
-    void start() override { /*get_engine().enable_vsync(false);*/ }
+    void start() override
+    { /*get_engine().enable_vsync(false);*/
+    }
 
     void update() override
     {

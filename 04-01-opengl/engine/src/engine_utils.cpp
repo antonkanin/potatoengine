@@ -1,6 +1,6 @@
 #include "engine_utils.hpp"
 
-pt::key_code pt::get_key(const SDL_Keycode &sdl_keycode)
+pt::key_code pt::get_key(const SDL_Keycode& sdl_keycode)
 {
     using namespace pt;
 

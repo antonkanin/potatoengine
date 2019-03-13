@@ -5,8 +5,8 @@
 #include "ptm/vec3.hpp"
 #include "transformation.hpp"
 #include <BulletDynamics/Dynamics/btRigidBody.h>
-#include <memory>
 #include <engine.hpp>
+#include <memory>
 
 namespace pt
 {

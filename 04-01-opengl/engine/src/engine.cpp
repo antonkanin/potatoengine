@@ -99,7 +99,6 @@ bool engine::run()
 
         impl->delta_time_ = impl->time_ - old_time;
 
-        // update_physics();
         impl->physics->update_physics(impl->delta_time_);
 
         impl->update_objects();
@@ -108,13 +107,13 @@ bool engine::run()
 
         impl->render_lights();
 
+        impl->physics->get_dynamics_world()->debugDrawWorld();
+
         impl->gui->prepare_gui_frame();
 
         impl->render_objects_gui();
 
         impl->gui->render_gui_frame();
-
-        impl->physics->get_dynamics_world()->debugDrawWorld();
 
         impl->video->swap_buffers();
 
@@ -229,9 +228,6 @@ void engine_pimpl::render_objects()
                 engine_->get_camera(), engine_->get_light().get_position());
         }
     }
-
-    video->render_line({ 0.0f, -10.f, -5.f }, { 0.0f, 10.f, -5.f },
-                       { 0.0f, 1.f, 0.f }, engine_->get_camera());
 }
 
 void engine_pimpl::start_objects()

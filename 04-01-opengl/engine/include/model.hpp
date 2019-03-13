@@ -22,10 +22,7 @@ public:
 
     void add_mesh(const mesh& mesh);
 
-    std::vector<mesh>& get_meshes()
-    {
-        return meshes_;
-    }
+    std::vector<mesh>& get_meshes() { return meshes_; }
 
 private:
     std::vector<mesh> meshes_;

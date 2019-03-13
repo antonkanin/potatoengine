@@ -20,7 +20,6 @@ public:
 
     void render_gui_frame();
 
-
 private:
     std::unique_ptr<class gui_component_pimpl> pimpl_;
 };

@@ -283,7 +283,7 @@ void video_component::render_light(const model&          model,
 }
 
 void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
-                                  const ptm::vec3&              color,
+                                  const ptm::vec3&             color,
                                   const struct movable_object& camera)
 {
     unsigned int VAO = 0;
@@ -313,7 +313,7 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
 
     const ptm::vec3 vertices[2] = { from, to };
 
-    //log_line(std::to_string(sizeof(vertices)));
+    // log_line(std::to_string(sizeof(vertices)));
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0],
                  GL_STATIC_DRAW);
@@ -331,7 +331,8 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
     ///////////////////////////////////////////////////////////////////////////
     // setup attributes
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+                          (void*)0);
     check_gl_errors();
 
     glEnableVertexAttribArray(0); // can we use name instead of a number?

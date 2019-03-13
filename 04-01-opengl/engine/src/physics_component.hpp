@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
 #include <bullet/btBulletDynamicsCommon.h>
+#include <memory>
 
 namespace pt
 {

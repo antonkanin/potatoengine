@@ -85,8 +85,8 @@ ptm::vec3 game_object::get_scale() const
 
 game_object* game_object::add_body(bool is_dynamic)
 {
-    btCollisionShape* shape = new btBoxShape(
-        { get_scale().x, get_scale().y, get_scale().z });
+    btCollisionShape* shape =
+        new btBoxShape({ get_scale().x, get_scale().y, get_scale().z });
 
     btTransform bt_transform;
     bt_transform.setIdentity();

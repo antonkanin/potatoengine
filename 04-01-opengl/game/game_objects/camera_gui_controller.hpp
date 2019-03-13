@@ -9,10 +9,7 @@
 class camera_gui_controller : public pt::game_object
 {
 public:
-    void start()
-    {
-        get_engine().get_camera().set_position(get_position());
-    }
+    void start() { get_engine().get_camera().set_position(get_position()); }
 
     void update() override {}
 
