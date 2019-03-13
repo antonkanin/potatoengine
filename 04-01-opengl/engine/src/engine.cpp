@@ -57,6 +57,8 @@ public:
     void render_objects();
 
     void render_objects_gui();
+
+    void render_lights();
 };
 
 engine::engine()
@@ -101,7 +103,7 @@ bool engine::run()
 
         impl->render_objects();
 
-        render_lights();
+        impl->render_lights();
 
         impl->gui->prepare_gui_frame();
 
@@ -116,11 +118,6 @@ bool engine::run()
     }
 
     return true;
-}
-
-void engine::set_game_running(const bool is_game_running)
-{
-    impl->game_running_ = is_game_running;
 }
 
 float engine::time() const
@@ -163,12 +160,6 @@ void engine::enable_wireframe(bool state)
 engine::~engine()
 {
     impl->video->clean_up();
-}
-
-void engine::render_lights()
-{
-    impl->video->render_light(impl->light_model_, get_light().get_position(),
-                              get_camera());
 }
 
 movable_object& engine::get_camera()
@@ -247,6 +238,12 @@ void engine_pimpl::render_objects_gui()
     {
         object->on_gui();
     }
+}
+
+void engine_pimpl::render_lights()
+{
+    video->render_light(light_model_, engine_->get_light().get_position(),
+                        engine_->get_camera());
 }
 
 } // namespace pt

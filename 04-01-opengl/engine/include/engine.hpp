@@ -14,6 +14,7 @@ class engine
 {
 public:
     engine();
+
     ~engine();
 
     bool init_engine();
@@ -50,13 +51,6 @@ public:
 
 private:
     std::unique_ptr<class engine_pimpl> impl;
-
-    void set_game_running(bool is_game_running);
-
-
-    // TODO move physics to a separate component
-private:
-    void render_lights();
 };
 
 } // namespace pt
