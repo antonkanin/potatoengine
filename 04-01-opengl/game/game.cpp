@@ -38,8 +38,8 @@ int main(int argc, char* argv[])
 //    engine->add_object<light_controller>()
 //            ->set_position({ 3.f, 0.f, 0.f });
 //
-//    engine->add_object<camera_gui_controller>()->
-//            set_position({ 0.f, 0.f, 6.f });
+    engine->add_object<camera_gui_controller>()->
+            set_position({ 0.f, 0.f, 6.f });
 
     engine->add_object<camera_keyboard_controller>();
 

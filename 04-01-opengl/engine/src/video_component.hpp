@@ -28,7 +28,7 @@ public:
 
     void render_line(const ptm::vec3& from, const ptm::vec3 to,
                      const ptm::vec3&             color,
-                     const class movable_obkject& camera);
+                     const class movable_object& camera);
 
     void swap_buffers();
 

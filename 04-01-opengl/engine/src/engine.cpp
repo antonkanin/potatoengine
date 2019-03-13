@@ -228,6 +228,9 @@ void engine_pimpl::render_objects()
                 engine_->get_camera(), engine_->get_light().get_position());
         }
     }
+
+    video->render_line({ 0.0f, -10.f, -5.f }, { 0.0f, 10.f, -5.f },
+                       { 0.0f, 1.f, 0.f }, engine_->get_camera());
 }
 
 void engine_pimpl::start_objects()

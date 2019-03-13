@@ -12,6 +12,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/mat4x4.hpp>
 #include <iostream>
+#include <log_utils.hpp>
 
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_sdl.h"
@@ -31,9 +32,9 @@ public:
                                                    "shaders/light_shader.frag");
     }
 
-    std::unique_ptr<program> generic_program_ = nullptr;
+    std::unique_ptr<program> generic_program_;
 
-    std::unique_ptr<program> light_program_ = nullptr;
+    std::unique_ptr<program> light_program_;
 
     SDL_GLContext gl_context_ = nullptr;
 
@@ -283,13 +284,17 @@ void video_component::render_light(const model&          model,
 
 void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
                                   const ptm::vec3&              color,
-                                  const struct movable_obkject& camera)
+                                  const struct movable_object& camera)
 {
+    unsigned int VAO = 0;
     unsigned int VBO = 0;
     unsigned int EBO = 0;
 
     ///////////////////////////////////////////////////////////////////////////
     // generate buffers
+
+    glGenVertexArrays(1, &VAO);
+    check_gl_errors();
 
     glGenBuffers(1, &VBO);
     check_gl_errors();
@@ -297,13 +302,18 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
     glGenBuffers(1, &EBO);
     check_gl_errors();
 
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////// ///////////////////////////////////////////
     // bind buffers
+
+    glBindVertexArray(VAO);
+    check_gl_errors();
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     check_gl_errors();
 
     const ptm::vec3 vertices[2] = { from, to };
+
+    //log_line(std::to_string(sizeof(vertices)));
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0],
                  GL_STATIC_DRAW);
@@ -321,18 +331,27 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
     ///////////////////////////////////////////////////////////////////////////
     // setup attributes
 
-    // position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    check_gl_errors();
+
     glEnableVertexAttribArray(0); // can we use name instead of a number?
     check_gl_errors();
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ptm::vec3), (void*)0);
-    check_gl_errors();
+    glm::mat4 view_m = get_view_matrix(camera);
+
+    glm::mat4 full_transform_m = projection_matrix * view_m;
 
     pimpl_->light_program_->use();
 
-    glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, indices);
+    pimpl_->light_program_->set_matrix4("u_transform_matrix",
+                                        glm::value_ptr(full_transform_m));
+    pimpl_->light_program_->validate();
 
-    // call draw
+    glDrawElements(GL_LINE_STRIP, 2, GL_UNSIGNED_INT, nullptr);
+    check_gl_errors();
+
+    glBindVertexArray(0);
+    check_gl_errors();
 }
 
 video_component::~video_component() = default;
