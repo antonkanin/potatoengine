@@ -5,6 +5,7 @@
 #include <bullet/btBulletDynamicsCommon.h>
 #include <engine.hpp>
 
+#include "game_object.hpp"
 #include "gui_component.hpp"
 #include "input_component.hpp"
 #include "video_component.hpp"
@@ -18,10 +19,18 @@ std::unique_ptr<engine> make_engine()
     return result;
 }
 
+class engine_pimpl
+{
+public:
+    model light_model_; // TODO engine implementation needs to see this so it
+    // can pass it to the renderer
+};
+
 engine::engine()
-    : gui_component_(std::make_unique<gui_component>()),
-    input_component_(std::make_unique<input_component>()),
-    video_component_(std::make_unique<video_component>())
+    : pimpl_(std::make_unique<engine_pimpl>())
+    , gui_component_(std::make_unique<gui_component>())
+    , input_component_(std::make_unique<input_component>())
+    , video_component_(std::make_unique<video_component>())
 {
 }
 
@@ -158,7 +167,7 @@ void engine::render_objects_gui()
 
 void engine::set_light_model(const model& model)
 {
-    light_model_ = model;
+    pimpl_->light_model_ = model;
 }
 
 struct bullet_config
@@ -229,8 +238,8 @@ engine::~engine()
 
 void engine::render_lights()
 {
-    video_component_->render_light(light_model_, get_light().get_position(),
-                                   get_camera());
+    video_component_->render_light(pimpl_->light_model_,
+                                   get_light().get_position(), get_camera());
 }
 
 } // namespace pt

@@ -7,7 +7,6 @@
 
 // abstraction instead of including a private header
 
-#include "game_object.hpp"
 #include "input_manager.hpp"
 #include "key_code.hpp"
 #include "movable_object.hpp"
@@ -16,9 +15,7 @@
 namespace pt
 {
 
-class model;
-
-/// class input_component;
+class game_object;
 
 class engine
 {
@@ -54,9 +51,12 @@ public:
 
     void enable_wireframe(bool state);
 
-    void set_light_model(const model& model);
+    void set_light_model(const class model& model);
 
     btDiscreteDynamicsWorld* get_dynamics_world();
+
+private:
+    std::unique_ptr<class engine_pimpl> pimpl_;
 
 protected:
     void set_game_running(bool is_game_running);
@@ -77,8 +77,6 @@ protected:
     std::vector<std::unique_ptr<game_object>> objects_;
 
 protected:
-    model light_model_; // TODO engine implementation needs to see this so it
-                        // can pass it to the renderer
 
 private:
     bool game_running_ = false;
