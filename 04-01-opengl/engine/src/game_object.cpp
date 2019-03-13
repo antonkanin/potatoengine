@@ -24,7 +24,7 @@ const model& game_object::get_model() const
     return model_;
 }
 
-void game_object::set_model(const model& model, bool is_dynamic)
+void game_object::set_model(const model& model)
 {
     has_model_ = true;
     model_     = model;

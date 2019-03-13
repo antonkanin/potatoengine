@@ -38,7 +38,7 @@ public:
     void set_rotation(const ptm::vec3& rotation_vector, float angle);
 
     const model& get_model() const;
-    void         set_model(const model& model, bool is_dynamic = false);
+    void         set_model(const model& model);
 
     game_object* load_model(const std::string& path);
 

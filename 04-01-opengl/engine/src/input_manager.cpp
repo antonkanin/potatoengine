@@ -7,7 +7,6 @@ namespace pt
 
 input_manager::input_manager()
 {
-    log_line("Input manager ctor");
     reset_states();
 }
 
