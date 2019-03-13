@@ -3,6 +3,11 @@
 #include "renderer/debug_drawer.hpp"
 
 #include <bullet/btBulletDynamicsCommon.h>
+#include <engine.hpp>
+
+#include "gui_component.hpp"
+#include "input_component.hpp"
+#include "video_component.hpp"
 
 namespace pt
 {
@@ -11,6 +16,13 @@ std::unique_ptr<engine> make_engine()
 {
     std::unique_ptr<engine> result(new engine());
     return result;
+}
+
+engine::engine()
+    : gui_component_(std::make_unique<gui_component>()),
+    input_component_(std::make_unique<input_component>()),
+    video_component_(std::make_unique<video_component>())
+{
 }
 
 game_object* engine::add_object(std::unique_ptr<game_object> object)
@@ -80,7 +92,7 @@ void engine::start_objects()
 
 bool engine::run()
 {
-    //init_physics();
+    // init_physics();
 
     game_running_ = true;
 
@@ -200,7 +212,6 @@ bool engine::init_engine()
     init_physics();
     video_component_->init(game_title_);
     gui_component_->init(video_component_->get_window());
-
 
     // TODO add a proper init check
     return true;

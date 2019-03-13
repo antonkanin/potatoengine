@@ -5,9 +5,6 @@
 #include <memory>
 #include <vector>
 
-#include "../src/gui_component.hpp"   // TODO need to replace 'triangle' with an
-#include "../src/input_component.hpp" // TODO need to replace 'triangle' with an
-#include "../src/video_component.hpp" // TODO need to replace 'triangle' with an
 // abstraction instead of including a private header
 
 #include "game_object.hpp"
@@ -26,6 +23,7 @@ class model;
 class engine
 {
 public:
+    engine();
     ~engine();
 
     bool init_engine();
@@ -61,7 +59,6 @@ public:
     btDiscreteDynamicsWorld* get_dynamics_world();
 
 protected:
-
     void set_game_running(bool is_game_running);
 
     void start_objects();
@@ -92,14 +89,11 @@ private:
     movable_object camera_position_;
     movable_object light_position_;
 
-    std::unique_ptr<input_component> input_component_ =
-        std::make_unique<input_component>();
+    std::unique_ptr<class input_component> input_component_;
 
-    std::unique_ptr<video_component> video_component_ =
-        std::make_unique<video_component>();
+    std::unique_ptr<class video_component> video_component_;
 
-    std::unique_ptr<gui_component> gui_component_ =
-        std::make_unique<gui_component>();
+    std::unique_ptr<class gui_component> gui_component_;
 
     // TODO move physics to a separate component
 private:
