@@ -1,13 +1,5 @@
-- separate logic into 4 separate components:
-    * input
-    * rendering
-    * audio
-    * physics
 
 - add child 'game objects' support
-
-- refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
-  input_strategy, audio_strategy, etc)
 
 - separate IMGUI integration into input handling and rendering
 
@@ -24,6 +16,13 @@
 - [low] load texture in the TGA format
 
 Done
+- refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
+  input_strategy, audio_strategy, etc)
+- separate logic into 4 separate components:
+    * input
+    * rendering
+    * audio
+    * physics
 - separate light and other objects rendering
 - add basic lighting
 - read apply diffuse color to the vertex when it's present in the model

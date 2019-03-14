@@ -4,6 +4,7 @@
 #include "input_manager.hpp"
 #include "log_utils.hpp"
 #include <SDL2/SDL.h>
+#include <functional>
 
 namespace pt
 {
@@ -44,12 +45,15 @@ bool input_component::init()
     return true;
 }
 
-void input_component::poll_events(input_manager& input_manager)
+void input_component::poll_events(
+    class input_manager&                        input_manager,
+    std::function<void(const SDL_Event& event)> gui_callback,
+    bool& is_game_running)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-        // ImGui_ImplSDL2_ProcessEvent(&event);
+        gui_callback(event);
 
         switch (event.type)
         {
@@ -62,7 +66,7 @@ void input_component::poll_events(input_manager& input_manager)
 
             case SDL_QUIT:
             {
-                // set_game_running(false);
+                is_game_running = false;
                 break;
             }
 

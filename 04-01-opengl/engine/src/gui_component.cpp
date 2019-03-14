@@ -2,6 +2,8 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_sdl.h"
 
+#include <SDL2/SDL_events.h>
+
 namespace pt
 {
 
@@ -47,6 +49,11 @@ void gui_component::render_gui_frame()
 {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void gui_component::gui_call_back(const SDL_Event& event)
+{
+    ImGui_ImplSDL2_ProcessEvent(&event);
 }
 
 gui_component::~gui_component() = default;

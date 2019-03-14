@@ -25,6 +25,7 @@
 #include <imgui.h>
 
 struct SDL_Window;
+//struct SDL_Event;
 typedef union SDL_Event SDL_Event;
 
 IMGUI_IMPL_API bool ImGui_ImplSDL2_InitForOpenGL(SDL_Window* window

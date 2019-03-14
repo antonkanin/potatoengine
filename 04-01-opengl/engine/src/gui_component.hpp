@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL_events.h>
 #include <memory>
 
 class SDL_Window;
@@ -20,8 +21,12 @@ public:
 
     void render_gui_frame();
 
+    static void gui_call_back(const SDL_Event& event);
+
 private:
     std::unique_ptr<class gui_component_pimpl> pimpl_;
 };
+
+
 
 } // namespace pt

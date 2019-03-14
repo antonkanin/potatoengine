@@ -92,7 +92,9 @@ bool engine::run()
 
     while (impl->game_running_)
     {
-        impl->input->poll_events(*impl->input_manager_.get());
+        impl->input->poll_events(*impl->input_manager_.get(),
+                                 gui_component::gui_call_back,
+                                 impl->game_running_);
 
         old_time    = impl->time_;
         impl->time_ = impl->video->get_ticks() / 1000;
@@ -117,7 +119,6 @@ bool engine::run()
 
         impl->video->swap_buffers();
 
-        // TODO should this be moved to the engine implementation?
         get_input_manager().reset_states();
     }
 
