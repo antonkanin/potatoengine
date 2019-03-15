@@ -6,6 +6,7 @@
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
 #include "game_objects/audio_test.hpp"
+#include "game_objects/object_selector.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -48,7 +49,9 @@ int main(int argc, char* argv[])
 
     engine->add_object<show_fps>();
 
-    engine->add_object<audio_test>();
+    //engine->add_object<audio_test>();
+
+    engine->add_object<object_selector>();
 
     // clang-format on
 
