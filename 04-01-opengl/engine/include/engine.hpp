@@ -3,6 +3,7 @@
 #include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h> // TODO find a way to remove the bullet physics header
 #include <memory>
 #include <ptm/vec2.hpp>
+#include <ptm/vec3.hpp>
 
 namespace pt
 {
@@ -50,12 +51,16 @@ public:
 
     btDiscreteDynamicsWorld* get_dynamics_world();
 
-    bool load_sound(const std::string& sound_name, const std::string& file_path);
+    bool load_sound(const std::string& sound_name,
+                    const std::string& file_path);
 
     bool play_sound(const std::string& sound_name) const;
 
     ptm::vec2i get_window_size() const;
 
+    void draw_line(const ptm::vec3& from, const ptm::vec3& to);
+    void draw_line(const ptm::vec3& from, const ptm::vec3& to,
+                   const ptm::vec3& color);
 private:
     std::unique_ptr<class engine_pimpl> impl;
 };

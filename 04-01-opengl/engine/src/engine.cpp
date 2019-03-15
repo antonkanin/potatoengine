@@ -213,6 +213,17 @@ ptm::vec2i engine::get_window_size() const
     return impl->video->get_window_size();
 }
 
+void engine::draw_line(const ptm::vec3& from, const ptm::vec3& to,
+                       const ptm::vec3& color)
+{
+    impl->video->render_line(from, to, color, get_camera());
+}
+
+void engine::draw_line(const ptm::vec3& from, const ptm::vec3& to)
+{
+    draw_line(from, to, { 1.f, 0.f, 0.f });
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 
