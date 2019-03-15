@@ -33,6 +33,9 @@ public:
                 std::cout << "Hit!" << std::endl;
             }
         }
+
+        std::cout << get_engine().get_input_manager().get_axis_x() << ' '
+                  << get_engine().get_input_manager().get_axis_y() << std::endl;
     }
 
 public:
