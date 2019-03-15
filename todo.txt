@@ -1,7 +1,6 @@
+- add different geometry types: cube, sphere, line
 
 - add child 'game objects' support
-
-- separate IMGUI integration into input handling and rendering
 
 - [bug] LEFT SHIFT does continue movement when you hold it
 
@@ -16,6 +15,7 @@
 - [low] load texture in the TGA format
 
 Done
+- separate IMGUI integration into input handling and rendering
 - refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
   input_strategy, audio_strategy, etc)
 - separate logic into 4 separate components:
