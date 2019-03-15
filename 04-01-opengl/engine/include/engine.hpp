@@ -49,6 +49,10 @@ public:
 
     btDiscreteDynamicsWorld* get_dynamics_world();
 
+    bool load_sound(const std::string& sound_name, const std::string& file_path);
+
+    bool play_sound(const std::string& sound_name) const;
+
 private:
     std::unique_ptr<class engine_pimpl> impl;
 };

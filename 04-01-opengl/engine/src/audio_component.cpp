@@ -70,6 +70,14 @@ bool audio_component::play_sound(const std::string& sound_name) const
     return true;
 }
 
-audio_component::~audio_component() = default;
+audio_component::~audio_component()
+{
+    for (auto sound : impl->sounds)
+    {
+        Mix_FreeChunk(sound.second);
+    }
+
+    Mix_CloseAudio();
+}
 
 } // namespace pt

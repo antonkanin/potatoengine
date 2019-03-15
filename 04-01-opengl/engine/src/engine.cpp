@@ -1,6 +1,7 @@
 #include <engine.hpp>
 #include <log_utils.hpp>
 
+#include "audio_component.hpp"
 #include "game_object.hpp"
 #include "gui_component.hpp"
 #include "input_component.hpp"
@@ -20,6 +21,7 @@ public:
     explicit engine_pimpl(engine* e)
         : engine_(e)
         , input_manager_(std::make_unique<input_manager>())
+        , audio(std::make_unique<audio_component>())
         , gui(std::make_unique<gui_component>())
         , input(std::make_unique<input_component>())
         , video(std::make_unique<video_component>())
@@ -50,6 +52,7 @@ public:
     std::unique_ptr<video_component>   video;
     std::unique_ptr<gui_component>     gui;
     std::unique_ptr<physics_component> physics;
+    std::unique_ptr<audio_component>   audio;
 
     debug_drawer* debug_drawer_;
 
@@ -190,6 +193,17 @@ void engine::set_title(const std::string& title)
 input_manager& engine::get_input_manager()
 {
     return *(impl->input_manager_);
+}
+
+bool engine::load_sound(const std::string& sound_name,
+                        const std::string& file_path)
+{
+    return impl->audio->load_sound(sound_name, file_path);
+}
+
+bool engine::play_sound(const std::string& sound_name) const
+{
+    return impl->audio->play_sound(sound_name);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
