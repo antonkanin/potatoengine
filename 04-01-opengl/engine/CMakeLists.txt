@@ -15,6 +15,7 @@ add_library(${PROJECT_NAME} STATIC
         src/video_component.cpp
         src/gui_component.cpp
         src/physics_component.cpp
+        src/audio_component.cpp
 
         src/engine_utils.cpp
 
@@ -31,6 +32,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 target_link_libraries(${PROJECT_NAME}
         SDL2
+        SDL2_mixer
         GL
         stbi
         assimp
