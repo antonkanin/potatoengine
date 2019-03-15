@@ -161,6 +161,8 @@ bool engine::init_engine()
 
     impl->physics->get_dynamics_world()->setDebugDrawer(impl->debug_drawer_);
 
+    impl->audio->init();
+
     // TODO add a proper init check
     return true;
 }

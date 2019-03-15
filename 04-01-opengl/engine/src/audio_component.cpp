@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include <log_utils.hpp>
 
 namespace pt
 {
@@ -51,6 +52,8 @@ bool audio_component::load_sound(const std::string& sound_name,
         return false;
     }
 
+    impl->sounds[sound_name] = wave;
+
     return true;
 }
 
@@ -58,7 +61,7 @@ bool audio_component::play_sound(const std::string& sound_name) const
 {
     if (impl->sounds.count(sound_name) == 0)
     {
-        std::cerr << "error: sound with this name has not been loaded "
+        std::cerr << "error: sound with this name has not been loaded: "
                   << sound_name << '\n';
         return false;
     }
@@ -66,6 +69,8 @@ bool audio_component::play_sound(const std::string& sound_name) const
     auto wave = impl->sounds[sound_name];
 
     Mix_PlayChannel(-1, wave, 0);
+
+    log_line("playing sound");
 
     return true;
 }
