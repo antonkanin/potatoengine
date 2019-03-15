@@ -17,6 +17,8 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_sdl.h"
 
+#include <ptm/glm_to_ptm.hpp>
+
 namespace pt
 {
 
@@ -40,14 +42,6 @@ public:
 
     SDL_Window* window_ = nullptr;
 };
-
-const glm::mat4x4 projection_matrix =
-    glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 100.0f);
-
-glm::vec3 glm_vec(const vec3 vector)
-{
-    return { vector.x, vector.y, vector.z };
-}
 
 glm::mat4x4 glm_mat(const ptm::matrix4x4& mat)
 {
@@ -74,12 +68,6 @@ glm::mat4x4 glm_mat(const ptm::matrix4x4& mat)
     result[3].w = mat.row4.w;
 
     return result;
-}
-
-glm::mat4x4 look_at(const vec3& position, const vec3& direction, const vec3& up)
-{
-    return glm::lookAt(glm_vec(position), glm_vec(position + direction),
-                       glm_vec(up));
 }
 
 glm::mat4 get_view_matrix(const movable_object& camera)
@@ -155,7 +143,7 @@ void video_component::render_object(const model&          model,
                                           glm::value_ptr(model_view_matrix_m));
 
     pimpl_->generic_program_->set_matrix4("u_projection_matrix",
-                                          glm::value_ptr(projection_matrix));
+                                          glm::value_ptr(get_projection_matrix()));
 
     auto light_pos =
         get_view_matrix(camera) * glm::vec4(glm_vec(light_position), 1.0f);
@@ -271,7 +259,7 @@ void video_component::render_light(const model&          model,
 
     glm::mat4 view_m = get_view_matrix(camera);
 
-    glm::mat4 full_transform_m = projection_matrix * view_m * translate_m;
+    glm::mat4 full_transform_m = get_projection_matrix() * view_m * translate_m;
 
     pimpl_->light_program_->use();
 
@@ -340,7 +328,7 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
 
     glm::mat4 view_m = get_view_matrix(camera);
 
-    glm::mat4 full_transform_m = projection_matrix * view_m;
+    glm::mat4 full_transform_m = get_projection_matrix() * view_m;
 
     pimpl_->light_program_->use();
 
