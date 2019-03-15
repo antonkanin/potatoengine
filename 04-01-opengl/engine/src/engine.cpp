@@ -208,6 +208,11 @@ bool engine::play_sound(const std::string& sound_name) const
     return impl->audio->play_sound(sound_name);
 }
 
+ptm::vec2i engine::get_window_size() const
+{
+    return impl->video->get_window_size();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 

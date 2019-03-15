@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ptm/vec3.hpp"
 #include <memory>
+#include <ptm/vec2.hpp>
+#include <ptm/vec3.hpp>
 
 class SDL_Window;
 
@@ -37,6 +38,8 @@ public:
     void enable_wireframe(bool state);
 
     float get_ticks();
+
+    ptm::vec2i get_window_size() const;
 
     SDL_Window* get_window();
 

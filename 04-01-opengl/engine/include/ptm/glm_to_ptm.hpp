@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ptm/vec3.hpp>
+#include <ptm/vec4.hpp>
 
 namespace ptm
 {
@@ -8,6 +9,11 @@ namespace ptm
 inline glm::vec3 glm_vec(const vec3 vector)
 {
     return { vector.x, vector.y, vector.z };
+}
+
+inline glm::vec4 glm_vec(const vec4 vector)
+{
+    return { vector.x, vector.y, vector.z, vector.w };
 }
 
 inline glm::mat4x4 look_at(const vec3& position, const vec3& direction,

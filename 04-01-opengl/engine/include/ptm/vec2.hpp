@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 namespace ptm
 {
 
@@ -14,5 +16,23 @@ struct vec2
     {
     }
 };
+
+struct vec2i
+{
+    int x;
+    int y;
+
+    vec2i(int x, int y)
+        : x(x)
+        , y(y)
+    {
+    }
+};
+
+inline std::ostream& operator<<(std::ostream& out, const vec2& value)
+{
+    out << value.x << ' ' << value.y;
+    return out;
+}
 
 } // namespace ptm

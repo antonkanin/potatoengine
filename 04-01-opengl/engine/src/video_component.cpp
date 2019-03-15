@@ -142,8 +142,8 @@ void video_component::render_object(const model&          model,
     pimpl_->generic_program_->set_matrix4("u_model_view_matrix",
                                           glm::value_ptr(model_view_matrix_m));
 
-    pimpl_->generic_program_->set_matrix4("u_projection_matrix",
-                                          glm::value_ptr(get_projection_matrix()));
+    pimpl_->generic_program_->set_matrix4(
+        "u_projection_matrix", glm::value_ptr(get_projection_matrix()));
 
     auto light_pos =
         get_view_matrix(camera) * glm::vec4(glm_vec(light_position), 1.0f);
@@ -341,6 +341,15 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
 
     glBindVertexArray(0);
     check_gl_errors();
+}
+
+vec2i video_component::get_window_size() const
+{
+    int w, h;
+
+    SDL_GetWindowSize(pimpl_->window_, &w, &h);
+
+    return { w, h };
 }
 
 video_component::~video_component() = default;
