@@ -45,13 +45,13 @@ void game_object::set_rotation(const ptm::vec3& rotation_vector, float angle)
     transformation_.rotation_vector = rotation_vector;
     transformation_.rotation_angle  = angle;
 
-    if (body != nullptr)
+    if (body_ != nullptr)
     {
         btQuaternion rot{
             { rotation_vector.x, rotation_vector.y, rotation_vector.z }, angle
         };
 
-        body->getWorldTransform().setRotation(rot);
+        body_->getWorldTransform().setRotation(rot);
     }
 }
 
@@ -109,11 +109,28 @@ game_object* game_object::add_body(bool is_dynamic)
     btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape,
                                                     localInertia);
 
-    body = new btRigidBody(rbInfo);
+    body_ = new btRigidBody(rbInfo);
 
-    get_engine().get_dynamics_world()->addRigidBody(body);
+
+
+    get_engine().add_body(this, body_);
 
     return this;
+}
+
+void game_object::set_name(const std::string& name)
+{
+    name_ = name;
+}
+
+std::string game_object::get_name() const
+{
+    return name_;
+}
+
+game_object::game_object(const std::string& name)
+    : name_(name)
+{
 }
 
 } // namespace pt

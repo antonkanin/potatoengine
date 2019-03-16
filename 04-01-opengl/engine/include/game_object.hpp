@@ -14,6 +14,8 @@ namespace pt
 class game_object
 {
 public:
+    explicit game_object(const std::string& name);
+
     virtual ~game_object();
 
     /** called once for each game object before the main loop */
@@ -45,7 +47,10 @@ public:
     game_object* add_body(bool is_dynamic);
 
     // physics
-    btRigidBody* body;
+    btRigidBody* body_ = nullptr;
+
+    void set_name(const std::string& name);
+    std::string get_name() const;
 
 protected:
     engine& get_engine();
@@ -63,6 +68,8 @@ private:
                                        .rotation_vector = ptm::up_vector,
                                        .rotation_angle  = 0.0f,
                                        .scale           = { 1.f, 1.f, 1.f } };
+
+    std::string name_;
 };
 
 } // namespace pt

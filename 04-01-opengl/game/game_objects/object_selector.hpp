@@ -12,6 +12,8 @@
 class object_selector final : public pt::game_object
 {
 public:
+    using pt::game_object::game_object;
+
     void update() override
     {
         if (get_engine().get_input_manager().get_key_down(
@@ -36,6 +38,18 @@ public:
 
             if (rayCallBack.hasHit())
             {
+                auto body = (btRigidBody*)btRigidBody::upcast(
+                    rayCallBack.m_collisionObject);
+
+                if (body != nullptr)
+                {
+                    auto game_obj = get_engine().find_game_object(body);
+                    if (game_obj != nullptr)
+                    {
+                        pt::log_line("Found " + game_obj->get_name());
+                    }
+                }
+
                 pt::log_line("Hit!");
             }
 

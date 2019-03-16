@@ -6,6 +6,8 @@
 class light_controller final : public pt::game_object
 {
 public:
+    using pt::game_object::game_object;
+
     void start() override
     {
         get_engine().set_light_model(pt::model{ "res/cube/cube.obj" });

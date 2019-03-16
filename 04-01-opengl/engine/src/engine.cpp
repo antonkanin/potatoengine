@@ -238,6 +238,8 @@ game_object* engine::find_game_object(btRigidBody* rigid_body)
 
 void engine::add_body(game_object* game_object, btRigidBody* rigid_body)
 {
+    get_dynamics_world()->addRigidBody(rigid_body);
+
     impl->body_objects_[rigid_body] = game_object;
 }
 
@@ -248,10 +250,10 @@ void engine_pimpl::update_objects()
 {
     for (auto& object : objects_)
     {
-        if (object->body != nullptr)
+        if (object->body_ != nullptr)
         {
             btTransform transform;
-            object->body->getMotionState()->getWorldTransform(transform);
+            object->body_->getMotionState()->getWorldTransform(transform);
 
             object->set_position({ transform.getOrigin().x(),
                                    transform.getOrigin().y(),

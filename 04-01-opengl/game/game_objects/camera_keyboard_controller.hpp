@@ -9,6 +9,8 @@
 class camera_keyboard_controller : public pt::game_object
 {
 public:
+    using pt::game_object::game_object;
+
     void update() override { handle_camera_movement(); }
 
     void handle_camera_movement()
