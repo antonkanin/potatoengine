@@ -95,6 +95,6 @@ public:
         print_key_state(key_code::button_b, "Button B");
     }
 
-private:
+public:
     bool is_auto_rotate_ = true;
 };

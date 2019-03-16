@@ -15,7 +15,22 @@ engine& game_object::get_engine()
 
 game_object* game_object::set_position(const ptm::vec3& position)
 {
+/*
+    if (get_engine().is_physics_enabled())
+    {
+        return this;
+    }
+
+*/
     transformation_.position = position;
+
+    if (body_ != nullptr)
+    {
+
+        body_->getWorldTransform().setOrigin(
+            { position.x, position.y, position.z });
+    }
+
     return this;
 }
 
@@ -40,19 +55,28 @@ void game_object::set_transform(const transformation& transform)
     transformation_ = transform;
 }
 
-void game_object::set_rotation(const ptm::vec3& rotation_vector, float angle)
+game_object* game_object::set_rotation(const ptm::vec3& rotation_vector, float angle)
 {
+/*
+    if (get_engine().is_physics_enabled())
+    {
+        return this;
+    }
+*/
+
     transformation_.rotation_vector = rotation_vector;
     transformation_.rotation_angle  = angle;
 
     if (body_ != nullptr)
     {
         btQuaternion rot{
-            { rotation_vector.x, rotation_vector.y, rotation_vector.z }, angle
+            { rotation_vector.x, rotation_vector.y, rotation_vector.z }, -angle
         };
 
         body_->getWorldTransform().setRotation(rot);
     }
+
+    return this;
 }
 
 ptm::vec3 game_object::get_position() const
@@ -110,8 +134,6 @@ game_object* game_object::add_body(bool is_dynamic)
                                                     localInertia);
 
     body_ = new btRigidBody(rbInfo);
-
-
 
     get_engine().add_body(this, body_);
 

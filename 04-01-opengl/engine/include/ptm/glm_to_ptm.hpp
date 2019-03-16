@@ -25,7 +25,7 @@ inline glm::mat4x4 look_at(const vec3& position, const vec3& direction,
 
 inline glm::mat4x4 get_projection_matrix()
 {
-    return glm::perspective<float>(glm::pi<float>() / 2, 4.f / 3, 0.1f, 100.0f);
+    return glm::perspective<float>(glm::pi<float>() / 3, 4.f / 3, 0.1f, 100.0f);
 }
 
 } // namespace ptm

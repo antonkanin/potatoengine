@@ -4,6 +4,7 @@
 #include <iostream>
 #include <movable_object.hpp>
 
+#include "space_ship.hpp"
 #include <SDL2/SDL_mouse.h> // TODO hide this in the engine
 #include <glm/gtc/matrix_transform.hpp>
 #include <ptm/glm_to_ptm.hpp>
@@ -44,8 +45,11 @@ public:
                     auto game_obj = get_engine().find_game_object(body);
                     if (game_obj != nullptr)
                     {
-                        pt::log_line("Found " + game_obj->get_name());
-                        selected_object_ = game_obj;
+                        selected_object_ = dynamic_cast<space_ship*>(game_obj);
+                        if (selected_object_ != nullptr)
+                        {
+                            pt::log_line("Found " + game_obj->get_name());
+                        }
                     }
                 }
             }
@@ -106,8 +110,6 @@ public:
         auto mouse_pos =
             normalize_screen_coords(x, y, window_size.x, window_size.y);
 
-        std::cout << mouse_pos << std::endl;
-
         return { mouse_pos.x, mouse_pos.y };
     }
 
@@ -145,7 +147,7 @@ public:
         ImGui::SliderFloat("scale y", &scale.y, -10.0f, 10.0f, "%.4f", 1.0f);
         ImGui::SliderFloat("scale z", &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
 
-        // ImGui::Checkbox("Auto-rotate", &is_auto_rotate_);
+        ImGui::Checkbox("Auto-rotate", &selected_object_->is_auto_rotate_);
 
         selected_object_->set_position(pos);
         selected_object_->set_scale(scale);
@@ -157,5 +159,5 @@ private:
     btVector3 bt_pos{ 0.f, 0.f, 0.f };
     btVector3 bt_dir{ 0.f, 0.f, 0.f };
 
-    game_object* selected_object_ = nullptr;
+    space_ship* selected_object_ = nullptr;
 };

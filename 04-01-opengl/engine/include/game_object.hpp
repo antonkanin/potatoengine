@@ -37,7 +37,7 @@ public:
     game_object* set_scale(const ptm::vec3& scale);
     ptm::vec3    get_scale() const;
 
-    void set_rotation(const ptm::vec3& rotation_vector, float angle);
+    game_object* set_rotation(const ptm::vec3& rotation_vector, float angle);
 
     const model& get_model() const;
     void         set_model(const model& model);
