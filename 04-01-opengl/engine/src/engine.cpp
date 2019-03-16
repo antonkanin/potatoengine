@@ -47,6 +47,8 @@ public:
 
     std::vector<std::unique_ptr<game_object>> objects_;
 
+    std::map<btRigidBody*, game_object*> body_objects_;
+
     std::unique_ptr<input_manager>     input_manager_;
     std::unique_ptr<input_component>   input;
     std::unique_ptr<video_component>   video;
@@ -222,6 +224,21 @@ void engine::draw_line(const ptm::vec3& from, const ptm::vec3& to,
 void engine::draw_line(const ptm::vec3& from, const ptm::vec3& to)
 {
     draw_line(from, to, { 1.f, 0.f, 0.f });
+}
+
+game_object* engine::find_game_object(btRigidBody* rigid_body)
+{
+    if (impl->body_objects_.count(rigid_body) > 0)
+    {
+        return impl->body_objects_[rigid_body];
+    }
+
+    return nullptr;
+}
+
+void engine::add_body(game_object* game_object, btRigidBody* rigid_body)
+{
+    impl->body_objects_[rigid_body] = game_object;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

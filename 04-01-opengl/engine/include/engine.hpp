@@ -61,6 +61,11 @@ public:
     void draw_line(const ptm::vec3& from, const ptm::vec3& to);
     void draw_line(const ptm::vec3& from, const ptm::vec3& to,
                    const ptm::vec3& color);
+
+    void add_body(game_object* game_object, btRigidBody* rigid_body);
+    game_object* find_game_object(btRigidBody* rigid_body);
+
+
 private:
     std::unique_ptr<class engine_pimpl> impl;
 };
