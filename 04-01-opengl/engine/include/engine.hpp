@@ -26,17 +26,10 @@ public:
     game_object* add_object(std::unique_ptr<game_object> object);
 
     template <typename T>
-    game_object* add_object()
-    {
-        return add_object(std::make_unique<T>("New object"));
-    }
-
-    template <typename T>
     game_object* add_object(const std::string& name)
     {
         return add_object(std::make_unique<T>(name));
     }
-
 
     input_manager& get_input_manager();
 
@@ -69,9 +62,11 @@ public:
     void draw_line(const ptm::vec3& from, const ptm::vec3& to,
                    const ptm::vec3& color);
 
-    void add_body(game_object* game_object, btRigidBody* rigid_body);
+    void         add_body(game_object* game_object, btRigidBody* rigid_body);
     game_object* find_game_object(btRigidBody* rigid_body);
 
+    void enable_physics(bool state);
+    bool is_physics_enabled();
 
 private:
     std::unique_ptr<class engine_pimpl> impl;

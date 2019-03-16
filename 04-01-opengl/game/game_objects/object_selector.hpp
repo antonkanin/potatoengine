@@ -34,8 +34,6 @@ public:
             get_engine().get_dynamics_world()->rayTest(bt_pos, bt_dir * 100,
                                                        rayCallBack);
 
-            pt::log_line("Click!");
-
             if (rayCallBack.hasHit())
             {
                 auto body = (btRigidBody*)btRigidBody::upcast(
@@ -47,19 +45,10 @@ public:
                     if (game_obj != nullptr)
                     {
                         pt::log_line("Found " + game_obj->get_name());
+                        selected_object_ = game_obj;
                     }
                 }
-
-                pt::log_line("Hit!");
             }
-
-            is_draw_line = true;
-        }
-
-        if (is_draw_line)
-        {
-            get_engine().draw_line(btvec2ptm(bt_pos),
-                                   btvec2ptm(bt_pos + bt_dir * 20));
         }
     }
 
@@ -127,9 +116,46 @@ public:
         return { source.x(), source.y(), source.z() };
     }
 
+    void on_gui()
+    {
+        if (selected_object_ == nullptr)
+        {
+            return;
+        }
+
+        ImGui::SetNextWindowPos(ImVec2(140, 0), ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize(ImVec2(260, 150), ImGuiCond_Appearing);
+
+        if (!ImGui::Begin("Object properties", nullptr,
+                          0 /*ImGuiWindowFlags_NoTitleBar*/))
+        {
+            ImGui::End();
+            return;
+        }
+
+        auto pos   = selected_object_->get_position();
+        auto scale = selected_object_->get_scale();
+
+        ImGui::LabelText("Name", selected_object_->get_name().c_str());
+        ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
+        ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);
+        ImGui::SliderFloat("z", &pos.z, -10.0f, 10.0f, "%.4f", 2.0f);
+
+        ImGui::SliderFloat("scale x", &scale.x, -10.0f, 10.0f, "%.4f", 1.0f);
+        ImGui::SliderFloat("scale y", &scale.y, -10.0f, 10.0f, "%.4f", 1.0f);
+        ImGui::SliderFloat("scale z", &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
+
+        // ImGui::Checkbox("Auto-rotate", &is_auto_rotate_);
+
+        selected_object_->set_position(pos);
+        selected_object_->set_scale(scale);
+
+        ImGui::End();
+    }
+
 private:
     btVector3 bt_pos{ 0.f, 0.f, 0.f };
     btVector3 bt_dir{ 0.f, 0.f, 0.f };
 
-    bool is_draw_line = false;
+    game_object* selected_object_ = nullptr;
 };

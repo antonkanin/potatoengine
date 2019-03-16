@@ -22,10 +22,10 @@ public:
         : engine_(e)
         , input_manager_(std::make_unique<input_manager>())
         , audio(std::make_unique<audio_component>())
-        , gui(std::make_unique<gui_component>())
         , input(std::make_unique<input_component>())
         , video(std::make_unique<video_component>())
         , physics(std::make_unique<physics_component>())
+        , gui(std::make_unique<gui_component>())
     {
     }
 
@@ -50,13 +50,15 @@ public:
     std::map<btRigidBody*, game_object*> body_objects_;
 
     std::unique_ptr<input_manager>     input_manager_;
+    std::unique_ptr<audio_component>   audio;
     std::unique_ptr<input_component>   input;
     std::unique_ptr<video_component>   video;
-    std::unique_ptr<gui_component>     gui;
     std::unique_ptr<physics_component> physics;
-    std::unique_ptr<audio_component>   audio;
+    std::unique_ptr<gui_component>     gui;
 
     debug_drawer* debug_drawer_;
+
+    bool physics_enabled_ = true;
 
     void start_objects();
 
@@ -106,7 +108,10 @@ bool engine::run()
 
         impl->delta_time_ = impl->time_ - old_time;
 
-        impl->physics->update_physics(impl->delta_time_);
+        if (impl->physics_enabled_)
+        {
+            impl->physics->update_physics(impl->delta_time_);
+        }
 
         impl->update_objects();
 
@@ -243,6 +248,16 @@ void engine::add_body(game_object* game_object, btRigidBody* rigid_body)
     impl->body_objects_[rigid_body] = game_object;
 }
 
+void engine::enable_physics(bool state)
+{
+    impl->physics_enabled_ = state;
+}
+
+bool engine::is_physics_enabled()
+{
+    return impl->physics_enabled_;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 
@@ -250,7 +265,7 @@ void engine_pimpl::update_objects()
 {
     for (auto& object : objects_)
     {
-        if (object->body_ != nullptr)
+        if (object->body_ != nullptr && physics_enabled_)
         {
             btTransform transform;
             object->body_->getMotionState()->getWorldTransform(transform);

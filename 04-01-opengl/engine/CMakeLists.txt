@@ -30,6 +30,8 @@ add_library(${PROJECT_NAME} STATIC
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Werror")
+
 target_link_libraries(${PROJECT_NAME}
         SDL2
         SDL2_mixer
