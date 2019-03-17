@@ -1,3 +1,5 @@
+- resize OpenGL viewport when resizing the window
+
 - add memory clean up to video, physics, audio
 
 - add different geometry types: cube, sphere, line
