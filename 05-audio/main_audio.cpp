@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <chrono>
-#include <ctime>
 #include <iostream>
 
 #define MUS_PATH "Alesis-Fusion-Nylon-String-Guitar-C4.wav"

@@ -56,8 +56,8 @@ protected:
     engine& get_engine();
 
 private:
-    friend class engine;
-    friend class engine_pimpl;
+    friend engine;
+    friend engine_pimpl;
 
     engine* engine_ = nullptr;
 

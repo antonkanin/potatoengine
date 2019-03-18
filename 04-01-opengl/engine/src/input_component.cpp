@@ -4,7 +4,6 @@
 #include "input_manager.hpp"
 #include "log_utils.hpp"
 #include <SDL2/SDL.h>
-#include <functional>
 
 namespace pt
 {

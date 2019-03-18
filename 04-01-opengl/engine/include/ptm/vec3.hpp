@@ -7,9 +7,9 @@ namespace ptm
 
 struct vec3
 {
-    float x;
-    float y;
-    float z;
+    float x = 0.f;
+    float y = 0.f;
+    float z = 0.f;
 
     vec3(float x, float y, float z)
         : x(x)

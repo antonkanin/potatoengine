@@ -1,8 +1,6 @@
 #include <game_object.hpp>
 
-#include "engine.hpp"
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
-#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 #include <LinearMath/btDefaultMotionState.h>
 
 namespace pt
@@ -15,13 +13,13 @@ engine& game_object::get_engine()
 
 game_object* game_object::set_position(const ptm::vec3& position)
 {
-/*
-    if (get_engine().is_physics_enabled())
-    {
-        return this;
-    }
+    /*
+        if (get_engine().is_physics_enabled())
+        {
+            return this;
+        }
 
-*/
+    */
     transformation_.position = position;
 
     if (body_ != nullptr)
@@ -55,14 +53,15 @@ void game_object::set_transform(const transformation& transform)
     transformation_ = transform;
 }
 
-game_object* game_object::set_rotation(const ptm::vec3& rotation_vector, float angle)
+game_object* game_object::set_rotation(const ptm::vec3& rotation_vector,
+                                       float            angle)
 {
-/*
-    if (get_engine().is_physics_enabled())
-    {
-        return this;
-    }
-*/
+    /*
+        if (get_engine().is_physics_enabled())
+        {
+            return this;
+        }
+    */
 
     transformation_.rotation_vector = rotation_vector;
     transformation_.rotation_angle  = angle;
@@ -127,8 +126,7 @@ game_object* game_object::add_body(bool is_dynamic)
         // shape->calculateLocalInertia(mass, localInertia);
     }
 
-    btDefaultMotionState* myMotionState =
-        new btDefaultMotionState(bt_transform);
+    auto myMotionState = new btDefaultMotionState(bt_transform);
 
     btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape,
                                                     localInertia);

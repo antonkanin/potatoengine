@@ -13,8 +13,6 @@ public:
     btBroadphaseInterface*               overlappingPairCache;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld*             dynamicsWorld;
-
-    debug_drawer* debug_drawer_;
 };
 
 physics_component::physics_component()

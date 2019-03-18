@@ -3,18 +3,12 @@
 #include "model.hpp"
 #include "movable_object.hpp"
 #include "ptm/math.hpp"
-#include "ptm/matrix.hpp"
 #include "renderer/opengl_utils.hpp"
-#include "renderer/program.hpp"
 #include "transformation.hpp"
-#include <SDL2/SDL.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/mat4x4.hpp>
 #include <iostream>
-#include <log_utils.hpp>
 
-#include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_sdl.h"
 
 #include <ptm/glm_to_ptm.hpp>
@@ -270,7 +264,7 @@ void video_component::render_light(const model&          model,
     model.draw(*(pimpl_->light_program_.get()));
 }
 
-void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
+void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
                                   const ptm::vec3&             color,
                                   const struct movable_object& camera)
 {

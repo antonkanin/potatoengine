@@ -26,10 +26,25 @@ public:
         , video(std::make_unique<video_component>())
         , physics(std::make_unique<physics_component>())
         , gui(std::make_unique<gui_component>())
+        , debug_drawer_(
+              std::make_unique<debug_drawer>(video.get(), &camera_position_))
     {
     }
 
     engine* engine_;
+
+    movable_object camera_position_;
+
+    movable_object light_position_;
+
+    std::unique_ptr<input_manager>     input_manager_;
+    std::unique_ptr<audio_component>   audio;
+    std::unique_ptr<input_component>   input;
+    std::unique_ptr<video_component>   video;
+    std::unique_ptr<physics_component> physics;
+    std::unique_ptr<gui_component>     gui;
+
+    std::unique_ptr<debug_drawer> debug_drawer_;
 
     model light_model_; // TODO engine implementation needs to see this so it
     // can pass it to the renderer
@@ -41,22 +56,9 @@ public:
     float time_       = 0.f;
     float delta_time_ = 0.f;
 
-    movable_object camera_position_;
-
-    movable_object light_position_;
-
     std::vector<std::unique_ptr<game_object>> objects_;
 
     std::map<btRigidBody*, game_object*> body_objects_;
-
-    std::unique_ptr<input_manager>     input_manager_;
-    std::unique_ptr<audio_component>   audio;
-    std::unique_ptr<input_component>   input;
-    std::unique_ptr<video_component>   video;
-    std::unique_ptr<physics_component> physics;
-    std::unique_ptr<gui_component>     gui;
-
-    debug_drawer* debug_drawer_;
 
     bool physics_enabled_ = true;
 
@@ -94,17 +96,16 @@ bool engine::run()
 
     impl->start_objects();
 
-    impl->time_    = 0.f;
-    float old_time = 0.f;
+    impl->time_ = 0.f;
 
     while (impl->game_running_)
     {
-        impl->input->poll_events(*impl->input_manager_.get(),
+        impl->input->poll_events(*(impl->input_manager_.get()),
                                  gui_component::gui_call_back,
                                  impl->game_running_);
 
-        old_time    = impl->time_;
-        impl->time_ = impl->video->get_ticks() / 1000;
+        float old_time = impl->time_;
+        impl->time_    = impl->video->get_ticks() / 1000;
 
         impl->delta_time_ = impl->time_ - old_time;
 
@@ -163,10 +164,10 @@ bool engine::init_engine()
 
     impl->physics->init();
 
-    impl->debug_drawer_ = new debug_drawer(impl->video.get(), &get_camera());
     impl->debug_drawer_->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
 
-    impl->physics->get_dynamics_world()->setDebugDrawer(impl->debug_drawer_);
+    impl->physics->get_dynamics_world()->setDebugDrawer(
+        impl->debug_drawer_.get());
 
     impl->audio->init();
 

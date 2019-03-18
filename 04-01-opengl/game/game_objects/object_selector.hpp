@@ -63,9 +63,9 @@ public:
         auto view_matrix = ptm::look_at(
             camera.get_position(), camera.get_direction(), camera.get_up());
 
-        auto tranform_matrix = ptm::get_projection_matrix() * view_matrix;
+        auto transform_matrix = ptm::get_projection_matrix() * view_matrix;
 
-        return glm::inverse(tranform_matrix);
+        return glm::inverse(transform_matrix);
     }
 
     std::tuple<glm::vec4, glm::vec4> get_world_ray()
@@ -113,12 +113,7 @@ public:
         return { mouse_pos.x, mouse_pos.y };
     }
 
-    ptm::vec3 btvec2ptm(const btVector3& source)
-    {
-        return { source.x(), source.y(), source.z() };
-    }
-
-    void on_gui()
+    void on_gui() override
     {
         if (selected_object_ == nullptr)
         {

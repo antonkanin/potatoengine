@@ -5,7 +5,6 @@
 #include <key_code.hpp>
 #include <log_utils.hpp>
 #include <ptm/vec3.hpp>
-#include <read_obj.hpp>
 #include <vertex.hpp>
 
 class space_ship final : public pt::game_object

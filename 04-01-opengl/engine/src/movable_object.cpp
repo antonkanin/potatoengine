@@ -1,7 +1,5 @@
-
 #include <movable_object.hpp>
 
-#include "movable_object.hpp"
 #include "ptm/math.hpp"
 
 namespace pt

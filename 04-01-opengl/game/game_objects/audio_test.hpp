@@ -1,6 +1,6 @@
 #include <game_object.hpp>
 
-class audio_test : public pt::game_object
+class audio_test final : public pt::game_object
 {
     using pt::game_object::game_object;
 
@@ -9,7 +9,7 @@ class audio_test : public pt::game_object
         get_engine().load_sound(sound_name, "res/audio/door1.wav");
     }
 
-    void update()
+    void update() override
     {
         if (get_engine().get_input_manager().get_key_down(
                 pt::key_code::button_a))

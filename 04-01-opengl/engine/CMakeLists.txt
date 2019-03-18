@@ -22,6 +22,7 @@ add_library(${PROJECT_NAME} STATIC
         src/renderer/program.cpp
         src/renderer/shader.cpp
         src/renderer/opengl_utils.cpp
+        src/renderer/debug_drawer.cpp
 
         src/imgui/imgui_impl_sdl.cpp
         src/imgui/imgui_impl_opengl3.cpp
