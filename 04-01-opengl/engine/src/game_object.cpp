@@ -82,7 +82,9 @@ game_object* game_object::set_rotation(const ptm::vec3& rotation_vector,
     {
         log_line(get_engine().time(),
                  "set_rotation angle (bul): " +
-                     std::to_string(-1.f * body_->getWorldTransform().getRotation().getAngle()));
+                     std::to_string(
+                         -1.f *
+                         body_->getWorldTransform().getRotation().getAngle()));
     }
 
     return this;
@@ -108,6 +110,12 @@ game_object* game_object::set_scale(const ptm::vec3& scale)
 {
     transformation_.scale = scale;
 
+    if (body_ != nullptr)
+    {
+        body_->getCollisionShape()->setLocalScaling(
+            { scale.x, scale.y, scale.z });
+    }
+
     return this;
 }
 
@@ -118,8 +126,9 @@ ptm::vec3 game_object::get_scale() const
 
 game_object* game_object::add_body(bool is_dynamic)
 {
-    btCollisionShape* shape =
-        new btBoxShape({ get_scale().x, get_scale().y, get_scale().z });
+    btCollisionShape* shape = new btBoxShape({ 1.f, 1.f, 1.f });
+
+    shape->setLocalScaling({ get_scale().x, get_scale().y, get_scale().z });
 
     btTransform bt_transform;
     bt_transform.setIdentity();

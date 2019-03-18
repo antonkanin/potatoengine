@@ -25,7 +25,7 @@ public:
 
         process_rotation();
 
-        wave_movement();
+        //wave_movement();
     }
 
     void wave_movement()
