@@ -47,7 +47,7 @@ bool input_component::init()
 void input_component::poll_events(
     class input_manager&                        input_manager,
     std::function<void(const SDL_Event& event)> gui_callback,
-    bool& is_game_running)
+    bool&                                       is_game_running)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -88,6 +88,21 @@ void input_component::poll_events(
             }
         }
     }
+
+    // process keyboard state
+    const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+
+    input_manager.key_code_state(key_code::left, key_state::pressed) =
+        keystates[SDL_SCANCODE_K];
+
+    input_manager.key_code_state(key_code::right, key_state::pressed) =
+        keystates[SDL_SCANCODE_SEMICOLON];
+
+    input_manager.key_code_state(key_code::up, key_state::pressed) =
+        keystates[SDL_SCANCODE_O];
+
+    input_manager.key_code_state(key_code::down, key_state::pressed) =
+        keystates[SDL_SCANCODE_L];
 }
 
 input_component::~input_component() = default;
