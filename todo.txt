@@ -6,8 +6,6 @@
 
 - [bug] LEFT SHIFT does continue movement when you hold it
 
-- remove 0.5 sec delay when pressing keys on the keyboard
-
 - add the support for two view ports (player view (First Person) and free camera)
 
 - [low] implement my own projection & lookat matrices
@@ -17,6 +15,7 @@
 - [low] load texture in the TGA format
 
 Done
+- remove 0.5 sec delay when pressing keys on the keyboard
 - separate IMGUI integration into input handling and rendering
 - refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
   input_strategy, audio_strategy, etc)

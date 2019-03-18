@@ -99,7 +99,7 @@ glm::mat4 get_model_view_matrix(const transformation& transformation,
 
     glm::mat4 view_m = get_view_matrix(camera);
 
-    return view_m * translate_m * scale_m * rotate_m;
+    return view_m * translate_m * rotate_m * scale_m;
 }
 
 // TODO use exceptions here instead of returning nullptr
