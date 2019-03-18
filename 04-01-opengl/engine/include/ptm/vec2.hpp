@@ -10,7 +10,7 @@ struct vec2
     float x;
     float y;
 
-    vec2(float x, float y)
+    constexpr vec2(float x, float y)
         : x(x)
         , y(y)
     {

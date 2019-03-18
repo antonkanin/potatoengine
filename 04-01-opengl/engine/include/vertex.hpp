@@ -16,7 +16,7 @@ struct vertex
     vertex()
         : position(0.f, 0.f, 0.f)
         , tex_coords(0.f, 0.f)
-        , color(ptm::red)
+        , color(ptm::vec3::red())
         , normal(0.f, 0.f, 0.f)
     {
     }

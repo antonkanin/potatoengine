@@ -35,7 +35,7 @@ public:
 
 private:
     vec3 direction_ = { 0.f, 0.f, -1.f };
-    vec3 up_        = up_vector;
+    vec3 up_        = vec3::up();
     vec3 position_  = { 0.f, 0.f, 0.f };
 };
 

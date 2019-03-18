@@ -64,8 +64,8 @@ private:
     bool  has_model_ = false;
     model model_;
 
-    transformation transformation_ = { .position        = ptm::zero_vector,
-                                       .rotation_vector = ptm::up_vector,
+    transformation transformation_ = { .position        = ptm::vec3::zero(),
+                                       .rotation_vector = ptm::vec3::up(),
                                        .rotation_angle  = 0.0f,
                                        .scale           = { 1.f, 1.f, 1.f } };
 

@@ -31,7 +31,7 @@ public:
         if (is_auto_rotate_)
         {
             using namespace pt;
-            set_rotation(up_vector, get_transformation().rotation_angle -
+            set_rotation(vec3::up(), get_transformation().rotation_angle -
                                         get_engine().delta_time() * 0.3f);
         }
     }
@@ -45,22 +45,22 @@ public:
 
         if (input.get_key_down(key_code::button_a))
         {
-            set_rotation(up_vector, trans.rotation_angle - 0.3f);
+            set_rotation(vec3::up(), trans.rotation_angle - 0.3f);
         }
 
         if (input.get_key_down(key_code::button_b))
         {
-            set_rotation(up_vector, trans.rotation_angle + 0.3f);
+            set_rotation(vec3::up(), trans.rotation_angle + 0.3f);
         }
 
         if (input.get_key_down(key_code::start))
         {
-            set_rotation(left_vector, trans.rotation_angle - 0.3f);
+            set_rotation(vec3::left(), trans.rotation_angle - 0.3f);
         }
 
         if (input.get_key_down(key_code::select))
         {
-            set_rotation(left_vector, trans.rotation_angle + 0.3f);
+            set_rotation(vec3::left(), trans.rotation_angle + 0.3f);
         }
     }
 

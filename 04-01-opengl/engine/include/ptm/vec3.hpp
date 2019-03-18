@@ -11,7 +11,7 @@ struct vec3
     float y = 0.f;
     float z = 0.f;
 
-    vec3(float x, float y, float z)
+    constexpr vec3(float x, float y, float z)
         : x(x)
         , y(y)
         , z(z)
@@ -35,17 +35,14 @@ struct vec3
 
         return *this;
     }
+
+    static constexpr vec3 zero() { return { 0.0f, 0.0f, 0.0f }; }
+    static constexpr vec3 left() { return { 1.0f, 0.0f, 0.0f }; }
+    static constexpr vec3 up() { return { 0.0f, 1.0f, 0.0f }; }
+
+    static constexpr vec3 white() { return { 1.f, 1.f, 1.f }; }
+    static constexpr vec3 red() { return { 1.f, 0.f, 0.f }; }
 };
-
-const vec3 zero_vector    = { 0.0f, 0.0f, 0.0f };
-const vec3 up_vector      = { 0.0f, 1.0f, 0.0f };
-const vec3 forward_vector = { 1.0f, 0.0f, 0.0f };
-const vec3 left_vector    = { 1.0f, 0.0f, 0.0f };
-
-const vec3 white = { 1.f, 1.f, 1.f };
-const vec3 red   = { 1.f, 0.f, 0.f };
-const vec3 green = { 0.f, 1.f, 0.f };
-const vec3 blue  = { 0.f, 0.f, 1.f };
 
 inline vec3 operator+(const vec3& lhs, const vec3& rhs)
 {
