@@ -2,6 +2,7 @@
 
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
 #include <LinearMath/btDefaultMotionState.h>
+#include <log_utils.hpp>
 
 namespace pt
 {
@@ -13,21 +14,20 @@ engine& game_object::get_engine()
 
 game_object* game_object::set_position(const ptm::vec3& position)
 {
-    /*
-        if (get_engine().is_physics_enabled())
+    if (body_ != nullptr)
+    {
+        if (get_engine().is_game_running() && get_engine().is_physics_enabled())
         {
             return this;
         }
-
-    */
-    transformation_.position = position;
-
-    if (body_ != nullptr)
-    {
-
-        body_->getWorldTransform().setOrigin(
-            { position.x, position.y, position.z });
+        else
+        {
+            body_->getWorldTransform().setOrigin(
+                { position.x, position.y, position.z });
+        }
     }
+
+    set_position_forced(position);
 
     return this;
 }
@@ -56,23 +56,33 @@ void game_object::set_transform(const transformation& transform)
 game_object* game_object::set_rotation(const ptm::vec3& rotation_vector,
                                        float            angle)
 {
-    /*
-        if (get_engine().is_physics_enabled())
-        {
-            return this;
-        }
-    */
-
-    transformation_.rotation_vector = rotation_vector;
-    transformation_.rotation_angle  = angle;
-
     if (body_ != nullptr)
     {
-        btQuaternion rot{
-            { rotation_vector.x, rotation_vector.y, rotation_vector.z }, -angle
-        };
+        if (get_engine().is_game_running() && get_engine().is_physics_enabled())
+        {
+            log_line(get_engine().time(), "skip set_rotation");
+            return this;
+        }
+        else
+        {
+            btQuaternion rot{ { rotation_vector.x, rotation_vector.y,
+                                rotation_vector.z },
+                              -angle };
 
-        body_->getWorldTransform().setRotation(rot);
+            body_->getWorldTransform().setRotation(rot);
+        }
+    }
+
+    set_rotation_forced(rotation_vector, angle);
+
+    log_line(get_engine().time(),
+             "set_rotation angle (obj): " +
+                 std::to_string(get_transformation().rotation_angle));
+    if (body_ != nullptr)
+    {
+        log_line(get_engine().time(),
+                 "set_rotation angle (bul): " +
+                     std::to_string(-1.f * body_->getWorldTransform().getRotation().getAngle()));
     }
 
     return this;
@@ -151,6 +161,18 @@ std::string game_object::get_name() const
 game_object::game_object(const std::string& name)
     : name_(name)
 {
+}
+
+void game_object::set_position_forced(const ptm::vec3& position)
+{
+    transformation_.position = position;
+}
+
+void game_object::set_rotation_forced(const ptm::vec3& rotation_vector,
+                                      float            angle)
+{
+    transformation_.rotation_vector = rotation_vector;
+    transformation_.rotation_angle  = angle;
 }
 
 } // namespace pt

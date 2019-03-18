@@ -70,8 +70,6 @@ bool audio_component::play_sound(const std::string& sound_name) const
 
     Mix_PlayChannel(-1, wave, 0);
 
-    log_line("playing sound");
-
     return true;
 }
 

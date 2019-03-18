@@ -40,8 +40,6 @@ bool physics_component::init()
 
     pimpl_->dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-    // bullet_engine.debug_drawer_ = new debug_drawer(renderer_);;
-
     return false;
 }
 

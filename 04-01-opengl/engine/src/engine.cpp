@@ -60,7 +60,9 @@ public:
 
     std::map<btRigidBody*, game_object*> body_objects_;
 
-    bool physics_enabled_ = true;
+    bool physics_enabled_      = true;
+    bool update_physics_state_ = false;
+    bool new_physics_state_    = physics_enabled_;
 
     void start_objects();
 
@@ -100,10 +102,9 @@ bool engine::run()
 
     while (impl->game_running_)
     {
-        impl->input->poll_events(*(impl->input_manager_.get()),
-                                 gui_component::gui_call_back,
-                                 video_component::on_window_resize,
-                                 impl->game_running_);
+        impl->input->poll_events(
+            *(impl->input_manager_.get()), gui_component::gui_call_back,
+            video_component::on_window_resize, impl->game_running_);
 
         float old_time = impl->time_;
         impl->time_    = impl->video->get_ticks() / 1000;
@@ -117,11 +118,12 @@ bool engine::run()
 
         impl->update_objects();
 
+        impl->physics->get_dynamics_world()->debugDrawWorld();
+
         impl->render_objects();
 
         impl->render_lights();
 
-        impl->physics->get_dynamics_world()->debugDrawWorld();
 
         impl->gui->prepare_gui_frame();
 
@@ -129,9 +131,22 @@ bool engine::run()
 
         impl->gui->render_gui_frame();
 
+        // DEBUG
+        if (impl->update_physics_state_)
+        {
+            log_line(time(), "------------- StopLine -----------------");
+        }
+
         impl->video->swap_buffers();
 
         get_input_manager().reset_states();
+
+        // TODO test if we really need an updated physics...
+        if (impl->update_physics_state_)
+        {
+            impl->update_physics_state_ = false;
+            impl->physics_enabled_      = impl->new_physics_state_;
+        }
     }
 
     return true;
@@ -252,12 +267,25 @@ void engine::add_body(game_object* game_object, btRigidBody* rigid_body)
 
 void engine::enable_physics(bool state)
 {
-    impl->physics_enabled_ = state;
+    if (impl->physics_enabled_ != state)
+    {
+        impl->update_physics_state_ = true;
+        impl->new_physics_state_    = state;
+    }
+    else
+    {
+        impl->update_physics_state_ = false;
+    }
 }
 
-bool engine::is_physics_enabled()
+bool engine::is_physics_enabled() const
 {
     return impl->physics_enabled_;
+}
+
+bool engine::is_game_running() const
+{
+    return impl->game_running_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -269,19 +297,37 @@ void engine_pimpl::update_objects()
     {
         if (object->body_ != nullptr && physics_enabled_)
         {
-            btTransform transform;
-            object->body_->getMotionState()->getWorldTransform(transform);
+            auto transform = object->body_->getWorldTransform();
 
-            object->set_position({ transform.getOrigin().x(),
-                                   transform.getOrigin().y(),
-                                   transform.getOrigin().z() });
+            object->set_position_forced({ transform.getOrigin().x(),
+                                          transform.getOrigin().y(),
+                                          transform.getOrigin().z() });
 
             auto rot = transform.getRotation();
 
-            object->set_rotation(
+            object->set_rotation_forced(
                 { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
                 rot.getAngle());
+
+            log_line(time_,
+                     "Physics update: " +
+                         std::to_string(
+                             object->get_transformation().rotation_angle));
         }
+
+
+        // DEBUG
+        if (object->body_ != nullptr)
+        {
+            auto rotation = object->body_->getWorldTransform().getRotation();
+            log_line(time_, "physics body rot: " + std::to_string(rotation.getAngle()));
+
+
+            btTransform t;
+            object->body_->getMotionState()->getWorldTransform(t);
+            log_line(time_, "physics MT rot: " + std::to_string(t.getRotation().getAngle()));
+        }
+
         object->update();
     }
 }
@@ -295,6 +341,11 @@ void engine_pimpl::render_objects()
             video->render_object(
                 object->get_model(), object->get_transformation(),
                 engine_->get_camera(), engine_->get_light().get_position());
+
+            log_line(time_,
+                     "Render: " +
+                         std::to_string(
+                             object->get_transformation().rotation_angle));
         }
     }
 }

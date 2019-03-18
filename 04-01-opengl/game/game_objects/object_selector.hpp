@@ -46,10 +46,6 @@ public:
                     if (game_obj != nullptr)
                     {
                         selected_object_ = dynamic_cast<space_ship*>(game_obj);
-                        if (selected_object_ != nullptr)
-                        {
-                            pt::log_line("Found " + game_obj->get_name());
-                        }
                     }
                 }
             }

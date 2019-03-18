@@ -56,6 +56,9 @@ protected:
     engine& get_engine();
 
 private:
+    void set_position_forced(const ptm::vec3& position);
+    void set_rotation_forced(const ptm::vec3& rotation_vector, float angle);
+
     friend engine;
     friend engine_pimpl;
 

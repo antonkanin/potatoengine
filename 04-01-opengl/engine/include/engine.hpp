@@ -66,7 +66,9 @@ public:
     game_object* find_game_object(btRigidBody* rigid_body);
 
     void enable_physics(bool state);
-    bool is_physics_enabled();
+    bool is_physics_enabled() const;
+
+    bool is_game_running() const;
 
 private:
     std::unique_ptr<class engine_pimpl> impl;

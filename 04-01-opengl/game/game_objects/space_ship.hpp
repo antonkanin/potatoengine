@@ -24,6 +24,19 @@ public:
         process_movement();
 
         process_rotation();
+
+        wave_movement();
+    }
+
+    void wave_movement()
+    {
+        auto t = get_engine().time();
+
+        auto shift = cos(t) * 0.1f;
+
+        auto pos = get_position();
+        pos.y += shift;
+        set_position(pos);
     }
 
     void process_rotation()
