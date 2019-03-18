@@ -1,3 +1,5 @@
+- sync scaling between game_object and physics
+
 - resize viewport when windows screen is updated
 
 - add memory clean up to video, physics, audio
