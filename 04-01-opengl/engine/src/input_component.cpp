@@ -45,9 +45,10 @@ bool input_component::init()
 }
 
 void input_component::poll_events(
-    class input_manager&                        input_manager,
-    std::function<void(const SDL_Event& event)> gui_callback,
-    bool&                                       is_game_running)
+    class input_manager&                                input_manager,
+    std::function<void(const SDL_Event& event)>         gui_callback,
+    std::function<void(const Sint32 x, const Sint32 y)> screen_resize_callback,
+    bool&                                               is_game_running)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -79,6 +80,16 @@ void input_component::poll_events(
             case SDL_MOUSEBUTTONUP:
             {
                 pimpl_->process_mouse_button_event(event.button, input_manager);
+                break;
+            }
+
+            case SDL_WINDOWEVENT:
+            {
+                if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                {
+                    screen_resize_callback(event.window.data1, event.window.data2);
+                }
+
                 break;
             }
 

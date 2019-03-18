@@ -3,6 +3,7 @@
 #include <memory>
 #include <ptm/vec2.hpp>
 #include <ptm/vec3.hpp>
+#include <SDL2/SDL_stdinc.h>
 
 class SDL_Window;
 
@@ -42,6 +43,8 @@ public:
     ptm::vec2i get_window_size() const;
 
     SDL_Window* get_window();
+
+    static void on_window_resize(Sint32 w, Sint32 h);
 
 private:
     std::unique_ptr<class video_component_pimpl> pimpl_;

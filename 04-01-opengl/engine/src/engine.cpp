@@ -102,6 +102,7 @@ bool engine::run()
     {
         impl->input->poll_events(*(impl->input_manager_.get()),
                                  gui_component::gui_call_back,
+                                 video_component::on_window_resize,
                                  impl->game_running_);
 
         float old_time = impl->time_;

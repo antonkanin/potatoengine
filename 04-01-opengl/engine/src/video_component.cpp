@@ -346,6 +346,11 @@ vec2i video_component::get_window_size() const
     return { w, h };
 }
 
+void video_component::on_window_resize(Sint32 w, Sint32 h)
+{
+    glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
+}
+
 video_component::~video_component() = default;
 
 } // namespace pt

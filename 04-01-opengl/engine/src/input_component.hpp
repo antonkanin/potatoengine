@@ -18,6 +18,8 @@ public:
 
     void poll_events(class input_manager&                        input_manager,
                      std::function<void(const SDL_Event& event)> gui_callback,
+                     std::function<void(const Sint32 x, const Sint32 y)>
+                           screen_resize_callback,
                      bool& is_game_running);
 
 private:
