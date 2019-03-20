@@ -42,11 +42,7 @@ public:
 
                 if (body != nullptr)
                 {
-                    auto game_obj = get_engine().find_game_object(body);
-                    if (game_obj != nullptr)
-                    {
-                        selected_object_ = dynamic_cast<space_ship*>(game_obj);
-                    }
+                    selected_object_ = get_engine().find_game_object(body);
                 }
             }
         }
@@ -138,7 +134,7 @@ public:
         ImGui::SliderFloat("scale y", &scale.y, -10.0f, 10.0f, "%.4f", 1.0f);
         ImGui::SliderFloat("scale z", &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
 
-        ImGui::Checkbox("Auto-rotate", &selected_object_->is_auto_rotate_);
+        // ImGui::Checkbox("Auto-rotate", &selected_object_->is_auto_rotate_);
 
         selected_object_->set_position(pos);
         selected_object_->set_scale(scale);
@@ -150,5 +146,5 @@ private:
     btVector3 bt_pos{ 0.f, 0.f, 0.f };
     btVector3 bt_dir{ 0.f, 0.f, 0.f };
 
-    space_ship* selected_object_ = nullptr;
+    game_object* selected_object_ = nullptr;
 };

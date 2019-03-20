@@ -2,6 +2,8 @@
 #include <log_utils.hpp>
 #include <imgui_stdlib.h>
 #include <imgui.h>
+#include <file_utils.hpp>
+
 
 class object_creator final : public pt::game_object
 {
@@ -49,9 +51,20 @@ private:
             obj->set_position({x, y, z})->add_body(false);
         }
 
+        ImGui::Spacing();
+        if (ImGui::Button("Save Scene"))
+        {
+            save_scene();
+        }
+
         //ImGui::ShowDemoWindow(nullptr);
 
         ImGui::End();
+    }
+
+    void save_scene()
+    {
+        pt::save_scene(get_engine(), "scenes/test.yaml");
     }
 
     std::string object_name;

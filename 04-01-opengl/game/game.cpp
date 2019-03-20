@@ -1,13 +1,13 @@
 #include "game_objects/audio_test.hpp"
 #include "game_objects/camera_gui_controller.hpp"
 #include "game_objects/camera_keyboard_controller.hpp"
+#include "game_objects/cube.hpp"
 #include "game_objects/light_controller.hpp"
+#include "game_objects/object_creator.hpp"
 #include "game_objects/object_selector.hpp"
 #include "game_objects/show_fps.hpp"
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
-#include "game_objects/object_creator.hpp"
-#include "game_objects/cube.hpp"
 
 #include <file_utils.hpp>
 
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
     pt::load_scene(*engine, "scenes/level01.yaml");
 
-    //pt::save_scene(*engine, "scenes/level02.yaml");
+    pt::save_scene(*engine, "scenes/level02.yaml");
 
 //    engine->add_object<space_ship>("Space ship 1")
 //            ->set_position({ -3.f, 3.f, -5.f })
