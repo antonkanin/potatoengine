@@ -11,12 +11,6 @@
 namespace pt
 {
 
-template <typename T>
-static void make_object(pt::engine& e, const std::string& name)
-{
-    e.add_object<T>(name);
-}
-
 class game_object
 {
 public:
@@ -80,5 +74,11 @@ private:
 
     std::string name_;
 };
+
+template <typename T>
+game_object* make_object(engine& e, std::string_view object_name)
+{
+    return e.add_object<T>(object_name);
+}
 
 } // namespace pt

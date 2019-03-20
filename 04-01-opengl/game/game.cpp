@@ -7,6 +7,8 @@
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
 
+#include <file_utils.hpp>
+
 int main(int argc, char* argv[])
 {
     auto engine = std::make_unique<pt::engine>();
@@ -22,16 +24,21 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
+    REGISTER(engine, space_ship);
+    REGISTER(engine, vehicle);
+
     // clang-format off
 
-    engine->add_object<space_ship>("Space ship 1")
-            ->set_position({ -3.f, 3.f, -5.f })
-            ->add_body(true);
+    pt::load_scene(*engine, "scenes/level01.yaml");
 
-    engine->add_object<space_ship>("Space ship 2")
-            ->set_position({ -3.f, -5.f, -5.f })
-            ->set_scale({2.f, .1f, 2.f})
-            ->add_body(false);
+//    engine->add_object<space_ship>("Space ship 1")
+//            ->set_position({ -3.f, 3.f, -5.f })
+//            ->add_body(true);
+//
+//    engine->add_object<space_ship>("Space ship 2")
+//            ->set_position({ -3.f, -5.f, -5.f })
+//            ->set_scale({2.f, .1f, 2.f})
+//            ->add_body(false);
 //
 //    engine->add_object<space_ship>()
 //            ->set_position({ -3.f, 4.f, 0.f });

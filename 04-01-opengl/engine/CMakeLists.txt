@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME} STATIC
         src/model.cpp
         src/file_utils.cpp
         src/engine_utils.cpp
+        src/log_utils.cpp
 
         src/input_component.cpp
         src/video_component.cpp

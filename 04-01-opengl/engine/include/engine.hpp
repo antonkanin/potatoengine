@@ -18,6 +18,9 @@ class input_manager;
 class engine
 {
 public:
+    using make_object_func =
+        std::function<game_object*(engine&, std::string_view)>;
+
     engine();
 
     ~engine();
@@ -29,9 +32,9 @@ public:
     game_object* add_object(std::unique_ptr<game_object> object);
 
     template <typename T>
-    game_object* add_object(const std::string& name)
+    game_object* add_object(std::string_view name)
     {
-        return add_object(std::make_unique<T>(name));
+        return add_object(std::make_unique<T>(std::string(name)));
     }
 
     input_manager& get_input_manager();
@@ -73,10 +76,10 @@ public:
 
     bool is_game_running() const;
 
-    void register_class(const std::string& class_name,
-                        std::function<void(engine&, const std::string&)>);
+    void register_class(std::string_view class_name, make_object_func);
 
-    void make_object(std::string_view name);
+    game_object* make_object(std::string_view class_name,
+                             std::string_view object_name);
 
 private:
     std::unique_ptr<class engine_pimpl> impl;

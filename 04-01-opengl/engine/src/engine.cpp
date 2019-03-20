@@ -44,7 +44,7 @@ public:
     std::unique_ptr<physics_component> physics;
     std::unique_ptr<gui_component>     gui;
 
-    std::map<std::string, std::function<void(engine&, const std::string&)>>
+    std::map<std::string_view, engine::make_object_func>
         objects_register;
 
     std::unique_ptr<debug_drawer> debug_drawer_;
@@ -91,6 +91,8 @@ game_object* engine::add_object(std::unique_ptr<game_object> object)
 
     game_object* object_ptr = object.get();
     impl->objects_.emplace_back(std::move(object));
+
+    log_line() << "adding object: " << object_ptr->get_name() << std::endl;
 
     return object_ptr;
 }
@@ -284,19 +286,27 @@ bool engine::is_game_running() const
     return impl->game_running_;
 }
 
-void engine::register_class(
-    const std::string&                               class_name,
-    std::function<void(engine&, const std::string&)> make_function)
+void engine::register_class(std::string_view class_name,
+                            make_object_func   make_function)
 {
     impl->objects_register[class_name] = make_function;
+
+    log_line() << "Registering class: " << class_name << std::endl;
 }
 
-void engine::make_object(std::string_view name)
+game_object* engine::make_object(std::string_view class_name, std::string_view object_name)
 {
-//    if (impl->objects_register.count(std::string(name)) > 0)
-//    {
-//
-//    }
+    if (impl->objects_register.count(class_name) <= 0)
+    {
+        log_error(time(), "cannot find type " + std::string(class_name));
+        return nullptr;
+    }
+
+    make_object_func f = impl->objects_register[class_name];
+
+    game_object* obj = f(*this, object_name);
+
+    return obj;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

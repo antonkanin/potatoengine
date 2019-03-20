@@ -6,6 +6,6 @@
 namespace pt
 {
 
-void load_scene(const engine& engine, std::string_view file_path);
+void load_scene(engine& engine, std::string_view file_path);
 
 }
