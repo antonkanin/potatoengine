@@ -26,3 +26,8 @@ std::ostream& pt::log_line()
     // std::cout << current_time() << ": ";
     return std::cout;
 }
+
+void pt::log_error(float time, const std::string& line)
+{
+    std::cerr << time << " " << line << std::endl;
+}

@@ -81,6 +81,8 @@ public:
     game_object* make_object(std::string_view class_name,
                              std::string_view object_name);
 
+    const std::vector<const char*>& object_types() const;
+
 private:
     std::unique_ptr<class engine_pimpl> impl;
 };

@@ -22,7 +22,7 @@ public:
     virtual void start(){};
 
     /** called every frame */
-    virtual void update() = 0;
+    virtual void update(){};
 
     /** add custom GUI */
     virtual void on_gui(){};

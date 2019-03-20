@@ -46,6 +46,8 @@ public:
 
     std::map<std::string_view, engine::make_object_func> objects_register;
 
+    std::vector<const char*> objects_types_;
+
     std::unique_ptr<debug_drawer> debug_drawer_;
 
     model light_model_; // TODO engine implementation needs to see this so it
@@ -91,7 +93,11 @@ game_object* engine::add_object(std::unique_ptr<game_object> object)
     game_object* object_ptr = object.get();
     impl->objects_.emplace_back(std::move(object));
 
-    log_line() << "adding object: " << object_ptr->get_name() << std::endl;
+    if (is_game_running())
+    {
+        object_ptr->start();
+        log_line() << "Calling start()" << std::endl;
+    }
 
     return object_ptr;
 }
@@ -288,9 +294,15 @@ bool engine::is_game_running() const
 void engine::register_class(std::string_view class_name,
                             make_object_func make_function)
 {
-    impl->objects_register[class_name] = make_function;
+    if (impl->objects_register.count(class_name) > 0)
+    {
+        log_error(time(),
+                  "Error: class already registered " + std::string(class_name));
+        return;
+    }
 
-    log_line() << "Registering class: " << class_name << std::endl;
+    impl->objects_register[class_name] = make_function;
+    impl->objects_types_.push_back(class_name.data());
 }
 
 game_object* engine::make_object(std::string_view class_name,
@@ -307,6 +319,11 @@ game_object* engine::make_object(std::string_view class_name,
     game_object* obj = f(*this, object_name);
 
     return obj;
+}
+
+const std::vector<const char*>& engine::object_types() const
+{
+    return impl->objects_types_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -358,9 +375,10 @@ void engine_pimpl::start_objects()
 
 void engine_pimpl::render_objects_gui()
 {
-    for (auto& object : objects_)
+    const auto size = objects_.size();
+    for (size_t index = 0; index < size; ++index)
     {
-        object->on_gui();
+        objects_[index]->on_gui();
     }
 }
 

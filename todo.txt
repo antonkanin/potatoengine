@@ -1,3 +1,5 @@
+- add type_traits check: game_object children must inherit a constructor
+
 - add scene save and load
 
 - add memory clean up to video, physics, audio
