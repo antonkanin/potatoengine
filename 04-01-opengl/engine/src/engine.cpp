@@ -326,6 +326,16 @@ const std::vector<const char*>& engine::object_types() const
     return impl->objects_types_;
 }
 
+    engine::const_object_iterator engine::begin() const
+    {
+        return impl->objects_.cbegin();
+    }
+
+    engine::const_object_iterator engine::end() const
+    {
+        return impl->objects_.cend();
+    }
+
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 

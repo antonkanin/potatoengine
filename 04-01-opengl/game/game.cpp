@@ -7,6 +7,7 @@
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
 #include "game_objects/object_creator.hpp"
+#include "game_objects/cube.hpp"
 
 #include <file_utils.hpp>
 
@@ -27,10 +28,13 @@ int main(int argc, char* argv[])
 
     REGISTER(engine, space_ship);
     REGISTER(engine, vehicle);
+    REGISTER(engine, cube);
 
     // clang-format off
 
-    //pt::load_scene(*engine, "scenes/level01.yaml");
+    pt::load_scene(*engine, "scenes/level01.yaml");
+
+    pt::save_scene(*engine, "scenes/level02.yaml");
 
 //    engine->add_object<space_ship>("Space ship 1")
 //            ->set_position({ -3.f, 3.f, -5.f })
@@ -58,11 +62,11 @@ int main(int argc, char* argv[])
 
 //    engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 
-    //engine->add_object<show_fps>("FPS Display");
+    engine->add_object<show_fps>("FPS Display");
 
     //engine->add_object<audio_test>();
 
-    //engine->add_object<object_selector>("Object Selector");
+    engine->add_object<object_selector>("Object Selector");
     engine->add_object<object_creator>("Object Creator");
 
     // clang-format on

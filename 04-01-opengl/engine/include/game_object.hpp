@@ -27,6 +27,8 @@ public:
     /** add custom GUI */
     virtual void on_gui(){};
 
+    virtual bool is_serializable() const { return false; }
+
     void set_transform(const transformation& transform);
 
     const transformation& get_transformation() const;

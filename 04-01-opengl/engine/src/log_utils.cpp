@@ -3,6 +3,8 @@
 #include <iostream>
 #include <log_utils.hpp>
 
+namespace pt
+{
 auto current_time()
 {
     auto timenow =
@@ -11,23 +13,30 @@ auto current_time()
     return ctime(&timenow);
 }
 
-void pt::log_line(const float time, const std::string& line)
+void log_line(const float time, const std::string& line)
 {
     std::cout << time << " " << line << std::endl;
 }
 
-void pt::log_line(const std::string& line)
+void log_line(const std::string& line)
 {
     std::cout << current_time() << ' ' << line << '\n';
 }
 
-std::ostream& pt::log_line()
+std::ostream& log_line()
 {
     // std::cout << current_time() << ": ";
     return std::cout;
 }
 
-void pt::log_error(float time, const std::string& line)
+void log_error(const std::string& line)
+{
+    std::cerr << line << std::endl;
+}
+
+void log_error(float time, const std::string& line)
 {
     std::cerr << time << " " << line << std::endl;
 }
+
+} // namespace pt

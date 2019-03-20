@@ -3,9 +3,9 @@
 #include <imgui_stdlib.h>
 #include <imgui.h>
 
-class object_creator : public pt::game_object
+class object_creator final : public pt::game_object
 {
-public:
+private:
     using pt::game_object::game_object;
 
     void on_gui() override
@@ -46,8 +46,7 @@ public:
         if (ImGui::Button("Button"))
         {
             auto obj = get_engine().make_object(class_name, object_name);
-            obj->set_position({x, y, z});
-            pt::log_line() << "Clicked" << object_name << std::endl;
+            obj->set_position({x, y, z})->add_body(false);
         }
 
         //ImGui::ShowDemoWindow(nullptr);

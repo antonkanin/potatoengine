@@ -83,6 +83,12 @@ public:
 
     const std::vector<const char*>& object_types() const;
 
+    using game_object_list = std::vector<std::unique_ptr<game_object>>;
+    using const_object_iterator = game_object_list::const_iterator;
+
+    const_object_iterator begin() const;
+    const_object_iterator end() const;
+
 private:
     std::unique_ptr<class engine_pimpl> impl;
 };
