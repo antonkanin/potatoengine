@@ -1,4 +1,5 @@
 #include <game_object.hpp>
+#include <input_manager.hpp>
 
 class audio_test final : public pt::game_object
 {

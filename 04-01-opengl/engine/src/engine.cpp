@@ -44,6 +44,9 @@ public:
     std::unique_ptr<physics_component> physics;
     std::unique_ptr<gui_component>     gui;
 
+    std::map<std::string, std::function<void(engine&, const std::string&)>>
+        objects_register;
+
     std::unique_ptr<debug_drawer> debug_drawer_;
 
     model light_model_; // TODO engine implementation needs to see this so it
@@ -123,7 +126,6 @@ bool engine::run()
         impl->render_objects();
 
         impl->render_lights();
-
 
         impl->gui->prepare_gui_frame();
 
@@ -280,6 +282,21 @@ bool engine::is_physics_enabled() const
 bool engine::is_game_running() const
 {
     return impl->game_running_;
+}
+
+void engine::register_class(
+    const std::string&                               class_name,
+    std::function<void(engine&, const std::string&)> make_function)
+{
+    impl->objects_register[class_name] = make_function;
+}
+
+void engine::make_object(std::string_view name)
+{
+//    if (impl->objects_register.count(std::string(name)) > 0)
+//    {
+//
+//    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

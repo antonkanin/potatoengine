@@ -11,6 +11,12 @@
 namespace pt
 {
 
+template <typename T>
+static void make_object(pt::engine& e, const std::string& name)
+{
+    e.add_object<T>(name);
+}
+
 class game_object
 {
 public:
@@ -49,7 +55,7 @@ public:
     // physics
     btRigidBody* body_ = nullptr;
 
-    void set_name(const std::string& name);
+    void        set_name(const std::string& name);
     std::string get_name() const;
 
 protected:

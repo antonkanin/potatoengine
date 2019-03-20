@@ -1,21 +1,19 @@
-#include <engine.hpp>
-#include <file_utils.hpp>
+#include "game_objects/audio_test.hpp"
 #include "game_objects/camera_gui_controller.hpp"
 #include "game_objects/camera_keyboard_controller.hpp"
 #include "game_objects/light_controller.hpp"
+#include "game_objects/object_selector.hpp"
 #include "game_objects/show_fps.hpp"
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
-#include "game_objects/audio_test.hpp"
-#include "game_objects/object_selector.hpp"
 
 int main(int argc, char* argv[])
 {
     auto engine = std::make_unique<pt::engine>();
 
-    //pt::load_scene(*engine, "");
+    // pt::load_scene(*engine, "");
 
-    //return EXIT_SUCCESS;
+    // return EXIT_SUCCESS;
 
     engine->set_title("The Witcher 5: Wild Cube");
 

@@ -36,6 +36,8 @@ void load_scene(const engine& engine, std::string_view file_path)
 
 
 
+
+
 //        engine.add_object<tyope>()
 //
 //        std::cout << pos_x << std::endl;

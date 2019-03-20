@@ -1,9 +1,12 @@
 #pragma once
 
 #include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h> // TODO find a way to remove the bullet physics header
+#include <functional>
 #include <memory>
 #include <ptm/vec2.hpp>
 #include <ptm/vec3.hpp>
+
+#define REGISTER(e, v) engine->register_class(#v, pt::make_object<v>);
 
 namespace pt
 {
@@ -69,6 +72,11 @@ public:
     bool is_physics_enabled() const;
 
     bool is_game_running() const;
+
+    void register_class(const std::string& class_name,
+                        std::function<void(engine&, const std::string&)>);
+
+    void make_object(std::string_view name);
 
 private:
     std::unique_ptr<class engine_pimpl> impl;
