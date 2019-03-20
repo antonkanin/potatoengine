@@ -131,12 +131,6 @@ bool engine::run()
 
         impl->gui->render_gui_frame();
 
-        // DEBUG
-        if (impl->update_physics_state_)
-        {
-            log_line(time(), "------------- StopLine -----------------");
-        }
-
         impl->video->swap_buffers();
 
         get_input_manager().reset_states();
@@ -308,24 +302,6 @@ void engine_pimpl::update_objects()
             object->set_rotation_forced(
                 { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
                 rot.getAngle());
-
-            log_line(time_,
-                     "Physics update: " +
-                         std::to_string(
-                             object->get_transformation().rotation_angle));
-        }
-
-
-        // DEBUG
-        if (object->body_ != nullptr)
-        {
-            auto rotation = object->body_->getWorldTransform().getRotation();
-            log_line(time_, "physics body rot: " + std::to_string(rotation.getAngle()));
-
-
-            btTransform t;
-            object->body_->getMotionState()->getWorldTransform(t);
-            log_line(time_, "physics MT rot: " + std::to_string(t.getRotation().getAngle()));
         }
 
         object->update();
@@ -341,11 +317,6 @@ void engine_pimpl::render_objects()
             video->render_object(
                 object->get_model(), object->get_transformation(),
                 engine_->get_camera(), engine_->get_light().get_position());
-
-            log_line(time_,
-                     "Render: " +
-                         std::to_string(
-                             object->get_transformation().rotation_angle));
         }
     }
 }

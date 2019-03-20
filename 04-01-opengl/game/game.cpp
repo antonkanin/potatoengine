@@ -1,4 +1,5 @@
-#include "engine.hpp"
+#include <engine.hpp>
+#include <file_utils.hpp>
 #include "game_objects/camera_gui_controller.hpp"
 #include "game_objects/camera_keyboard_controller.hpp"
 #include "game_objects/light_controller.hpp"
@@ -12,6 +13,10 @@ int main(int argc, char* argv[])
 {
     auto engine = std::make_unique<pt::engine>();
 
+    //pt::load_scene(*engine, "");
+
+    //return EXIT_SUCCESS;
+
     engine->set_title("The Witcher 5: Wild Cube");
 
     if (!engine->init_engine())
@@ -21,9 +26,9 @@ int main(int argc, char* argv[])
 
     // clang-format off
 
-//    engine->add_object<space_ship>("Space ship 1")
-//            ->set_position({ -3.f, 3.f, -5.f })
-//            ->add_body(true);
+    engine->add_object<space_ship>("Space ship 1")
+            ->set_position({ -3.f, 3.f, -5.f })
+            ->add_body(true);
 
     engine->add_object<space_ship>("Space ship 2")
             ->set_position({ -3.f, -5.f, -5.f })
@@ -45,7 +50,7 @@ int main(int argc, char* argv[])
 
     engine->add_object<camera_keyboard_controller>("Keyboard Controller");
 
-    //engine->add_object<vehicle>()->set_position({ 10.f, 0.f, 6.f });
+//    engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 
     engine->add_object<show_fps>("FPS Display");
 

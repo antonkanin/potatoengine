@@ -1,0 +1,16 @@
+---
+- game_object:
+    type: space_ship
+    position: {x: 0.2, y: 0.0, z: 0.0}
+    scale: {x: 0.1, y: 0.0, z: 0.0}
+
+- game_object:
+    name: Space Ship2
+    position: {x: 0.0, y: 0.0, z: 0.0}
+    scale: {x: 0.0, y: 0.0, z: 0.0}
+
+- space_ship:
+    ammo: 10
+
+
+...

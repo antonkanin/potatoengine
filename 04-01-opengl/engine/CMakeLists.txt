@@ -10,14 +10,14 @@ add_library(${PROJECT_NAME} STATIC
         src/movable_object.cpp
         src/mesh.cpp
         src/model.cpp
+        src/file_utils.cpp
+        src/engine_utils.cpp
 
         src/input_component.cpp
         src/video_component.cpp
         src/gui_component.cpp
         src/physics_component.cpp
         src/audio_component.cpp
-
-        src/engine_utils.cpp
 
         src/renderer/program.cpp
         src/renderer/shader.cpp
@@ -42,7 +42,8 @@ target_link_libraries(${PROJECT_NAME}
         external
         BulletDynamics
         BulletCollision
-        LinearMath)
+        LinearMath
+        yaml-cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include

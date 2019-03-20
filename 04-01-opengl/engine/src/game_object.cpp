@@ -60,7 +60,6 @@ game_object* game_object::set_rotation(const ptm::vec3& rotation_vector,
     {
         if (get_engine().is_game_running() && get_engine().is_physics_enabled())
         {
-            log_line(get_engine().time(), "skip set_rotation");
             return this;
         }
         else
@@ -74,18 +73,6 @@ game_object* game_object::set_rotation(const ptm::vec3& rotation_vector,
     }
 
     set_rotation_forced(rotation_vector, angle);
-
-    log_line(get_engine().time(),
-             "set_rotation angle (obj): " +
-                 std::to_string(get_transformation().rotation_angle));
-    if (body_ != nullptr)
-    {
-        log_line(get_engine().time(),
-                 "set_rotation angle (bul): " +
-                     std::to_string(
-                         -1.f *
-                         body_->getWorldTransform().getRotation().getAngle()));
-    }
 
     return this;
 }

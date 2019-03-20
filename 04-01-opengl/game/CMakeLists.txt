@@ -13,7 +13,7 @@ add_executable(${PROJECT_NAME}
         game_objects/audio_test.hpp
         game_objects/object_selector.hpp)
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 target_link_libraries(${PROJECT_NAME} 04-01-engine)
 
@@ -30,6 +30,13 @@ configure_file(../engine/src/renderer/shaders/light_shader.vert
 
 configure_file(../engine/src/renderer/shaders/light_shader.frag
         ${CMAKE_CURRENT_BINARY_DIR}/shaders/light_shader.frag COPYONLY)
+
+
+###############################################################################
+# copying levels
+configure_file(scenes/level01.yaml
+        ${CMAKE_CURRENT_BINARY_DIR}/scenes/level01.yaml COPYONLY)
+
 
 ###############################################################################
 # copying resourses (models, audio, textures)
