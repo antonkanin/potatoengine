@@ -38,7 +38,7 @@ void load_scene(engine& engine, std::string_view file_path)
 
         auto obj = engine.make_object(type, name);
         obj->set_position({ pos_x, pos_y, pos_z });
-        ///obj->set_scale({ scale_x, scale_y, scale_z });
+        /// obj->set_scale({ scale_x, scale_y, scale_z });
 
         log_line() << "position : " << obj->get_position() << std::endl;
 

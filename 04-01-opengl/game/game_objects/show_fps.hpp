@@ -10,7 +10,7 @@ public:
     void start() override
     {
         /*get_engine().enable_vsync(false);*/
-        //physics_on_ = get_engine().is_physics_enabled();
+        // physics_on_ = get_engine().is_physics_enabled();
 
         physics_on_ = false;
     }

@@ -44,8 +44,7 @@ public:
     std::unique_ptr<physics_component> physics;
     std::unique_ptr<gui_component>     gui;
 
-    std::map<std::string_view, engine::make_object_func>
-        objects_register;
+    std::map<std::string_view, engine::make_object_func> objects_register;
 
     std::unique_ptr<debug_drawer> debug_drawer_;
 
@@ -287,14 +286,15 @@ bool engine::is_game_running() const
 }
 
 void engine::register_class(std::string_view class_name,
-                            make_object_func   make_function)
+                            make_object_func make_function)
 {
     impl->objects_register[class_name] = make_function;
 
     log_line() << "Registering class: " << class_name << std::endl;
 }
 
-game_object* engine::make_object(std::string_view class_name, std::string_view object_name)
+game_object* engine::make_object(std::string_view class_name,
+                                 std::string_view object_name)
 {
     if (impl->objects_register.count(class_name) <= 0)
     {

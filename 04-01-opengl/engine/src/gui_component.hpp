@@ -25,6 +25,4 @@ private:
     std::unique_ptr<class gui_component_pimpl> pimpl_;
 };
 
-
-
 } // namespace pt

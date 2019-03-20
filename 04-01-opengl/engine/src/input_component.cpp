@@ -87,7 +87,8 @@ void input_component::poll_events(
             {
                 if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                 {
-                    screen_resize_callback(event.window.data1, event.window.data2);
+                    screen_resize_callback(event.window.data1,
+                                           event.window.data2);
                 }
 
                 break;

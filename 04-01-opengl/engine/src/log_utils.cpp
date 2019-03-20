@@ -23,6 +23,6 @@ void pt::log_line(const std::string& line)
 
 std::ostream& pt::log_line()
 {
-    //std::cout << current_time() << ": ";
+    // std::cout << current_time() << ": ";
     return std::cout;
 }

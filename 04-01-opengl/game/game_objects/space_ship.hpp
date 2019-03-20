@@ -25,7 +25,7 @@ public:
 
         process_rotation();
 
-        //wave_movement();
+        // wave_movement();
     }
 
     void wave_movement()
@@ -45,7 +45,7 @@ public:
         {
             using namespace pt;
             set_rotation(vec3::up(), get_transformation().rotation_angle -
-                                        get_engine().delta_time() * 0.3f);
+                                         get_engine().delta_time() * 0.3f);
         }
     }
 

@@ -1,9 +1,9 @@
 #pragma once
 
+#include <SDL2/SDL_stdinc.h>
 #include <memory>
 #include <ptm/vec2.hpp>
 #include <ptm/vec3.hpp>
-#include <SDL2/SDL_stdinc.h>
 
 class SDL_Window;
 
