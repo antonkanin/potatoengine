@@ -3,7 +3,7 @@ image: fedora
 before_script:
   - dnf update -y
   - dnf install findutils gcc gcc-c++ make cmake SDL2-devel SDL2-static SDL2_mixer-devel -y
-  - dnf install glm-devel stbi-devel assimp-devel bullet-devel -y
+  - dnf install glm-devel stbi-devel assimp-devel bullet-devel yaml-cpp-devel -y
 
 build:
   script:
