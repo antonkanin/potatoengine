@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
     engine->add_object<show_fps>("FPS Display");
 
-    //engine->add_object<audio_test>();
+    engine->add_object<audio_test>("Audio test");
 
     engine->add_object<object_selector>("Object Selector");
     engine->add_object<object_creator>("Object Creator");

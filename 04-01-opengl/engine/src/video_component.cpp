@@ -152,7 +152,7 @@ void video_component::render_object(const model&          model,
 
 bool video_component::init(const std::string& title)
 {
-    const int init_result = SDL_Init(SDL_INIT_EVERYTHING);
+    const int init_result = SDL_InitSubSystem(SDL_INIT_VIDEO);
     if (init_result != 0)
     {
         SDL_Log("Error: failed to initialize SDL %s", SDL_GetError());
@@ -171,7 +171,7 @@ bool video_component::init(const std::string& title)
     if (pimpl_->window_ == nullptr)
     {
         SDL_Log("Error: failed to SDL window %s", SDL_GetError());
-        SDL_Quit();
+        SDL_QuitSubSystem(SDL_INIT_VIDEO);
         return false;
     }
 
@@ -351,6 +351,11 @@ void video_component::on_window_resize(Sint32 w, Sint32 h)
     glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
 }
 
-video_component::~video_component() = default;
+video_component::~video_component()
+{
+    SDL_GL_DeleteContext(pimpl_->gl_context_);
+    SDL_DestroyWindow(pimpl_->window_);
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+}
 
 } // namespace pt
