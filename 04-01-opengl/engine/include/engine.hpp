@@ -6,7 +6,7 @@
 #include <ptm/vec2.hpp>
 #include <ptm/vec3.hpp>
 
-#define REGISTER(e, v) engine->register_class(#v, pt::make_object<v>);
+#define PT_REGISTER(e, v) engine->register_class(#v, pt::make_object<v>);
 
 namespace pt
 {

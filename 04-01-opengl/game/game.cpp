@@ -26,9 +26,9 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    REGISTER(engine, space_ship);
-    REGISTER(engine, vehicle);
-    REGISTER(engine, cube);
+    PT_REGISTER(engine, space_ship);
+    PT_REGISTER(engine, vehicle);
+    PT_REGISTER(engine, cube);
 
     // clang-format off
 
