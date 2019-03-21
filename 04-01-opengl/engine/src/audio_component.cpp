@@ -8,14 +8,17 @@
 
 namespace pt
 {
+
+using chunk_ptr_type = std::unique_ptr<Mix_Chunk, void (*)(Mix_Chunk*)>;
+
 struct audio_component_impl
 {
-    std::map<std::string, Mix_Chunk*> sounds;
+    std::map<std::string, chunk_ptr_type> sounds;
 };
 
 void audio_component::init()
 {
-    if (SDL_Init(SDL_INIT_AUDIO) < 0)
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
     {
         throw std::runtime_error("error: failed to initialize SDL audio " +
                                  std::string(SDL_GetError()));
@@ -52,7 +55,8 @@ bool audio_component::load_sound(const std::string& sound_name,
         return false;
     }
 
-    impl->sounds[sound_name] = wave;
+    chunk_ptr_type chunk_ptr(wave, Mix_FreeChunk);
+    impl->sounds.insert({ sound_name, std::move(chunk_ptr) });
 
     return true;
 }
@@ -66,7 +70,7 @@ bool audio_component::play_sound(const std::string& sound_name) const
         return false;
     }
 
-    auto wave = impl->sounds[sound_name];
+    auto wave = impl->sounds.at(sound_name).get();
 
     Mix_PlayChannel(-1, wave, 0);
 
@@ -75,11 +79,6 @@ bool audio_component::play_sound(const std::string& sound_name) const
 
 audio_component::~audio_component()
 {
-    for (auto sound : impl->sounds)
-    {
-        Mix_FreeChunk(sound.second);
-    }
-
     Mix_CloseAudio();
 }
 
