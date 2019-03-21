@@ -1,7 +1,5 @@
 - add type_traits check: game_object children must inherit a constructor
 
-- add scene save and load
-
 - add memory clean up to video, physics, audio
 
 - add different geometry types: cube, sphere, line
@@ -19,6 +17,7 @@
 - [low] load texture in the TGA format
 
 Done
+- add scene save and load
 - resize viewport when windows screen is updated
 - sync scaling between game_object and physics
 - remove 0.5 sec delay when pressing keys on the keyboard
