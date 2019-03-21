@@ -54,6 +54,7 @@ private:
         ImGui::Spacing();
         if (ImGui::Button("Save Scene"))
         {
+            pt::log_line("Scene saved");
             save_scene();
         }
 

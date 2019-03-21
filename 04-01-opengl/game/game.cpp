@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
     pt::load_scene(*engine, "scenes/level01.yaml");
 
-    pt::save_scene(*engine, "scenes/level02.yaml");
+    //pt::save_scene(*engine, "scenes/level02.yaml");
 
 //    engine->add_object<space_ship>("Space ship 1")
 //            ->set_position({ -3.f, 3.f, -5.f })
