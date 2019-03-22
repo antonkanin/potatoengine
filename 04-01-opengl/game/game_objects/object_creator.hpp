@@ -71,24 +71,25 @@ private:
             return;
         }
 
-        ///////////////////////////////////////////////////////////////////////
-        // edit box
-
         ImGui::InputText("Name", &object_name_);
-        ImGui::InputFloat("x", &object_position_.x);
-        ImGui::InputFloat("y", &object_position_.y);
-        ImGui::InputFloat("z", &object_position_.z);
-
-        ///////////////////////////////////////////////////////////////////////
-        // button
-
-        if (ImGui::Button("Button"))
-        {
-            // auto obj = get_engine().make_object(class_name, object_name);
-            // obj->set_position({ x, y, z })->add_body(false);
-        }
 
         ImGui::Spacing();
+
+        ImGui::Text("Position");
+        ImGui::InputFloat("x##pos", &object_position_.x, 0.1f, 1.0f);
+        ImGui::InputFloat("y##pos", &object_position_.y, 0.1f, 1.0f);
+        ImGui::InputFloat("z##pos", &object_position_.z, 0.1f, 1.0f);
+
+        ImGui::Text("Scale");
+        ImGui::InputFloat("x##scale", &object_scale_.x, 0.1f, 1.0f);
+        ImGui::InputFloat("y##scale", &object_scale_.y, 0.1f, 1.0f);
+        ImGui::InputFloat("z##scale", &object_scale_.z, 0.1f, 1.0f);
+
+        current_object_->set_position(object_position_);
+        current_object_->set_scale(object_scale_);
+
+        ImGui::Spacing();
+
         if (ImGui::Button("Save Scene"))
         {
             pt::log_line("Scene saved");
@@ -98,7 +99,7 @@ private:
 
     game_object* current_object_ = nullptr;
 
-    int current_item_ = 0;
+    int current_item_ = -1;
 
     std::string object_name_;
     ptm::vec3   object_position_{ 0.f, 0.f, 0.f };
