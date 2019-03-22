@@ -1,13 +1,8 @@
 #include "model.hpp"
 
-#include "mesh.hpp"
 #include "renderer/opengl_utils.hpp"
-#include "renderer/program.hpp"
-#include "texture.hpp"
 #include <iostream>
-#include <log_utils.hpp>
 #include <stb_image.h>
-#include <vector>
 
 namespace pt
 {

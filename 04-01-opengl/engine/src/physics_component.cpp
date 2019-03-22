@@ -13,8 +13,6 @@ public:
     btBroadphaseInterface*               overlappingPairCache;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld*             dynamicsWorld;
-
-    debug_drawer* debug_drawer_;
 };
 
 physics_component::physics_component()
@@ -41,8 +39,6 @@ bool physics_component::init()
     // clang-format on
 
     pimpl_->dynamicsWorld->setGravity(btVector3(0, -10, 0));
-
-    // bullet_engine.debug_drawer_ = new debug_drawer(renderer_);;
 
     return false;
 }

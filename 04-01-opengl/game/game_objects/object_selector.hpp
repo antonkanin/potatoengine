@@ -42,15 +42,7 @@ public:
 
                 if (body != nullptr)
                 {
-                    auto game_obj = get_engine().find_game_object(body);
-                    if (game_obj != nullptr)
-                    {
-                        selected_object_ = dynamic_cast<space_ship*>(game_obj);
-                        if (selected_object_ != nullptr)
-                        {
-                            pt::log_line("Found " + game_obj->get_name());
-                        }
-                    }
+                    selected_object_ = get_engine().find_game_object(body);
                 }
             }
         }
@@ -63,9 +55,9 @@ public:
         auto view_matrix = ptm::look_at(
             camera.get_position(), camera.get_direction(), camera.get_up());
 
-        auto tranform_matrix = ptm::get_projection_matrix() * view_matrix;
+        auto transform_matrix = ptm::get_projection_matrix() * view_matrix;
 
-        return glm::inverse(tranform_matrix);
+        return glm::inverse(transform_matrix);
     }
 
     std::tuple<glm::vec4, glm::vec4> get_world_ray()
@@ -113,12 +105,7 @@ public:
         return { mouse_pos.x, mouse_pos.y };
     }
 
-    ptm::vec3 btvec2ptm(const btVector3& source)
-    {
-        return { source.x(), source.y(), source.z() };
-    }
-
-    void on_gui()
+    void on_gui() override
     {
         if (selected_object_ == nullptr)
         {
@@ -147,7 +134,7 @@ public:
         ImGui::SliderFloat("scale y", &scale.y, -10.0f, 10.0f, "%.4f", 1.0f);
         ImGui::SliderFloat("scale z", &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
 
-        ImGui::Checkbox("Auto-rotate", &selected_object_->is_auto_rotate_);
+        // ImGui::Checkbox("Auto-rotate", &selected_object_->is_auto_rotate_);
 
         selected_object_->set_position(pos);
         selected_object_->set_scale(scale);
@@ -159,5 +146,5 @@ private:
     btVector3 bt_pos{ 0.f, 0.f, 0.f };
     btVector3 bt_dir{ 0.f, 0.f, 0.f };
 
-    space_ship* selected_object_ = nullptr;
+    game_object* selected_object_ = nullptr;
 };

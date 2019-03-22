@@ -4,7 +4,6 @@
 #include "input_manager.hpp"
 #include "log_utils.hpp"
 #include <SDL2/SDL.h>
-#include <functional>
 
 namespace pt
 {
@@ -46,9 +45,10 @@ bool input_component::init()
 }
 
 void input_component::poll_events(
-    class input_manager&                        input_manager,
-    std::function<void(const SDL_Event& event)> gui_callback,
-    bool& is_game_running)
+    class input_manager&                                input_manager,
+    std::function<void(const SDL_Event& event)>         gui_callback,
+    std::function<void(const Sint32 x, const Sint32 y)> screen_resize_callback,
+    bool&                                               is_game_running)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -83,12 +83,38 @@ void input_component::poll_events(
                 break;
             }
 
+            case SDL_WINDOWEVENT:
+            {
+                if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                {
+                    screen_resize_callback(event.window.data1,
+                                           event.window.data2);
+                }
+
+                break;
+            }
+
             default:
             {
                 break;
             }
         }
     }
+
+    // process keyboard state
+    const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+
+    input_manager.key_code_state(key_code::left, key_state::pressed) =
+        keystates[SDL_SCANCODE_K];
+
+    input_manager.key_code_state(key_code::right, key_state::pressed) =
+        keystates[SDL_SCANCODE_SEMICOLON];
+
+    input_manager.key_code_state(key_code::up, key_state::pressed) =
+        keystates[SDL_SCANCODE_O];
+
+    input_manager.key_code_state(key_code::down, key_state::pressed) =
+        keystates[SDL_SCANCODE_L];
 }
 
 input_component::~input_component() = default;

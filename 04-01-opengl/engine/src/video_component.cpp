@@ -3,18 +3,12 @@
 #include "model.hpp"
 #include "movable_object.hpp"
 #include "ptm/math.hpp"
-#include "ptm/matrix.hpp"
 #include "renderer/opengl_utils.hpp"
-#include "renderer/program.hpp"
 #include "transformation.hpp"
-#include <SDL2/SDL.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/mat4x4.hpp>
 #include <iostream>
-#include <log_utils.hpp>
 
-#include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_sdl.h"
 
 #include <ptm/glm_to_ptm.hpp>
@@ -105,7 +99,7 @@ glm::mat4 get_model_view_matrix(const transformation& transformation,
 
     glm::mat4 view_m = get_view_matrix(camera);
 
-    return view_m * translate_m * scale_m * rotate_m;
+    return view_m * translate_m * rotate_m * scale_m;
 }
 
 // TODO use exceptions here instead of returning nullptr
@@ -158,7 +152,7 @@ void video_component::render_object(const model&          model,
 
 bool video_component::init(const std::string& title)
 {
-    const int init_result = SDL_Init(SDL_INIT_EVERYTHING);
+    const int init_result = SDL_InitSubSystem(SDL_INIT_VIDEO);
     if (init_result != 0)
     {
         SDL_Log("Error: failed to initialize SDL %s", SDL_GetError());
@@ -177,7 +171,7 @@ bool video_component::init(const std::string& title)
     if (pimpl_->window_ == nullptr)
     {
         SDL_Log("Error: failed to SDL window %s", SDL_GetError());
-        SDL_Quit();
+        SDL_QuitSubSystem(SDL_INIT_VIDEO);
         return false;
     }
 
@@ -270,7 +264,7 @@ void video_component::render_light(const model&          model,
     model.draw(*(pimpl_->light_program_.get()));
 }
 
-void video_component::render_line(const ptm::vec3& from, const ptm::vec3 to,
+void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
                                   const ptm::vec3&             color,
                                   const struct movable_object& camera)
 {
@@ -352,6 +346,16 @@ vec2i video_component::get_window_size() const
     return { w, h };
 }
 
-video_component::~video_component() = default;
+void video_component::on_window_resize(Sint32 w, Sint32 h)
+{
+    glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
+}
+
+video_component::~video_component()
+{
+    SDL_GL_DeleteContext(pimpl_->gl_context_);
+    SDL_DestroyWindow(pimpl_->window_);
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+}
 
 } // namespace pt

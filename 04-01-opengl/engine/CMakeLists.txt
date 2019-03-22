@@ -10,6 +10,10 @@ add_library(${PROJECT_NAME} STATIC
         src/movable_object.cpp
         src/mesh.cpp
         src/model.cpp
+        src/file_utils.cpp
+        src/engine_utils.cpp
+        src/log_utils.cpp
+        src/game_objects_list.cpp
 
         src/input_component.cpp
         src/video_component.cpp
@@ -17,11 +21,10 @@ add_library(${PROJECT_NAME} STATIC
         src/physics_component.cpp
         src/audio_component.cpp
 
-        src/engine_utils.cpp
-
         src/renderer/program.cpp
         src/renderer/shader.cpp
         src/renderer/opengl_utils.cpp
+        src/renderer/debug_drawer.cpp
 
         src/imgui/imgui_impl_sdl.cpp
         src/imgui/imgui_impl_opengl3.cpp
@@ -41,7 +44,8 @@ target_link_libraries(${PROJECT_NAME}
         external
         BulletDynamics
         BulletCollision
-        LinearMath)
+        LinearMath
+        yaml-cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include

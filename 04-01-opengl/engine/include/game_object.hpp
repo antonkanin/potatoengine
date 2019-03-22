@@ -22,10 +22,12 @@ public:
     virtual void start(){};
 
     /** called every frame */
-    virtual void update() = 0;
+    virtual void update(){};
 
     /** add custom GUI */
     virtual void on_gui(){};
+
+    virtual bool is_serializable() const { return false; }
 
     void set_transform(const transformation& transform);
 
@@ -49,27 +51,36 @@ public:
     // physics
     btRigidBody* body_ = nullptr;
 
-    void set_name(const std::string& name);
+    void        set_name(const std::string& name);
     std::string get_name() const;
 
 protected:
     engine& get_engine();
 
 private:
-    friend class engine;
-    friend class engine_pimpl;
+    void set_position_forced(const ptm::vec3& position);
+    void set_rotation_forced(const ptm::vec3& rotation_vector, float angle);
+
+    friend engine;
+    friend engine_pimpl;
 
     engine* engine_ = nullptr;
 
     bool  has_model_ = false;
     model model_;
 
-    transformation transformation_ = { .position        = ptm::zero_vector,
-                                       .rotation_vector = ptm::up_vector,
+    transformation transformation_ = { .position        = ptm::vec3::zero(),
+                                       .rotation_vector = ptm::vec3::up(),
                                        .rotation_angle  = 0.0f,
                                        .scale           = { 1.f, 1.f, 1.f } };
 
-    std::string name_;
+    std::string name_ = "NoName";
 };
+
+template <typename T>
+game_object* make_object(engine& e, std::string_view object_name)
+{
+    return e.add_object<T>(object_name);
+}
 
 } // namespace pt

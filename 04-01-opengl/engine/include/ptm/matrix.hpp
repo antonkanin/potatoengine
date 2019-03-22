@@ -36,7 +36,7 @@ struct matrix4x4
     {
     }
 
-    matrix4x4(const matrix3x3& matrix)
+    explicit matrix4x4(const matrix3x3& matrix)
         : row1(matrix.row1, 0)
         , row2(matrix.row2, 0)
         , row3(matrix.row3, 0)

@@ -12,6 +12,8 @@
 #include "movable_object.hpp"
 #include "renderer/debug_drawer.hpp"
 
+#include "game_objects_list.hpp"
+
 namespace pt
 {
 
@@ -26,10 +28,31 @@ public:
         , video(std::make_unique<video_component>())
         , physics(std::make_unique<physics_component>())
         , gui(std::make_unique<gui_component>())
+        , debug_drawer_(
+              std::make_unique<debug_drawer>(video.get(), &camera_position_))
+        , objects_(std::make_unique<game_objects_list>())
+
     {
     }
 
     engine* engine_;
+
+    movable_object camera_position_;
+
+    movable_object light_position_;
+
+    std::unique_ptr<input_manager>     input_manager_;
+    std::unique_ptr<audio_component>   audio;
+    std::unique_ptr<input_component>   input;
+    std::unique_ptr<video_component>   video;
+    std::unique_ptr<physics_component> physics;
+    std::unique_ptr<gui_component>     gui;
+
+    std::map<std::string_view, engine::make_object_func> objects_register;
+
+    std::vector<const char*> objects_types_;
+
+    std::unique_ptr<debug_drawer> debug_drawer_;
 
     model light_model_; // TODO engine implementation needs to see this so it
     // can pass it to the renderer
@@ -41,24 +64,13 @@ public:
     float time_       = 0.f;
     float delta_time_ = 0.f;
 
-    movable_object camera_position_;
-
-    movable_object light_position_;
-
-    std::vector<std::unique_ptr<game_object>> objects_;
+    std::unique_ptr<game_objects_list> objects_;
 
     std::map<btRigidBody*, game_object*> body_objects_;
 
-    std::unique_ptr<input_manager>     input_manager_;
-    std::unique_ptr<audio_component>   audio;
-    std::unique_ptr<input_component>   input;
-    std::unique_ptr<video_component>   video;
-    std::unique_ptr<physics_component> physics;
-    std::unique_ptr<gui_component>     gui;
-
-    debug_drawer* debug_drawer_;
-
-    bool physics_enabled_ = true;
+    bool physics_enabled_      = true;
+    bool update_physics_state_ = false;
+    bool new_physics_state_    = physics_enabled_;
 
     void start_objects();
 
@@ -83,7 +95,13 @@ game_object* engine::add_object(std::unique_ptr<game_object> object)
     // add object to the physics engine...
 
     game_object* object_ptr = object.get();
-    impl->objects_.emplace_back(std::move(object));
+    impl->objects_->add_object(std::move(object));
+
+    if (is_game_running())
+    {
+        object_ptr->start();
+        log_line() << "Calling start()" << std::endl;
+    }
 
     return object_ptr;
 }
@@ -94,17 +112,16 @@ bool engine::run()
 
     impl->start_objects();
 
-    impl->time_    = 0.f;
-    float old_time = 0.f;
+    impl->time_ = 0.f;
 
     while (impl->game_running_)
     {
-        impl->input->poll_events(*impl->input_manager_.get(),
-                                 gui_component::gui_call_back,
-                                 impl->game_running_);
+        impl->input->poll_events(
+            *(impl->input_manager_.get()), gui_component::gui_call_back,
+            video_component::on_window_resize, impl->game_running_);
 
-        old_time    = impl->time_;
-        impl->time_ = impl->video->get_ticks() / 1000;
+        float old_time = impl->time_;
+        impl->time_    = impl->video->get_ticks() / 1000;
 
         impl->delta_time_ = impl->time_ - old_time;
 
@@ -115,11 +132,11 @@ bool engine::run()
 
         impl->update_objects();
 
+        impl->physics->get_dynamics_world()->debugDrawWorld();
+
         impl->render_objects();
 
         impl->render_lights();
-
-        impl->physics->get_dynamics_world()->debugDrawWorld();
 
         impl->gui->prepare_gui_frame();
 
@@ -130,6 +147,13 @@ bool engine::run()
         impl->video->swap_buffers();
 
         get_input_manager().reset_states();
+
+        // TODO test if we really need an updated physics...
+        if (impl->update_physics_state_)
+        {
+            impl->update_physics_state_ = false;
+            impl->physics_enabled_      = impl->new_physics_state_;
+        }
     }
 
     return true;
@@ -163,10 +187,10 @@ bool engine::init_engine()
 
     impl->physics->init();
 
-    impl->debug_drawer_ = new debug_drawer(impl->video.get(), &get_camera());
     impl->debug_drawer_->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
 
-    impl->physics->get_dynamics_world()->setDebugDrawer(impl->debug_drawer_);
+    impl->physics->get_dynamics_world()->setDebugDrawer(
+        impl->debug_drawer_.get());
 
     impl->audio->init();
 
@@ -250,12 +274,80 @@ void engine::add_body(game_object* game_object, btRigidBody* rigid_body)
 
 void engine::enable_physics(bool state)
 {
-    impl->physics_enabled_ = state;
+    if (impl->physics_enabled_ != state)
+    {
+        impl->update_physics_state_ = true;
+        impl->new_physics_state_    = state;
+    }
+    else
+    {
+        impl->update_physics_state_ = false;
+    }
 }
 
-bool engine::is_physics_enabled()
+bool engine::is_physics_enabled() const
 {
     return impl->physics_enabled_;
+}
+
+bool engine::is_game_running() const
+{
+    return impl->game_running_;
+}
+
+void engine::register_class(std::string_view class_name,
+                            make_object_func make_function)
+{
+    if (impl->objects_register.count(class_name) > 0)
+    {
+        log_error(time(),
+                  "Error: class already registered " + std::string(class_name));
+        return;
+    }
+
+    impl->objects_register[class_name] = make_function;
+    impl->objects_types_.push_back(class_name.data());
+}
+
+game_object* engine::make_object(std::string_view class_name,
+                                 std::string_view object_name)
+{
+    if (impl->objects_register.count(class_name) <= 0)
+    {
+        log_error(time(), "cannot find type " + std::string(class_name));
+        return nullptr;
+    }
+
+    make_object_func f = impl->objects_register[class_name];
+
+    game_object* obj = f(*this, object_name);
+
+    return obj;
+}
+
+const std::vector<const char*>& engine::object_types() const
+{
+    return impl->objects_types_;
+}
+
+engine::const_object_iterator engine::begin() const
+{
+    return impl->objects_->cbegin();
+}
+
+engine::const_object_iterator engine::end() const
+{
+    return impl->objects_->cend();
+}
+
+const char* const* engine::get_objects_names() const
+{
+    return impl->objects_->get_names();
+}
+
+game_objects_list& engine::objects()
+{
+    return *(impl->objects_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -263,30 +355,30 @@ bool engine::is_physics_enabled()
 
 void engine_pimpl::update_objects()
 {
-    for (auto& object : objects_)
+    for (auto& object : *objects_)
     {
         if (object->body_ != nullptr && physics_enabled_)
         {
-            btTransform transform;
-            object->body_->getMotionState()->getWorldTransform(transform);
+            auto transform = object->body_->getWorldTransform();
 
-            object->set_position({ transform.getOrigin().x(),
-                                   transform.getOrigin().y(),
-                                   transform.getOrigin().z() });
+            object->set_position_forced({ transform.getOrigin().x(),
+                                          transform.getOrigin().y(),
+                                          transform.getOrigin().z() });
 
             auto rot = transform.getRotation();
 
-            object->set_rotation(
+            object->set_rotation_forced(
                 { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
                 rot.getAngle());
         }
+
         object->update();
     }
 }
 
 void engine_pimpl::render_objects()
 {
-    for (auto& object : objects_)
+    for (auto& object : *objects_)
     {
         if (object->has_model_)
         {
@@ -299,7 +391,7 @@ void engine_pimpl::render_objects()
 
 void engine_pimpl::start_objects()
 {
-    for (auto& object : objects_)
+    for (auto& object : *objects_)
     {
         object->start();
     }
@@ -307,9 +399,11 @@ void engine_pimpl::start_objects()
 
 void engine_pimpl::render_objects_gui()
 {
-    for (auto& object : objects_)
+    const auto size = objects_->size();
+    for (size_t index = 0; index < size; ++index)
     {
-        object->on_gui();
+        // objects_->operator[](index).on_gui();
+        (*objects_)[index].on_gui();
     }
 }
 

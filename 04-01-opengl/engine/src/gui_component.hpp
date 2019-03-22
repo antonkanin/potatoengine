@@ -3,8 +3,6 @@
 #include <SDL2/SDL_events.h>
 #include <memory>
 
-class SDL_Window;
-
 namespace pt
 {
 
@@ -26,7 +24,5 @@ public:
 private:
     std::unique_ptr<class gui_component_pimpl> pimpl_;
 };
-
-
 
 } // namespace pt

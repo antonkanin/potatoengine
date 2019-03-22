@@ -12,21 +12,12 @@ class debug_drawer : public btIDebugDraw
 {
 public:
     explicit debug_drawer(video_component* video_component,
-                          movable_object*  camera)
-        : video_component_(video_component)
-        , camera_(camera)
-    {
-    }
+                          movable_object*  camera);
+
+    ~debug_drawer();
 
     void drawLine(const btVector3& from, const btVector3& to,
-                  const btVector3& color) override
-    {
-        video_component_->render_line(
-            /*from*/ { from.x(), from.y(), from.z() },
-            /*to*/ { to.x(), to.y(), to.z() },
-            /*color*/ { color.x(), color.y(), color.z() },
-            /*camera*/ *camera_);
-    }
+                  const btVector3& color) override;
 
     void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB,
                           btScalar distance, int lifeTime,

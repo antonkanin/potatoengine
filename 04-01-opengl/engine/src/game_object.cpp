@@ -1,9 +1,8 @@
 #include <game_object.hpp>
 
-#include "engine.hpp"
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
-#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 #include <LinearMath/btDefaultMotionState.h>
+#include <log_utils.hpp>
 
 namespace pt
 {
@@ -15,21 +14,20 @@ engine& game_object::get_engine()
 
 game_object* game_object::set_position(const ptm::vec3& position)
 {
-/*
-    if (get_engine().is_physics_enabled())
-    {
-        return this;
-    }
-
-*/
-    transformation_.position = position;
-
     if (body_ != nullptr)
     {
-
-        body_->getWorldTransform().setOrigin(
-            { position.x, position.y, position.z });
+        if (get_engine().is_game_running() && get_engine().is_physics_enabled())
+        {
+            return this;
+        }
+        else
+        {
+            body_->getWorldTransform().setOrigin(
+                { position.x, position.y, position.z });
+        }
     }
+
+    set_position_forced(position);
 
     return this;
 }
@@ -55,26 +53,26 @@ void game_object::set_transform(const transformation& transform)
     transformation_ = transform;
 }
 
-game_object* game_object::set_rotation(const ptm::vec3& rotation_vector, float angle)
+game_object* game_object::set_rotation(const ptm::vec3& rotation_vector,
+                                       float            angle)
 {
-/*
-    if (get_engine().is_physics_enabled())
-    {
-        return this;
-    }
-*/
-
-    transformation_.rotation_vector = rotation_vector;
-    transformation_.rotation_angle  = angle;
-
     if (body_ != nullptr)
     {
-        btQuaternion rot{
-            { rotation_vector.x, rotation_vector.y, rotation_vector.z }, -angle
-        };
+        if (get_engine().is_game_running() && get_engine().is_physics_enabled())
+        {
+            return this;
+        }
+        else
+        {
+            btQuaternion rot{ { rotation_vector.x, rotation_vector.y,
+                                rotation_vector.z },
+                              -angle };
 
-        body_->getWorldTransform().setRotation(rot);
+            body_->getWorldTransform().setRotation(rot);
+        }
     }
+
+    set_rotation_forced(rotation_vector, angle);
 
     return this;
 }
@@ -99,6 +97,12 @@ game_object* game_object::set_scale(const ptm::vec3& scale)
 {
     transformation_.scale = scale;
 
+    if (body_ != nullptr)
+    {
+        body_->getCollisionShape()->setLocalScaling(
+            { scale.x, scale.y, scale.z });
+    }
+
     return this;
 }
 
@@ -109,8 +113,9 @@ ptm::vec3 game_object::get_scale() const
 
 game_object* game_object::add_body(bool is_dynamic)
 {
-    btCollisionShape* shape =
-        new btBoxShape({ get_scale().x, get_scale().y, get_scale().z });
+    btCollisionShape* shape = new btBoxShape({ 1.f, 1.f, 1.f });
+
+    shape->setLocalScaling({ get_scale().x, get_scale().y, get_scale().z });
 
     btTransform bt_transform;
     bt_transform.setIdentity();
@@ -127,8 +132,7 @@ game_object* game_object::add_body(bool is_dynamic)
         // shape->calculateLocalInertia(mass, localInertia);
     }
 
-    btDefaultMotionState* myMotionState =
-        new btDefaultMotionState(bt_transform);
+    auto myMotionState = new btDefaultMotionState(bt_transform);
 
     btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape,
                                                     localInertia);
@@ -153,6 +157,18 @@ std::string game_object::get_name() const
 game_object::game_object(const std::string& name)
     : name_(name)
 {
+}
+
+void game_object::set_position_forced(const ptm::vec3& position)
+{
+    transformation_.position = position;
+}
+
+void game_object::set_rotation_forced(const ptm::vec3& rotation_vector,
+                                      float            angle)
+{
+    transformation_.rotation_vector = rotation_vector;
+    transformation_.rotation_angle  = angle;
 }
 
 } // namespace pt

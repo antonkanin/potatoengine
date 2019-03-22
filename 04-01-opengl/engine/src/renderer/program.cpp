@@ -144,12 +144,8 @@ void program::set_1i(const std::string& uniform_name, GLint uniform_value)
 
     if (-1 == location)
     {
-        //        throw std::runtime_error("Error: could not find attribute " +
-        //                                 uniform_name);
-
-        // std::cout << "Error: could not find 1i attribute " << uniform_name <<
-        // '\n';
-        return;
+        throw std::runtime_error("Error: could not find attribute " +
+                                 uniform_name);
     }
 
     glUniform1i(location, uniform_value);

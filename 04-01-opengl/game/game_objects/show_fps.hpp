@@ -10,7 +10,7 @@ public:
     void start() override
     {
         /*get_engine().enable_vsync(false);*/
-        //physics_on_ = get_engine().is_physics_enabled();
+        // physics_on_ = get_engine().is_physics_enabled();
 
         physics_on_ = false;
     }
@@ -32,7 +32,7 @@ public:
     {
         bool is_show = false;
         // ImGui::ShowDemoWindow(&is_show);
-        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Appearing);
+        ImGui::SetNextWindowPos(ImVec2(300, 0), ImGuiCond_Appearing);
         ImGui::SetNextWindowSize(ImVec2(120, 100), ImGuiCond_Appearing);
 
         // ImGuiWindowFlags window_flags = 0;

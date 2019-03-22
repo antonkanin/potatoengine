@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL_stdinc.h>
 #include <memory>
 #include <ptm/vec2.hpp>
 #include <ptm/vec3.hpp>
@@ -27,7 +28,7 @@ public:
     void render_light(const class model& model, const ptm::vec3& light_position,
                       const class movable_object& camera);
 
-    void render_line(const ptm::vec3& from, const ptm::vec3 to,
+    void render_line(const ptm::vec3& from, const ptm::vec3& to,
                      const ptm::vec3&            color,
                      const class movable_object& camera);
 
@@ -42,6 +43,8 @@ public:
     ptm::vec2i get_window_size() const;
 
     SDL_Window* get_window();
+
+    static void on_window_resize(Sint32 w, Sint32 h);
 
 private:
     std::unique_ptr<class video_component_pimpl> pimpl_;

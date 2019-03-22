@@ -2,8 +2,6 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_sdl.h"
 
-#include <SDL2/SDL_events.h>
-
 namespace pt
 {
 

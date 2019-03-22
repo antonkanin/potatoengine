@@ -1,6 +1,4 @@
 #include "shader.hpp"
-#include "SDL2/SDL_opengl.h"
-#include "opengl_utils.hpp"
 #include <iostream>
 #include <sstream>
 

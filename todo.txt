@@ -1,4 +1,16 @@
-- resize OpenGL viewport when resizing the window
+- show the list of game_objects
+  * click on the game_object in the list highlights it in the scene
+  * adding new object adds it to the list
+  * deleting from the list also deletes from the scene
+  * rearranging objects in the list
+
+  implementation:
+    vector<unique_ptr<game_object>> objects; // main 'owning' storage for all base game_objects
+
+    vector<game_objects*> ordered_objects;  // this is used to get game_object* knowing it's ID in the names list
+    vector<const char*>     ordered_names;  // this is used by IMGUI to show the list
+
+- add type_traits check: game_object children must inherit a constructor
 
 - add memory clean up to video, physics, audio
 
@@ -7,8 +19,6 @@
 - add child 'game objects' support
 
 - [bug] LEFT SHIFT does continue movement when you hold it
-
-- remove 0.5 sec delay when pressing keys on the keyboard
 
 - add the support for two view ports (player view (First Person) and free camera)
 
@@ -19,6 +29,10 @@
 - [low] load texture in the TGA format
 
 Done
+- add scene save and load
+- resize viewport when windows screen is updated
+- sync scaling between game_object and physics
+- remove 0.5 sec delay when pressing keys on the keyboard
 - separate IMGUI integration into input handling and rendering
 - refactor engine_sdl using strategy pattern (abstract classes: rendering_strategy,
   input_strategy, audio_strategy, etc)

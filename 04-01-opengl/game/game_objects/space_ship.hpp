@@ -5,7 +5,6 @@
 #include <key_code.hpp>
 #include <log_utils.hpp>
 #include <ptm/vec3.hpp>
-#include <read_obj.hpp>
 #include <vertex.hpp>
 
 class space_ship final : public pt::game_object
@@ -25,6 +24,19 @@ public:
         process_movement();
 
         process_rotation();
+
+        // wave_movement();
+    }
+
+    void wave_movement()
+    {
+        auto t = get_engine().time();
+
+        auto shift = cos(t) * 0.1f;
+
+        auto pos = get_position();
+        pos.y += shift;
+        set_position(pos);
     }
 
     void process_rotation()
@@ -32,8 +44,8 @@ public:
         if (is_auto_rotate_)
         {
             using namespace pt;
-            set_rotation(up_vector, get_transformation().rotation_angle -
-                                        get_engine().delta_time() * 0.3f);
+            set_rotation(vec3::up(), get_transformation().rotation_angle -
+                                         get_engine().delta_time() * 0.3f);
         }
     }
 
@@ -46,22 +58,22 @@ public:
 
         if (input.get_key_down(key_code::button_a))
         {
-            set_rotation(up_vector, trans.rotation_angle - 0.3f);
+            set_rotation(vec3::up(), trans.rotation_angle - 0.3f);
         }
 
         if (input.get_key_down(key_code::button_b))
         {
-            set_rotation(up_vector, trans.rotation_angle + 0.3f);
+            set_rotation(vec3::up(), trans.rotation_angle + 0.3f);
         }
 
         if (input.get_key_down(key_code::start))
         {
-            set_rotation(left_vector, trans.rotation_angle - 0.3f);
+            set_rotation(vec3::left(), trans.rotation_angle - 0.3f);
         }
 
         if (input.get_key_down(key_code::select))
         {
-            set_rotation(left_vector, trans.rotation_angle + 0.3f);
+            set_rotation(vec3::left(), trans.rotation_angle + 0.3f);
         }
     }
 
