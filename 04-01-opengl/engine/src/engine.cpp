@@ -345,7 +345,7 @@ const char* const* engine::get_objects_names() const
     return impl->objects_->get_names();
 }
 
-const game_objects_list& engine::objects() const
+game_objects_list& engine::objects()
 {
     return *(impl->objects_.get());
 }

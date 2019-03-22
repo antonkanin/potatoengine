@@ -97,7 +97,7 @@ public:
 
     const char* const* get_objects_names() const;
 
-    const game_objects_list& objects() const;
+    game_objects_list& objects();
 
 private:
     std::unique_ptr<class engine_pimpl> impl;

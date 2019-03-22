@@ -14,8 +14,8 @@ private:
 
     void on_gui() override
     {
-        ImGui::SetNextWindowPos(ImVec2(140, 0), ImGuiCond_Appearing);
-        ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiCond_Appearing);
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize(ImVec2(300, 400), ImGuiCond_Appearing);
 
         if (!ImGui::Begin("New object", nullptr,
                           0 /*ImGuiWindowFlags_NoTitleBar*/))
@@ -28,7 +28,7 @@ private:
 
         show_object_properties();
 
-        ImGui::ShowDemoWindow(nullptr);
+        // ImGui::ShowDemoWindow(nullptr);
 
         ImGui::End();
     }
@@ -37,42 +37,55 @@ private:
 
     void show_existing_objects()
     {
-        static int current_item = 1;
+        int new_current_item = current_item_;
 
-        ImGui::ListBox("listbox\n(single select)", &current_item,
+        ImGui::ListBox("", &new_current_item,
                        get_engine().objects().get_names(),
-                       static_cast<int>(get_engine().objects().size()), 4);
+                       static_cast<int>(get_engine().objects().size()), 10);
+
+        if (new_current_item != current_item_)
+        {
+            current_item_   = new_current_item;
+            current_object_ = &get_engine().objects()[current_item_];
+
+            object_name_     = current_object_->get_name();
+            object_position_ = current_object_->get_position();
+            object_scale_    = current_object_->get_scale();
+        }
     }
 
-    void show_object_properties()
+    void show_object_type_combo()
     {
-        ///////////////////////////////////////////////////////////////////////
-        // combo box
-
         static int item_current = 0;
 
         const auto& types = get_engine().object_types();
 
         ImGui::Combo("combo", &item_current, types.data(),
                      static_cast<int>(types.size()));
+    }
 
-        auto class_name = types[item_current];
+    void show_object_properties()
+    {
+        if (nullptr == current_object_)
+        {
+            return;
+        }
 
         ///////////////////////////////////////////////////////////////////////
         // edit box
 
-        ImGui::InputText("Name", &object_name);
-        ImGui::InputFloat("x", &x);
-        ImGui::InputFloat("y", &y);
-        ImGui::InputFloat("z", &z);
+        ImGui::InputText("Name", &object_name_);
+        ImGui::InputFloat("x", &object_position_.x);
+        ImGui::InputFloat("y", &object_position_.y);
+        ImGui::InputFloat("z", &object_position_.z);
 
         ///////////////////////////////////////////////////////////////////////
         // button
 
         if (ImGui::Button("Button"))
         {
-            auto obj = get_engine().make_object(class_name, object_name);
-            obj->set_position({ x, y, z })->add_body(false);
+            // auto obj = get_engine().make_object(class_name, object_name);
+            // obj->set_position({ x, y, z })->add_body(false);
         }
 
         ImGui::Spacing();
@@ -83,8 +96,11 @@ private:
         }
     }
 
-    std::string object_name;
-    float       x = 0.f;
-    float       y = 0.f;
-    float       z = 0.f;
+    game_object* current_object_ = nullptr;
+
+    int current_item_ = 0;
+
+    std::string object_name_;
+    ptm::vec3   object_position_{ 0.f, 0.f, 0.f };
+    ptm::vec3   object_scale_{ 1.f, 1.f, 1.f };
 };
