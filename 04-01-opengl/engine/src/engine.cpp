@@ -12,6 +12,8 @@
 #include "movable_object.hpp"
 #include "renderer/debug_drawer.hpp"
 
+#include "game_objects_list.hpp"
+
 namespace pt
 {
 
@@ -28,6 +30,8 @@ public:
         , gui(std::make_unique<gui_component>())
         , debug_drawer_(
               std::make_unique<debug_drawer>(video.get(), &camera_position_))
+        , objects_(std::make_unique<game_objects_list>())
+
     {
     }
 
@@ -60,7 +64,7 @@ public:
     float time_       = 0.f;
     float delta_time_ = 0.f;
 
-    std::vector<std::unique_ptr<game_object>> objects_;
+    std::unique_ptr<game_objects_list> objects_;
 
     std::map<btRigidBody*, game_object*> body_objects_;
 
@@ -91,7 +95,7 @@ game_object* engine::add_object(std::unique_ptr<game_object> object)
     // add object to the physics engine...
 
     game_object* object_ptr = object.get();
-    impl->objects_.emplace_back(std::move(object));
+    impl->objects_->add_object(std::move(object));
 
     if (is_game_running())
     {
@@ -326,22 +330,32 @@ const std::vector<const char*>& engine::object_types() const
     return impl->objects_types_;
 }
 
-    engine::const_object_iterator engine::begin() const
-    {
-        return impl->objects_.cbegin();
-    }
+engine::const_object_iterator engine::begin() const
+{
+    return impl->objects_->cbegin();
+}
 
-    engine::const_object_iterator engine::end() const
-    {
-        return impl->objects_.cend();
-    }
+engine::const_object_iterator engine::end() const
+{
+    return impl->objects_->cend();
+}
+
+const char* const* engine::get_objects_names() const
+{
+    return impl->objects_->get_names();
+}
+
+const game_objects_list& engine::objects() const
+{
+    return *(impl->objects_.get());
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 
 void engine_pimpl::update_objects()
 {
-    for (auto& object : objects_)
+    for (auto& object : *objects_)
     {
         if (object->body_ != nullptr && physics_enabled_)
         {
@@ -364,7 +378,7 @@ void engine_pimpl::update_objects()
 
 void engine_pimpl::render_objects()
 {
-    for (auto& object : objects_)
+    for (auto& object : *objects_)
     {
         if (object->has_model_)
         {
@@ -377,7 +391,7 @@ void engine_pimpl::render_objects()
 
 void engine_pimpl::start_objects()
 {
-    for (auto& object : objects_)
+    for (auto& object : *objects_)
     {
         object->start();
     }
@@ -385,10 +399,11 @@ void engine_pimpl::start_objects()
 
 void engine_pimpl::render_objects_gui()
 {
-    const auto size = objects_.size();
+    const auto size = objects_->size();
     for (size_t index = 0; index < size; ++index)
     {
-        objects_[index]->on_gui();
+        // objects_->operator[](index).on_gui();
+        (*objects_)[index].on_gui();
     }
 }
 

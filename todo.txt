@@ -1,3 +1,15 @@
+- show the list of game_objects
+  * click on the game_object in the list highlights it in the scene
+  * adding new object adds it to the list
+  * deleting from the list also deletes from the scene
+  * rearranging objects in the list
+
+  implementation:
+    vector<unique_ptr<game_object>> objects; // main 'owning' storage for all base game_objects
+
+    vector<game_objects*> ordered_objects;  // this is used to get game_object* knowing it's ID in the names list
+    vector<const char*>     ordered_names;  // this is used by IMGUI to show the list
+
 - add type_traits check: game_object children must inherit a constructor
 
 - add memory clean up to video, physics, audio

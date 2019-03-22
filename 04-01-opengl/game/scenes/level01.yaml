@@ -2,7 +2,7 @@ game_objects:
   - type: cube
     name: Space Ship 1
     position: {x: 2.5977, y: 0, z: -5}
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: .5, y: .5, z: .5}
 
   - type: cube
     name: Space Ship 2

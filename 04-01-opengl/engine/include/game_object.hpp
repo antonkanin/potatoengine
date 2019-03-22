@@ -74,7 +74,7 @@ private:
                                        .rotation_angle  = 0.0f,
                                        .scale           = { 1.f, 1.f, 1.f } };
 
-    std::string name_;
+    std::string name_ = "NoName";
 };
 
 template <typename T>

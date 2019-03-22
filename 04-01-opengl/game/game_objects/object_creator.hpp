@@ -1,14 +1,16 @@
-#include <game_object.hpp>
-#include <log_utils.hpp>
-#include <imgui_stdlib.h>
-#include <imgui.h>
 #include <file_utils.hpp>
-
+#include <game_object.hpp>
+#include <game_objects_list.hpp>
+#include <imgui.h>
+#include <imgui_stdlib.h>
+#include <log_utils.hpp>
 
 class object_creator final : public pt::game_object
 {
 private:
     using pt::game_object::game_object;
+
+    void start() override {}
 
     void on_gui() override
     {
@@ -22,6 +24,28 @@ private:
             return;
         }
 
+        show_existing_objects();
+
+        show_object_properties();
+
+        ImGui::ShowDemoWindow(nullptr);
+
+        ImGui::End();
+    }
+
+    void save_scene() { pt::save_scene(get_engine(), "scenes/test.yaml"); }
+
+    void show_existing_objects()
+    {
+        static int current_item = 1;
+
+        ImGui::ListBox("listbox\n(single select)", &current_item,
+                       get_engine().objects().get_names(),
+                       static_cast<int>(get_engine().objects().size()), 4);
+    }
+
+    void show_object_properties()
+    {
         ///////////////////////////////////////////////////////////////////////
         // combo box
 
@@ -48,7 +72,7 @@ private:
         if (ImGui::Button("Button"))
         {
             auto obj = get_engine().make_object(class_name, object_name);
-            obj->set_position({x, y, z})->add_body(false);
+            obj->set_position({ x, y, z })->add_body(false);
         }
 
         ImGui::Spacing();
@@ -57,19 +81,10 @@ private:
             pt::log_line("Scene saved");
             save_scene();
         }
-
-        //ImGui::ShowDemoWindow(nullptr);
-
-        ImGui::End();
-    }
-
-    void save_scene()
-    {
-        pt::save_scene(get_engine(), "scenes/test.yaml");
     }
 
     std::string object_name;
-    float x = 0.f;
-    float y = 0.f;
-    float z = 0.f;
+    float       x = 0.f;
+    float       y = 0.f;
+    float       z = 0.f;
 };

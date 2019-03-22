@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC
         src/file_utils.cpp
         src/engine_utils.cpp
         src/log_utils.cpp
+        src/game_objects_list.cpp
 
         src/input_component.cpp
         src/video_component.cpp
