@@ -85,6 +85,9 @@ private:
         ImGui::InputFloat("y##scale", &object_scale_.y, 0.1f, 1.0f);
         ImGui::InputFloat("z##scale", &object_scale_.z, 0.1f, 1.0f);
 
+
+        // TODO add option to change object names
+        // get_engine().objects().update_name(current_object_, object_name_);
         current_object_->set_position(object_position_);
         current_object_->set_scale(object_scale_);
 

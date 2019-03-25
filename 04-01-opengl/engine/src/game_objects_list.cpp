@@ -48,4 +48,11 @@ size_t game_objects_list::size() const
     return objects_.size();
 }
 
+void game_objects_list::update_name(game_object* object, std::string_view name)
+{
+    object->set_name(std::string(name));
+
+    throw std::runtime_error("not implemented");
+}
+
 } // namespace pt

@@ -51,7 +51,6 @@ public:
     // physics
     btRigidBody* body_ = nullptr;
 
-    void        set_name(const std::string& name);
     std::string get_name() const;
 
 protected:
@@ -61,8 +60,12 @@ private:
     void set_position_forced(const ptm::vec3& position);
     void set_rotation_forced(const ptm::vec3& rotation_vector, float angle);
 
+    void set_name(const std::string& name);
+
     friend engine;
     friend engine_pimpl;
+
+    friend game_objects_list;
 
     engine* engine_ = nullptr;
 

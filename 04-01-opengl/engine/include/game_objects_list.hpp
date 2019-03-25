@@ -19,11 +19,14 @@ public:
 
     void swap_names(int index_1, int index_2) {}
 
-    game_object* find_object(const std::string& name) const { return nullptr; }
+    game_object* find_object(const std::string& name) const
+    {
+        throw std::runtime_error("not implemented");
+    }
 
     void delete_object(game_object* object) {}
 
-    void update_name(game_object* object, std::string_view name) {}
+    void update_name(game_object* object, std::string_view name);
 
     using game_object_list      = std::vector<std::unique_ptr<game_object>>;
     using const_object_iterator = game_object_list::const_iterator;
