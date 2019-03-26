@@ -1,3 +1,9 @@
+- add color property to the game_object
+
+- add a switch between game mode / editor more (F12 key)
+
+- add a switch to lock cursor
+
 - add color to the draw_line function (perhaps we need a new shader?)
 
 - show the list of game_objects
