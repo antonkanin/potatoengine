@@ -1,8 +1,6 @@
+- draw a cross in the middle of the screen
+
 - add color property to the game_object
-
-- add a switch between game mode / editor more (F12 key)
-
-- add a switch to lock cursor
 
 - add color to the draw_line function (perhaps we need a new shader?)
 
@@ -38,6 +36,8 @@
 - [low] load texture in the TGA format
 
 Done
+- add a switch between game mode / editor more (F12 key)
+- add a switch to lock cursor
 - add scene save and load
 - resize viewport when windows screen is updated
 - sync scaling between game_object and physics

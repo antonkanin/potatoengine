@@ -419,7 +419,6 @@ void engine_impl::render_objects_gui()
     const auto size = objects_->size();
     for (size_t index = 0; index < size; ++index)
     {
-        // objects_->operator[](index).on_gui();
         (*objects_)[index].on_gui();
     }
 }
