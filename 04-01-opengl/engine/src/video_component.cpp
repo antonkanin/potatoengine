@@ -120,7 +120,7 @@ SDL_GLContext create_opengl_context(SDL_Window* window)
 }
 
 video_component::video_component()
-    : pimpl_(std::make_unique<video_component_pimpl>())
+    : impl(std::make_unique<video_component_pimpl>())
 {
 }
 
@@ -129,25 +129,25 @@ void video_component::render_object(const model&          model,
                                     const movable_object& camera,
                                     const ptm::vec3&      light_position)
 {
-    pimpl_->generic_program_->use();
+    impl->generic_program_->use();
 
     auto model_view_matrix_m = get_model_view_matrix(transformation, camera);
 
-    pimpl_->generic_program_->set_matrix4("u_model_view_matrix",
-                                          glm::value_ptr(model_view_matrix_m));
+    impl->generic_program_->set_matrix4("u_model_view_matrix",
+                                        glm::value_ptr(model_view_matrix_m));
 
-    pimpl_->generic_program_->set_matrix4(
+    impl->generic_program_->set_matrix4(
         "u_projection_matrix", glm::value_ptr(get_projection_matrix()));
 
     auto light_pos =
         get_view_matrix(camera) * glm::vec4(glm_vec(light_position), 1.0f);
 
-    pimpl_->generic_program_->set_vec3(
-        "u_light_pos", { light_pos.x, light_pos.y, light_pos.z });
+    impl->generic_program_->set_vec3("u_light_pos",
+                                     { light_pos.x, light_pos.y, light_pos.z });
 
-    pimpl_->generic_program_->validate();
+    impl->generic_program_->validate();
 
-    model.draw(*(pimpl_->generic_program_.get()));
+    model.draw(*(impl->generic_program_.get()));
 }
 
 bool video_component::init(const std::string& title)
@@ -164,11 +164,11 @@ bool video_component::init(const std::string& title)
 
     // TODO fix the warning "Warning:(47, 43) Clang-Tidy: Use of a signed
     // integer operand with a binary bitwise operator"
-    pimpl_->window_ = SDL_CreateWindow(
+    impl->window_ = SDL_CreateWindow(
         title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
-    if (pimpl_->window_ == nullptr)
+    if (impl->window_ == nullptr)
     {
         SDL_Log("Error: failed to SDL window %s", SDL_GetError());
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
@@ -179,14 +179,14 @@ bool video_component::init(const std::string& title)
 
     set_opengl_version();
 
-    pimpl_->gl_context_ = create_opengl_context(pimpl_->window_);
+    impl->gl_context_ = create_opengl_context(impl->window_);
 
     print_opengl_version();
 
     glEnable(GL_DEPTH_TEST);
     check_gl_errors();
 
-    pimpl_->init();
+    impl->init();
 
     return true;
 }
@@ -194,7 +194,7 @@ bool video_component::init(const std::string& title)
 void video_component::swap_buffers()
 {
 
-    SDL_GL_SwapWindow(pimpl_->window_);
+    SDL_GL_SwapWindow(impl->window_);
 
     glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
     check_gl_errors();
@@ -215,7 +215,7 @@ float video_component::get_ticks()
 
 class SDL_Window* video_component::get_window()
 {
-    return pimpl_->window_;
+    return impl->window_;
 }
 
 void video_component::enable_wireframe(bool state)
@@ -232,9 +232,9 @@ void video_component::enable_wireframe(bool state)
 
 void video_component::clean_up()
 {
-    if (pimpl_->window_ != nullptr)
+    if (impl->window_ != nullptr)
     {
-        SDL_DestroyWindow(pimpl_->window_);
+        SDL_DestroyWindow(impl->window_);
     }
 
     SDL_Quit();
@@ -252,13 +252,15 @@ void video_component::render_light(const model&          model,
 
     glm::mat4 full_transform_m = get_projection_matrix() * view_m * translate_m;
 
-    pimpl_->light_program_->use();
+    impl->light_program_->use();
 
-    pimpl_->light_program_->set_matrix4("u_transform_matrix",
-                                        glm::value_ptr(full_transform_m));
-    pimpl_->light_program_->validate();
+    impl->light_program_->set_vec3("u_color", { 1.0, 1.0, 1.0 });
 
-    model.draw(*(pimpl_->light_program_.get()));
+    impl->light_program_->set_matrix4("u_transform_matrix",
+                                      glm::value_ptr(full_transform_m));
+    impl->light_program_->validate();
+
+    model.draw(*(impl->light_program_.get()));
 }
 
 void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
@@ -292,8 +294,6 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
 
     const ptm::vec3 vertices[2] = { from, to };
 
-    // log_line(std::to_string(sizeof(vertices)));
-
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0],
                  GL_STATIC_DRAW);
     check_gl_errors();
@@ -321,11 +321,14 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
 
     glm::mat4 full_transform_m = get_projection_matrix() * view_m;
 
-    pimpl_->light_program_->use();
+    impl->light_program_->use();
 
-    pimpl_->light_program_->set_matrix4("u_transform_matrix",
-                                        glm::value_ptr(full_transform_m));
-    pimpl_->light_program_->validate();
+    impl->light_program_->set_matrix4("u_transform_matrix",
+                                      glm::value_ptr(full_transform_m));
+
+    impl->light_program_->set_vec3("u_color", color);
+
+    impl->light_program_->validate();
 
     glDrawElements(GL_LINE_STRIP, 2, GL_UNSIGNED_INT, nullptr);
     check_gl_errors();
@@ -338,7 +341,7 @@ vec2i video_component::get_window_size() const
 {
     int w, h;
 
-    SDL_GetWindowSize(pimpl_->window_, &w, &h);
+    SDL_GetWindowSize(impl->window_, &w, &h);
 
     return { w, h };
 }
@@ -350,8 +353,8 @@ void video_component::on_window_resize(Sint32 w, Sint32 h)
 
 video_component::~video_component()
 {
-    SDL_GL_DeleteContext(pimpl_->gl_context_);
-    SDL_DestroyWindow(pimpl_->window_);
+    SDL_GL_DeleteContext(impl->gl_context_);
+    SDL_DestroyWindow(impl->window_);
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
@@ -365,6 +368,12 @@ void video_component::lock_cursor(bool is_locked)
     {
         SDL_SetRelativeMouseMode(SDL_FALSE);
     }
+}
+
+void video_component::render_line_screen_space(const ptm::vec3& from,
+                                               const ptm::vec3& to,
+                                               const ptm::vec3& color)
+{
 }
 
 } // namespace pt

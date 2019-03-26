@@ -32,7 +32,10 @@ public:
                      const ptm::vec3&            color,
                      const class movable_object& camera);
 
-    void swap_buffers();
+    void render_line_screen_space(const ptm::vec3& from, const ptm::vec3& to,
+                                  const ptm::vec3& color);
+
+        void swap_buffers();
 
     void enable_vsync(bool state);
 
@@ -49,7 +52,7 @@ public:
     void lock_cursor(bool is_locked);
 
 private:
-    std::unique_ptr<class video_component_pimpl> pimpl_;
+    std::unique_ptr<class video_component_pimpl> impl;
 };
 
 } // namespace pt
