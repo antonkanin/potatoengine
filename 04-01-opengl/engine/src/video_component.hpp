@@ -32,7 +32,7 @@ public:
                      const ptm::vec3&            color,
                      const class movable_object& camera);
 
-    void render_line_screen_space(const ptm::vec3& from, const ptm::vec3& to,
+    void render_line_ndc(const ptm::vec3& from, const ptm::vec3& to,
                                   const ptm::vec3& color);
 
         void swap_buffers();

@@ -83,6 +83,8 @@ public:
     void render_objects_gui();
 
     void render_lights();
+
+    void render_cross_hairs();
 };
 
 engine::engine()
@@ -149,6 +151,8 @@ bool engine::run()
 
             impl->gui->render_gui_frame();
         }
+
+        impl->render_cross_hairs();
 
         impl->video->swap_buffers();
 
@@ -427,6 +431,23 @@ void engine_impl::render_lights()
 {
     video->render_light(light_model_, engine_->get_light().get_position(),
                         engine_->get_camera());
+}
+
+void engine_impl::render_cross_hairs()
+{
+    const auto window_size = video->get_window_size();
+
+    const float aspect_ratio =
+        static_cast<float>(window_size.x) / static_cast<float>(window_size.y);
+
+    const float cross_size = .4f / 2.f;
+
+    video->render_line_ndc({ -cross_size, 0.f, 0.f }, { +cross_size, 0.f, 0.f },
+                           { 1.f, 0.f, 0.f });
+
+    video->render_line_ndc({ 0.f, -cross_size * aspect_ratio, 0.f },
+                           { 0.f, +cross_size * aspect_ratio, 0.f },
+                           { 1.f, 0.f, 0.f });
 }
 
 } // namespace pt

@@ -263,9 +263,7 @@ void video_component::render_light(const model&          model,
     model.draw(*(impl->light_program_.get()));
 }
 
-void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
-                                  const ptm::vec3&             color,
-                                  const struct movable_object& camera)
+void render_line_internal(const ptm::vec3& from, const ptm::vec3& to)
 {
     unsigned int VAO = 0;
     unsigned int VBO = 0;
@@ -317,6 +315,17 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
     glEnableVertexAttribArray(0); // can we use name instead of a number?
     check_gl_errors();
 
+    glDrawElements(GL_LINE_STRIP, 2, GL_UNSIGNED_INT, nullptr);
+    check_gl_errors();
+
+    glBindVertexArray(0);
+    check_gl_errors();
+}
+
+void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
+                                  const ptm::vec3&             color,
+                                  const struct movable_object& camera)
+{
     glm::mat4 view_m = get_view_matrix(camera);
 
     glm::mat4 full_transform_m = get_projection_matrix() * view_m;
@@ -330,11 +339,25 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
 
     impl->light_program_->validate();
 
-    glDrawElements(GL_LINE_STRIP, 2, GL_UNSIGNED_INT, nullptr);
-    check_gl_errors();
+    render_line_internal(from, to);
+}
 
-    glBindVertexArray(0);
-    check_gl_errors();
+void video_component::render_line_ndc(const ptm::vec3& from,
+                                               const ptm::vec3& to,
+                                               const ptm::vec3& color)
+{
+    glm::mat4 full_transform_m; // indentity matrix
+
+    impl->light_program_->use();
+
+    impl->light_program_->set_matrix4("u_transform_matrix",
+                                      glm::value_ptr(full_transform_m));
+
+    impl->light_program_->set_vec3("u_color", color);
+
+    impl->light_program_->validate();
+
+    render_line_internal(from, to);
 }
 
 vec2i video_component::get_window_size() const
@@ -368,12 +391,6 @@ void video_component::lock_cursor(bool is_locked)
     {
         SDL_SetRelativeMouseMode(SDL_FALSE);
     }
-}
-
-void video_component::render_line_screen_space(const ptm::vec3& from,
-                                               const ptm::vec3& to,
-                                               const ptm::vec3& color)
-{
 }
 
 } // namespace pt
