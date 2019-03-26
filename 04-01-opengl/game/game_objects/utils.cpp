@@ -72,12 +72,9 @@ std::tuple<glm::vec4, glm::vec4> get_world_ray(pt::engine& engine,
     return { from_world, to_world };
 }
 
-pt::game_object* find_collision(pt::engine& engine, const glm::vec4& from_ndc,
-                                const glm::vec4& to_ndc)
+pt::game_object* find_collision(pt::engine& engine, const glm::vec4& from,
+                                const glm::vec4& to)
 {
-    pt::log_line("key down");
-
-    auto [from, to] = get_world_ray(engine, from_ndc, to_ndc);
 
     auto dir = to - from;
 

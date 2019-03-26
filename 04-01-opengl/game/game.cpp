@@ -8,6 +8,7 @@
 #include "game_objects/show_fps.hpp"
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
+#include "game_objects/game/player.hpp"
 
 #include <file_utils.hpp>
 
@@ -61,13 +62,15 @@ int main(int argc, char* argv[])
 
     engine->add_object<camera_keyboard_controller>("Keyboard Controller");
 
+    engine->add_object<player>("Player");
+
 //    engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 
     engine->add_object<show_fps>("FPS Display");
 
     engine->add_object<audio_test>("Audio test");
 
-    engine->add_object<object_selector>("Object Selector");
+    // engine->add_object<object_selector>("Object Selector");
 
     engine->add_object<object_creator>("Object Creator");
 

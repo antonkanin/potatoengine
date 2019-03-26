@@ -42,7 +42,11 @@ public:
         {
             const auto [mouse_from, mouse_to] = get_mouse_ndc();
 
-            auto found_obj = find_collision(get_engine(), mouse_from, mouse_to);
+            auto [mouse_world_from, mouse_world_to] =
+                get_world_ray(get_engine(), mouse_from, mouse_to);
+
+            auto found_obj =
+                find_collision(get_engine(), mouse_world_from, mouse_world_to);
 
             selected_object_ = found_obj;
         }

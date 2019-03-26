@@ -1,3 +1,5 @@
+#pragma once
+
 #include <game_object.hpp>
 #include <log_utils.hpp>
 
