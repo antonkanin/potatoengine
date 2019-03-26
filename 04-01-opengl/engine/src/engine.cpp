@@ -140,11 +140,15 @@ bool engine::run()
 
         impl->render_lights();
 
-        impl->gui->prepare_gui_frame();
+        if (!cursor_locked())
+        {
 
-        impl->render_objects_gui();
+            impl->gui->prepare_gui_frame();
 
-        impl->gui->render_gui_frame();
+            impl->render_objects_gui();
+
+            impl->gui->render_gui_frame();
+        }
 
         impl->video->swap_buffers();
 
