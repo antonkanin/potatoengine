@@ -11,9 +11,16 @@ add_executable(${PROJECT_NAME}
         game_objects/vehicle.hpp
         game_objects/light_controller.hpp
         game_objects/audio_test.hpp
-        game_objects/object_selector.hpp
-        game_objects/object_creator.hpp
-        game_objects/cube.hpp)
+
+        game_objects/cube.hpp
+
+        game_objects/editor/object_selector.hpp
+        game_objects/editor/object_creator.hpp
+
+        game_objects/game/player.hpp
+        game_objects/game/enemy.hpp
+
+        game_objects/utils.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 

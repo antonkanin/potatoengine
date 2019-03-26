@@ -3,8 +3,8 @@
 #include "game_objects/camera_keyboard_controller.hpp"
 #include "game_objects/cube.hpp"
 #include "game_objects/light_controller.hpp"
-#include "game_objects/object_creator.hpp"
-#include "game_objects/object_selector.hpp"
+#include "game_objects/editor/object_creator.hpp"
+#include "game_objects/editor/object_selector.hpp"
 #include "game_objects/show_fps.hpp"
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
@@ -29,6 +29,7 @@ int main(int argc, char* argv[])
     PT_REGISTER(engine, space_ship);
     PT_REGISTER(engine, vehicle);
     PT_REGISTER(engine, cube);
+    PT_REGISTER(engine, enemy);
 
     // clang-format off
 
@@ -67,6 +68,7 @@ int main(int argc, char* argv[])
     engine->add_object<audio_test>("Audio test");
 
     engine->add_object<object_selector>("Object Selector");
+
     engine->add_object<object_creator>("Object Creator");
 
     // clang-format on

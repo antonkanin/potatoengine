@@ -4,11 +4,15 @@
 #include <iostream>
 #include <movable_object.hpp>
 
-#include "space_ship.hpp"
+#include "../space_ship.hpp"
+
 #include <SDL2/SDL_mouse.h> // TODO hide this in the engine
 #include <glm/gtc/matrix_transform.hpp>
 #include <ptm/glm_to_ptm.hpp>
 #include <ptm/vec4.hpp>
+
+#include "../game/enemy.hpp"
+#include "../utils.hpp"
 
 class object_selector final : public pt::game_object
 {
@@ -17,69 +21,46 @@ public:
 
     void update() override
     {
+        handle_mouse_input();
+
+        draw_debug_line();
+    }
+
+    void draw_debug_line()
+    {
+        auto bt_end = bt_pos + bt_dir * 10;
+
+        get_engine().draw_line({ bt_pos.x(), bt_pos.y(), bt_pos.z() },
+                               { bt_end.x(), bt_end.y(), bt_end.z() },
+                               { 1.0f, 1.0f, 1.0f });
+    }
+
+    void handle_mouse_input()
+    {
         if (get_engine().get_input_manager().get_key_down(
                 pt::key_code::mouse_left))
         {
-            auto [from, to] = get_world_ray();
+            const auto [mouse_from, mouse_to] = get_mouse_ndc();
 
-            auto dir = to - from;
+            auto found_obj = find_collision(get_engine(), mouse_from, mouse_to);
 
-            dir = glm::normalize(dir);
-
-            bt_pos = { from.x, from.y, from.z };
-            bt_dir = { dir.x, dir.y, dir.z };
-
-            btCollisionWorld::ClosestRayResultCallback rayCallBack(
-                bt_pos, bt_dir * 100);
-
-            get_engine().get_dynamics_world()->rayTest(bt_pos, bt_dir * 100,
-                                                       rayCallBack);
-
-            if (rayCallBack.hasHit())
-            {
-                auto body = (btRigidBody*)btRigidBody::upcast(
-                    rayCallBack.m_collisionObject);
-
-                if (body != nullptr)
-                {
-                    selected_object_ = get_engine().find_game_object(body);
-                }
-            }
+            selected_object_ = found_obj;
         }
     }
 
-    glm::mat4x4 get_ndc2world_matrix()
-    {
-        auto camera = get_engine().get_camera();
-
-        auto view_matrix = ptm::look_at(
-            camera.get_position(), camera.get_direction(), camera.get_up());
-
-        auto transform_matrix = ptm::get_projection_matrix() * view_matrix;
-
-        return glm::inverse(transform_matrix);
-    }
-
-    std::tuple<glm::vec4, glm::vec4> get_world_ray()
+    std::tuple<glm::vec4, glm::vec4> get_mouse_ndc()
     {
         // get NDC from and to
-        auto mouse_ndc = get_mouse_normalized();
+        const auto mouse_ndc = get_mouse_normalized();
 
-        auto from_ndc = glm::vec4{ mouse_ndc.x, mouse_ndc.y, -1.f, 1.f };
-        auto to_ndc   = glm::vec4{ mouse_ndc.x, mouse_ndc.y, 0.f, 1.f };
+        const auto from_ndc = glm::vec4{ mouse_ndc.x, mouse_ndc.y, -1.f, 1.f };
+        const auto to_ndc   = glm::vec4{ mouse_ndc.x, mouse_ndc.y, 0.f, 1.f };
 
-        auto ndc2world_matrix = get_ndc2world_matrix();
-
-        auto from_world = ndc2world_matrix * from_ndc;
-        from_world /= from_world.w;
-
-        auto to_world = ndc2world_matrix * to_ndc;
-        to_world /= to_world.w;
-
-        return { from_world, to_world };
+        return { from_ndc, to_ndc };
     }
 
-    ptm::vec2 normalize_screen_coords(int x, int y, int width, int height)
+    static ptm::vec2 normalize_screen_coords(int x, int y, int width,
+                                             int height)
     {
         auto x_f      = static_cast<float>(x);
         auto y_f      = static_cast<float>(y);

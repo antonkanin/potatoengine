@@ -20,7 +20,8 @@ void log_line(const float time, const std::string& line)
 
 void log_line(const std::string& line)
 {
-    std::cout << current_time() << ' ' << line << '\n';
+    //std::cout << current_time() << ' ' << line << '\n';
+    std::cout << line << std::endl;
 }
 
 std::ostream& log_line()
