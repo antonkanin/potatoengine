@@ -11,9 +11,14 @@ class camera_keyboard_controller : public pt::game_object
 public:
     using pt::game_object::game_object;
 
-    void update() override { handle_camera_movement(); }
+    void update() override
+    {
+        handle_keyboard_input();
 
-    void handle_camera_movement()
+        handle_mouse_input();
+    }
+
+    void handle_keyboard_input()
     {
         using namespace pt;
 
@@ -51,6 +56,14 @@ public:
         {
             get_engine().get_camera().move_down(MOVEMENT_SPEED);
         }
+    }
+
+    void handle_mouse_input()
+    {
+        using namespace pt;
+
+        const auto& input = get_engine().get_input_manager();
+        const auto& trans = get_transformation();
 
         if (input.get_key_down(key_code::mouse_right))
         {
@@ -62,7 +75,7 @@ public:
             mouse_rotation_ = false;
         }
 
-        if (mouse_rotation_)
+        if (get_engine().cursor_locked() ||  mouse_rotation_)
         {
             get_engine().get_camera().add_yaw(input.get_axis_x() * 0.02f);
             get_engine().get_camera().add_pitch(input.get_axis_y() * 0.02f);

@@ -46,6 +46,8 @@ public:
 
     static void on_window_resize(Sint32 w, Sint32 h);
 
+    void lock_cursor(bool is_locked);
+
 private:
     std::unique_ptr<class video_component_pimpl> pimpl_;
 };

@@ -3,6 +3,7 @@
 #include <game_objects_list.hpp>
 #include <imgui.h>
 #include <imgui_stdlib.h>
+#include <input_manager.hpp>
 #include <log_utils.hpp>
 
 class object_creator final : public pt::game_object
@@ -11,6 +12,14 @@ private:
     using pt::game_object::game_object;
 
     void start() override {}
+
+    void update() override
+    {
+        if (get_engine().get_input_manager().get_key_down(pt::key_code::F12))
+        {
+            get_engine().cursor_locked(!get_engine().cursor_locked());
+        }
+    }
 
     void on_gui() override
     {
@@ -84,7 +93,6 @@ private:
         ImGui::InputFloat("x##scale", &object_scale_.x, 0.1f, 1.0f);
         ImGui::InputFloat("y##scale", &object_scale_.y, 0.1f, 1.0f);
         ImGui::InputFloat("z##scale", &object_scale_.z, 0.1f, 1.0f);
-
 
         // TODO add option to change object names
         // get_engine().objects().update_name(current_object_, object_name_);

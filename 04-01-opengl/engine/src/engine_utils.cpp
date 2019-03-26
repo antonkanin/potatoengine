@@ -56,6 +56,11 @@ pt::key_code pt::get_key(const SDL_Keycode& sdl_keycode)
             return key_code::crouch;
         }
 
+        case SDLK_F12:
+        {
+            return key_code::F12;
+        }
+
         default:
         {
             return key_code::unsupported;

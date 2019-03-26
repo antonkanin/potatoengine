@@ -16,12 +16,11 @@ class game_objects_list;
 class movable_object;
 class input_manager;
 
-
 class engine
 {
 public:
     using make_object_func =
-    std::function<game_object *(engine &, std::string_view)>;
+        std::function<game_object*(engine&, std::string_view)>;
 
     engine();
 
@@ -31,17 +30,17 @@ public:
 
     bool run();
 
-    game_object *add_object(std::unique_ptr<game_object> object);
+    game_object* add_object(std::unique_ptr<game_object> object);
 
-    template<typename T>
-    game_object *add_object(std::string_view name)
+    template <typename T>
+    game_object* add_object(std::string_view name)
     {
         return add_object(std::make_unique<T>(std::string(name)));
     }
 
-    input_manager &get_input_manager();
+    input_manager& get_input_manager();
 
-    void set_title(const std::string &title);
+    void set_title(const std::string& title);
 
     /** time from the start of the game */
     float time() const;
@@ -49,31 +48,31 @@ public:
     /** duration of the previous frame */
     float delta_time() const;
 
-    movable_object &get_camera();
+    movable_object& get_camera();
 
-    movable_object &get_light();
+    movable_object& get_light();
 
     void enable_wireframe(bool state);
 
-    void set_light_model(const class model &model);
+    void set_light_model(const class model& model);
 
-    btDiscreteDynamicsWorld *get_dynamics_world();
+    btDiscreteDynamicsWorld* get_dynamics_world();
 
-    bool load_sound(const std::string &sound_name,
-                    const std::string &file_path);
+    bool load_sound(const std::string& sound_name,
+                    const std::string& file_path);
 
-    bool play_sound(const std::string &sound_name) const;
+    bool play_sound(const std::string& sound_name) const;
 
     ptm::vec2i get_window_size() const;
 
-    void draw_line(const ptm::vec3 &from, const ptm::vec3 &to);
+    void draw_line(const ptm::vec3& from, const ptm::vec3& to);
 
-    void draw_line(const ptm::vec3 &from, const ptm::vec3 &to,
-                   const ptm::vec3 &color);
+    void draw_line(const ptm::vec3& from, const ptm::vec3& to,
+                   const ptm::vec3& color);
 
-    void add_body(game_object *game_object, btRigidBody *rigid_body);
+    void add_body(game_object* game_object, btRigidBody* rigid_body);
 
-    game_object *find_game_object(btRigidBody *rigid_body);
+    game_object* find_game_object(btRigidBody* rigid_body);
 
     void enable_physics(bool state);
 
@@ -83,12 +82,12 @@ public:
 
     void register_class(std::string_view class_name, make_object_func);
 
-    game_object *make_object(std::string_view class_name,
+    game_object* make_object(std::string_view class_name,
                              std::string_view object_name);
 
-    const std::vector<const char *> &object_types() const;
+    const std::vector<const char*>& object_types() const;
 
-    using game_object_list = std::vector<std::unique_ptr<game_object>>;
+    using game_object_list      = std::vector<std::unique_ptr<game_object>>;
     using const_object_iterator = game_object_list::const_iterator;
 
     const_object_iterator begin() const;
@@ -99,8 +98,11 @@ public:
 
     game_objects_list& objects();
 
+    void cursor_locked(bool is_locked);
+    bool cursor_locked() const;
+
 private:
-    std::unique_ptr<class engine_pimpl> impl;
+    std::unique_ptr<class engine_impl> impl;
 };
 
 } // namespace pt

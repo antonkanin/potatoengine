@@ -50,6 +50,8 @@ void input_manager::reset_states()
     reset_key_state(key_code::mouse_right);
     reset_key_state(key_code::mouse_left);
 
+    reset_key_state(key_code::F12);
+
     axis_x_ = 0.f;
     axis_y_ = 0.f;
 }

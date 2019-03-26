@@ -63,7 +63,7 @@ private:
     void set_name(const std::string& name);
 
     friend engine;
-    friend engine_pimpl;
+    friend engine_impl;
 
     friend game_objects_list;
 

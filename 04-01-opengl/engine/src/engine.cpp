@@ -17,10 +17,10 @@
 namespace pt
 {
 
-class engine_pimpl
+class engine_impl
 {
 public:
-    explicit engine_pimpl(engine* e)
+    explicit engine_impl(engine* e)
         : engine_(e)
         , input_manager_(std::make_unique<input_manager>())
         , audio(std::make_unique<audio_component>())
@@ -72,6 +72,8 @@ public:
     bool update_physics_state_ = false;
     bool new_physics_state_    = physics_enabled_;
 
+    bool is_cursor_locked_ = false;
+
     void start_objects();
 
     void update_objects();
@@ -84,7 +86,7 @@ public:
 };
 
 engine::engine()
-    : impl(std::make_unique<engine_pimpl>(this))
+    : impl(std::make_unique<engine_impl>(this))
 {
 }
 
@@ -350,10 +352,21 @@ game_objects_list& engine::objects()
     return *(impl->objects_.get());
 }
 
+void engine::cursor_locked(bool is_locked)
+{
+    impl->video->lock_cursor(is_locked);
+    impl->is_cursor_locked_ = is_locked;
+}
+
+bool engine::cursor_locked() const
+{
+    return impl->is_cursor_locked_;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 
-void engine_pimpl::update_objects()
+void engine_impl::update_objects()
 {
     for (auto& object : *objects_)
     {
@@ -376,7 +389,7 @@ void engine_pimpl::update_objects()
     }
 }
 
-void engine_pimpl::render_objects()
+void engine_impl::render_objects()
 {
     for (auto& object : *objects_)
     {
@@ -389,7 +402,7 @@ void engine_pimpl::render_objects()
     }
 }
 
-void engine_pimpl::start_objects()
+void engine_impl::start_objects()
 {
     for (auto& object : *objects_)
     {
@@ -397,7 +410,7 @@ void engine_pimpl::start_objects()
     }
 }
 
-void engine_pimpl::render_objects_gui()
+void engine_impl::render_objects_gui()
 {
     const auto size = objects_->size();
     for (size_t index = 0; index < size; ++index)
@@ -407,7 +420,7 @@ void engine_pimpl::render_objects_gui()
     }
 }
 
-void engine_pimpl::render_lights()
+void engine_impl::render_lights()
 {
     video->render_light(light_model_, engine_->get_light().get_position(),
                         engine_->get_camera());

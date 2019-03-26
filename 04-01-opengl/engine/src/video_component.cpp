@@ -175,9 +175,6 @@ bool video_component::init(const std::string& title)
         return false;
     }
 
-    // locking mouse at the center of the screen
-    // SDL_SetRelativeMouseMode(SDL_TRUE);
-
     initialize_gl_functions();
 
     set_opengl_version();
@@ -356,6 +353,18 @@ video_component::~video_component()
     SDL_GL_DeleteContext(pimpl_->gl_context_);
     SDL_DestroyWindow(pimpl_->window_);
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
+}
+
+void video_component::lock_cursor(bool is_locked)
+{
+    if (is_locked)
+    {
+        SDL_SetRelativeMouseMode(SDL_TRUE);
+    }
+    else
+    {
+        SDL_SetRelativeMouseMode(SDL_FALSE);
+    }
 }
 
 } // namespace pt

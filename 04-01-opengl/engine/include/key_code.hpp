@@ -18,7 +18,9 @@ enum class key_code
     crouch      = 10,
 
     mouse_left  = 11,
-    mouse_right = 12
+    mouse_right = 12,
+
+    F12 = 13
 };
 
 enum class key_state
