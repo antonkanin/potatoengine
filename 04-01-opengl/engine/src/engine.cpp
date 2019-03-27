@@ -275,6 +275,11 @@ game_object* engine::find_game_object(btRigidBody* rigid_body)
     return nullptr;
 }
 
+game_object* engine::find_game_object(std::string_view name)
+{
+    return impl->objects_->find_object(name);
+}
+
 void engine::add_body(game_object* game_object, btRigidBody* rigid_body)
 {
     get_dynamics_world()->addRigidBody(rigid_body);

@@ -4,14 +4,21 @@
 #include "enemy.hpp"
 #include <game_object.hpp>
 #include <glm/vec4.hpp>
+#include <input_manager.hpp>
 #include <log_utils.hpp>
+#include <movable_object.hpp>
 
 class player : public pt::game_object
 {
 public:
     using pt::game_object::game_object;
 
-    void update() override { handle_mouse_input(); }
+    void update() override
+    {
+        handle_mouse_input();
+
+        set_position(get_engine().get_camera().get_position());
+    }
 
     void handle_mouse_input()
     {

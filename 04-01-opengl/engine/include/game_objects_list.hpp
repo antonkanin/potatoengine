@@ -19,10 +19,7 @@ public:
 
     void swap_names(int index_1, int index_2) {}
 
-    game_object* find_object(const std::string& name) const
-    {
-        throw std::runtime_error("not implemented");
-    }
+    game_object* find_object(std::string_view name);
 
     void delete_object(game_object* object) {}
 

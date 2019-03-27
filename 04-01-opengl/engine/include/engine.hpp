@@ -74,6 +74,8 @@ public:
 
     game_object* find_game_object(btRigidBody* rigid_body);
 
+    game_object* find_game_object(std::string_view name);
+
     void enable_physics(bool state);
 
     bool is_physics_enabled() const;

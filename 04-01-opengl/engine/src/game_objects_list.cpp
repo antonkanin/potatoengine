@@ -1,6 +1,7 @@
 #include <game_objects_list.hpp>
 
 #include "log_utils.hpp"
+#include <algorithm>
 #include <game_object.hpp>
 
 namespace pt
@@ -53,6 +54,23 @@ void game_objects_list::update_name(game_object* object, std::string_view name)
     object->set_name(std::string(name));
 
     throw std::runtime_error("not implemented");
+}
+
+game_object* game_objects_list::find_object(std::string_view name)
+{
+    auto found_object =
+        std::find_if(objects_.begin(), objects_.end(),
+                     [name](const std::unique_ptr<game_object>& object) {
+                         return object->get_name() == name;
+                     });
+
+    if (found_object == objects_.end())
+    {
+        return nullptr;
+    }
+
+    return found_object->get();
+
 }
 
 } // namespace pt

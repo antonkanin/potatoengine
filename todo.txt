@@ -1,8 +1,6 @@
-- draw a cross in the middle of the screen
+- adding and deleting object at runtime
 
 - add color property to the game_object
-
-- add color to the draw_line function (perhaps we need a new shader?)
 
 - show the list of game_objects
   * click on the game_object in the list highlights it in the scene
@@ -36,6 +34,8 @@
 - [low] load texture in the TGA format
 
 Done
+- add color to the draw_line function (perhaps we need a new shader?)
+- draw a cross in the middle of the screen
 - add a switch between game mode / editor more (F12 key)
 - add a switch to lock cursor
 - add scene save and load
