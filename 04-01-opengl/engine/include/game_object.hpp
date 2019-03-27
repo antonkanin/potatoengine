@@ -54,6 +54,8 @@ public:
 
     std::string get_name() const;
 
+    void destroy();
+
 protected:
     engine& get_engine();
 
@@ -62,6 +64,8 @@ private:
     void set_rotation_forced(const ptm::vec3& rotation_vector, float angle);
 
     void set_name(const std::string& name);
+
+    void destroy_forced();
 
     friend engine;
     friend engine_impl;
@@ -79,6 +83,8 @@ private:
                                        .scale           = { 1.f, 1.f, 1.f } };
 
     std::string name_ = "NoName";
+
+    bool to_be_destroyed_ = false;
 };
 
 template <typename T>

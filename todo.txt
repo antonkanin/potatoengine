@@ -1,4 +1,16 @@
-- adding and deleting object at runtime
+- deleting objects at runtime
+  * game_object_list
+    + game_objects vector
+    +  names vector
+    +  indices vector (currently not used)
+
+  * game_object
+    + body
+    + motion_state
+
+  * engine
+    + game_objects_list
+    + map<body, game_object>
 
 - add color property to the game_object
 

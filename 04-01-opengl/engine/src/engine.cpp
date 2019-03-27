@@ -85,6 +85,8 @@ public:
     void render_lights();
 
     void render_cross_hairs();
+
+    void clean_destroyed_objects();
 };
 
 engine::engine()
@@ -164,6 +166,8 @@ bool engine::run()
             impl->update_physics_state_ = false;
             impl->physics_enabled_      = impl->new_physics_state_;
         }
+
+        clean_destroyed_objects();
     }
 
     return true;
@@ -458,6 +462,18 @@ void engine_impl::render_cross_hairs()
     video->render_line_ndc({ 0.f, -cross_size * aspect_ratio, 0.f },
                            { 0.f, +cross_size * aspect_ratio, 0.f },
                            { 1.f, 0.f, 0.f });
+}
+
+void engine_impl::clean_destroyed_objects()
+{
+
+    objects_.
+
+    for (size_t index = objects_.size() - 1; index >= 0; --index)
+    {
+        objects_.get()[index].begin()
+
+    }
 }
 
 } // namespace pt

@@ -150,7 +150,8 @@ game_object* game_object::add_body(bool is_dynamic)
 
     body_ = new btRigidBody(rbInfo);
 
-    body_->setCollisionFlags(body_->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+    body_->setCollisionFlags(body_->getCollisionFlags() |
+                             btCollisionObject::CF_STATIC_OBJECT);
 
     body_->setActivationState(DISABLE_DEACTIVATION);
 
@@ -184,6 +185,24 @@ void game_object::set_rotation_forced(const ptm::vec3& rotation_vector,
 {
     transformation_.rotation_vector = rotation_vector;
     transformation_.rotation_angle  = angle;
+}
+
+void game_object::destroy()
+{
+    to_be_destroyed_ = true;
+}
+
+void game_object::destroy_forced()
+{
+    if (body_ != nullptr)
+    {
+        get_engine().get_dynamics_world()->removeRigidBody(body_);
+        delete body_;
+        body_ = nullptr;
+
+        delete motion_state_;
+        motion_state_ = nullptr;
+    }
 }
 
 } // namespace pt

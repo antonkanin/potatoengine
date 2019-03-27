@@ -41,10 +41,6 @@ public:
                 {
                     found_enemy->hit();
                 }
-                else
-                {
-                    pt::log_line("missed");
-                }
             }
         }
     }

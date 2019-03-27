@@ -19,6 +19,20 @@ void game_objects_list::add_object(std::unique_ptr<game_object> object)
     objects_.push_back(std::move(object));
 }
 
+void game_objects_list::remove_object(const game_object* object)
+{
+    for (auto index = objects_.size() - 1; index >= 0; --index)
+    {
+        if (objects_[index].get() == object)
+        {
+            delete names_[index];
+            names_.erase(names_.begin() + index);
+
+            objects_.erase(objects_.begin() + index);
+        }
+    }
+}
+
 const char* const* game_objects_list::get_names() const
 {
     return names_.data();
@@ -70,7 +84,6 @@ game_object* game_objects_list::find_object(std::string_view name)
     }
 
     return found_object->get();
-
 }
 
 } // namespace pt

@@ -15,6 +15,8 @@ class game_objects_list
 public:
     void add_object(std::unique_ptr<game_object> object);
 
+    void remove_object(const game_object* object);
+
     const char* const* get_names() const;
 
     void swap_names(int index_1, int index_2) {}
