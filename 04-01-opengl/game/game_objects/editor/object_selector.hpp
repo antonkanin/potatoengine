@@ -65,8 +65,8 @@ public:
         // get NDC from and to
         const auto mouse_ndc = get_mouse_normalized();
 
-        const auto from_ndc = glm::vec4{ mouse_ndc.x, mouse_ndc.y, 1.f, 1.f };
-        const auto to_ndc   = glm::vec4{ mouse_ndc.x, mouse_ndc.y, -1.f, 1.f };
+        const auto from_ndc = glm::vec4{ mouse_ndc.x, mouse_ndc.y, -1.f, 1.f };
+        const auto to_ndc   = glm::vec4{ mouse_ndc.x, mouse_ndc.y, 1.f, 1.f };
 
         return { from_ndc, to_ndc };
     }

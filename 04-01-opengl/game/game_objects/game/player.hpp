@@ -28,8 +28,8 @@ public:
         if (get_engine().get_input_manager().get_key_down(
                 pt::key_code::mouse_left))
         {
-            glm::vec4 ndc_from = { .0f, 0.f, 1.0f, 1.0 };
-            glm::vec4 ndc_to   = { .0f, 0.f, -1.0f, 1.0 };
+            glm::vec4 ndc_from = { .0f, 0.f, -1.0f, 1.0 };
+            glm::vec4 ndc_to   = { .0f, 0.f, 1.0f, 1.0 };
 
             auto [world_from, world_to] =
                 get_world_ray(get_engine(), ndc_from, ndc_to);
