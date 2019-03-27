@@ -2,14 +2,14 @@
 #include "game_objects/camera_gui_controller.hpp"
 #include "game_objects/camera_keyboard_controller.hpp"
 #include "game_objects/cube.hpp"
-#include "game_objects/light_controller.hpp"
+#include "game_objects/editor/mode_switcher.hpp"
 #include "game_objects/editor/object_creator.hpp"
 #include "game_objects/editor/object_selector.hpp"
-#include "game_objects/editor/mode_switcher.hpp"
+#include "game_objects/game/player.hpp"
+#include "game_objects/light_controller.hpp"
 #include "game_objects/show_fps.hpp"
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
-#include "game_objects/game/player.hpp"
 
 #include <file_utils.hpp>
 
@@ -71,11 +71,11 @@ int main(int argc, char* argv[])
 
     // engine->add_object<audio_test>("Audio test");
 
-    engine->add_object<object_selector>("Object Selector");
+    // engine->add_object<object_selector>("Object Selector");
 
     engine->add_object<mode_switcher>("mode_switcher");
 
-    // engine->add_object<object_creator>("Object Creator");
+    engine->add_object<object_creator>("Object Creator");
 
     // clang-format on
 

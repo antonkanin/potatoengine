@@ -13,14 +13,6 @@ private:
 
     void start() override {}
 
-    void update() override
-    {
-        if (get_engine().get_input_manager().get_key_down(pt::key_code::F12))
-        {
-            get_engine().cursor_locked(!get_engine().cursor_locked());
-        }
-    }
-
     void on_gui() override
     {
         ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Appearing);

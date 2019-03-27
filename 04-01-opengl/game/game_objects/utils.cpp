@@ -82,16 +82,13 @@ pt::game_object* find_collision(pt::engine& engine, const glm::vec4& from,
     btVector3 bt_pos = { from.x, from.y, from.z };
     btVector3 bt_dir = { dir.x, dir.y, dir.z };
 
-    btCollisionWorld::ClosestRayResultCallback rayCallBack(bt_pos,
-                                                           bt_pos + bt_dir * 100);
+    btCollisionWorld::ClosestRayResultCallback rayCallBack(
+        bt_pos, bt_pos + bt_dir * 100);
 
-    engine.get_dynamics_world()->rayTest(bt_pos, bt_pos + bt_dir * 100, rayCallBack);
-
-    pt::log_line("Collision call");
-
+    engine.get_dynamics_world()->rayTest(bt_pos, bt_pos + bt_dir * 100,
+                                         rayCallBack);
     if (rayCallBack.hasHit())
     {
-        pt::log_line("Hit");
         auto body =
             (btRigidBody*)btRigidBody::upcast(rayCallBack.m_collisionObject);
 
