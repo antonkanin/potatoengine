@@ -131,7 +131,7 @@ bool engine::run()
 
         if (impl->physics_enabled_)
         {
-            impl->physics->update_physics(impl->delta_time_);
+            update_physics();
         }
 
         impl->update_objects();
@@ -374,6 +374,11 @@ void engine::cursor_locked(bool is_locked)
 bool engine::cursor_locked() const
 {
     return impl->is_cursor_locked_;
+}
+
+void engine::update_physics()
+{
+    impl->physics->update_physics(impl->delta_time_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

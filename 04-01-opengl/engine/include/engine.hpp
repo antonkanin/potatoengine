@@ -103,6 +103,8 @@ public:
     void cursor_locked(bool is_locked);
     bool cursor_locked() const;
 
+    void update_physics();
+
 private:
     std::unique_ptr<class engine_impl> impl;
 };

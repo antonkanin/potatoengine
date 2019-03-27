@@ -69,15 +69,15 @@ int main(int argc, char* argv[])
 
     // engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 
-    //engine->add_object<show_fps>("FPS Display");
+    // engine->add_object<show_fps>("FPS Display");
 
     // engine->add_object<audio_test>("Audio test");
 
-    // engine->add_object<object_selector>("Object Selector");
+    //engine->add_object<object_selector>("Object Selector");
 
     engine->add_object<mode_switcher>("mode_switcher");
 
-    engine->add_object<object_creator>("Object Creator");
+    //engine->add_object<object_creator>("Object Creator");
 
     // clang-format on
 

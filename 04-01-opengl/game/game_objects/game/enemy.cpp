@@ -8,7 +8,7 @@ void enemy::start()
 
     if (player_object == nullptr)
     {
-        throw std::runtime_error("Could not find Player game_object");
+        pt::log_line("Could not find Player game_object");
     }
 
     player_ = dynamic_cast<player*>(player_object);
@@ -22,13 +22,20 @@ void enemy::hit()
     health--;
 }
 
-void enemy::update()
+void enemy::move_enemy()
 {
+    if (player_ == nullptr)
+    {
+        return;
+    }
+
     auto player_pos = player_->get_position();
 
     auto move_direction = player_pos - get_position();
 
     move_direction = ptm::normalize(move_direction);
 
-    set_position(get_position() + move_direction * get_engine().delta_time() * move_speed);
+    set_position(get_position() +
+                 move_direction * get_engine().delta_time() * move_speed);
+
 }

@@ -50,6 +50,7 @@ public:
 
     // physics
     btRigidBody* body_ = nullptr;
+    btMotionState* motion_state_ = nullptr;
 
     std::string get_name() const;
 

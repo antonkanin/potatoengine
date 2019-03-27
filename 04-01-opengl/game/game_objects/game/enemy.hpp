@@ -11,13 +11,14 @@ public:
 
     void start() override;
 
-    void update() override;
+    void update() override { move_enemy(); }
 
     void hit();
 
+    void move_enemy();
 
 private:
-    int health = 10;
+    int   health     = 10;
     float move_speed = 1.f;
 
     class player* player_ = nullptr;

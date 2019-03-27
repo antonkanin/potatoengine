@@ -119,13 +119,25 @@ public:
         auto scale = selected_object_->get_scale();
 
         ImGui::LabelText("Name", selected_object_->get_name().c_str());
-        ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
-        ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);
-        ImGui::SliderFloat("z", &pos.z, -10.0f, 10.0f, "%.4f", 2.0f);
 
-        ImGui::SliderFloat("scale x", &scale.x, -10.0f, 10.0f, "%.4f", 1.0f);
-        ImGui::SliderFloat("scale y", &scale.y, -10.0f, 10.0f, "%.4f", 1.0f);
-        ImGui::SliderFloat("scale z", &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
+        ImGui::Text("Position");
+        ImGui::InputFloat("x##pos", &pos.x, 0.1f, 1.0f);
+        ImGui::InputFloat("y##pos", &pos.y, 0.1f, 1.0f);
+        ImGui::InputFloat("z##pos", &pos.z, 0.1f, 1.0f);
+
+        ImGui::Text("Scale");
+        ImGui::InputFloat("x##scale", &scale.x, 0.1f, 1.0f);
+        ImGui::InputFloat("y##scale", &scale.y, 0.1f, 1.0f);
+        ImGui::InputFloat("z##scale", &scale.z, 0.1f, 1.0f);
+
+
+//        ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
+//        ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);
+//        ImGui::SliderFloat("z", &pos.z, -10.0f, 10.0f, "%.4f", 2.0f);
+//
+//        ImGui::SliderFloat("scale x", &scale.x, -10.0f, 10.0f, "%.4f", 1.0f);
+//        ImGui::SliderFloat("scale y", &scale.y, -10.0f, 10.0f, "%.4f", 1.0f);
+//        ImGui::SliderFloat("scale z", &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
 
         // ImGui::Checkbox("Auto-rotate", &selected_object_->is_auto_rotate_);
 

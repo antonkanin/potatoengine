@@ -22,8 +22,19 @@ game_object* game_object::set_position(const ptm::vec3& position)
         }
         else
         {
-            body_->getWorldTransform().setOrigin(
-                { position.x, position.y, position.z });
+            btTransform transform;
+
+            transform.setOrigin({ position.x, position.y, position.z });
+            transform.setRotation(body_->getWorldTransform().getRotation());
+
+            //            body_->getWorldTransform().setOrigin(
+            //                { position.x, position.y, position.z });
+
+            body_->setWorldTransform(transform);
+
+            motion_state_->setWorldTransform(transform);
+
+            get_engine().update_physics();
         }
     }
 
@@ -132,12 +143,16 @@ game_object* game_object::add_body(bool is_dynamic)
         // shape->calculateLocalInertia(mass, localInertia);
     }
 
-    auto myMotionState = new btDefaultMotionState(bt_transform);
+    motion_state_ = new btDefaultMotionState(bt_transform);
 
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape,
+    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motion_state_, shape,
                                                     localInertia);
 
     body_ = new btRigidBody(rbInfo);
+
+    body_->setCollisionFlags(body_->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+
+    body_->setActivationState(DISABLE_DEACTIVATION);
 
     get_engine().add_body(this, body_);
 
