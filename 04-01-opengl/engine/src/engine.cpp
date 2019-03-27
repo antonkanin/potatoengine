@@ -328,9 +328,9 @@ game_object* engine::make_object(std::string_view class_name,
         return nullptr;
     }
 
-    make_object_func f = impl->objects_register[class_name];
+    make_object_func make_object = impl->objects_register[class_name];
 
-    game_object* obj = f(*this, object_name);
+    game_object* obj = make_object(*this, object_name);
 
     return obj;
 }

@@ -10,24 +10,6 @@
 namespace pt
 {
 
-std::string program::load_file(const std::string& file_name)
-{
-    std::fstream file(file_name);
-
-    if (!file.is_open())
-    {
-        throw std::runtime_error("Error: failed to open the file" + file_name);
-    }
-
-    std::stringstream ss;
-
-    ss << file.rdbuf() << '\n';
-
-    file.close();
-
-    return ss.str();
-}
-
 program::program(const std::string& vertex_path,
                  const std::string& fragment_path)
 {
@@ -159,8 +141,10 @@ void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
 
     if (-1 == location)
     {
-        //        throw std::runtime_error("Error: could not find attribute " +
-        //                                 uniform_name);
+/*
+        throw std::runtime_error("Error: could not find attribute " +
+                                 uniform_name);
+*/
         std::cout << "Error: could not find 3f attribute " << uniform_name
                   << '\n';
         return;

@@ -11,6 +11,8 @@ struct vec3
     float y = 0.f;
     float z = 0.f;
 
+    constexpr vec3() = default;
+
     constexpr vec3(float x, float y, float z)
         : x(x)
         , y(y)

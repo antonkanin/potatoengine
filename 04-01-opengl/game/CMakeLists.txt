@@ -16,6 +16,7 @@ add_executable(${PROJECT_NAME}
 
         game_objects/editor/object_selector.hpp
         game_objects/editor/object_creator.hpp
+        game_objects/editor/mode_switcher.hpp
 
         game_objects/game/player.hpp
         game_objects/game/enemy.hpp

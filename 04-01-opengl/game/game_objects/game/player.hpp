@@ -42,12 +42,14 @@ public:
 
             if (found_obj != nullptr)
             {
+                pt::log_line("Found object: " + found_obj->get_name());
+
                 auto found_enemy = dynamic_cast<enemy*>(found_obj);
 
                 if (nullptr != found_enemy)
                 {
                     found_enemy->hit();
-                    pt::log_line("hit");
+                    pt::log_line("found enemy");
                 }
                 else
                 {

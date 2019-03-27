@@ -10,6 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <ptm/glm_to_ptm.hpp>
 #include <ptm/vec4.hpp>
+#include <ptm/math.hpp>
 
 #include "../game/enemy.hpp"
 #include "../utils.hpp"
@@ -28,11 +29,9 @@ public:
 
     void draw_debug_line()
     {
-        auto bt_end = bt_pos + bt_dir * 10;
+        get_engine().draw_line(line_from_, line_to_, { 1.0f, 0.0f, 0.0f });
 
-        get_engine().draw_line({ bt_pos.x(), bt_pos.y(), bt_pos.z() },
-                               { bt_end.x(), bt_end.y(), bt_end.z() },
-                               { 1.0f, 1.0f, 1.0f });
+        // pt::log_line() << line_from_ << line_to_ << std::endl;
     }
 
     void handle_mouse_input()
@@ -45,10 +44,19 @@ public:
             auto [mouse_world_from, mouse_world_to] =
                 get_world_ray(get_engine(), mouse_from, mouse_to);
 
+            line_from_ = { mouse_world_from.x, mouse_world_from.y,
+                           mouse_world_from.z };
+
+            line_to_ = { mouse_world_to.x, mouse_world_to.y, mouse_world_to.z };
+            line_to_ = line_from_ + 10 * ptm::normalize(line_to_ - line_from_);
+
             auto found_obj =
                 find_collision(get_engine(), mouse_world_from, mouse_world_to);
 
-            selected_object_ = found_obj;
+            if (found_obj != nullptr)
+            {
+                selected_object_ = found_obj;
+            }
         }
     }
 
@@ -57,8 +65,8 @@ public:
         // get NDC from and to
         const auto mouse_ndc = get_mouse_normalized();
 
-        const auto from_ndc = glm::vec4{ mouse_ndc.x, mouse_ndc.y, -1.f, 1.f };
-        const auto to_ndc   = glm::vec4{ mouse_ndc.x, mouse_ndc.y, 0.f, 1.f };
+        const auto from_ndc = glm::vec4{ mouse_ndc.x, mouse_ndc.y, 1.f, 1.f };
+        const auto to_ndc   = glm::vec4{ mouse_ndc.x, mouse_ndc.y, -1.f, 1.f };
 
         return { from_ndc, to_ndc };
     }
@@ -128,8 +136,11 @@ public:
     }
 
 private:
-    btVector3 bt_pos{ 0.f, 0.f, 0.f };
-    btVector3 bt_dir{ 0.f, 0.f, 0.f };
+    //    btVector3 bt_pos{ 0.f, 0.f, 0.f };
+    //    btVector3 bt_dir{ 0.f, 0.f, 0.f };
+
+    ptm::vec3 line_from_;
+    ptm::vec3 line_to_;
 
     game_object* selected_object_ = nullptr;
 };

@@ -75,7 +75,6 @@ std::tuple<glm::vec4, glm::vec4> get_world_ray(pt::engine& engine,
 pt::game_object* find_collision(pt::engine& engine, const glm::vec4& from,
                                 const glm::vec4& to)
 {
-
     auto dir = to - from;
 
     dir = glm::normalize(dir);
@@ -88,8 +87,11 @@ pt::game_object* find_collision(pt::engine& engine, const glm::vec4& from,
 
     engine.get_dynamics_world()->rayTest(bt_pos, bt_dir * 100, rayCallBack);
 
+    pt::log_line("Collision call");
+
     if (rayCallBack.hasHit())
     {
+        pt::log_line("Hit");
         auto body =
             (btRigidBody*)btRigidBody::upcast(rayCallBack.m_collisionObject);
 

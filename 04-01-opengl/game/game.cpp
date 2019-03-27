@@ -5,6 +5,7 @@
 #include "game_objects/light_controller.hpp"
 #include "game_objects/editor/object_creator.hpp"
 #include "game_objects/editor/object_selector.hpp"
+#include "game_objects/editor/mode_switcher.hpp"
 #include "game_objects/show_fps.hpp"
 #include "game_objects/space_ship.hpp"
 #include "game_objects/vehicle.hpp"
@@ -54,8 +55,8 @@ int main(int argc, char* argv[])
 //            ->set_position({ -3.f, 4.f, 5.f });
 
 
-    engine->add_object<light_controller>("Light")
-            ->set_position({ 3.f, 0.f, 0.f });
+//    engine->add_object<light_controller>("Light")
+//            ->set_position({ 3.f, 0.f, 0.f });
 
     engine->add_object<camera_gui_controller>("Camera GUI")->
             set_position({ 0.f, 0.f, 6.f });
@@ -64,15 +65,17 @@ int main(int argc, char* argv[])
 
     engine->add_object<player>("Player");
 
-//    engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
+    // engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 
-    engine->add_object<show_fps>("FPS Display");
+    //engine->add_object<show_fps>("FPS Display");
 
-    engine->add_object<audio_test>("Audio test");
+    // engine->add_object<audio_test>("Audio test");
 
-    // engine->add_object<object_selector>("Object Selector");
+    engine->add_object<object_selector>("Object Selector");
 
-    engine->add_object<object_creator>("Object Creator");
+    engine->add_object<mode_switcher>("mode_switcher");
+
+    // engine->add_object<object_creator>("Object Creator");
 
     // clang-format on
 

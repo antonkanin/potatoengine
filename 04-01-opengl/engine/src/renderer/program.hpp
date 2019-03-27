@@ -26,8 +26,6 @@ public:
     void set_vec3(const std::string& uniform_name, ptm::vec3 value);
 
 private:
-    std::string load_file(const std::string& file_name);
-
     GLuint make_program(GLuint vertex_id, GLuint fragment_id);
 
     GLuint program_id_ = 0;
