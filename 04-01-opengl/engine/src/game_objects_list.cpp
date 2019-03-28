@@ -86,4 +86,32 @@ game_object* game_objects_list::find_object(std::string_view name)
     return found_object->get();
 }
 
+game_object* game_objects_list::find_object(btRigidBody* rigid_body)
+{
+    for (const auto& object : objects_)
+    {
+        if (object->body_ == rigid_body)
+        {
+            return object.get();
+        }
+    }
+    return nullptr;
+}
+
+void game_objects_list::clean_destoyed_objects()
+{
+    delete_if(objects_.begin(), objects_.end(), [](const auto& object){}
+    )
+    for (auto& back_it = objects_.rbegin(); back_it != objects_.rbegin();
+         ++back_it)
+    {
+        if (back_it->get()->to_be_destroyed_)
+        {
+            back_it->get()->destroy_forced();
+        }
+
+        objects_.erase(back_it);
+    }
+}
+
 } // namespace pt

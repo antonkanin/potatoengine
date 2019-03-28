@@ -66,7 +66,7 @@ public:
 
     std::unique_ptr<game_objects_list> objects_;
 
-    std::map<btRigidBody*, game_object*> body_objects_;
+    // std::map<btRigidBody*, game_object*> body_objects_;
 
     bool physics_enabled_      = true;
     bool update_physics_state_ = false;
@@ -167,7 +167,7 @@ bool engine::run()
             impl->physics_enabled_      = impl->new_physics_state_;
         }
 
-        clean_destroyed_objects();
+        impl->clean_destroyed_objects();
     }
 
     return true;
@@ -271,12 +271,7 @@ void engine::draw_line(const ptm::vec3& from, const ptm::vec3& to)
 
 game_object* engine::find_game_object(btRigidBody* rigid_body)
 {
-    if (impl->body_objects_.count(rigid_body) > 0)
-    {
-        return impl->body_objects_[rigid_body];
-    }
-
-    return nullptr;
+    return impl->objects_->find_object(rigid_body);
 }
 
 game_object* engine::find_game_object(std::string_view name)
@@ -288,7 +283,7 @@ void engine::add_body(game_object* game_object, btRigidBody* rigid_body)
 {
     get_dynamics_world()->addRigidBody(rigid_body);
 
-    impl->body_objects_[rigid_body] = game_object;
+    game_object->body_ = rigid_body;
 }
 
 void engine::enable_physics(bool state)
@@ -462,18 +457,6 @@ void engine_impl::render_cross_hairs()
     video->render_line_ndc({ 0.f, -cross_size * aspect_ratio, 0.f },
                            { 0.f, +cross_size * aspect_ratio, 0.f },
                            { 1.f, 0.f, 0.f });
-}
-
-void engine_impl::clean_destroyed_objects()
-{
-
-    objects_.
-
-    for (size_t index = objects_.size() - 1; index >= 0; --index)
-    {
-        objects_.get()[index].begin()
-
-    }
 }
 
 } // namespace pt

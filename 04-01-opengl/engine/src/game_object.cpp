@@ -101,6 +101,8 @@ game_object* game_object::load_model(const std::string& path)
 
 game_object::~game_object()
 {
+    destroy_forced();
+
     engine_ = nullptr;
 }
 

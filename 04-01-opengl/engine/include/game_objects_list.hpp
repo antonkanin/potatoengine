@@ -4,6 +4,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <BulletDynamics/Dynamics/btRigidBody.h>
 
 namespace pt
 {
@@ -23,6 +24,8 @@ public:
 
     game_object* find_object(std::string_view name);
 
+    game_object* find_object(btRigidBody* rigid_body);
+
     void delete_object(game_object* object) {}
 
     void update_name(game_object* object, std::string_view name);
@@ -41,6 +44,8 @@ public:
     size_t size() const;
 
     game_object& operator[](size_t index) { return *(objects_[index].get()); }
+
+    void clean_destoyed_objects();
 
 private:
     std::vector<std::unique_ptr<game_object>> objects_;
