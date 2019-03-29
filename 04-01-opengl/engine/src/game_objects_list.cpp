@@ -100,18 +100,20 @@ game_object* game_objects_list::find_object(btRigidBody* rigid_body)
 
 void game_objects_list::clean_destoyed_objects()
 {
-    delete_if(objects_.begin(), objects_.end(), [](const auto& object){}
-    )
-    for (auto& back_it = objects_.rbegin(); back_it != objects_.rbegin();
-         ++back_it)
+    // clean up game_object internals (physics, audio, etc).
+    for (auto& object : objects_)
     {
-        if (back_it->get()->to_be_destroyed_)
+        if (object->to_be_destroyed_)
         {
-            back_it->get()->destroy_forced();
+            object->destroy_forced();
         }
-
-        objects_.erase(back_it);
     }
+
+    objects_.erase(std::remove_if(objects_.begin(), objects_.end(),
+                                  [](std::unique_ptr<game_object>& object) {
+                                      return object->to_be_destroyed_;
+                                  }),
+                   objects_.end());
 }
 
 } // namespace pt

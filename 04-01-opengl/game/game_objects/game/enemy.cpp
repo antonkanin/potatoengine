@@ -20,6 +20,11 @@ void enemy::hit()
 {
     pt::log_line("My health " + std::to_string(health));
     health--;
+
+    if (health <= 0)
+    {
+        self_destroy();
+    }
 }
 
 void enemy::move_enemy()
@@ -37,5 +42,4 @@ void enemy::move_enemy()
 
     set_position(get_position() +
                  move_direction * get_engine().delta_time() * move_speed);
-
 }

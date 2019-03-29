@@ -18,7 +18,7 @@ public:
     void move_enemy();
 
 private:
-    int   health     = 10;
+    int   health     = 2;
     float move_speed = 1.f;
 
     class player* player_ = nullptr;

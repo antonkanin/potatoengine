@@ -189,7 +189,7 @@ void game_object::set_rotation_forced(const ptm::vec3& rotation_vector,
     transformation_.rotation_angle  = angle;
 }
 
-void game_object::destroy()
+void game_object::self_destroy()
 {
     to_be_destroyed_ = true;
 }

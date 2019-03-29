@@ -85,8 +85,6 @@ public:
     void render_lights();
 
     void render_cross_hairs();
-
-    void clean_destroyed_objects();
 };
 
 engine::engine()
@@ -167,7 +165,7 @@ bool engine::run()
             impl->physics_enabled_      = impl->new_physics_state_;
         }
 
-        impl->clean_destroyed_objects();
+        impl->objects_->clean_destoyed_objects();
     }
 
     return true;

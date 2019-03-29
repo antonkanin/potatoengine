@@ -54,7 +54,7 @@ public:
 
     std::string get_name() const;
 
-    void destroy();
+    void self_destroy();
 
 protected:
     engine& get_engine();
