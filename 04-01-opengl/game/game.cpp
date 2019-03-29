@@ -5,6 +5,7 @@
 #include "game_objects/editor/mode_switcher.hpp"
 #include "game_objects/editor/object_creator.hpp"
 #include "game_objects/editor/object_selector.hpp"
+#include "game_objects/game/enemies_spawer.hpp"
 #include "game_objects/game/player.hpp"
 #include "game_objects/light_controller.hpp"
 #include "game_objects/show_fps.hpp"
@@ -27,6 +28,8 @@ int main(int argc, char* argv[])
     {
         return EXIT_FAILURE;
     }
+
+    engine->enable_physics(false);
 
     PT_REGISTER(engine, space_ship);
     PT_REGISTER(engine, vehicle);
@@ -58,14 +61,16 @@ int main(int argc, char* argv[])
 //    engine->add_object<light_controller>("Light")
 //            ->set_position({ 3.f, 0.f, 0.f });
 
-    engine->enable_physics(false);
 
-    engine->add_object<camera_gui_controller>("Camera GUI")->
-            set_position({ 0.f, 0.f, 6.f });
 
-    engine->add_object<camera_keyboard_controller>("Keyboard Controller");
-
+//    engine->add_object<camera_gui_controller>("Camera GUI")->
+//            set_position({ 0.f, 0.f, 6.f });
+//
+;    engine->add_object<camera_keyboard_controller>("Keyboard Controller");
+//
     engine->add_object<player>("Player");
+
+    engine->add_object<enemies_spawner>("Enemies spawner");
 
     // engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 

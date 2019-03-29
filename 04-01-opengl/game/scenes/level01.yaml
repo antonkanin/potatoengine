@@ -1,20 +1,20 @@
 game_objects:
-  - type: enemy
-    name: Enemy 1
-    position: {x: 0, y: 0, z: -5}
-    scale: {x: .5, y: .5, z: .5}
-
-  - type: enemy
-    name: Enemy 2
-    position: {x: 3, y: 0, z: -5}
-    scale: {x: .5, y: .5, z: .5}
-
-#  - type: cube
-#    name: Floor
-#    position: {x: 0.0, y: -1, z: 0}
-#    scale: {x: 10, y: .1, z: 10}
+#  - type: enemy
+#    name: Enemy 1
+#    position: {x: 0, y: 0, z: -5}
+#    scale: {x: .5, y: .5, z: .5}
+#
+#  - type: enemy
+#    name: Enemy 2
+#    position: {x: 3, y: 0, z: -5}
+#    scale: {x: .5, y: .5, z: .5}
 
   - type: cube
-    name: Space Ship 4
-    position: {x: -2.5977, y: 0, z: -5}
-    scale: {x: 1, y: 1, z: 1}
+    name: Floor
+    position: {x: 0.0, y: -1, z: 0}
+    scale: {x: 10, y: .1, z: 10}
+
+#  - type: cube
+#    name: Space Ship 4
+#    position: {x: -2.5977, y: 0, z: -5}
+#    scale: {x: 1, y: 1, z: 1}

@@ -383,24 +383,27 @@ void engine::update_physics()
 
 void engine_impl::update_objects()
 {
-    for (auto& object : *objects_)
+    const auto size = objects_->size();
+    for (size_t index = 0; index < size; ++index)
     {
-        if (object->body_ != nullptr && physics_enabled_)
-        {
-            auto transform = object->body_->getWorldTransform();
+        auto& object = (*objects_)[index];
 
-            object->set_position_forced({ transform.getOrigin().x(),
+        if (object.body_ != nullptr && physics_enabled_)
+        {
+            auto transform = object.body_->getWorldTransform();
+
+            object.set_position_forced({ transform.getOrigin().x(),
                                           transform.getOrigin().y(),
                                           transform.getOrigin().z() });
 
             auto rot = transform.getRotation();
 
-            object->set_rotation_forced(
+            object.set_rotation_forced(
                 { rot.getAxis().x(), rot.getAxis().y(), rot.getAxis().z() },
                 rot.getAngle());
         }
 
-        object->update();
+        object.update();
     }
 }
 

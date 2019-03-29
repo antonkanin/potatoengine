@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
         game_objects/game/player.hpp
         game_objects/game/enemy.hpp
         game_objects/game/enemy.cpp
+        game_objects/game/enemies_spawer.hpp
 
         game_objects/utils.cpp)
 
