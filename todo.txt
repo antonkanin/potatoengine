@@ -1,17 +1,3 @@
-- deleting objects at runtime
-  * game_object_list
-    + game_objects vector
-    +  names vector
-    +  indices vector (currently not used)
-
-  * game_object
-    + body
-    + motion_state
-
-  * engine
-    + game_objects_list
-    + map<body, game_object>
-
 - add color property to the game_object
 
 - show the list of game_objects
@@ -46,6 +32,7 @@
 - [low] load texture in the TGA format
 
 Done
+- deleting objects at runtime
 - add color to the draw_line function (perhaps we need a new shader?)
 - draw a cross in the middle of the screen
 - add a switch between game mode / editor more (F12 key)
