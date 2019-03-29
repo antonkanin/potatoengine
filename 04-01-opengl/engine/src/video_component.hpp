@@ -33,9 +33,9 @@ public:
                      const class movable_object& camera);
 
     void render_line_ndc(const ptm::vec3& from, const ptm::vec3& to,
-                                  const ptm::vec3& color);
+                         const ptm::vec3& color);
 
-        void swap_buffers();
+    void swap_buffers();
 
     void enable_vsync(bool state);
 

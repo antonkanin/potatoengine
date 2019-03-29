@@ -19,7 +19,7 @@ void load_scene(engine& engine, std::string_view file_path)
                                  std::string(file_path));
     }
 
-    for (const auto &node : config)
+    for (const auto& node : config)
     {
         auto node_name = node.first.as<std::string>();
         if (node_name == "game_objects")

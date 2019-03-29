@@ -343,8 +343,8 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
 }
 
 void video_component::render_line_ndc(const ptm::vec3& from,
-                                               const ptm::vec3& to,
-                                               const ptm::vec3& color)
+                                      const ptm::vec3& to,
+                                      const ptm::vec3& color)
 {
     glm::mat4 full_transform_m; // indentity matrix
 

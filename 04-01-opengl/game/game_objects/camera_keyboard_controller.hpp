@@ -75,7 +75,7 @@ public:
             mouse_rotation_ = false;
         }
 
-        if (get_engine().cursor_locked() ||  mouse_rotation_)
+        if (get_engine().cursor_locked() || mouse_rotation_)
         {
             get_engine().get_camera().add_yaw(input.get_axis_x() * 0.02f);
             get_engine().get_camera().add_pitch(input.get_axis_y() * 0.02f);

@@ -9,8 +9,8 @@
 #include <SDL2/SDL_mouse.h> // TODO hide this in the engine
 #include <glm/gtc/matrix_transform.hpp>
 #include <ptm/glm_to_ptm.hpp>
-#include <ptm/vec4.hpp>
 #include <ptm/math.hpp>
+#include <ptm/vec4.hpp>
 
 #include "../game/enemy.hpp"
 #include "../utils.hpp"
@@ -130,14 +130,14 @@ public:
         ImGui::InputFloat("y##scale", &scale.y, 0.1f, 1.0f);
         ImGui::InputFloat("z##scale", &scale.z, 0.1f, 1.0f);
 
-
-//        ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
-//        ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);
-//        ImGui::SliderFloat("z", &pos.z, -10.0f, 10.0f, "%.4f", 2.0f);
-//
-//        ImGui::SliderFloat("scale x", &scale.x, -10.0f, 10.0f, "%.4f", 1.0f);
-//        ImGui::SliderFloat("scale y", &scale.y, -10.0f, 10.0f, "%.4f", 1.0f);
-//        ImGui::SliderFloat("scale z", &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
+        //        ImGui::SliderFloat("x", &pos.x, -10.0f, 10.0f, "%.4f", 2.0f);
+        //        ImGui::SliderFloat("y", &pos.y, -10.0f, 10.0f, "%.4f", 2.0f);
+        //        ImGui::SliderFloat("z", &pos.z, -10.0f, 10.0f, "%.4f", 2.0f);
+        //
+        //        ImGui::SliderFloat("scale x", &scale.x, -10.0f, 10.0f,
+        //        "%.4f", 1.0f); ImGui::SliderFloat("scale y", &scale.y,
+        //        -10.0f, 10.0f, "%.4f", 1.0f); ImGui::SliderFloat("scale z",
+        //        &scale.z, -10.0f, 10.0f, "%.4f", 1.0f);
 
         // ImGui::Checkbox("Auto-rotate", &selected_object_->is_auto_rotate_);
 

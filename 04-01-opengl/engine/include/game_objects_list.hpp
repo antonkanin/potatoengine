@@ -1,10 +1,10 @@
 #pragma once
 
+#include <BulletDynamics/Dynamics/btRigidBody.h>
 #include <memory>
 #include <string>
 #include <string_view>
 #include <vector>
-#include <BulletDynamics/Dynamics/btRigidBody.h>
 
 namespace pt
 {

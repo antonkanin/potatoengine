@@ -49,7 +49,7 @@ public:
     game_object* add_body(bool is_dynamic);
 
     // physics
-    btRigidBody* body_ = nullptr;
+    btRigidBody*   body_         = nullptr;
     btMotionState* motion_state_ = nullptr;
 
     std::string get_name() const;

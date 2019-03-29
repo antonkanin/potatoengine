@@ -141,10 +141,10 @@ void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
 
     if (-1 == location)
     {
-/*
-        throw std::runtime_error("Error: could not find attribute " +
-                                 uniform_name);
-*/
+        /*
+                throw std::runtime_error("Error: could not find attribute " +
+                                         uniform_name);
+        */
         std::cout << "Error: could not find 3f attribute " << uniform_name
                   << '\n';
         return;
