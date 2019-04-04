@@ -54,6 +54,8 @@ public:
 
     void enable_wireframe(bool state);
 
+    void enable_vsync(bool state);
+
     void set_light_model(const class model& model);
 
     btDiscreteDynamicsWorld* get_dynamics_world();

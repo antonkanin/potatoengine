@@ -378,6 +378,11 @@ void engine::update_physics()
     impl->physics->update_physics(impl->delta_time_);
 }
 
+void engine::enable_vsync(bool state)
+{
+    impl->video->enable_vsync(state);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 
@@ -393,8 +398,8 @@ void engine_impl::update_objects()
             auto transform = object.body_->getWorldTransform();
 
             object.set_position_forced({ transform.getOrigin().x(),
-                                          transform.getOrigin().y(),
-                                          transform.getOrigin().z() });
+                                         transform.getOrigin().y(),
+                                         transform.getOrigin().z() });
 
             auto rot = transform.getRotation();
 

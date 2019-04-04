@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
     }
 
     engine->enable_physics(false);
+    // engine->enable_vsync(false);
 
     PT_REGISTER(engine, space_ship);
     PT_REGISTER(engine, vehicle);
@@ -74,7 +75,7 @@ int main(int argc, char* argv[])
 
     // engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 
-    // engine->add_object<show_fps>("FPS Display");
+    engine->add_object<show_fps>("FPS Display");
 
     // engine->add_object<audio_test>("Audio test");
 

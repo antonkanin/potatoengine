@@ -9,6 +9,8 @@ varying vec4 v_light_position;
 //uniform sampler2D u_texture;
 uniform sampler2D texture;
 uniform vec3 u_light_pos;
+uniform vec3 u_light_direction;
+uniform float u_cutoff_angle;
 
 void main()
 {

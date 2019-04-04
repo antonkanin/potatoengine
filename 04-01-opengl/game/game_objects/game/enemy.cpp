@@ -18,7 +18,6 @@ void enemy::start()
 
 void enemy::hit()
 {
-    pt::log_line("My health " + std::to_string(health));
     health--;
 
     if (health <= 0)

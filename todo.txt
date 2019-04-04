@@ -1,3 +1,8 @@
+- add light parameters to the editor
+  * point light
+  * direction light (default)
+  * spot light
+
 - add color property to the game_object
 
 - show the list of game_objects
