@@ -99,7 +99,7 @@ void mesh::draw(pt::program& program) const
         check_gl_errors();
     }
 
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture_(GL_TEXTURE0);
     check_gl_errors();
 
     glBindVertexArray(VAO_);

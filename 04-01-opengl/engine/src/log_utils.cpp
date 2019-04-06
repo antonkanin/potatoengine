@@ -5,6 +5,7 @@
 
 namespace pt
 {
+
 auto current_time()
 {
     auto timenow =

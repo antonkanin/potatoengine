@@ -175,11 +175,11 @@ bool video_component::init(const std::string& title)
         return false;
     }
 
+    impl->gl_context_ = create_opengl_context(impl->window_);
+
     initialize_gl_functions();
 
     set_opengl_version();
-
-    impl->gl_context_ = create_opengl_context(impl->window_);
 
     print_opengl_version();
 

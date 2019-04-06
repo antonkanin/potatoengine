@@ -38,6 +38,8 @@ extern PFNGLDELETEBUFFERSPROC           glDeleteBuffers;
 extern PFNGLDELETEVERTEXARRAYSPROC      glDeleteVertexArrays;
 extern PFNGLBLENDEQUATIONSEPARATEPROC   glBlendEquationSeparate;
 extern PFNGLBLENDFUNCSEPARATEPROC       glBlendFuncSeparate;
+extern PFNGLACTIVETEXTUREPROC           glActiveTexture_;
+extern PFNGLBLENDEQUATIONPROC           glBlendEquation_;
 
 template <typename T>
 static void load_gl_func(const std::string& func_name, T& result)

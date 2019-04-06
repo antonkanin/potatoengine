@@ -36,6 +36,8 @@ PFNGLDELETEBUFFERSPROC           glDeleteBuffers           = nullptr;
 PFNGLDELETEVERTEXARRAYSPROC      glDeleteVertexArrays      = nullptr;
 PFNGLBLENDEQUATIONSEPARATEPROC   glBlendEquationSeparate   = nullptr;
 PFNGLBLENDFUNCSEPARATEPROC       glBlendFuncSeparate       = nullptr;
+PFNGLACTIVETEXTUREPROC           glActiveTexture_          = nullptr;
+PFNGLBLENDEQUATIONPROC           glBlendEquation_          = nullptr;
 
 void set_opengl_version()
 {
@@ -137,4 +139,6 @@ void initialize_gl_functions()
     load_gl_func("glDeleteVertexArrays", glDeleteVertexArrays);
     load_gl_func("glBlendEquationSeparate", glBlendEquationSeparate);
     load_gl_func("glBlendFuncSeparate", glBlendFuncSeparate);
+    load_gl_func("glActiveTexture", glActiveTexture_);
+    load_gl_func("glBlendEquation", glBlendEquation_);
 }

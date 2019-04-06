@@ -38,27 +38,19 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Werror")
 
 if (MINGW)
-    find_library(SDL2_LIB NAMES SDL2)
-
-        message(${SDL2_LIB})
-
     target_link_libraries(${PROJECT_NAME}
-        SDL2_mixer
             -lmingw32
-            -lSDL2main
-            -lSDL2
+            SDL2_mixer
+            SDL2main
+            SDL2
             -mwindows
-            -lOpengl32
-            ${SDL2_LIB}
-
-            #        GL
-#        stbi
-        assimp
-        external
-        BulletDynamics
-        BulletCollision
-        LinearMath
-        yaml-cpp)
+            -lopengl32
+            assimp
+            external
+            BulletDynamics
+            BulletCollision
+            LinearMath
+            yaml-cpp)
 else()
     target_link_libraries(${PROJECT_NAME}
             SDL2
