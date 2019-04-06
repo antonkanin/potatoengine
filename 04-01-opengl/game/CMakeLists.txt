@@ -25,7 +25,7 @@ add_executable(${PROJECT_NAME}
 
         game_objects/utils.cpp)
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 target_link_libraries(${PROJECT_NAME} 04-01-engine)
 

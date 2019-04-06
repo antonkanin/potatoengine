@@ -29,24 +29,55 @@ add_library(${PROJECT_NAME} STATIC
         src/imgui/imgui_impl_sdl.cpp
         src/imgui/imgui_impl_opengl3.cpp
 
-        src/renderer/debug_drawer.hpp)
+        src/renderer/debug_drawer.hpp
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
+        src/stb_image.h)
+
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Werror")
 
-target_link_libraries(${PROJECT_NAME}
-        SDL2
+if (MINGW)
+    target_link_libraries(${PROJECT_NAME}
         SDL2_mixer
-        GL
-        stbi
+            -lmingw32
+            -lSDL2main
+            -lSDL2
+            -mwindows
+            -lopengl32
+
+            #        GL
+#        stbi
         assimp
         external
         BulletDynamics
         BulletCollision
         LinearMath
         yaml-cpp)
+else()
+    target_link_libraries(${PROJECT_NAME}
+            SDL2
+            SDL2_mixer
+            GL
+            stbi
+            assimp
+            external
+            BulletDynamics
+            BulletCollision
+            LinearMath
+            yaml-cpp)
+endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        /usr/include/bullet)
+if (MINGW)
+    target_include_directories(${PROJECT_NAME} PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            C:\\msys64\\mingw64\\include\\bullet
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/
+            )
+else()
+    target_include_directories(${PROJECT_NAME} PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            /usr/include/bullet)
+endif()
+
+
