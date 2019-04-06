@@ -65,16 +65,11 @@ else()
             yaml-cpp)
 endif()
 
-if (MINGW)
-    target_include_directories(${PROJECT_NAME} PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}/include
-            C:\\msys64\\mingw64\\include\\bullet
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/
-            )
-else()
-    target_include_directories(${PROJECT_NAME} PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}/include
-            /usr/include/bullet)
-endif()
+find_package(Bullet REQUIRED)
+include_directories(${BULLET_INCLUDE_DIR})
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${BULLET_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 
