@@ -38,13 +38,18 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Werror")
 
 if (MINGW)
+    find_library(SDL2_LIB NAMES SDL2)
+
+        message(${SDL2_LIB})
+
     target_link_libraries(${PROJECT_NAME}
         SDL2_mixer
             -lmingw32
             -lSDL2main
             -lSDL2
             -mwindows
-            -lopengl32
+            -lOpengl32
+            ${SDL2_LIB}
 
             #        GL
 #        stbi
