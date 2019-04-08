@@ -16,3 +16,14 @@ add_executable(${PROJECT_NAME}
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 target_link_libraries(${PROJECT_NAME} SDL2)
+
+if (MINGW)
+    target_link_libraries(${PROJECT_NAME}
+            -lmingw32
+            -lSDL2main
+            -mwindows
+            -lopengl32
+            )
+endif()
+
+

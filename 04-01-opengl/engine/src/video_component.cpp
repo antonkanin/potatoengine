@@ -77,8 +77,14 @@ glm::mat4 get_model_view_matrix(const transformation& transformation,
     ///////////////////////////////////////////////////////////////////////////
     // make scale matrix
 
+    glm::mat4 identity = glm::mat4(
+            1.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f);
+
     glm::mat4x4 scale_m =
-        glm::scale(glm::mat4x4(), glm_vec(transformation.scale));
+            glm::scale(identity, glm_vec(transformation.scale));
 
     ///////////////////////////////////////////////////////////////////////////
     // make rotation matrix
@@ -175,11 +181,11 @@ bool video_component::init(const std::string& title)
         return false;
     }
 
-    initialize_gl_functions();
-
     set_opengl_version();
 
     impl->gl_context_ = create_opengl_context(impl->window_);
+
+    initialize_gl_functions();
 
     print_opengl_version();
 
@@ -347,7 +353,13 @@ void video_component::render_line_ndc(const ptm::vec3& from,
                                       const ptm::vec3& to,
                                       const ptm::vec3& color)
 {
-    glm::mat4 full_transform_m; // indentity matrix
+    glm::mat4 identity = glm::mat4(
+            1.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f);
+
+    glm::mat4 full_transform_m = identity; // indentity matrix
 
     impl->light_program_->use();
 

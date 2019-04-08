@@ -2,6 +2,7 @@
 
 #include "enemy.hpp"
 #include <game_object.hpp>
+#include <time.h>
 
 class enemies_spawner final : public pt::game_object
 {
