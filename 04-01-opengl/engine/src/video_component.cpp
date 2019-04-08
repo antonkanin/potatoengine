@@ -77,14 +77,11 @@ glm::mat4 get_model_view_matrix(const transformation& transformation,
     ///////////////////////////////////////////////////////////////////////////
     // make scale matrix
 
-    glm::mat4 identity = glm::mat4(
-            1.0f, 0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.0f,
-            0.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 identity =
+        glm::mat4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-    glm::mat4x4 scale_m =
-            glm::scale(identity, glm_vec(transformation.scale));
+    glm::mat4x4 scale_m = glm::scale(identity, glm_vec(transformation.scale));
 
     ///////////////////////////////////////////////////////////////////////////
     // make rotation matrix
@@ -202,8 +199,8 @@ void video_component::swap_buffers()
 
     SDL_GL_SwapWindow(impl->window_);
 
-    // glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
+    // glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     check_gl_errors();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -353,11 +350,9 @@ void video_component::render_line_ndc(const ptm::vec3& from,
                                       const ptm::vec3& to,
                                       const ptm::vec3& color)
 {
-    glm::mat4 identity = glm::mat4(
-            1.0f, 0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.0f,
-            0.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 identity =
+        glm::mat4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                  1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
     glm::mat4 full_transform_m = identity; // indentity matrix
 

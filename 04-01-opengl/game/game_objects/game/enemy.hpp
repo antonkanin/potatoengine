@@ -11,7 +11,10 @@ public:
 
     void start() override;
 
-    void update() override { move_enemy(); }
+    void update() override
+    {
+        // move_enemy();
+    }
 
     void hit();
 

@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     engine->add_object<player>("Player");
 
-    engine->add_object<enemies_spawner>("Enemies spawner");
+    //engine->add_object<enemies_spawner>("Enemies spawner");
 
     // engine->add_object<vehicle>("Car")->set_position({ 10.f, 0.f, 6.f });
 

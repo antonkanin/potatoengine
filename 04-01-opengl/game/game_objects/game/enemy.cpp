@@ -18,12 +18,12 @@ void enemy::start()
 
 void enemy::hit()
 {
-    health--;
-
-    if (health <= 0)
-    {
-        self_destroy();
-    }
+//    health--;
+//
+//    if (health <= 0)
+//    {
+//        self_destroy();
+//    }
 }
 
 void enemy::move_enemy()
