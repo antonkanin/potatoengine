@@ -41,9 +41,8 @@ int main(int argc, char* argv[])
 
     pt::load_scene(*engine, "scenes/level01.yaml");
 
-
-
-
+    engine->add_object<light_controller>("Light")
+        ->set_position({ 3.f, 0.f, 0.f });
 
     engine->add_object<camera_gui_controller>("Camera GUI")->
             set_position({ 0.f, 0.f, 6.f });
@@ -54,7 +53,7 @@ int main(int argc, char* argv[])
 
     //engine->add_object<enemies_spawner>("Enemies spawner");
 
-    //engine->add_object<vehicle>("Car")->set_position({ 30.f, 0.f, -20.f });
+    // engine->add_object<vehicle>("Car")->set_position({ 30.f, 0.f, -20.f });
 
     engine->add_object<show_fps>("FPS Display");
 

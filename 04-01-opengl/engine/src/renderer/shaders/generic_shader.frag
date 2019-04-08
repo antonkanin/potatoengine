@@ -4,8 +4,8 @@ varying vec4 v_position;
 varying vec2 v_tex_coord;
 varying vec3 v_color;
 varying vec4 v_normal;
-varying float v_alpha;
 varying float v_instance;
+varying float v_shadow;
 
 //uniform sampler2D u_texture;
 uniform sampler2D alpha_texture;
@@ -32,14 +32,17 @@ void main()
 
     float result_light = ambient + diffuse + specular;
     float alpha = texture2D(alpha_texture, v_tex_coord).r;
-
     //gl_FragColor = texture2D(albedo_texture, v_tex_coord) * vec4(v_color, alpha) * result_light;
     // gl_FragColor = vec4(v_color, 1.0) * result_light;
     //gl_FragColor = vec4(alpha, 0.0, 0.0, 1.0) * result_light;
+
     if (v_instance > 0 && alpha < 0.1)
     {
         discard;
     }
 
-    gl_FragColor = vec4(alpha, 0.0, 0.0, 1.0) * v_alpha;
+    // gl_FragColor = texture2D(albedo_texture, v_tex_coord) * vec4(v_color, 1.0) * result_light * v_shadow;
+    gl_FragColor = vec4(v_color, 1.0) * result_light * v_shadow;
+
+    //gl_FragColor = vec4(alpha, 0.0, 0.0, 1.0) * v_shadow;
 }

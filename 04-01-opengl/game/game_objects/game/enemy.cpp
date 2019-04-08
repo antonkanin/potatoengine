@@ -13,18 +13,18 @@ void enemy::start()
 
     player_ = dynamic_cast<player*>(player_object);
 
-    //set_model(pt::model("res/cube/cube.obj"));
+    // set_model(pt::model("res/cube/cube.obj"));
     set_model(pt::model("res/figure.obj"));
 }
 
 void enemy::hit()
 {
-//    health--;
-//
-//    if (health <= 0)
-//    {
-//        self_destroy();
-//    }
+    //    health--;
+    //
+    //    if (health <= 0)
+    //    {
+    //        self_destroy();
+    //    }
 }
 
 void enemy::move_enemy()
@@ -42,4 +42,9 @@ void enemy::move_enemy()
 
     set_position(get_position() +
                  move_direction * get_engine().delta_time() * move_speed);
+}
+void enemy::rotate()
+{
+    set_rotation(ptm::vec3::up(), get_transformation().rotation_angle +
+                                      0.5f * get_engine().delta_time());
 }

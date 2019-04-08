@@ -14,11 +14,14 @@ public:
     void update() override
     {
         // move_enemy();
+        rotate();
     }
 
     void hit();
 
     void move_enemy();
+
+    void rotate();
 
 private:
     int   health     = 2;
