@@ -24,5 +24,7 @@ void main()
     v_tex_coord = a_tex_coord;
     v_color = a_color;
 
+
+    v_position += gl_InstanceID * normalize(v_normal);
     gl_Position = u_projection_matrix * v_position;
 }

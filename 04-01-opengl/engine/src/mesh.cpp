@@ -105,8 +105,11 @@ void mesh::draw(pt::program& program) const
     glBindVertexArray(VAO_);
     check_gl_errors();
 
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
-                   GL_UNSIGNED_INT, nullptr);
+//    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
+//                   GL_UNSIGNED_INT, nullptr);
+    glDrawElementsInstanced(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
+                   GL_UNSIGNED_INT, nullptr, 5);
+
     check_gl_errors();
 
     glBindVertexArray(0);
