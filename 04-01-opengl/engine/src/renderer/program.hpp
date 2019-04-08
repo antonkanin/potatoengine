@@ -21,9 +21,11 @@ public:
     void set_matrix4(const std::string& uniform_name,
                      const GLfloat*     uniform_value);
 
-    void set_1i(const std::string& uniform_name, GLint uniform_value);
+    bool set_1i(const std::string& uniform_name, GLint uniform_value);
 
     void set_vec3(const std::string& uniform_name, ptm::vec3 value);
+
+    GLuint id() const;
 
 private:
     GLuint make_program(GLuint vertex_id, GLuint fragment_id);

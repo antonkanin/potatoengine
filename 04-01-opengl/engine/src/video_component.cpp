@@ -1,4 +1,5 @@
 #include "video_component.hpp"
+#include "video_component.hpp"
 
 #include "model.hpp"
 #include "movable_object.hpp"
@@ -132,6 +133,23 @@ void video_component::render_object(const model&          model,
                                     const movable_object& camera,
                                     const ptm::vec3&      light_position)
 {
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+    check_gl_errors();
+
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    check_gl_errors();
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w_, h_, 0, GL_RED, GL_UNSIGNED_BYTE,
+                 data_);
+
+    check_gl_errors();
+
     impl->generic_program_->use();
 
     auto model_view_matrix_m = get_model_view_matrix(transformation, camera);
@@ -147,6 +165,21 @@ void video_component::render_object(const model&          model,
 
     impl->generic_program_->set_vec3("u_light_pos",
                                      { light_pos.x, light_pos.y, light_pos.z });
+
+    auto alpha_texture_location_id =
+        glGetUniformLocation(impl->generic_program_->id(), "alpha_texture");
+    check_gl_errors();
+
+    if (-1 == alpha_texture_location_id)
+    {
+        throw std::runtime_error(
+            "Error: uniform variable alpha_texture not found");
+    }
+
+    impl->generic_program_->set_1i("alpha_texture", alpha_texture_location_id);
+
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    check_gl_errors();
 
     impl->generic_program_->validate();
 
@@ -167,9 +200,14 @@ bool video_component::init(const std::string& title)
 
     // TODO fix the warning "Warning:(47, 43) Clang-Tidy: Use of a signed
     // integer operand with a binary bitwise operator"
-    impl->window_ = SDL_CreateWindow(
-        title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    //    impl->window_ = SDL_CreateWindow(
+    //        title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    //        WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL |
+    //        SDL_WINDOW_RESIZABLE);
+
+    impl->window_ =
+        SDL_CreateWindow(title.c_str(), 200, 200, WINDOW_WIDTH, WINDOW_HEIGHT,
+                         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     if (impl->window_ == nullptr)
     {
@@ -190,6 +228,8 @@ bool video_component::init(const std::string& title)
     check_gl_errors();
 
     impl->init();
+
+    generate_alpha();
 
     return true;
 }
@@ -398,6 +438,28 @@ void video_component::lock_cursor(bool is_locked)
     else
     {
         SDL_SetRelativeMouseMode(SDL_FALSE);
+    }
+}
+void video_component::generate_alpha()
+{
+    data_ = (GLubyte*)malloc(w_ * h_);
+
+    for (size_t w_index = 0; w_index < w_; ++w_index)
+    {
+        for (size_t h_index = 0; h_index < h_; ++h_index)
+        {
+            data_[w_index * w_ + h_index] = (GLubyte)0;
+        }
+    }
+
+    const float density = 0.1f;
+    auto count = static_cast<int>(density * (w_ * h_));
+    for (size_t index = 0; index < count; ++index)
+    {
+        int xrand = std::rand() % w_;
+        int yrand = std::rand() % h_;
+
+        data_[xrand * w_ + yrand] = (GLubyte)255;
     }
 }
 

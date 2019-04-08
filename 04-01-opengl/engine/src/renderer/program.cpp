@@ -119,19 +119,22 @@ void program::set_matrix4(const std::string& uniform_name,
     check_gl_errors();
 }
 
-void program::set_1i(const std::string& uniform_name, GLint uniform_value)
+bool program::set_1i(const std::string& uniform_name, GLint uniform_value)
 {
     GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
     check_gl_errors();
 
     if (-1 == location)
     {
-        throw std::runtime_error("Error: could not find attribute " +
-                                 uniform_name);
+        //        throw std::runtime_error("Error: could not find attribute " +
+        //                                 uniform_name);
+        std::cout << "Error: could not find attribute " << uniform_name << '\n';
+        return false;
     }
 
     glUniform1i(location, uniform_value);
     check_gl_errors();
+    return true;
 }
 
 void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
@@ -152,6 +155,11 @@ void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
 
     glUniform3f(location, value.x, value.y, value.z);
     check_gl_errors();
+}
+
+GLuint program::id() const
+{
+    return program_id_;
 }
 
 } // namespace pt

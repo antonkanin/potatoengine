@@ -92,23 +92,26 @@ void mesh::setup_mesh()
 
 void mesh::draw(pt::program& program) const
 {
+    check_gl_errors();
+
     for (unsigned int tex_index = 0; tex_index < textures.size(); ++tex_index)
     {
-        program.set_1i("texture", tex_index);
-        glBindTexture(GL_TEXTURE_2D, textures[tex_index].id);
-        check_gl_errors();
+        if (program.set_1i("albedo_texture", tex_index))
+        {
+            glBindTexture(GL_TEXTURE_2D, textures[tex_index].id);
+            check_gl_errors();
+        }
     }
 
     glActiveTexture_(GL_TEXTURE0);
-    check_gl_errors();
 
     glBindVertexArray(VAO_);
     check_gl_errors();
 
-//    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
-//                   GL_UNSIGNED_INT, nullptr);
+    //    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
+    //                   GL_UNSIGNED_INT, nullptr);
     glDrawElementsInstanced(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
-                   GL_UNSIGNED_INT, nullptr, 5);
+                            GL_UNSIGNED_INT, nullptr, 64);
 
     check_gl_errors();
 

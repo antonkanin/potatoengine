@@ -13,7 +13,8 @@ void enemy::start()
 
     player_ = dynamic_cast<player*>(player_object);
 
-    set_model(pt::model("res/cube/cube.obj"));
+    //set_model(pt::model("res/cube/cube.obj"));
+    set_model(pt::model("res/figure.obj"));
 }
 
 void enemy::hit()

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_stdinc.h>
 #include <memory>
 #include <ptm/vec2.hpp>
@@ -53,6 +54,13 @@ public:
 
 private:
     std::unique_ptr<class video_component_pimpl> impl;
+
+    void generate_alpha();
+
+    // alpha texture;
+    GLubyte* data_ = nullptr;
+    int w_ = 500;
+    int h_ = 500;
 };
 
 } // namespace pt
