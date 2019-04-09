@@ -39,7 +39,7 @@ void movable_object::add_pitch(float angle)
 
     const auto rotation_m = rotation(angle, left);
 
-    direction_ = rotation_m * direction_;
+    direction_ = normalize(rotation_m * direction_);
 }
 
 void movable_object::move_up(float distance)

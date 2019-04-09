@@ -143,11 +143,20 @@ void video_component::render_object(const struct model&          model,
     impl->generic_program_->set_matrix4(
         "u_projection_matrix", glm::value_ptr(get_projection_matrix()));
 
-    auto light_pos =
-        get_view_matrix(camera) * glm::vec4(glm_vec(light_position), 1.0f);
+    auto light_pos = get_view_matrix(camera) *
+                     glm::vec4(glm_vec(camera.get_position()), 1.0f);
 
     impl->generic_program_->set_vec3("u_light_pos",
                                      { light_pos.x, light_pos.y, light_pos.z });
+
+    auto light_direction = get_view_matrix(camera) *
+                           glm::vec4(glm_vec(camera.get_direction()), 0.0f);
+
+    impl->generic_program_->set_vec3(
+        "u_light_direction",
+        { light_direction.x, light_direction.y, light_direction.z });
+
+    impl->generic_program_->set_1f("u_light_angle", M_PI / 10);
 
     // calculating gravity + light wind wind
     float dx = 0.01f * std::sin(time * 2);
@@ -231,8 +240,8 @@ void video_component::swap_buffers()
 
     SDL_GL_SwapWindow(impl->window_);
 
-    glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
-    // glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    // glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     check_gl_errors();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

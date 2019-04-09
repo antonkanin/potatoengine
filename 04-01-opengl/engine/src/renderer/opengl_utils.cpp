@@ -134,6 +134,7 @@ void initialize_gl_functions()
     load_gl_func("glBufferData", glBufferData);
     load_gl_func("glGenVertexArrays", glGenVertexArrays);
     load_gl_func("glBindVertexArray", glBindVertexArray);
+    load_gl_func("glUniform1f", glUniform1f);
     load_gl_func("glUniform1i", glUniform1i);
     load_gl_func("glDetachShader", glDetachShader);
     load_gl_func("glBindSampler", glBindSampler);

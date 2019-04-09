@@ -137,6 +137,25 @@ bool program::set_1i(const std::string& uniform_name, GLint uniform_value)
     return true;
 }
 
+bool program::set_1f(const std::string& uniform_name, GLfloat uniform_value)
+{
+    GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
+    check_gl_errors();
+
+    if (-1 == location)
+    {
+        //        throw std::runtime_error("Error: could not find attribute " +
+        //                                 uniform_name);
+        std::cout << "Error: could not find attribute " << uniform_name << '\n';
+        return false;
+    }
+
+    glUniform1f(location, uniform_value);
+    check_gl_errors();
+    return true;
+}
+
+
 void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
 {
     GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());

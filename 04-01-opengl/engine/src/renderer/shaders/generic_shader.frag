@@ -11,7 +11,8 @@ varying float v_shadow;
 uniform sampler2D alpha_texture;
 uniform sampler2D albedo_texture;
 uniform vec3 u_light_pos;
-uniform float u_cutoff_angle;
+uniform vec3 u_light_direction; // normalized light direction
+uniform float u_light_angle;
 
 void main()
 {
@@ -22,16 +23,29 @@ void main()
         discard;
     }
 
-    vec3 norm = normalize(vec3(v_normal));
-    vec3 light_dir = normalize(vec3(u_light_pos) - vec3(v_position));
-    float ambient = 0.1;
-    float diffuse = max(dot(norm, light_dir), 0.0);
+    vec3 s = normalize(vec3(v_position) - u_light_pos);
+    float angle = acos(dot(s, normalize(u_light_direction)));
 
-    vec3 view_dir = normalize(-1 * vec3(v_position));
-    vec3 reflect_dir = reflect(-1 * light_dir, norm);
-    float specular = pow(max(dot(view_dir, reflect_dir), 0.0), 256);
+    float ambient = 0.25;
 
-    float result_light = ambient + diffuse + specular;
+    if (angle <= u_light_angle)
+    {
+        vec3 norm = normalize(vec3(v_normal));
 
-    gl_FragColor = texture2D(albedo_texture, v_tex_coord) * vec4(v_color, 1.0) * result_light * v_shadow;
+        vec3 light_dir = normalize(vec3(u_light_pos) - vec3(v_position));
+
+        float diffuse = max(dot(norm, light_dir), 0.0);
+
+        vec3 view_dir = normalize(-1 * vec3(v_position));
+        vec3 reflect_dir = reflect(-1 * light_dir, norm);
+        float specular = pow(max(dot(view_dir, reflect_dir), 0.0), 256);
+
+        float result_light = ambient + diffuse + specular;
+
+        gl_FragColor = texture2D(albedo_texture, v_tex_coord) * vec4(v_color, 1.0) * result_light * v_shadow;
+    }
+    else
+    {
+        gl_FragColor = texture2D(albedo_texture, v_tex_coord) * vec4(v_color, 1.0) * ambient * v_shadow;
+    }
 }

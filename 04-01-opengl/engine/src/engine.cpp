@@ -136,7 +136,7 @@ bool engine::run()
 
         impl->update_objects();
 
-        impl->physics->get_dynamics_world()->debugDrawWorld();
+        // impl->physics->get_dynamics_world()->debugDrawWorld();
 
         impl->render_objects();
 
