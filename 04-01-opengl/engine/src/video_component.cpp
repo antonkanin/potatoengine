@@ -128,10 +128,11 @@ video_component::video_component()
 {
 }
 
-void video_component::render_object(const model&          model,
-                                    const transformation& transformation,
-                                    const movable_object& camera,
-                                    const ptm::vec3&      light_position)
+void video_component::render_object(const struct model&          model,
+                                    const struct transformation& transformation,
+                                    const struct movable_object& camera,
+                                    const ptm::vec3&             light_position,
+                                    float                        time)
 {
     unsigned int textureID;
     glGenTextures(1, &textureID);
@@ -165,6 +166,12 @@ void video_component::render_object(const model&          model,
 
     impl->generic_program_->set_vec3("u_light_pos",
                                      { light_pos.x, light_pos.y, light_pos.z });
+
+    // calculating gravity + light wind wind
+    float dx = 0.01f * std::sin(time * 2);
+
+    impl->generic_program_->set_vec3("u_gravity",
+                                     { dx, -0.01f, 0.0f });
 
     auto alpha_texture_location_id =
         glGetUniformLocation(impl->generic_program_->id(), "alpha_texture");

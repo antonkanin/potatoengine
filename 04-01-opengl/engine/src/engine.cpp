@@ -418,9 +418,10 @@ void engine_impl::render_objects()
     {
         if (object->has_model_)
         {
-            video->render_object(
-                object->get_model(), object->get_transformation(),
-                engine_->get_camera(), engine_->get_light().get_position());
+            video->render_object(object->get_model(),
+                                 object->get_transformation(),
+                                 engine_->get_camera(),
+                                 engine_->get_light().get_position(), time_);
         }
     }
 }

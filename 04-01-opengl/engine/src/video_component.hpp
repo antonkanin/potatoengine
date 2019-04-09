@@ -21,10 +21,10 @@ public:
 
     void clean_up();
 
-    void render_object(const class model&          model,
-                       const class transformation& transformation,
-                       const class movable_object& camera,
-                       const ptm::vec3&            light_position);
+    void render_object(const struct model&          model,
+                       const struct transformation& transformation,
+                       const struct movable_object& camera,
+                       const ptm::vec3& light_position, float time);
 
     void render_light(const class model& model, const ptm::vec3& light_position,
                       const class movable_object& camera);

@@ -14,7 +14,7 @@ public:
     void update() override
     {
         // move_enemy();
-        rotate();
+        // rotate();
     }
 
     void hit();
