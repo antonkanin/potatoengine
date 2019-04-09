@@ -1,3 +1,5 @@
+- make sure hair rendering respect the original texture of the model
+
 - add light parameters to the editor
   * point light
   * direction light (default)

@@ -43,12 +43,10 @@ configure_file(../engine/src/renderer/shaders/light_shader.vert
 configure_file(../engine/src/renderer/shaders/light_shader.frag
         ${CMAKE_CURRENT_BINARY_DIR}/shaders/light_shader.frag COPYONLY)
 
-
 ###############################################################################
 # copying levels
 configure_file(scenes/level01.yaml
         ${CMAKE_CURRENT_BINARY_DIR}/scenes/level01.yaml COPYONLY)
-
 
 ###############################################################################
 # copying resourses (models, audio, textures)

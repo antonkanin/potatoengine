@@ -55,12 +55,15 @@ public:
 private:
     std::unique_ptr<class video_component_pimpl> impl;
 
+    void init_alpha_texture();
+
     void generate_alpha();
 
     // alpha texture;
     GLubyte* data_ = nullptr;
     int w_ = 500;
     int h_ = 500;
+    unsigned int textureID;
 };
 
 } // namespace pt

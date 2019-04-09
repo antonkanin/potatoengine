@@ -96,14 +96,13 @@ void mesh::draw(pt::program& program) const
 
     for (unsigned int tex_index = 0; tex_index < textures.size(); ++tex_index)
     {
-        if (program.set_1i("albedo_texture", tex_index))
+        if (program.set_1i("albedo_texture", tex_index + 1))
         {
+            glActiveTexture_(GL_TEXTURE0 + tex_index + 1);
             glBindTexture(GL_TEXTURE_2D, textures[tex_index].id);
             check_gl_errors();
         }
     }
-
-    glActiveTexture_(GL_TEXTURE0);
 
     glBindVertexArray(VAO_);
     check_gl_errors();

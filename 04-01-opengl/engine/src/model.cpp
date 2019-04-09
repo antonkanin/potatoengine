@@ -3,6 +3,7 @@
 #include "renderer/opengl_utils.hpp"
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
+#include <log_utils.hpp>
 #include <stb_image.h>
 
 namespace pt
@@ -16,6 +17,7 @@ unsigned int TextureFromFile(const char* path, const std::string& directory,
 
     unsigned int textureID;
     glGenTextures(1, &textureID);
+
     check_gl_errors();
 
     int width, height, nrComponents;

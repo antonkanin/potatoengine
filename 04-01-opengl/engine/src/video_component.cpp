@@ -1,5 +1,4 @@
 #include "video_component.hpp"
-#include "video_component.hpp"
 
 #include "model.hpp"
 #include "movable_object.hpp"
@@ -12,6 +11,7 @@
 
 #include "imgui/imgui_impl_sdl.h"
 
+#include <log_utils.hpp>
 #include <ptm/glm_to_ptm.hpp>
 
 namespace pt
@@ -131,26 +131,8 @@ video_component::video_component()
 void video_component::render_object(const struct model&          model,
                                     const struct transformation& transformation,
                                     const struct movable_object& camera,
-                                    const ptm::vec3&             light_position,
-                                    float                        time)
+                                    const ptm::vec3& light_position, float time)
 {
-    unsigned int textureID;
-    glGenTextures(1, &textureID);
-    check_gl_errors();
-
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    check_gl_errors();
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w_, h_, 0, GL_RED, GL_UNSIGNED_BYTE,
-                 data_);
-
-    check_gl_errors();
-
     impl->generic_program_->use();
 
     auto model_view_matrix_m = get_model_view_matrix(transformation, camera);
@@ -170,8 +152,7 @@ void video_component::render_object(const struct model&          model,
     // calculating gravity + light wind wind
     float dx = 0.01f * std::sin(time * 2);
 
-    impl->generic_program_->set_vec3("u_gravity",
-                                     { dx, -0.01f, 0.0f });
+    impl->generic_program_->set_vec3("u_gravity", { dx, -0.01f, 0.0f });
 
     auto alpha_texture_location_id =
         glGetUniformLocation(impl->generic_program_->id(), "alpha_texture");
@@ -183,7 +164,10 @@ void video_component::render_object(const struct model&          model,
             "Error: uniform variable alpha_texture not found");
     }
 
-    impl->generic_program_->set_1i("alpha_texture", alpha_texture_location_id);
+    impl->generic_program_->set_1i("alpha_texture", 0);
+
+    glActiveTexture_(GL_TEXTURE0);
+    check_gl_errors();
 
     glBindTexture(GL_TEXTURE_2D, textureID);
     check_gl_errors();
@@ -237,6 +221,7 @@ bool video_component::init(const std::string& title)
     impl->init();
 
     generate_alpha();
+    init_alpha_texture();
 
     return true;
 }
@@ -460,7 +445,7 @@ void video_component::generate_alpha()
     }
 
     const float density = 0.1f;
-    auto count = static_cast<int>(density * (w_ * h_));
+    auto        count   = static_cast<int>(density * (w_ * h_));
     for (size_t index = 0; index < count; ++index)
     {
         int xrand = std::rand() % w_;
@@ -468,6 +453,25 @@ void video_component::generate_alpha()
 
         data_[xrand * w_ + yrand] = (GLubyte)255;
     }
+}
+
+void video_component::init_alpha_texture()
+{
+    glGenTextures(1, &textureID);
+
+    check_gl_errors();
+
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    check_gl_errors();
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w_, h_, 0, GL_RED, GL_UNSIGNED_BYTE,
+                 data_);
+    check_gl_errors();
 }
 
 } // namespace pt
