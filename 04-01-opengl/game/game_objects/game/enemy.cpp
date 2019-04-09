@@ -46,5 +46,5 @@ void enemy::move_enemy()
 void enemy::rotate()
 {
     set_rotation(ptm::vec3::up(), get_transformation().rotation_angle +
-                                      0.5f * get_engine().delta_time());
+                                      0.2f * get_engine().delta_time());
 }
