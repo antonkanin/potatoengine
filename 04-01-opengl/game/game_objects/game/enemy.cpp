@@ -1,6 +1,7 @@
 #include "enemy.hpp"
 
 #include "player.hpp"
+#include "enemies_spawer.hpp"
 
 void enemy::start()
 {
@@ -12,6 +13,15 @@ void enemy::start()
     }
 
     player_ = dynamic_cast<player*>(player_object);
+
+    auto enemies_spawner_object = get_engine().find_game_object("Enemies spawner");
+
+    enemies_spawner_ = dynamic_cast<enemies_spawner*>(enemies_spawner_object);
+
+    if (enemies_spawner_ == nullptr)
+    {
+        pt::log_line("Could not find Enemies Spawner game_object");
+    }
 
     // set_model(pt::model("res/cube/cube.obj"));
     // set_model(pt::model("res/figure.obj"));
@@ -25,6 +35,11 @@ void enemy::hit()
     if (health <= 0)
     {
         self_destroy();
+
+        if (enemies_spawner_ != nullptr)
+        {
+            enemies_spawner_->kill_enemy();
+        }
     }
 }
 

@@ -1,3 +1,5 @@
+- add 'material' class
+
 - add light parameters to the editor
   * point light
   * direction light (default)

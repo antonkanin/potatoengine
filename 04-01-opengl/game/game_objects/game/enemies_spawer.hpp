@@ -6,6 +6,13 @@
 
 class enemies_spawner final : public pt::game_object
 {
+public:
+    void kill_enemy()
+    {
+        total_enemies_--;
+    }
+
+private:
     using pt::game_object::game_object;
 
     void start() override { std::srand(time(nullptr)); }
@@ -32,6 +39,8 @@ class enemies_spawner final : public pt::game_object
             total_enemies_++;
         }
     }
+
+
 
     float        spawn_interval_  = 1.0f; // seconds;
     float        last_spawn_time_ = 0.f;

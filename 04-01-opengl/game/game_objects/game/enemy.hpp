@@ -28,4 +28,6 @@ private:
     float move_speed = 1.f;
 
     class player* player_ = nullptr;
+
+    class enemies_spawner* enemies_spawner_ = nullptr;
 };
