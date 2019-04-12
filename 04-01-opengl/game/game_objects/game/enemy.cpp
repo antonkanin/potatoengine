@@ -15,7 +15,7 @@ void enemy::start()
 
     // set_model(pt::model("res/cube/cube.obj"));
     // set_model(pt::model("res/figure.obj"));
-    set_model(pt::model("res/cube/cube_smooth.obj"));
+    set_model(pt::model("res/cube/cube_leopard.obj"));
 }
 
 void enemy::hit()
