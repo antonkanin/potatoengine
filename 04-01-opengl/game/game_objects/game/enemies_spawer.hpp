@@ -16,7 +16,7 @@ class enemies_spawner final : public pt::game_object
     {
         last_spawn_time_ += get_engine().delta_time();
 
-        if (last_spawn_time_ >= spawn_interval_)
+        if (last_spawn_time_ >= spawn_interval_ && total_enemies_ < 10)
         {
             const float x = std::rand() % 50;
             const float z = std::rand() % 50;
@@ -28,10 +28,13 @@ class enemies_spawner final : public pt::game_object
             enemy_object->set_position({ x, y, z })->add_body(true);
 
             last_spawn_time_ = 0;
+
+            total_enemies_++;
         }
     }
 
     float        spawn_interval_  = 1.0f; // seconds;
     float        last_spawn_time_ = 0.f;
     unsigned int enemies_counter_ = 1;
+    unsigned int total_enemies_ = 0;
 };
