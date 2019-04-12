@@ -159,7 +159,7 @@ void video_component::render_object(const struct model&          model,
     impl->generic_program_->set_1f("u_light_angle", M_PI / 10);
 
     // calculating gravity + light wind wind
-    float dx = 0.01f * std::sin(time * 2);
+    float dx = 0.005f * std::sin(time * 2);
 
     impl->generic_program_->set_vec3("u_gravity", { dx, -0.01f, 0.0f });
 
@@ -240,8 +240,8 @@ void video_component::swap_buffers()
 
     SDL_GL_SwapWindow(impl->window_);
 
-    glClearColor(0.3f, 0.3f, 1.0f, 0.0f); // blue background
-    // glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    // glClearColor(0.3f, 0.3f, 1.0f, 0.0f); // blue background
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     check_gl_errors();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

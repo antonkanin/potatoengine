@@ -40,7 +40,7 @@ void main()
         vec3 reflect_dir = reflect(-1 * light_dir, norm);
         float specular = pow(max(dot(view_dir, reflect_dir), 0.0), 256);
 
-        float result_light = ambient + diffuse + specular;
+        float result_light = ambient + 2.0 * diffuse + specular;
 
         gl_FragColor = texture2D(albedo_texture, v_tex_coord) * vec4(v_color, 1.0) * result_light * v_shadow;
     }

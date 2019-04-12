@@ -13,10 +13,8 @@ public:
 
     void update() override
     {
-/*
         move_enemy();
         rotate();
-*/
     }
 
     void hit();

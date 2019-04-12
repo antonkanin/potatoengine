@@ -24,9 +24,12 @@ void main()
     v_normal = transpose(inverse(u_model_view_matrix)) * vec4(a_normal, 0.0);
 
     // creting new "shell" with each rendering pass
-    v_position += (gl_InstanceID / 200.0) * vec4(normalize(vec3(v_normal)) + u_gravity * gl_InstanceID, 0.0);
+    float layers_count = 64.0;
+    float hair_length = 0.3;
+    v_position += hair_length * (gl_InstanceID / layers_count) * vec4(normalize(vec3(v_normal)) + u_gravity * gl_InstanceID, 0.0);
+    // v_position += (gl_InstanceID / 200.0) * vec4(normalize(vec3(v_normal)) + u_gravity * gl_InstanceID, 0.0);
 
-    float max_value = gl_InstanceID / 64.0;
+    float max_value = gl_InstanceID / layers_count;
     v_shadow = mix(0.2, 1.0, max_value);
     //v_shadow = 1.0;
 

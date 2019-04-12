@@ -61,8 +61,8 @@ private:
 
     // alpha texture;
     GLubyte* data_ = nullptr;
-    int w_ = 500;
-    int h_ = 500;
+    int w_ = 1000;
+    int h_ = 1000;
     unsigned int textureID;
 };
 
