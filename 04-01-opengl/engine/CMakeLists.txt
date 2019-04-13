@@ -14,6 +14,7 @@ add_library(${PROJECT_NAME} STATIC
         src/engine_utils.cpp
         src/log_utils.cpp
         src/game_objects_list.cpp
+        src/material.hpp
 
         src/input_component.cpp
         src/video_component.cpp
