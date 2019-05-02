@@ -57,7 +57,6 @@ else()
             SDL2
             SDL2_mixer
             GL
-            stbi
             assimp
             external
             BulletDynamics
