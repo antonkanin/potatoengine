@@ -2,8 +2,9 @@
 
 #include "renderer/opengl_utils.hpp"
 #include <iostream>
-#define STB_IMAGE_IMPLEMENTATION
 #include <log_utils.hpp>
+
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 namespace pt
@@ -82,7 +83,7 @@ std::vector<texture> model::loadMaterialTextures(aiMaterial*        mat,
         aiString str;
         mat->GetTexture(type, i, &str);
         texture texture;
-        texture.id   = TextureFromFile(str.C_Str(), directory);
+        texture.id   = TextureFromFile(str.C_Str(), directory_);
         texture.type = typeName;
         textures.push_back(texture);
     }
@@ -158,13 +159,13 @@ mesh model::process_mesh(aiMesh* mesh, const aiScene* scene)
             {
                 v.color = { diffuse_color.r, diffuse_color.g, diffuse_color.b };
             }
-        };
+        }
     }
 
-    return { vertices, indices, textures };
+    return { vertices, indices, textures, nullptr};
 }
 
-void pt::model::load_model(const std::string& path)
+void model::load_model(const std::string& path)
 {
     Assimp::Importer import;
     const aiScene*   scene =
@@ -178,7 +179,7 @@ void pt::model::load_model(const std::string& path)
             ", details: " + import.GetErrorString());
     }
 
-    directory = path.substr(0, path.find_last_of('/'));
+    directory_ = path.substr(0, path.find_last_of('/'));
 
     process_node(scene->mRootNode, scene);
 }

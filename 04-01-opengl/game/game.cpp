@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     engine->add_object<enemies_spawner>("Enemies spawner");
 
-    // engine->add_object<vehicle>("Car")->set_position({ 30.f, 0.f, -20.f });
+    engine->add_object<vehicle>("Car")->set_position({ 30.f, 0.f, -20.f });
 
     engine->add_object<show_fps>("FPS Display");
 

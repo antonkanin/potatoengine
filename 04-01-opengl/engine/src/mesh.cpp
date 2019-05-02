@@ -7,10 +7,11 @@ namespace pt
 {
 
 mesh::mesh(std::vector<pt::vertex> vertices, std::vector<unsigned int> indices,
-           std::vector<pt::texture> textures)
+           std::vector<pt::texture> textures, vb_builder* vb_builder_value)
     : vertices(std::move(vertices))
     , indices(std::move(indices))
     , textures(std::move(textures))
+    , vb_builder_(vb_builder_value)
 {
     setup_mesh();
 }

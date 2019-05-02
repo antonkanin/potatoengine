@@ -26,11 +26,10 @@ add_library(${PROJECT_NAME} STATIC
         src/renderer/shader.cpp
         src/renderer/opengl_utils.cpp
         src/renderer/debug_drawer.cpp
+        src/renderer/vb_builder.hpp
 
         src/imgui/imgui_impl_sdl.cpp
         src/imgui/imgui_impl_opengl3.cpp
-
-        src/renderer/debug_drawer.hpp
 
         src/stb_image.h)
 
