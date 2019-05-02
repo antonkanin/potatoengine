@@ -116,6 +116,8 @@ bool engine::run()
 
     impl->start_objects();
 
+    // load all the models
+
     impl->time_ = 0.f;
 
     while (impl->game_running_)
@@ -431,6 +433,8 @@ void engine_impl::start_objects()
     for (auto& object : *objects_)
     {
         object->start();
+
+        // check if the object has a model, and if it has one -> load it into the GPU
     }
 }
 

@@ -2,6 +2,7 @@
 
 #include "log_utils.hpp"
 #include <algorithm>
+#include <cstring>
 #include <game_object.hpp>
 
 namespace pt

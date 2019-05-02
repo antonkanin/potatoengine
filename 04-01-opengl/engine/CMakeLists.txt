@@ -10,6 +10,7 @@ add_library(${PROJECT_NAME} STATIC
         src/movable_object.cpp
         src/mesh.cpp
         src/model.cpp
+        src/model_utils.cpp
         src/file_utils.cpp
         src/engine_utils.cpp
         src/log_utils.cpp
