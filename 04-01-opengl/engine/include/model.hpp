@@ -41,8 +41,6 @@ class model
 public:
     model() = default;
 
-    explicit model(const std::string& path);
-
     void draw(program& program) const;
 
     void add_mesh(const mesh& mesh);
@@ -51,7 +49,6 @@ public:
 
 private:
     std::vector<mesh> meshes_;
-    std::string       directory_;
 };
 
 } // namespace pt

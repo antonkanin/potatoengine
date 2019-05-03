@@ -5,12 +5,6 @@
 namespace pt
 {
 
-model::model(const std::string& path)
-{
-    // path_ = path;
-    load_model(*this, path);
-}
-
 void model::draw(program& program) const
 {
     for (auto& mesh : meshes_)

@@ -5,6 +5,7 @@
 #include <memory>
 #include <ptm/vec2.hpp>
 #include <ptm/vec3.hpp>
+#include "model_utils.hpp"
 
 #define PT_REGISTER(e, v) engine->register_class(#v, pt::make_object<v>);
 
@@ -56,7 +57,7 @@ public:
 
     void enable_vsync(bool state);
 
-    void set_light_model(const class model& model);
+    void set_light_model(const std::string& path);
 
     btDiscreteDynamicsWorld* get_dynamics_world();
 

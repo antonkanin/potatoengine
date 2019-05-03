@@ -5,6 +5,6 @@
 namespace pt
 {
 
-void load_model(class model& model, const std::string& path);
+class model load_model_from_file(const std::string& path);
 
 }

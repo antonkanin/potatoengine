@@ -17,16 +17,20 @@ namespace pt
 
 std::string directory_;
 
-void process_node(model& model, aiNode* node, const aiScene* scene);
+void process_node(model& model, aiNode* node, const aiScene* scene,
+                  const std::string& directory);
 
-mesh process_mesh(aiMesh* mesh, const aiScene* scene);
+mesh process_mesh(aiMesh* mesh, const aiScene* scene,
+                  const std::string& directory);
 
 std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
-                                          const std::string& typeName);
+                                          const std::string& typeName,
+                                          const std::string& directory);
+
 unsigned int TextureFromFile(const char* path, const std::string& directory,
                              bool gamma = false);
 
-void load_model(model& model, const std::string& path)
+model load_model_from_file(const std::string& path)
 {
 
     Assimp::Importer import;
@@ -41,28 +45,34 @@ void load_model(model& model, const std::string& path)
             ", details: " + import.GetErrorString());
     }
 
-    directory_ = path.substr(0, path.find_last_of('/'));
+    auto directory = path.substr(0, path.find_last_of('/'));
 
-    process_node(model, scene->mRootNode, scene);
+    model result_model;
+
+    process_node(result_model, scene->mRootNode, scene, directory);
+
+    return result_model;
 }
 
-void process_node(model& model, aiNode* node, const aiScene* scene)
+void process_node(model& model, aiNode* node, const aiScene* scene,
+                  const std::string& directory)
 {
     for (unsigned int mesh_index = 0; mesh_index < node->mNumMeshes;
          ++mesh_index)
     {
         auto mesh = scene->mMeshes[node->mMeshes[mesh_index]];
-        model.add_mesh(process_mesh(mesh, scene));
+        model.add_mesh(process_mesh(mesh, scene, directory));
     }
 
     for (unsigned int child_index = 0; child_index < node->mNumChildren;
          ++child_index)
     {
-        process_node(model, node->mChildren[child_index], scene);
+        process_node(model, node->mChildren[child_index], scene, directory);
     }
 }
 
-mesh process_mesh(aiMesh* mesh, const aiScene* scene)
+mesh process_mesh(aiMesh* mesh, const aiScene* scene,
+                  const std::string& directory)
 {
     std::vector<vertex>  vertices;
     std::vector<index>   indices;
@@ -113,12 +123,12 @@ mesh process_mesh(aiMesh* mesh, const aiScene* scene)
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
         std::vector<texture> diffuseMaps = loadMaterialTextures(
-            material, aiTextureType_DIFFUSE, "texture_diffuse");
+            material, aiTextureType_DIFFUSE, "texture_diffuse", directory);
 
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
         std::vector<texture> specularMaps = loadMaterialTextures(
-            material, aiTextureType_SPECULAR, "texture_specular");
+            material, aiTextureType_SPECULAR, "texture_specular", directory);
 
         textures.insert(textures.end(), specularMaps.begin(),
                         specularMaps.end());
@@ -138,7 +148,8 @@ mesh process_mesh(aiMesh* mesh, const aiScene* scene)
 }
 
 std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
-                                          const std::string& typeName)
+                                          const std::string& typeName,
+                                          const std::string& directory)
 {
     std::vector<texture> textures;
     for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -146,7 +157,7 @@ std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
         aiString str;
         mat->GetTexture(type, i, &str);
         texture texture;
-        texture.id   = TextureFromFile(str.C_Str(), directory_);
+        texture.id   = TextureFromFile(str.C_Str(), directory);
         texture.type = typeName;
         textures.push_back(texture);
     }

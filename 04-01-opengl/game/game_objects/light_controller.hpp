@@ -10,7 +10,7 @@ public:
 
     void start() override
     {
-        get_engine().set_light_model(pt::model{ "res/cube/cube.obj" });
+        get_engine().set_light_model("res/cube/cube.obj");
 
         // sync game object and light positions
         get_engine().get_light().set_position(get_position());

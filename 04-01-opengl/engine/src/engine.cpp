@@ -183,9 +183,10 @@ float engine::delta_time() const
     return impl->delta_time_;
 }
 
-void engine::set_light_model(const model& model)
+void engine::set_light_model(const std::string& path)
 {
-    impl->light_model_ = model;
+
+    impl->light_model_ = load_model_from_file(path);
 }
 
 btDiscreteDynamicsWorld* engine::get_dynamics_world()

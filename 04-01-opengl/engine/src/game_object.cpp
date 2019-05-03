@@ -1,5 +1,6 @@
 #include <game_object.hpp>
 
+#include "model_utils.hpp"
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
 #include <LinearMath/btDefaultMotionState.h>
 #include <log_utils.hpp>
@@ -95,7 +96,10 @@ ptm::vec3 game_object::get_position() const
 
 game_object* game_object::load_model(const std::string& path)
 {
-    set_model(model(path));
+    model_ = load_model_from_file(path);
+
+    has_model_ = true;
+
     return this;
 }
 
