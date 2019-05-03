@@ -1,9 +1,11 @@
 #include "video_component.hpp"
 
+#include "mesh.hpp"
 #include "model.hpp"
 #include "movable_object.hpp"
 #include "ptm/math.hpp"
 #include "renderer/opengl_utils.hpp"
+#include "renderer/program.hpp"
 #include "transformation.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -29,7 +31,7 @@ public:
                                                    "shaders/light_shader.frag");
     }
 
-    void load_mesh(mesh& mesh);
+    void load_mesh(mesh_ptr& mesh);
 
     std::unique_ptr<program> generic_program_;
 
@@ -40,7 +42,7 @@ public:
     SDL_Window* window_ = nullptr;
 };
 
-void video_component_pimpl::load_mesh(mesh& mesh)
+void video_component_pimpl::load_mesh(mesh_ptr& mesh)
 {
     unsigned int VBO  = 0;
     unsigned int EBO  = 0;
@@ -66,16 +68,16 @@ void video_component_pimpl::load_mesh(mesh& mesh)
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     check_gl_errors();
 
-    glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size() * sizeof(vertex),
-                 mesh.vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(vertex),
+                 mesh->vertices.data(), GL_STATIC_DRAW);
     check_gl_errors();
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     check_gl_errors();
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 mesh.indices.size() * sizeof(unsigned int),
-                 mesh.indices.data(), GL_STATIC_DRAW);
+                 mesh->indices.size() * sizeof(unsigned int),
+                 mesh->indices.data(), GL_STATIC_DRAW);
     check_gl_errors();
 
     ///////////////////////////////////////////////////////////////////////////
@@ -118,7 +120,7 @@ void video_component_pimpl::load_mesh(mesh& mesh)
 
     std::unique_ptr<vertex_buffer> buffer(new vertex_buffer_opengl(VAO_));
 
-    //mesh.vertex_buffer_ = std::move(buffer);
+    // mesh.vertex_buffer_ = std::move(buffer);
 }
 
 glm::mat4x4 glm_mat(const ptm::matrix4x4& mat)

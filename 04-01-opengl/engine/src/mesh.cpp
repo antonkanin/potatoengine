@@ -6,6 +6,7 @@
 namespace pt
 {
 
+/*
 mesh::mesh(std::vector<pt::vertex> vertices, std::vector<unsigned int> indices,
            std::vector<pt::texture> textures)
     : vertices(std::move(vertices))
@@ -14,6 +15,7 @@ mesh::mesh(std::vector<pt::vertex> vertices, std::vector<unsigned int> indices,
 {
     setup_mesh();
 }
+*/
 
 mesh::mesh() = default;
 

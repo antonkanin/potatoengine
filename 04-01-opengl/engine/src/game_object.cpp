@@ -53,7 +53,7 @@ void game_object::set_model(model&& model_variable)
 {
     has_model_ = true;
 
-    model_ = std::move(model_variable);
+    //model_ = std::move(model_variable);
 }
 
 const transformation& game_object::get_transformation() const

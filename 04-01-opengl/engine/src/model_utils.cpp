@@ -20,7 +20,7 @@ std::string directory_;
 void process_node(model& model, aiNode* node, const aiScene* scene,
                   const std::string& directory);
 
-mesh process_mesh(aiMesh* mesh, const aiScene* scene,
+mesh_ptr process_mesh(aiMesh* mesh, const aiScene* scene,
                   const std::string& directory);
 
 std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
@@ -60,8 +60,9 @@ void process_node(model& model, aiNode* node, const aiScene* scene,
     for (unsigned int mesh_index = 0; mesh_index < node->mNumMeshes;
          ++mesh_index)
     {
-        auto mesh = scene->mMeshes[node->mMeshes[mesh_index]];
-        model.add_mesh(process_mesh(mesh, scene, directory));
+        auto ai_mesh = scene->mMeshes[node->mMeshes[mesh_index]];
+        auto pt_mesh = process_mesh(ai_mesh, scene, directory);
+        model.add_mesh(pt_mesh);
     }
 
     for (unsigned int child_index = 0; child_index < node->mNumChildren;
@@ -71,7 +72,7 @@ void process_node(model& model, aiNode* node, const aiScene* scene,
     }
 }
 
-mesh process_mesh(aiMesh* mesh, const aiScene* scene,
+mesh_ptr process_mesh(aiMesh* mesh, const aiScene* scene,
                   const std::string& directory)
 {
     std::vector<vertex>  vertices;
@@ -144,7 +145,12 @@ mesh process_mesh(aiMesh* mesh, const aiScene* scene,
         }
     }
 
-    return { vertices, indices, textures };
+    auto result_mesh = std::make_unique<pt::mesh>();
+    result_mesh->vertices = vertices;
+    result_mesh->indices = indices;
+    result_mesh->textures = textures;
+
+    return result_mesh;
 }
 
 std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,

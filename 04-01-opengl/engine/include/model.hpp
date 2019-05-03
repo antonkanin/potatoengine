@@ -22,33 +22,39 @@ model load flow
 2) load all meshes
 
  TODO: 1) remove model loading logic form the model class
- TODO: 2) model should not know about the fact that it gets loaded to the vertex buffer
+ TODO: 2) model should not know about the fact that it gets loaded to the vertex
+buffer
 
  */
 
 #pragma once
 
-#include "../src/renderer/program.hpp" // TODO we should not be including private headers
 #include "mesh.hpp"
-#include "model.hpp"
+#include <memory>
 #include <vector>
 
 namespace pt
 {
 
+using mesh_ptr = std::unique_ptr<mesh>;
+
 class model
 {
 public:
-    model() = default;
+    model();
+    ~model();
 
-    void draw(program& program) const;
+    model(const model&) = delete;
+    model& operator=(const model&) = delete;
 
-    void add_mesh(const mesh& mesh);
+    void draw(class program& program) const;
 
-    std::vector<mesh>& get_meshes() { return meshes_; }
+    void add_mesh(const std::unique_ptr<mesh>&);
+
+    std::vector<mesh_ptr>& get_meshes() { return meshes_; }
 
 private:
-    std::vector<mesh> meshes_;
+    std::vector<std::unique_ptr<mesh>> meshes_;
 };
 
 } // namespace pt

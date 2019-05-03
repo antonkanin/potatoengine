@@ -54,7 +54,7 @@ public:
 
     std::unique_ptr<debug_drawer> debug_drawer_;
 
-    model light_model_; // TODO engine implementation needs to see this so it
+    std::unique_ptr<model> light_model_; // TODO engine implementation needs to see this so it
     // can pass it to the renderer
 
     std::string game_title_;
@@ -186,7 +186,8 @@ float engine::delta_time() const
 void engine::set_light_model(const std::string& path)
 {
 
-    impl->light_model_ = load_model_from_file(path);
+    impl->light_model_ = std::move(load_model_from_file(path));
+    std::unique_ptr<model> l = std::move(load_model_from_file(path));
 }
 
 btDiscreteDynamicsWorld* engine::get_dynamics_world()
@@ -450,7 +451,7 @@ void engine_impl::render_objects_gui()
 
 void engine_impl::render_lights()
 {
-    video->render_light(light_model_, engine_->get_light().get_position(),
+    video->render_light(*light_model_.get(), engine_->get_light().get_position(),
                         engine_->get_camera());
 }
 

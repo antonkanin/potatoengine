@@ -17,18 +17,21 @@ struct program;
 struct mesh
 {
     mesh();
-    mesh(const mesh&);
-
     ~mesh();
+
+    mesh(const mesh&) = delete;
+    mesh& operator=(const mesh&) = delete;
 
     std::vector<vertex>  vertices;
     std::vector<index>   indices;
     std::vector<texture> textures;
 
-    std::unique_ptr<vertex_buffer> vertex_buffer_;
+    // std::unique_ptr<vertex_buffer> vertex_buffer_;
 
+/*
     mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices,
          std::vector<texture> textures);
+*/
 
     void draw(program& program) const;
 
@@ -37,5 +40,7 @@ private:
 
     void setup_mesh();
 };
+
+using mesh_ptr = std::unique_ptr<mesh>;
 
 } // namespace pt
