@@ -46,13 +46,14 @@ game_object* game_object::set_position(const ptm::vec3& position)
 
 const model& game_object::get_model() const
 {
-    return model_;
+    return *model_.get();
 }
 
-void game_object::set_model(const model& model)
+void game_object::set_model(model&& model_variable)
 {
     has_model_ = true;
-    model_     = model;
+
+    model_ = std::move(model_variable);
 }
 
 const transformation& game_object::get_transformation() const

@@ -21,6 +21,8 @@ public:
 
     void clean_up();
 
+    void load_model(class model& model);
+
     void render_object(const struct model&          model,
                        const struct transformation& transformation,
                        const struct movable_object& camera,

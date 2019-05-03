@@ -3,6 +3,8 @@
 #include "player.hpp"
 #include "enemies_spawer.hpp"
 
+int enemy::counter = 0;
+
 void enemy::start()
 {
     auto player_object = get_engine().find_game_object("Player");
@@ -26,6 +28,8 @@ void enemy::start()
     // set_model(pt::model("res/cube/cube.obj"));
     // set_model(pt::model("res/figure.obj"));
     load_model("res/cube/cube_leopard.obj");
+
+    pt::log_line("Enemy #" + std::to_string(counter));
 }
 
 void enemy::hit()

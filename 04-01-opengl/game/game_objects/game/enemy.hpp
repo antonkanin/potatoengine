@@ -23,6 +23,8 @@ public:
 
     void rotate();
 
+    static int counter;
+
 private:
     int   health     = 2;
     float move_speed = 1.f;

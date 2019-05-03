@@ -30,7 +30,7 @@ std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 unsigned int TextureFromFile(const char* path, const std::string& directory,
                              bool gamma = false);
 
-model load_model_from_file(const std::string& path)
+std::unique_ptr<model> load_model_from_file(const std::string& path)
 {
 
     Assimp::Importer import;
@@ -47,11 +47,11 @@ model load_model_from_file(const std::string& path)
 
     auto directory = path.substr(0, path.find_last_of('/'));
 
-    model result_model;
+    auto model_object  = std::make_unique<model>();
 
-    process_node(result_model, scene->mRootNode, scene, directory);
+    process_node(*model_object.get(), scene->mRootNode, scene, directory);
 
-    return result_model;
+    return std::move(model_object);
 }
 
 void process_node(model& model, aiNode* node, const aiScene* scene,
@@ -144,7 +144,7 @@ mesh process_mesh(aiMesh* mesh, const aiScene* scene,
         }
     }
 
-    return { vertices, indices, textures, nullptr };
+    return { vertices, indices, textures };
 }
 
 std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,

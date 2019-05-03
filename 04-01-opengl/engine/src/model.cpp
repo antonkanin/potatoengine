@@ -1,5 +1,4 @@
 #include "model.hpp"
-
 #include "model_utils.hpp"
 
 namespace pt

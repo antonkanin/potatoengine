@@ -3,11 +3,11 @@ game_objects:
     name: Enemy 1
     position: {x: 0, y: 0, z: -3.0}
     scale: {x: 1.0, y: 1.0, z: 1.0}
-#
-#  - type: enemy
-#    name: Enemy 2
-#    position: {x: 3, y: 0, z: -5}
-#    scale: {x: .5, y: .5, z: .5}
+
+  - type: enemy
+    name: Enemy 2
+    position: {x: 3, y: 0, z: -5}
+    scale: {x: .5, y: .5, z: .5}
 
 #  - type: cube
 #    name: Floor

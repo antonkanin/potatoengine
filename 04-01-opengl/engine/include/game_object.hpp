@@ -42,7 +42,7 @@ public:
     game_object* set_rotation(const ptm::vec3& rotation_vector, float angle);
 
     const model& get_model() const;
-    void         set_model(const model& model);
+    void         set_model(model&& model);
 
     game_object* load_model(const std::string& path);
 
@@ -74,8 +74,9 @@ private:
 
     engine* engine_ = nullptr;
 
-    bool  has_model_ = false;
-    model model_;
+    bool has_model_ = false;
+
+    std::unique_ptr<model> model_;
 
     transformation transformation_ = { .position        = ptm::vec3::zero(),
                                        .rotation_vector = ptm::vec3::up(),

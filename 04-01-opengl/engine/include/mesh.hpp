@@ -2,7 +2,8 @@
 
 #include "texture.hpp"
 #include "vertex.hpp"
-#include <renderer/vb_builder.hpp>
+#include <memory>
+#include <renderer/vertex_buffer.hpp>
 #include <utility>
 #include <vector>
 
@@ -15,18 +16,23 @@ struct program;
 
 struct mesh
 {
+    mesh();
+    mesh(const mesh&);
+
+    ~mesh();
+
     std::vector<vertex>  vertices;
     std::vector<index>   indices;
     std::vector<texture> textures;
 
+    std::unique_ptr<vertex_buffer> vertex_buffer_;
+
     mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices,
-         std::vector<texture> textures, vb_builder* vb_builder_value);
+         std::vector<texture> textures);
 
     void draw(program& program) const;
 
 private:
-    vb_builder* vb_builder_ = nullptr;
-
     unsigned int VAO_ = 0;
 
     void setup_mesh();
