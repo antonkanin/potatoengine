@@ -29,14 +29,13 @@ buffer
 
 #pragma once
 
-#include "mesh.hpp"
 #include <memory>
 #include <vector>
 
 namespace pt
 {
 
-using mesh_ptr = std::unique_ptr<mesh>;
+using mesh_ptr = std::unique_ptr<class mesh>;
 
 class model
 {
@@ -44,17 +43,14 @@ public:
     model();
     ~model();
 
-    model(const model&) = delete;
-    model& operator=(const model&) = delete;
-
     void draw(class program& program) const;
 
-    void add_mesh(const std::unique_ptr<mesh>&);
+    void add_mesh(mesh_ptr&);
 
     std::vector<mesh_ptr>& get_meshes() { return meshes_; }
 
 private:
-    std::vector<std::unique_ptr<mesh>> meshes_;
+    std::vector<mesh_ptr> meshes_;
 };
 
 } // namespace pt
