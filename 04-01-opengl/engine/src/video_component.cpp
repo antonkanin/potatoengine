@@ -576,4 +576,93 @@ void video_component::load_model(model& model)
     }
 }
 
+void load_mesh_into_gpu(std::unique_ptr<mesh>& mesh_ptr)
+{
+    unsigned int VBO  = 0;
+    unsigned int EBO  = 0;
+    unsigned int VAO_ = 0;
+
+    ///////////////////////////////////////////////////////////////////////////
+    // generate buffers
+    glGenVertexArrays(1, &VAO_);
+    check_gl_errors();
+
+    glGenBuffers(1, &VBO);
+    check_gl_errors();
+
+    glGenBuffers(1, &EBO);
+    check_gl_errors();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // bind buffers
+
+    glBindVertexArray(VAO_);
+    check_gl_errors();
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    check_gl_errors();
+
+    glBufferData(GL_ARRAY_BUFFER, mesh_ptr->vertices.size() * sizeof(vertex),
+                 mesh_ptr->vertices.data(), GL_STATIC_DRAW);
+    check_gl_errors();
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    check_gl_errors();
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 mesh_ptr->indices.size() * sizeof(unsigned int),
+                 mesh_ptr->indices.data(), GL_STATIC_DRAW);
+    check_gl_errors();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // setup attributes
+
+    // position
+    glEnableVertexAttribArray(0); // can we use name instead of a number?
+    check_gl_errors();
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
+    check_gl_errors();
+
+    // texture
+    glEnableVertexAttribArray(1);
+    check_gl_errors();
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                          (void*)(sizeof(ptm::vec3)));
+    check_gl_errors();
+
+    // color
+    glEnableVertexAttribArray(2);
+    check_gl_errors();
+
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+                          (void*)(sizeof(ptm::vec3) + sizeof(ptm::vec2)));
+    check_gl_errors();
+
+    // normals
+    glEnableVertexAttribArray(3);
+    check_gl_errors();
+
+    glVertexAttribPointer(
+        3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
+        (void*)(sizeof(ptm::vec3) + sizeof(ptm::vec2) + sizeof(ptm::vec3)));
+    check_gl_errors();
+
+    glBindVertexArray(0);
+    check_gl_errors();
+
+    std::unique_ptr<vertex_buffer> vertex_buffer_ptr(new vertex_buffer_opengl(VAO_));
+
+    mesh_ptr->vertex_buffer_ptr = std::move(vertex_buffer_ptr);
+}
+
+void video_component::load_model_into_gpu(std::unique_ptr<model>& model_ptr)
+{
+    for (auto& mesh : model_ptr->get_meshes())
+    {
+        load_mesh_into_gpu(mesh);
+    }
+}
+
 } // namespace pt

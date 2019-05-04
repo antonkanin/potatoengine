@@ -13,12 +13,9 @@ void model::draw(program& program) const
     }
 }
 
-void model::add_mesh(std::unique_ptr<mesh>& mesh_value)
+void model::add_mesh(mesh_ptr& mesh_value)
 {
     meshes_.push_back(std::move(mesh_value));
 }
-model::model() {}
-
-model::~model() {}
 
 } // namespace pt

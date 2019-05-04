@@ -1,3 +1,5 @@
+- start using quaternions for rotations
+
 - add 'material' class
 
 - add light parameters to the editor

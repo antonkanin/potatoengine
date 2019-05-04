@@ -40,9 +40,6 @@ using mesh_ptr = std::unique_ptr<class mesh>;
 class model
 {
 public:
-    model();
-    ~model();
-
     void draw(class program& program) const;
 
     void add_mesh(mesh_ptr&);

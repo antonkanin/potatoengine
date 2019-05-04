@@ -1,11 +1,11 @@
 #pragma once
 
+#include "model_utils.hpp"
 #include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h> // TODO find a way to remove the bullet physics header
 #include <functional>
 #include <memory>
 #include <ptm/vec2.hpp>
 #include <ptm/vec3.hpp>
-#include "model_utils.hpp"
 
 #define PT_REGISTER(e, v) engine->register_class(#v, pt::make_object<v>);
 
@@ -107,6 +107,8 @@ public:
     bool cursor_locked() const;
 
     void update_physics();
+
+    void load_model_into_gpu(std::unique_ptr<model>&);
 
 private:
     std::unique_ptr<class engine_impl> impl;

@@ -17,17 +17,19 @@ mesh::mesh(std::vector<pt::vertex> vertices, std::vector<unsigned int> indices,
 }
 */
 
-mesh::mesh() = default;
-
-mesh::~mesh() = default;
-
+/*
 void mesh::setup_mesh()
 {
     // todo...
 }
+*/
 
 void mesh::draw(pt::program& program) const
 {
+    auto buffer_ptr = dynamic_cast<vertex_buffer_opengl*>(vertex_buffer_ptr.get());
+
+    unsigned int VAO_ = buffer_ptr->VAO_;
+
     check_gl_errors();
 
     for (unsigned int tex_index = 0; tex_index < textures.size(); ++tex_index)

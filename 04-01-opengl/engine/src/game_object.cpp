@@ -1,3 +1,5 @@
+#include <utility>
+
 #include <game_object.hpp>
 
 #include "model_utils.hpp"
@@ -49,11 +51,11 @@ const model& game_object::get_model() const
     return *model_.get();
 }
 
-void game_object::set_model(model&& model_variable)
+void game_object::set_model(std::unique_ptr<model>& model_variable)
 {
-    has_model_ = true;
+    model_ = std::move(model_variable);
 
-    //model_ = std::move(model_variable);
+    has_model_ = true;
 }
 
 const transformation& game_object::get_transformation() const
@@ -98,6 +100,8 @@ ptm::vec3 game_object::get_position() const
 game_object* game_object::load_model(const std::string& path)
 {
     model_ = load_model_from_file(path);
+
+    get_engine().load_model_into_gpu(model_);
 
     has_model_ = true;
 
@@ -177,8 +181,8 @@ std::string game_object::get_name() const
     return name_;
 }
 
-game_object::game_object(const std::string& name)
-    : name_(name)
+game_object::game_object(std::string name)
+    : name_(std::move(name))
 {
 }
 

@@ -14,7 +14,7 @@ namespace pt
 class game_object
 {
 public:
-    explicit game_object(const std::string& name);
+    explicit game_object(std::string name);
 
     virtual ~game_object();
 
@@ -42,7 +42,7 @@ public:
     game_object* set_rotation(const ptm::vec3& rotation_vector, float angle);
 
     const model& get_model() const;
-    void         set_model(model&& model);
+    void         set_model(std::unique_ptr<model>&);
 
     game_object* load_model(const std::string& path);
 

@@ -23,6 +23,8 @@ public:
 
     void load_model(class model& model);
 
+    static void load_model_into_gpu(std::unique_ptr<class model>& model_ptr);
+
     void render_object(const struct model&          model,
                        const struct transformation& transformation,
                        const struct movable_object& camera,

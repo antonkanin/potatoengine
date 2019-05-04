@@ -54,7 +54,8 @@ public:
 
     std::unique_ptr<debug_drawer> debug_drawer_;
 
-    std::unique_ptr<model> light_model_; // TODO engine implementation needs to see this so it
+    std::unique_ptr<model>
+        light_model_; // TODO engine implementation needs to see this so it
     // can pass it to the renderer
 
     std::string game_title_;
@@ -185,9 +186,9 @@ float engine::delta_time() const
 
 void engine::set_light_model(const std::string& path)
 {
-
     impl->light_model_ = std::move(load_model_from_file(path));
-    std::unique_ptr<model> l = std::move(load_model_from_file(path));
+
+    load_model_into_gpu(impl->light_model_);
 }
 
 btDiscreteDynamicsWorld* engine::get_dynamics_world()
@@ -387,6 +388,11 @@ void engine::enable_vsync(bool state)
     impl->video->enable_vsync(state);
 }
 
+void engine::load_model_into_gpu(std::unique_ptr<model>& model_ptr)
+{
+    impl->video->load_model_into_gpu(model_ptr);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // engine implementation
 
@@ -436,7 +442,8 @@ void engine_impl::start_objects()
     {
         object->start();
 
-        // check if the object has a model, and if it has one -> load it into the GPU
+        // check if the object has a model, and if it has one -> load it into
+        // the GPU
     }
 }
 
@@ -451,8 +458,12 @@ void engine_impl::render_objects_gui()
 
 void engine_impl::render_lights()
 {
-    video->render_light(*light_model_.get(), engine_->get_light().get_position(),
-                        engine_->get_camera());
+    if (nullptr != light_model_)
+    {
+        video->render_light(*light_model_,
+                            engine_->get_light().get_position(),
+                            engine_->get_camera());
+    }
 }
 
 void engine_impl::render_cross_hairs()

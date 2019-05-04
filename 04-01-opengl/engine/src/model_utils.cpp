@@ -3,6 +3,7 @@
 #include "mesh.hpp"
 #include "model.hpp"
 
+#include "renderer/opengl_utils.hpp"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -21,7 +22,7 @@ void process_node(model& model, aiNode* node, const aiScene* scene,
                   const std::string& directory);
 
 mesh_ptr process_mesh(aiMesh* mesh, const aiScene* scene,
-                  const std::string& directory);
+                      const std::string& directory);
 
 std::vector<texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
                                           const std::string& typeName,
@@ -47,7 +48,7 @@ std::unique_ptr<model> load_model_from_file(const std::string& path)
 
     auto directory = path.substr(0, path.find_last_of('/'));
 
-    auto model_object  = std::make_unique<model>();
+    auto model_object = std::make_unique<model>();
 
     process_node(*model_object.get(), scene->mRootNode, scene, directory);
 
@@ -73,7 +74,7 @@ void process_node(model& model, aiNode* node, const aiScene* scene,
 }
 
 mesh_ptr process_mesh(aiMesh* mesh, const aiScene* scene,
-                  const std::string& directory)
+                      const std::string& directory)
 {
     std::vector<vertex>  vertices;
     std::vector<index>   indices;
@@ -145,9 +146,9 @@ mesh_ptr process_mesh(aiMesh* mesh, const aiScene* scene,
         }
     }
 
-    auto result_mesh = std::make_unique<pt::mesh>();
+    auto result_mesh      = std::make_unique<pt::mesh>();
     result_mesh->vertices = vertices;
-    result_mesh->indices = indices;
+    result_mesh->indices  = indices;
     result_mesh->textures = textures;
 
     return result_mesh;
