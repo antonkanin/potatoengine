@@ -6,27 +6,10 @@
 namespace pt
 {
 
-/*
-mesh::mesh(std::vector<pt::vertex> vertices, std::vector<unsigned int> indices,
-           std::vector<pt::texture> textures)
-    : vertices(std::move(vertices))
-    , indices(std::move(indices))
-    , textures(std::move(textures))
-{
-    setup_mesh();
-}
-*/
-
-/*
-void mesh::setup_mesh()
-{
-    // todo...
-}
-*/
-
 void mesh::draw(pt::program& program) const
 {
-    auto buffer_ptr = dynamic_cast<vertex_buffer_opengl*>(vertex_buffer_ptr.get());
+    auto buffer_ptr =
+        dynamic_cast<vertex_buffer_opengl*>(vertex_buffer_ptr.get());
 
     unsigned int VAO_ = buffer_ptr->VAO_;
 

@@ -22,11 +22,6 @@ struct mesh
 
     std::unique_ptr<vertex_buffer> vertex_buffer_ptr;
 
-/*
-    mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices,
-         std::vector<texture> textures);
-*/
-
     void draw(program& program) const;
 };
 
