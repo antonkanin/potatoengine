@@ -14,57 +14,51 @@ namespace pt
 class video_component
 {
 public:
-    video_component();
     ~video_component();
 
-    bool init(const std::string& title);
+    virtual bool init(const std::string& title) = 0;
 
-    void clean_up();
+    virtual void clean_up() = 0;
 
-    static void load_model_into_gpu(std::unique_ptr<class model>& model_ptr);
+    virtual void load_model_into_gpu(std::unique_ptr<class model>& model_ptr) = 0;
 
-    void render_object(const struct model&          model,
+    virtual void render_object(const struct model&          model,
                        const struct transformation& transformation,
                        const struct movable_object& camera,
-                       const ptm::vec3& light_position, float time);
+                       const ptm::vec3& light_position, float time) = 0;
 
-    void render_light(const class model& model, const ptm::vec3& light_position,
-                      const class movable_object& camera);
+    virtual void render_light(const class model& model, const ptm::vec3& light_position,
+                      const class movable_object& camera) = 0;
 
-    void render_line(const ptm::vec3& from, const ptm::vec3& to,
+    virtual void render_line(const ptm::vec3& from, const ptm::vec3& to,
                      const ptm::vec3&            color,
-                     const class movable_object& camera);
+                     const class movable_object& camera) = 0;
 
-    void render_line_ndc(const ptm::vec3& from, const ptm::vec3& to,
-                         const ptm::vec3& color);
+    virtual void render_line_ndc(const ptm::vec3& from, const ptm::vec3& to,
+                         const ptm::vec3& color) = 0;
 
-    void swap_buffers();
+    virtual void swap_buffers() = 0;
 
-    void enable_vsync(bool state);
+    virtual void enable_vsync(bool state) =0;
 
-    void enable_wireframe(bool state);
+    virtual void enable_wireframe(bool state) = 0;
 
-    float get_ticks();
+    virtual float get_ticks() = 0;
 
-    ptm::vec2i get_window_size() const;
+    virtual ptm::vec2i get_window_size() const = 0;
 
-    SDL_Window* get_window();
+    virtual SDL_Window* get_window() = 0;
 
     static void on_window_resize(Sint32 w, Sint32 h);
-    void lock_cursor(bool is_locked);
-
-private:
-    std::unique_ptr<class video_component_pimpl> impl;
-
-    void init_alpha_texture();
-
-    void generate_alpha();
-
-    // alpha texture;
-    GLubyte* data_ = nullptr;
-    int w_ = 1000;
-    int h_ = 1000;
-    unsigned int textureID;
+    virtual void lock_cursor(bool is_locked) = 0;
 };
+
+enum class video_api_type
+{
+    OPEN_GL,
+    VULKAN
+};
+
+std::unique_ptr<video_component> make_video_component(video_api_type type);
 
 } // namespace pt

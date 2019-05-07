@@ -13,12 +13,82 @@
 
 #include "imgui/imgui_impl_sdl.h"
 
+#include "model_utils.hpp"
 #include <log_utils.hpp>
 #include <ptm/glm_to_ptm.hpp>
-#include "model_utils.hpp"
 
 namespace pt
 {
+
+class video_component_opengl final : public video_component
+{
+public:
+    video_component_opengl();
+    ~video_component_opengl();
+
+    bool init(const std::string& title) override;
+
+    void clean_up() override;
+
+    void load_model_into_gpu(std::unique_ptr<class model>& model_ptr);
+
+    void render_object(const struct model&          model,
+                               const struct transformation& transformation,
+                               const struct movable_object& camera,
+                               const ptm::vec3& light_position, float time);
+
+    void render_light(const class model& model, const ptm::vec3& light_position,
+                              const class movable_object& camera);
+
+    void render_line(const ptm::vec3& from, const ptm::vec3& to,
+                             const ptm::vec3&            color,
+                             const class movable_object& camera);
+
+    virtual void render_line_ndc(const ptm::vec3& from, const ptm::vec3& to,
+                                 const ptm::vec3& color) = 0;
+
+    virtual void swap_buffers() = 0;
+
+    virtual void enable_vsync(bool state) =0;
+
+    virtual void enable_wireframe(bool state) = 0;
+
+    virtual float get_ticks() = 0;
+
+    virtual ptm::vec2i get_window_size() const = 0;
+
+    virtual SDL_Window* get_window() = 0;
+
+    static void on_window_resize(Sint32 w, Sint32 h);
+    virtual void lock_cursor(bool is_locked) = 0;
+
+
+private:
+    std::unique_ptr<class video_component_pimpl> impl;
+
+    void init_alpha_texture();
+
+    void generate_alpha();
+
+    // alpha texture;
+    GLubyte*     data_ = nullptr;
+    int          w_    = 1000;
+    int          h_    = 1000;
+    unsigned int textureID;
+};
+
+std::unique_ptr<video_component> make_video_component(video_api_type type)
+{
+    if (type == video_api_type::OPEN_GL)
+    {
+        std::unique_ptr<video_component> result(new video_component_opengl);
+        return result;
+    }
+    else
+    {
+        throw std::runtime_error("API not supported");
+    }
+}
 
 class video_component_pimpl
 {
@@ -126,7 +196,7 @@ SDL_GLContext create_opengl_context(SDL_Window* window)
     return gl_context;
 }
 
-video_component::video_component()
+video_component_opengl::video_component_opengl()
     : impl(std::make_unique<video_component_pimpl>())
 {
 }
@@ -187,10 +257,10 @@ void video_component::render_object(const struct model&          model,
     impl->generic_program_->validate();
 
     draw_model(model, *impl->generic_program_);
-    //model.draw();
+    // model.draw();
 }
 
-bool video_component::init(const std::string& title)
+bool video_component_opengl::init(const std::string& title)
 {
     const int init_result = SDL_InitSubSystem(SDL_INIT_VIDEO);
     if (init_result != 0)
@@ -279,7 +349,7 @@ void video_component::enable_wireframe(bool state)
     }
 }
 
-void video_component::clean_up()
+void video_component_opengl::clean_up()
 {
     if (impl->window_ != nullptr)
     {
@@ -428,7 +498,7 @@ void video_component::on_window_resize(Sint32 w, Sint32 h)
     glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
 }
 
-video_component::~video_component()
+video_component_opengl::~video_component_opengl()
 {
     SDL_GL_DeleteContext(impl->gl_context_);
     SDL_DestroyWindow(impl->window_);
@@ -446,7 +516,7 @@ void video_component::lock_cursor(bool is_locked)
         SDL_SetRelativeMouseMode(SDL_FALSE);
     }
 }
-void video_component::generate_alpha()
+void video_component_opengl::generate_alpha()
 {
     data_ = (GLubyte*)malloc(w_ * h_);
 
@@ -469,7 +539,7 @@ void video_component::generate_alpha()
     }
 }
 
-void video_component::init_alpha_texture()
+void video_component_opengl::init_alpha_texture()
 {
     glGenTextures(1, &textureID);
 
@@ -564,7 +634,8 @@ void load_mesh_into_gpu(std::unique_ptr<mesh>& mesh_ptr)
     glBindVertexArray(0);
     check_gl_errors();
 
-    std::unique_ptr<vertex_buffer> vertex_buffer_ptr(new vertex_buffer_opengl(VAO_));
+    std::unique_ptr<vertex_buffer> vertex_buffer_ptr(
+        new vertex_buffer_opengl(VAO_));
 
     mesh_ptr->vertex_buffer_ptr = std::move(vertex_buffer_ptr);
 }
