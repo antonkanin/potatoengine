@@ -14,7 +14,7 @@ namespace pt
 class video_component
 {
 public:
-    ~video_component();
+    virtual ~video_component() = default;
 
     virtual bool init(const std::string& title) = 0;
 
@@ -50,6 +50,7 @@ public:
     virtual SDL_Window* get_window() = 0;
 
     static void on_window_resize(Sint32 w, Sint32 h);
+
     virtual void lock_cursor(bool is_locked) = 0;
 };
 

@@ -33,35 +33,33 @@ public:
     void load_model_into_gpu(std::unique_ptr<class model>& model_ptr);
 
     void render_object(const struct model&          model,
-                               const struct transformation& transformation,
-                               const struct movable_object& camera,
-                               const ptm::vec3& light_position, float time);
+                       const struct transformation& transformation,
+                       const struct movable_object& camera,
+                       const ptm::vec3& light_position, float time);
 
     void render_light(const class model& model, const ptm::vec3& light_position,
-                              const class movable_object& camera);
+                      const class movable_object& camera);
 
     void render_line(const ptm::vec3& from, const ptm::vec3& to,
-                             const ptm::vec3&            color,
-                             const class movable_object& camera);
+                     const ptm::vec3&            color,
+                     const class movable_object& camera);
 
-    virtual void render_line_ndc(const ptm::vec3& from, const ptm::vec3& to,
-                                 const ptm::vec3& color) = 0;
+    void render_line_ndc(const ptm::vec3& from, const ptm::vec3& to,
+                         const ptm::vec3& color);
 
-    virtual void swap_buffers() = 0;
+    void swap_buffers();
 
-    virtual void enable_vsync(bool state) =0;
+    void enable_vsync(bool state);
 
-    virtual void enable_wireframe(bool state) = 0;
+    void enable_wireframe(bool state);
 
-    virtual float get_ticks() = 0;
+    float get_ticks();
 
-    virtual ptm::vec2i get_window_size() const = 0;
+    ptm::vec2i get_window_size() const;
 
-    virtual SDL_Window* get_window() = 0;
+    SDL_Window* get_window();
 
-    static void on_window_resize(Sint32 w, Sint32 h);
-    virtual void lock_cursor(bool is_locked) = 0;
-
+    void lock_cursor(bool is_locked);
 
 private:
     std::unique_ptr<class video_component_pimpl> impl;
@@ -201,10 +199,10 @@ video_component_opengl::video_component_opengl()
 {
 }
 
-void video_component::render_object(const struct model&          model,
-                                    const struct transformation& transformation,
-                                    const struct movable_object& camera,
-                                    const ptm::vec3& light_position, float time)
+void video_component_opengl::render_object(
+    const struct model& model, const struct transformation& transformation,
+    const struct movable_object& camera, const ptm::vec3& light_position,
+    float time)
 {
     impl->generic_program_->use();
 
@@ -309,7 +307,7 @@ bool video_component_opengl::init(const std::string& title)
     return true;
 }
 
-void video_component::swap_buffers()
+void video_component_opengl::swap_buffers()
 {
 
     SDL_GL_SwapWindow(impl->window_);
@@ -322,22 +320,22 @@ void video_component::swap_buffers()
     check_gl_errors();
 }
 
-void video_component::enable_vsync(bool state)
+void video_component_opengl::enable_vsync(bool state)
 {
     SDL_GL_SetSwapInterval(state ? 1 : 0);
 }
 
-float video_component::get_ticks()
+float video_component_opengl::get_ticks()
 {
     return SDL_GetTicks();
 }
 
-class SDL_Window* video_component::get_window()
+class SDL_Window* video_component_opengl::get_window()
 {
     return impl->window_;
 }
 
-void video_component::enable_wireframe(bool state)
+void video_component_opengl::enable_wireframe(bool state)
 {
     if (state)
     {
@@ -359,9 +357,9 @@ void video_component_opengl::clean_up()
     SDL_Quit();
 }
 
-void video_component::render_light(const model&          model,
-                                   const vec3&           light_position,
-                                   const movable_object& camera)
+void video_component_opengl::render_light(const model&          model,
+                                          const vec3&           light_position,
+                                          const movable_object& camera)
 {
     ptm::matrix4x4 translation_m = ptm::translation(light_position);
 
@@ -442,9 +440,10 @@ void render_line_internal(const ptm::vec3& from, const ptm::vec3& to)
     check_gl_errors();
 }
 
-void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
-                                  const ptm::vec3&             color,
-                                  const struct movable_object& camera)
+void video_component_opengl::render_line(const ptm::vec3&             from,
+                                         const ptm::vec3&             to,
+                                         const ptm::vec3&             color,
+                                         const struct movable_object& camera)
 {
     glm::mat4 view_m = get_view_matrix(camera);
 
@@ -462,9 +461,9 @@ void video_component::render_line(const ptm::vec3& from, const ptm::vec3& to,
     render_line_internal(from, to);
 }
 
-void video_component::render_line_ndc(const ptm::vec3& from,
-                                      const ptm::vec3& to,
-                                      const ptm::vec3& color)
+void video_component_opengl::render_line_ndc(const ptm::vec3& from,
+                                             const ptm::vec3& to,
+                                             const ptm::vec3& color)
 {
     glm::mat4 identity =
         glm::mat4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
@@ -484,7 +483,7 @@ void video_component::render_line_ndc(const ptm::vec3& from,
     render_line_internal(from, to);
 }
 
-vec2i video_component::get_window_size() const
+vec2i video_component_opengl::get_window_size() const
 {
     int w, h;
 
@@ -505,7 +504,7 @@ video_component_opengl::~video_component_opengl()
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-void video_component::lock_cursor(bool is_locked)
+void video_component_opengl::lock_cursor(bool is_locked)
 {
     if (is_locked)
     {
@@ -640,7 +639,8 @@ void load_mesh_into_gpu(std::unique_ptr<mesh>& mesh_ptr)
     mesh_ptr->vertex_buffer_ptr = std::move(vertex_buffer_ptr);
 }
 
-void video_component::load_model_into_gpu(std::unique_ptr<model>& model_ptr)
+void video_component_opengl::load_model_into_gpu(
+    std::unique_ptr<model>& model_ptr)
 {
     for (auto& mesh : model_ptr->get_meshes())
     {

@@ -25,7 +25,6 @@ public:
         , input_manager_(std::make_unique<input_manager>())
         , audio(std::make_unique<audio_component>())
         , input(std::make_unique<input_component>())
-        , video(std::make_unique<video_component>())
         , physics(std::make_unique<physics_component>())
         , gui(std::make_unique<gui_component>())
         , debug_drawer_(
@@ -33,6 +32,7 @@ public:
         , objects_(std::make_unique<game_objects_list>())
 
     {
+        video = make_video_component(video_api_type::OPEN_GL);
     }
 
     engine* engine_;
