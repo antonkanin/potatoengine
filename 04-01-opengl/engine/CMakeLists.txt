@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME} STATIC
 
         src/input_component.cpp
         src/video_component.cpp
+        src/video_component_opengl.cpp
         src/gui_component.cpp
         src/physics_component.cpp
         src/audio_component.cpp
@@ -50,7 +51,7 @@ if (MINGW)
             BulletCollision
             LinearMath
             yaml-cpp)
-else()
+else ()
     target_link_libraries(${PROJECT_NAME}
             SDL2
             SDL2_mixer
@@ -61,7 +62,7 @@ else()
             BulletCollision
             LinearMath
             yaml-cpp)
-endif()
+endif ()
 
 find_package(Bullet REQUIRED)
 include_directories(${BULLET_INCLUDE_DIR})
