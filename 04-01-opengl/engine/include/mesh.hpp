@@ -21,8 +21,6 @@ struct mesh
     std::vector<texture> textures;
 
     std::unique_ptr<vertex_buffer> vertex_buffer_ptr;
-
-    void draw(program& program) const;
 };
 
 using mesh_ptr = std::unique_ptr<mesh>;

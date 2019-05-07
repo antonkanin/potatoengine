@@ -4,6 +4,7 @@
 #include "model.hpp"
 
 #include "renderer/opengl_utils.hpp"
+#include "renderer/program.hpp"
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -228,5 +229,62 @@ unsigned int TextureFromFile(const char* path, const std::string& directory,
 
     return textureID;
 }
+
+void draw_mesh(const mesh_ptr& mesh, program& program)
+{
+    auto buffer_ptr =
+        dynamic_cast<vertex_buffer_opengl*>(mesh->vertex_buffer_ptr.get());
+
+    unsigned int VAO_ = buffer_ptr->VAO_;
+
+    check_gl_errors();
+
+    for (unsigned int tex_index = 0; tex_index < mesh->textures.size();
+         ++tex_index)
+    {
+        if (program.set_1i("albedo_texture", tex_index + 1))
+        {
+            // TODO "+1" here is a horrible hack, we are basically reserved 0
+            // for the alpha texture used in hair rendering
+            glActiveTexture_(GL_TEXTURE0 + tex_index + 1);
+            glBindTexture(GL_TEXTURE_2D, mesh->textures[tex_index].id);
+            check_gl_errors();
+        }
+    }
+
+    glBindVertexArray(VAO_);
+    check_gl_errors();
+
+    //    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()),
+    //                   GL_UNSIGNED_INT, nullptr);
+    glDrawElementsInstanced(GL_TRIANGLES,
+                            static_cast<GLsizei>(mesh->indices.size()),
+                            GL_UNSIGNED_INT, nullptr, 64);
+
+    check_gl_errors();
+
+    glBindVertexArray(0);
+    check_gl_errors();
+}
+
+using model_ptr = std::unique_ptr<model>;
+
+void draw_model(std::unique_ptr<model>& model_ptr, class program& program)
+{
+    for (auto& mesh : model_ptr->get_meshes())
+    {
+        draw_mesh(mesh, program);
+    }
+}
+
+void draw_model(const model& model, class program& program)
+{
+    for (auto& mesh : model.get_meshes())
+    {
+        draw_mesh(mesh, program);
+    }
+
+}
+
 
 } // namespace pt

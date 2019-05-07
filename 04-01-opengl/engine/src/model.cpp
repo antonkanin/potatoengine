@@ -1,17 +1,8 @@
 #include "model.hpp"
-#include "model_utils.hpp"
 #include "mesh.hpp"
 
 namespace pt
 {
-
-void model::draw(program& program) const
-{
-    for (auto& mesh : meshes_)
-    {
-        mesh->draw(program);
-    }
-}
 
 void model::add_mesh(mesh_ptr& mesh_value)
 {

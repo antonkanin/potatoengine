@@ -15,6 +15,7 @@
 
 #include <log_utils.hpp>
 #include <ptm/glm_to_ptm.hpp>
+#include "model_utils.hpp"
 
 namespace pt
 {
@@ -268,7 +269,8 @@ void video_component::render_object(const struct model&          model,
 
     impl->generic_program_->validate();
 
-    model.draw(*(impl->generic_program_.get()));
+    draw_model(model, *impl->generic_program_);
+    //model.draw();
 }
 
 bool video_component::init(const std::string& title)
@@ -390,7 +392,8 @@ void video_component::render_light(const model&          model,
                                       glm::value_ptr(full_transform_m));
     impl->light_program_->validate();
 
-    model.draw(*(impl->light_program_.get()));
+    // model.draw(*(impl->light_program_.get()));
+    draw_model(model, *impl->light_program_);
 }
 
 void render_line_internal(const ptm::vec3& from, const ptm::vec3& to)
