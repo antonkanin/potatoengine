@@ -21,8 +21,6 @@ public:
 
     void clean_up();
 
-    void load_model(class model& model);
-
     static void load_model_into_gpu(std::unique_ptr<class model>& model_ptr);
 
     void render_object(const struct model&          model,
@@ -53,7 +51,6 @@ public:
     SDL_Window* get_window();
 
     static void on_window_resize(Sint32 w, Sint32 h);
-
     void lock_cursor(bool is_locked);
 
 private:

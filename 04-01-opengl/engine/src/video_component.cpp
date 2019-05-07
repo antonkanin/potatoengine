@@ -32,8 +32,6 @@ public:
                                                    "shaders/light_shader.frag");
     }
 
-    void load_mesh(mesh_ptr& mesh);
-
     std::unique_ptr<program> generic_program_;
 
     std::unique_ptr<program> light_program_;
@@ -42,87 +40,6 @@ public:
 
     SDL_Window* window_ = nullptr;
 };
-
-void video_component_pimpl::load_mesh(mesh_ptr& mesh)
-{
-    unsigned int VBO  = 0;
-    unsigned int EBO  = 0;
-    unsigned int VAO_ = 0;
-
-    ///////////////////////////////////////////////////////////////////////////
-    // generate buffers
-    glGenVertexArrays(1, &VAO_);
-    check_gl_errors();
-
-    glGenBuffers(1, &VBO);
-    check_gl_errors();
-
-    glGenBuffers(1, &EBO);
-    check_gl_errors();
-
-    ///////////////////////////////////////////////////////////////////////////
-    // bind buffers
-
-    glBindVertexArray(VAO_);
-    check_gl_errors();
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    check_gl_errors();
-
-    glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(vertex),
-                 mesh->vertices.data(), GL_STATIC_DRAW);
-    check_gl_errors();
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    check_gl_errors();
-
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 mesh->indices.size() * sizeof(unsigned int),
-                 mesh->indices.data(), GL_STATIC_DRAW);
-    check_gl_errors();
-
-    ///////////////////////////////////////////////////////////////////////////
-    // setup attributes
-
-    // position
-    glEnableVertexAttribArray(0); // can we use name instead of a number?
-    check_gl_errors();
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
-    check_gl_errors();
-
-    // texture
-    glEnableVertexAttribArray(1);
-    check_gl_errors();
-
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          (void*)(sizeof(ptm::vec3)));
-    check_gl_errors();
-
-    // color
-    glEnableVertexAttribArray(2);
-    check_gl_errors();
-
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
-                          (void*)(sizeof(ptm::vec3) + sizeof(ptm::vec2)));
-    check_gl_errors();
-
-    // normals
-    glEnableVertexAttribArray(3);
-    check_gl_errors();
-
-    glVertexAttribPointer(
-        3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
-        (void*)(sizeof(ptm::vec3) + sizeof(ptm::vec2) + sizeof(ptm::vec3)));
-    check_gl_errors();
-
-    glBindVertexArray(0);
-    check_gl_errors();
-
-    std::unique_ptr<vertex_buffer> buffer(new vertex_buffer_opengl(VAO_));
-
-    // mesh.vertex_buffer_ = std::move(buffer);
-}
 
 glm::mat4x4 glm_mat(const ptm::matrix4x4& mat)
 {
@@ -569,14 +486,6 @@ void video_component::init_alpha_texture()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w_, h_, 0, GL_RED, GL_UNSIGNED_BYTE,
                  data_);
     check_gl_errors();
-}
-
-void video_component::load_model(model& model)
-{
-    for (auto& mesh : model.get_meshes())
-    {
-        impl->load_mesh(mesh);
-    }
 }
 
 void load_mesh_into_gpu(std::unique_ptr<mesh>& mesh_ptr)
