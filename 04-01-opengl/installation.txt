@@ -1,0 +1,3 @@
+ubuntu installation:
+
+sudo apt install libsdl2-dev libsdl2-mixer-dev libbullet-dev libyaml-cpp-dev libglm-dev
