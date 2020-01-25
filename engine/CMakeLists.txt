@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 
-project(04-01-engine)
+project(engine)
 
 add_library(${PROJECT_NAME} STATIC
         src/engine.cpp
