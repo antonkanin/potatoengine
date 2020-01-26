@@ -1,5 +1,6 @@
 - add game_object inheritance in the engine
 - add inheritance manager to the scene
+- add IMGUI as submodule
 
 - start using quaternions for rotations
 
