@@ -13,9 +13,11 @@ public:
 
     void update() override
     {
-        //move_enemy();
+        // move_enemy();
         // rotate();
     }
+
+    bool is_serializable() const override { return true; }
 
     void hit();
 

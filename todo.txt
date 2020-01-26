@@ -1,3 +1,6 @@
+- add game_object inheritance in the engine
+- add inheritance manager to the scene
+
 - start using quaternions for rotations
 
 - add 'material' class
