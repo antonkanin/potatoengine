@@ -147,7 +147,6 @@ bool engine::run()
 
         if (!cursor_locked())
         {
-
             impl->gui->prepare_gui_frame();
 
             impl->render_objects_gui();
@@ -460,8 +459,7 @@ void engine_impl::render_lights()
 {
     if (nullptr != light_model_)
     {
-        video->render_light(*light_model_,
-                            engine_->get_light().get_position(),
+        video->render_light(*light_model_, engine_->get_light().get_position(),
                             engine_->get_camera());
     }
 }

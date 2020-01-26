@@ -41,6 +41,7 @@
 - [low] load texture in the TGA format
 
 Done
+- bug: second click outside the enemy kills the enemy
 - make sure hair rendering respect the original texture of the model
 - deleting objects at runtime
 - add color to the draw_line function (perhaps we need a new shader?)

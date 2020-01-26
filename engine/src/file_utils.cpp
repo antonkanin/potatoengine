@@ -11,7 +11,6 @@ namespace pt
 
 void load_scene(engine& engine, std::string_view file_path)
 {
-
     YAML::Node config = YAML::LoadFile(std::string(file_path));
     if (config == nullptr)
     {

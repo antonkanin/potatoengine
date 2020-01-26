@@ -15,6 +15,9 @@ public:
 
     void update() override
     {
+        if (!get_engine().cursor_locked())
+            return;
+
         handle_mouse_input();
 
         set_position(get_engine().get_camera().get_position());

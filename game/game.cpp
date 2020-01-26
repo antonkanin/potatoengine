@@ -59,11 +59,11 @@ int main(int argc, char* argv[])
 
     // engine->add_object<audio_test>("Audio test");
 
-    //engine->add_object<object_selector>("Object Selector");
+    engine->add_object<object_selector>("Object Selector");
 
     engine->add_object<mode_switcher>("mode_switcher");
 
-    //engine->add_object<object_creator>("Object Creator");
+    engine->add_object<object_creator>("Object Creator");
 
     // clang-format on
 
