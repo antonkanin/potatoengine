@@ -1,3 +1,5 @@
+** do something with the void engine_impl::render_objects(), it should handle components...
+
 - add game_object inheritance in the engine
 - add inheritance manager to the scene
 - add IMGUI as submodule
