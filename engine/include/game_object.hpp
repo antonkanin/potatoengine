@@ -11,6 +11,8 @@
 namespace pt
 {
 
+class component;
+
 class game_object
 {
 public:
@@ -56,8 +58,9 @@ public:
 
     void self_destroy();
 
-protected:
     engine& get_engine();
+
+    void add_component(std::unique_ptr<component> component);
 
 private:
     void set_position_forced(const ptm::vec3& position);
@@ -86,6 +89,8 @@ private:
     std::string name_ = "NoName";
 
     bool to_be_destroyed_ = false;
+
+    std::vector<std::unique_ptr<component>> components_;
 };
 
 template <typename T>

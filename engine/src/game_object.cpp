@@ -1,10 +1,10 @@
 #include <utility>
 
-#include <game_object.hpp>
-
 #include "model_utils.hpp"
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
 #include <LinearMath/btDefaultMotionState.h>
+#include <component.hpp>
+#include <game_object.hpp>
 #include <log_utils.hpp>
 
 namespace pt
@@ -13,6 +13,11 @@ namespace pt
 engine& game_object::get_engine()
 {
     return *engine_;
+}
+
+void game_object::add_component(std::unique_ptr<component> component)
+{
+    components_.push_back(std::move(component));
 }
 
 game_object* game_object::set_position(const ptm::vec3& position)
@@ -215,5 +220,6 @@ void game_object::destroy_forced()
         motion_state_ = nullptr;
     }
 }
+
 
 } // namespace pt

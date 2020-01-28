@@ -1,5 +1,10 @@
 #pragma once
 
+#include <memory>
+
+namespace pt
+{
+
 class component
 {
 public:
@@ -9,8 +14,6 @@ public:
     virtual void update() {}
 };
 
-class cubemesh final : public component
-{
-public:
-    // void update() override;
-};
+using component_ptr = std::unique_ptr<component>;
+
+} // namespace pt

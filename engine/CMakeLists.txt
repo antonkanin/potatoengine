@@ -32,7 +32,7 @@ add_library(${PROJECT_NAME} STATIC
         src/imgui/imgui_impl_opengl3.cpp
 
         src/stb_image.h
-        include/component.hpp)
+        src/cubemesh.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
