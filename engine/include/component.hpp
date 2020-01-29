@@ -8,7 +8,7 @@ namespace pt
 class component
 {
 public:
-    ~component() = default;
+    virtual ~component() = default;
 
     virtual void start() {}
     virtual void update() {}
