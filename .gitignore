@@ -5,3 +5,5 @@ cmake-build-debug/
 
 *.out
 .idea
+*.swp
+CMakeLists.txt.user

@@ -1,21 +1,28 @@
-**How to build on Linux**
+###About
+Hand-made 3D game engine inspired by the offline [C++ Game Development course](https://www.it-academy.by/course/c-game-developer/game-developer/) I took in 2019 (the course in only in Russian, sorry).
+
+
+
+###How to build
+**Linux**
+
+Install dependencies.
 
 ```
-git clone https://gitlab.com/antonkanin/swat
-mkdir build
-cd build
-cmake . ..
-cmake --build .
+sudo apt install libsdl2-dev libsdl2-mixer-dev libbullet-dev libglm-dev libyaml-cpp-dev
+```
+Get the code and build
+```
+git clone https://github.com/antonkanin/potatoengine
+mkdir build && cd build
+cmake ..
+make
 ```
 
-Special note for the dynamic library task 01-03-hello-lib-dynamic, Linux does not see *.so library files in the same folder as the application by defult, you might need to tell it to look in the current folder by running this command:
-```
-export LD_LIBRARY_PATH=.
-```
 
-**How to build on Windows**
+**Windows**
 
-The easiest way is to get MSYS2 installed and get all the packages with pacman
+The easiest way is to install MSYS2 and get all the packages with pacman
 ```
 pacman -S mingw-w64-x86_64-bullet mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-yaml-cpp mingw-w64-x86_64-assimp mingw-w64-x86_64-glm
 ```
