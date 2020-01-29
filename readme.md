@@ -1,12 +1,12 @@
-###About
+### About
 Hand-made 3D game engine inspired by the offline [C++ Game Development course](https://www.it-academy.by/course/c-game-developer/game-developer/) I took in 2019 (the course in only in Russian, sorry).
 
 
 
-###How to build
+### How to build
 **Linux**
 
-Install dependencies.
+Install dependencies
 
 ```
 sudo apt install libsdl2-dev libsdl2-mixer-dev libbullet-dev libglm-dev libyaml-cpp-dev
