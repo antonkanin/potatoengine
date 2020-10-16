@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <game_object.hpp>
-#include <iostream>
 #include <log_utils.hpp>
 #include <yaml-cpp/yaml.h>
 

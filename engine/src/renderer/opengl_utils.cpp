@@ -1,6 +1,7 @@
 #include "opengl_utils.hpp"
 
-#include <iostream>
+#include "ptexception.hpp"
+#include <log_utils.hpp>
 
 PFNGLCREATESHADERPROC            glCreateShader            = nullptr;
 PFNGLSHADERSOURCEPROC            glShaderSource            = nullptr;
@@ -42,21 +43,35 @@ PFNGLBLENDEQUATIONPROC           glBlendEquation_          = nullptr;
 
 void set_opengl_version()
 {
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                        SDL_GL_CONTEXT_PROFILE_CORE);
+    if (-1 == SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3))
+        throw pt::PtException("Could not set GL major version" +
+                              std::string(SDL_GetError()));
+
+    if (-1 == SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3))
+        throw pt::PtException("Could not set GL minor version" +
+                              std::string(SDL_GetError()));
+
+    if (-1 == SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+                                  SDL_GL_CONTEXT_PROFILE_CORE))
+        throw pt::PtException("Could not set GL profile" +
+                              std::string(SDL_GetError()));
 }
 
 void print_opengl_version()
 {
     int major_version = 0;
     int minor_version = 0;
-    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
-    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
 
-    std::cout << "Using OpenGL version " << major_version << '.'
-              << minor_version << std::endl;
+    if (-1 == SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version))
+        throw pt::PtException("Could not retrieve GL major version " +
+                              std::string(SDL_GetError()));
+
+    if (-1 == SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version))
+        throw pt::PtException("Could not retrieve GL minor version " +
+                              std::string(SDL_GetError()));
+
+    pt::log_line("Using OpenGL version " + std::to_string(major_version) + "." +
+                 std::to_string(minor_version));
 }
 
 void check_gl_errors()
@@ -69,37 +84,37 @@ void check_gl_errors()
         {
             case GL_INVALID_ENUM:
             {
-                std::cerr << "GL_INVALID_ENUM" << '\n';
+                pt::log_error("GL_INVALID_ENUM");
                 break;
             }
 
             case GL_INVALID_VALUE:
             {
-                std::cerr << "GL_INVALID_VALUE" << '\n';
+                pt::log_error("GL_INVALID_VALUE");
                 break;
             }
 
             case GL_INVALID_OPERATION:
             {
-                std::cerr << "GL_INVALID_OPERATION" << '\n';
+                pt::log_error("GL_INVALID_OPERATION");
                 break;
             }
 
             case GL_INVALID_FRAMEBUFFER_OPERATION:
             {
-                std::cerr << "GL_INVALID_FRAMEBUFFER_OPERATION" << '\n';
+                pt::log_error("GL_INVALID_FRAMEBUFFER_OPERATION");
                 break;
             }
 
             case GL_OUT_OF_MEMORY:
             {
-                std::cerr << "GL_OUT_OF_MEMORY" << '\n';
+                pt::log_error("GL_OUT_OF_MEMORY");
                 break;
             }
 
             default:
             {
-                std::cerr << "Unknown OpenGL error" << '\n';
+                pt::log_error("Unknown OpenGL error");
                 break;
             }
         }

@@ -27,7 +27,7 @@ public:
 
     ~engine();
 
-    bool init_engine();
+    void init_engine();
 
     bool run();
 

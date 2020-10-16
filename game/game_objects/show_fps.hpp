@@ -1,6 +1,5 @@
 #include <game_object.hpp>
 #include <imgui.h>
-#include <iostream>
 
 class show_fps final : public pt::game_object
 {

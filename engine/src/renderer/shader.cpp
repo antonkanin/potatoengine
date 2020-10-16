@@ -1,5 +1,7 @@
 #include "shader.hpp"
-#include <iostream>
+
+#include "log_utils.hpp"
+
 #include <sstream>
 
 namespace pt
@@ -14,8 +16,6 @@ shader::shader(const std::string& file_name, const GLenum shader_type)
 
 bool shader::compile(const std::string& shader_text, GLenum shader_type)
 {
-    using namespace std;
-
     shader_id_ = glCreateShader(shader_type);
 
     check_gl_errors();
@@ -42,15 +42,14 @@ bool shader::compile(const std::string& shader_text, GLenum shader_type)
 
         check_gl_errors();
 
-        string message(static_cast<unsigned int>(error_length), ' ');
+        std::string message(static_cast<unsigned int>(error_length), ' ');
         glGetShaderInfoLog(shader_id_, error_length, nullptr, message.data());
 
         check_gl_errors();
 
         glDeleteShader(shader_id_);
 
-        cerr << "Error compiling shader: " << shader_text << message.data()
-             << '\n';
+        log_error("Error compiling shader: " + shader_text + message);
 
         return false;
     }

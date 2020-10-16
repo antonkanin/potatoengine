@@ -8,10 +8,9 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-#include <stdexcept>
+#include <log_utils.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <iostream>
 #include <stb_image.h>
 
 namespace pt
@@ -42,7 +41,7 @@ std::unique_ptr<model> load_model_from_file(const std::string& path)
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
         !scene->mRootNode)
     {
-        throw std::runtime_error(
+        throw pt::PtException(
             "Error: failed to read the model from the file: " + path +
             ", details: " + import.GetErrorString());
     }
@@ -223,7 +222,7 @@ unsigned int TextureFromFile(const char* path, const std::string& directory,
     }
     else
     {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
+        pt::log_error("Texture failed to load at path: " + std::string(path));
         stbi_image_free(data);
     }
 
@@ -283,8 +282,6 @@ void draw_model(const model& model, class program& program)
     {
         draw_mesh(mesh, program);
     }
-
 }
-
 
 } // namespace pt

@@ -1,22 +1,21 @@
 #include "video_component_opengl.hpp"
 
-#include "video_component.hpp"
-
 #include "mesh.hpp"
 #include "model.hpp"
+#include "model_utils.hpp"
 #include "movable_object.hpp"
+#include "ptexception.hpp"
 #include "ptm/math.hpp"
 #include "renderer/opengl_utils.hpp"
 #include "renderer/program.hpp"
 #include "transformation.hpp"
+#include "video_component.hpp"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <iostream>
 
 #include "imgui/imgui_impl_sdl.h"
 
-#include "model_utils.hpp"
-#include <log_utils.hpp>
 #include <ptm/glm_to_ptm.hpp>
 
 namespace pt
@@ -117,13 +116,8 @@ SDL_GLContext create_opengl_context(SDL_Window* window)
     auto gl_context = SDL_GL_CreateContext(window);
 
     if (gl_context == nullptr)
-    {
-        std::cout << "error: count not create OpenGL context: "
-                  << SDL_GetError() << '\n';
-        return nullptr;
-    }
-
-    SDL_assert(gl_context != nullptr);
+        throw pt::PtException("error: count not create OpenGL context: " +
+                              std::string(SDL_GetError()));
 
     return gl_context;
 }
@@ -195,11 +189,10 @@ void video_component_opengl::render_object(
 bool video_component_opengl::init(const std::string& title)
 {
     const int init_result = SDL_InitSubSystem(SDL_INIT_VIDEO);
+
     if (init_result != 0)
-    {
-        SDL_Log("Error: failed to initialize SDL %s", SDL_GetError());
-        return false;
-    }
+        throw PtException("Error: failed to initialize SDL " +
+                          std::string(SDL_GetError()));
 
     const unsigned int WINDOW_WIDTH  = 1024;
     const unsigned int WINDOW_HEIGHT = 768;
@@ -216,11 +209,8 @@ bool video_component_opengl::init(const std::string& title)
                          SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     if (impl->window_ == nullptr)
-    {
-        SDL_Log("Error: failed to SDL window %s", SDL_GetError());
-        SDL_QuitSubSystem(SDL_INIT_VIDEO);
-        return false;
-    }
+        throw PtException("Error: failed to create SDL window " +
+                          std::string(SDL_GetError()));
 
     set_opengl_version();
 

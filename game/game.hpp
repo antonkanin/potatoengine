@@ -13,8 +13,11 @@
 #include "game_objects/vehicle.hpp"
 
 #include <file_utils.hpp>
+#include <ptexception.hpp>
 
-int main(int argc, char* argv[])
+namespace Game
+{
+void runGame()
 {
     auto engine = std::make_unique<pt::engine>();
 
@@ -24,10 +27,7 @@ int main(int argc, char* argv[])
 
     engine->set_title("The Witcher 5: Wild Cube");
 
-    if (!engine->init_engine())
-    {
-        return EXIT_FAILURE;
-    }
+    engine->init_engine();
 
     engine->enable_physics(false);
     // engine->enable_vsync(false);
@@ -37,15 +37,13 @@ int main(int argc, char* argv[])
     PT_REGISTER(engine, cube);
     PT_REGISTER(engine, enemy);
 
-    // clang-format off
-
     pt::load_scene(*engine, "scenes/level01.yaml");
 
-    engine->add_object<light_controller>("Light")
-        ->set_position({ 1.f, 2.f, 6.f });
+    engine->add_object<light_controller>("Light")->set_position(
+        { 1.f, 2.f, 6.f });
 
-    engine->add_object<camera_gui_controller>("Camera GUI")->
-            set_position({ 0.f, 0.f, 6.f });
+    engine->add_object<camera_gui_controller>("Camera GUI")
+        ->set_position({ 0.f, 0.f, 6.f });
 
     engine->add_object<camera_keyboard_controller>("Keyboard Controller");
 
@@ -59,15 +57,12 @@ int main(int argc, char* argv[])
 
     // engine->add_object<audio_test>("Audio test");
 
-//    engine->add_object<object_selector>("Object Selector");
+    //    engine->add_object<object_selector>("Object Selector");
 
     engine->add_object<mode_switcher>("mode_switcher");
 
     engine->add_object<object_creator>("Object Creator");
 
-    // clang-format on
-
     engine->run();
-
-    return EXIT_SUCCESS;
 }
+}; // namespace Game

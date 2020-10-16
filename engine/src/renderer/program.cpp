@@ -1,11 +1,10 @@
 #include "program.hpp"
 
+#include "log_utils.hpp"
 #include "opengl_utils.hpp"
 #include "shader.hpp"
-#include <fstream>
-#include <iostream>
+
 #include <ptm/vec3.hpp>
-#include <sstream>
 
 namespace pt
 {
@@ -49,7 +48,8 @@ GLuint program::make_program(GLuint vertex_id, GLuint fragment_id)
                             info_log.data());
         check_gl_errors();
 
-        std::cerr << "Error linking the program:" << '\n' << info_log.data();
+        log_error("Error linking the program:\n" +
+                  std::string(info_log.data()));
 
         glDeleteProgram(result_program);
         check_gl_errors();
@@ -110,8 +110,7 @@ void program::set_matrix4(const std::string& uniform_name,
     {
         //        throw std::runtime_error("Error: could not find attribute " +
         //                                 uniform_name);
-        std::cout << "Error: could not find matrix4 attribute " << uniform_name
-                  << '\n';
+        log_error("Error: could not find matrix4 attribute " + uniform_name);
         return;
     }
 
@@ -128,7 +127,7 @@ bool program::set_1i(const std::string& uniform_name, GLint uniform_value)
     {
         //        throw std::runtime_error("Error: could not find attribute " +
         //                                 uniform_name);
-        std::cout << "Error: could not find attribute " << uniform_name << '\n';
+        log_error("Error: could not find attribute " + uniform_name);
         return false;
     }
 
@@ -146,7 +145,7 @@ bool program::set_1f(const std::string& uniform_name, GLfloat uniform_value)
     {
         //        throw std::runtime_error("Error: could not find attribute " +
         //                                 uniform_name);
-        std::cout << "Error: could not find attribute " << uniform_name << '\n';
+        log_line("Error: could not find attribute " + uniform_name);
         return false;
     }
 
@@ -154,7 +153,6 @@ bool program::set_1f(const std::string& uniform_name, GLfloat uniform_value)
     check_gl_errors();
     return true;
 }
-
 
 void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
 {
@@ -167,8 +165,7 @@ void program::set_vec3(const std::string& uniform_name, ptm::vec3 value)
                 throw std::runtime_error("Error: could not find attribute " +
                                          uniform_name);
         */
-        std::cout << "Error: could not find 3f attribute " << uniform_name
-                  << '\n';
+        log_line("Error: could not find 3f attribute " + uniform_name);
         return;
     }
 

@@ -1,5 +1,4 @@
 #include "audio_component.hpp"
-#include <iostream>
 #include <map>
 
 #include <SDL2/SDL.h>
@@ -41,8 +40,8 @@ bool audio_component::load_sound(const std::string& sound_name,
 {
     if (impl->sounds.count(sound_name) > 0)
     {
-        std::cerr << "error: sound with the same name already exists "
-                  << sound_name << '\n';
+        pt::log_error("error: sound with the same name already exists" +
+                      sound_name);
         return false;
     }
 
@@ -50,8 +49,8 @@ bool audio_component::load_sound(const std::string& sound_name,
 
     if (wave == nullptr)
     {
-        std::cerr << "error: could not load the sound from the file "
-                  << file_path << ": " << SDL_GetError() << '\n';
+        pt::log_error("error: could not load the sound from the file " +
+                      file_path + ": " + std::string(SDL_GetError()));
         return false;
     }
 
@@ -65,8 +64,8 @@ bool audio_component::play_sound(const std::string& sound_name) const
 {
     if (impl->sounds.count(sound_name) == 0)
     {
-        std::cerr << "error: sound with this name has not been loaded: "
-                  << sound_name << '\n';
+        log_error("error: sound with this name has not been loaded: " +
+                  sound_name);
         return false;
     }
 

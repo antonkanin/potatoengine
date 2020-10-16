@@ -2,7 +2,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <stdexcept>
+
+#include <ptexception.hpp>
 
 extern PFNGLCREATESHADERPROC            glCreateShader;
 extern PFNGLSHADERSOURCEPROC            glShaderSource;
@@ -49,8 +50,8 @@ static void load_gl_func(const std::string& func_name, T& result)
 
     if (func_pointer == nullptr)
     {
-        throw std::runtime_error("Error: could not load OpenGL function: " +
-                                 func_name);
+        throw pt::PtException("Error: could not load OpenGL function: " +
+                              func_name);
     }
 
     result = reinterpret_cast<T>(func_pointer);

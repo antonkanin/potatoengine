@@ -105,7 +105,7 @@ game_object* engine::add_object(std::unique_ptr<game_object> object)
     if (is_game_running())
     {
         object_ptr->start();
-        log_line() << "Calling start()" << std::endl;
+        log_line("Calling start()");
     }
 
     return object_ptr;
@@ -195,7 +195,7 @@ btDiscreteDynamicsWorld* engine::get_dynamics_world()
     return impl->physics->get_dynamics_world();
 }
 
-bool engine::init_engine()
+void engine::init_engine()
 {
     impl->video->init(impl->game_title_);
 
@@ -209,9 +209,6 @@ bool engine::init_engine()
         impl->debug_drawer_.get());
 
     impl->audio->init();
-
-    // TODO add a proper init check
-    return true;
 }
 
 void engine::enable_wireframe(bool state)

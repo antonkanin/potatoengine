@@ -1,7 +1,8 @@
+#include "log_utils.hpp"
+
 #include <chrono>
 #include <ctime>
 #include <iostream>
-#include <log_utils.hpp>
 
 namespace pt
 {
@@ -23,12 +24,6 @@ void log_line(const std::string& line)
 {
     // std::cout << current_time() << ' ' << line << '\n';
     std::cout << line << std::endl;
-}
-
-std::ostream& log_line()
-{
-    // std::cout << current_time() << ": ";
-    return std::cout;
 }
 
 void log_error(const std::string& line)

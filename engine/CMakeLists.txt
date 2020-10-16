@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+
 
 project(engine)
 
@@ -32,7 +32,9 @@ add_library(${PROJECT_NAME} STATIC
         src/imgui/imgui_impl_opengl3.cpp
 
         src/stb_image.h
-        src/cubemesh.cpp)
+        src/cubemesh.cpp
+
+        include/ptexception.hpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

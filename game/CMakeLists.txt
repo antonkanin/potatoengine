@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.7)
 project(game)
 
 add_executable(${PROJECT_NAME}
-        game.cpp
+        main.cpp
+
         game_objects/space_ship.hpp
         game_objects/camera_keyboard_controller.hpp
         game_objects/camera_gui_controller.hpp

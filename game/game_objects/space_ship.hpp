@@ -1,7 +1,6 @@
 #pragma once
 
 #include <game_object.hpp>
-#include <iostream>
 #include <key_code.hpp>
 #include <log_utils.hpp>
 #include <ptm/vec3.hpp>
@@ -83,12 +82,12 @@ public:
 
         if (input.get_key_down(code))
         {
-            std::cout << key_name << " is pressed\n";
+            pt::log_line(std::string(key_name) + " is pressed");
         }
 
         if (input.get_key_up(code))
         {
-            std::cout << key_name << " is released\n";
+            pt::log_line(std::string(key_name) + " is released");
         }
     }
 

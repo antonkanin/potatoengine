@@ -1,7 +1,6 @@
 #include <engine.hpp>
 #include <game_object.hpp>
 #include <input_manager.hpp>
-#include <iostream>
 #include <movable_object.hpp>
 
 #include "../space_ship.hpp"
