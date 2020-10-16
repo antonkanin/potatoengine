@@ -29,22 +29,22 @@ public:
     /** add custom GUI */
     virtual void on_gui(){};
 
-    virtual bool is_serializable() const { return false; }
+    [[nodiscard]] virtual bool is_serializable() const { return false; }
 
     void set_transform(const transformation& transform);
 
-    const transformation& get_transformation() const;
+    [[nodiscard]] const transformation& get_transformation() const;
 
-    game_object* set_position(const ptm::vec3& position);
-    ptm::vec3    get_position() const;
+    game_object*            set_position(const ptm::vec3& position);
+    [[nodiscard]] ptm::vec3 get_position() const;
 
-    game_object* set_scale(const ptm::vec3& scale);
-    ptm::vec3    get_scale() const;
+    game_object*            set_scale(const ptm::vec3& scale);
+    [[nodiscard]] ptm::vec3 get_scale() const;
 
     game_object* set_rotation(const ptm::vec3& rotation_vector, float angle);
 
-    const model& get_model() const;
-    void         set_model(std::unique_ptr<model>&);
+    [[nodiscard]] const model& get_model() const;
+    void                       set_model(std::unique_ptr<model>&);
 
     game_object* load_model(const std::string& path);
 
@@ -54,7 +54,7 @@ public:
     btRigidBody*   body_         = nullptr;
     btMotionState* motion_state_ = nullptr;
 
-    std::string get_name() const;
+    [[nodiscard]] std::string get_name() const;
 
     void self_destroy();
 
