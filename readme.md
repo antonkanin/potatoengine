@@ -9,7 +9,7 @@ Hand-made 3D game engine inspired by the offline [C++ Game Development course](h
 Install dependencies
 
 ```
-sudo apt install libsdl2-dev libsdl2-mixer-dev libbullet-dev libglm-dev libyaml-cpp-dev
+sudo apt install libsdl2-dev libsdl2-mixer-dev libbullet-dev libglm-dev libyaml-cpp-dev libassimp-dev
 ```
 Get the code and build
 ```
