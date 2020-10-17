@@ -1,0 +1,22 @@
+GameObject
+  string name
+  Transform transform
+  List<Components> components
+  List<GameObject> gameobjects
+
+Component
+  void Start()
+  void Update()
+
+Prebuild components
+ - Camera
+ - Light
+ - Mesh
+ - Mesh Renderer (with the material)
+
+
+
+Questions:
+- how to define the light position and properties?
+- how to define camera posion?
+- should camera and light have their own types and not be a 'game object'?
